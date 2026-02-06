@@ -1,0 +1,23 @@
+{
+  "name": "next-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev & open http://localhost:3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.1.6",
+    "normalize.css": "^8.0.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "sass": "^1.97.3"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "open": "^11.0.0"
+  }
+}

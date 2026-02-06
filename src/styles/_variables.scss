@@ -1,0 +1,40 @@
+:root {
+
+// Font
+--primary-f:'Jost',sans-serif;
+
+// Color
+--black:#000;
+--white:#fff;
+--primary-c:#000;
+--secondary-c:#ccc;
+--danger-c:#ff0000;
+--footer-height: 13rem;
+--wrap:1860;
+--p-page: 30;
+--p-margin: 25rem;
+--header-height: 10rem;
+}
+
+
+// Media
+$large_desktop: var(--wrap) + 100 * 2px;
+$large_tablet: 1023px;
+$large_mobile: 480px;
+
+
+@media screen and (max-width:$large_tablet) {
+  :root {
+  	--wrap:768;
+    --p-page: 45;
+    --p-margin: 15rem;
+  }
+}
+
+@media screen and (max-width:$large_mobile) {
+  :root {
+  	--wrap:340;
+    --p-page: 15;
+    --p-margin: 10rem;
+  }
+}
