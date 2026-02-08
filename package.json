@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev & open http://localhost:3000",
+    "dev": "kill -9 $(lsof -ti:3000) 2>/dev/null || true && rm -rf .next && next dev -p 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\""
   },
   "dependencies": {
     "next": "16.1.6",
@@ -16,6 +17,8 @@
     "sass": "^1.97.3"
   },
   "devDependencies": {
+    "@svgr/cli": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "open": "^11.0.0"

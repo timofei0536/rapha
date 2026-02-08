@@ -22,6 +22,9 @@ export const metadata = {
     template: `${SITE_NAME} — %s`,
     default: SITE_NAME,
   },
+  icons: {
+    icon: "/images/favicon.png",
+  },
 };
 
 
@@ -37,3 +40,7 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+
+// 1) add node_modeules to ignore
+// 2) add favicon to meta, create red favicon.
