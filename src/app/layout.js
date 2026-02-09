@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import 'normalize.css';
 import "@/styles/globals.scss";
 
@@ -8,6 +9,33 @@ import Footer from '@/components/Footer/Footer';
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const ivyPresto = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-100.woff2',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-300.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-400.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-600.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-ivy-presto',
+  display: 'swap',
 });
 
 
@@ -28,7 +56,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
         <Header />
         {children}
