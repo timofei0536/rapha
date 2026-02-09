@@ -1,19 +1,15 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import 'normalize.css';
 import "@/styles/globals.scss";
 
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const SITE_NAME = "WebsiteName";
 
@@ -32,10 +28,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={inter.variable}>
+      <body>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
