@@ -7,7 +7,7 @@ import Btn from "@/components/Btn/Btn";
 export default function news() {
     return (
         <section className="news">
-            <h2 className="simple-title">News</h2>
+            <h2 className="simple-title simple-title--center news__title">News</h2>
             <div className="news__list">
                 <div className="news__item">
                     <Image src="/images/news1.png" alt="news-image" className="news__item-img" width={500} height={400} />

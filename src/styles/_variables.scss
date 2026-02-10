@@ -6,13 +6,20 @@
 // Color
 --black:#000;
 --white:#fff;
---primary-c:#000;
+
+--blue:#213B65;
+--blue-l:#24B9D1;
+--gray:#D9E3E0;
+--orange:#EB6A2F;
+--yellow:#F4B800;
+
+--primary-c: var(--blue);
 --secondary-c:#ccc;
 --danger-c:#ff0000;
 --footer-height: 13rem;
 --wrap:1860;
 --p-page: 30;
---p-margin: 25rem;
+--p-margin: 20rem;
 --header-height: 10rem;
 }
 
@@ -27,7 +34,7 @@ $large_mobile: 480px;
   :root {
   	--wrap:768;
     --p-page: 45;
-    --p-margin: 15rem;
+    --p-margin: 10rem;
   }
 }
 

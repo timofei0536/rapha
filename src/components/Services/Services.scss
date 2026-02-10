@@ -1,0 +1,73 @@
+.services {
+    &__list {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    &__item {
+        width: calc( ( 100% - 2rem*2 ) / 3);
+        border-radius: 3rem;
+        background: var(--gray);
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        &--title {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .simple-title {
+                z-index: 2;
+                color: white;
+            }
+        }
+
+        &-bg {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+        &-icon {
+            display: flex;
+            width: 9rem;
+            height: 9rem;
+            padding: 1rem;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--white);
+            border-radius: 2rem;  
+            svg {
+                width: 5.8rem;
+                height: auto;
+            } 
+            margin-bottom: 3rem;
+        }
+
+        &-text {
+            margin: 1.6rem 0px;
+        }
+
+        .btn {
+            margin-top: auto;
+        }
+    }
+
+    &__btns {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        margin: calc( var(--p-margin) / 2 ) 0px;
+
+        .btn {
+            min-width: 20.5rem;
+        }
+    }
+}

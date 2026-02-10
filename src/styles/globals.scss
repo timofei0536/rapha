@@ -51,6 +51,9 @@ body {
 	// @media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
 	// 	max-width: calc( $large_mobile - var(--p-page)*2*0.1rem);
 	// }
+	&--small {
+		max-width: 155.6rem;
+	}
 }
 
 body {
@@ -85,12 +88,18 @@ main {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
 	margin: 0px;
+	font-family: var(--secondary-f);
 }
 
 .simple-title {
-	text-align: center;
+
+	font-size: 4.8rem;
+	font-weight: 600;
+	letter-spacing: -0.096rem;
+	// правки сверху строка letter-spacing в rem.
 
 	&--right {
 		text-align: right;
@@ -98,6 +107,10 @@ h4 {
 
 	&--left {
 		text-align: left;
+	}
+
+	&--center {
+		text-align: center;
 	}
 
 	@media screen and (max-width: $large_tablet) {}

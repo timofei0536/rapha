@@ -1,0 +1,33 @@
+.btn {   
+
+    display: flex;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    border-radius: 5rem;
+    background: var(--blue);
+    letter-spacing: -0.032rem;
+    color: var(--white);
+    // #revisions letter-spacing rem->em
+    svg {
+        width: 2.3rem;
+        height: 2.3rem;
+    }
+
+    &--transparent {
+        background-color: transparent;
+        border: 1px solid var(--blue);
+        color: var(--blue);
+    }
+
+    &--white {
+        background-color: var(--white);
+        color: var(--blue, #213B65);
+    }
+
+    &--blue-l {
+        background-color: var(--blue-l);
+    }
+}

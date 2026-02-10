@@ -9,28 +9,25 @@ export default function Footer() {
     return (
         <footer className="footer">
             <div className="center-wrap">
-                <div className="footer__content">
-                        <div className="footer__logo">
+                <div className="footer__wrap">
                             <Image 
-                                src="/images/logo.png" 
+                                className="footer__logo"
+                                src="/images/logo--white.png" 
                                 alt="Polyclinique El Rapha Logo" 
-                                width={100} 
-                                height={100}
+                                width={225} 
+                                height={160}
                             />
-                        </div>
 
-                    <div className="footer__col footer__col--pages">
-                        <h3 className="footer__title">Pages</h3>
+                        
                         <nav className="footer__nav">
+                            <span className="footer__title">Pages</span>
                             <Link href="/" className="footer__link">Home</Link>
                             <Link href="/polyclinic" className="footer__link">Polyclinic</Link>
                             <Link href="/services" className="footer__link">Services</Link>
-                            <div className="footer__separator"></div>
                             <Link href="/news" className="footer__link">News</Link>
                             <Link href="/careers" className="footer__link">Careers</Link>
                             <Link href="/contact" className="footer__link">Contact</Link>
                         </nav>
-                    </div>
 
                     <div className="footer__col footer__col--contact">
                         <div className="footer__contact-item">
@@ -39,7 +36,7 @@ export default function Footer() {
                         </div>
                         <div className="footer__contact-item">
                             <LocationIcon className="footer__contact-icon" />
-                            <span className="footer__contact-text">Three Quarters, Libreville, Gabon</span>
+                            <span className="footer__contact-text">Three Quarters,<br/> Libreville, Gabon</span>
                         </div>
                         <div className="footer__contact-item">
                             <CalendarIcon className="footer__contact-icon" />

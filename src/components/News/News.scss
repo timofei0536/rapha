@@ -1,0 +1,42 @@
+.news {
+    margin: calc( var(--p-margin) / 2 );
+
+    &__list {
+        display: flex;
+        gap: 2.2rem;
+    }
+
+    &__title {
+        margin-bottom: calc( var(--p-margin) / 3 );
+    }
+
+    &__item {
+        width: calc( ( 100% - 2.2rem*2 ) /3 );
+
+        &-img {
+            aspect-ratio: 1.26 / 1;
+            width: 100%;
+            height: auto;
+            margin-bottom: 3.2rem;
+        }
+
+        &-title {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.056rem;
+            margin-bottom: 1.7rem;
+            font-family: var(--primary-f);
+        }
+
+        &-text {
+            margin-bottom: 1.82rem;
+        }
+
+        &-link {
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-decoration-line: underline;
+            text-underline-position: from-font;
+        }
+    }
+}

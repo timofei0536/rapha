@@ -1,0 +1,30 @@
+.footer {
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 2rem;
+    padding-top: calc( var(--p-margin) / 2);
+
+    &__wrap {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    &__logo {
+        width: 22.5rem;
+        height: auto;
+    }
+
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+        margin-top: 2.4rem;
+    }
+
+    &__col {
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem
+    }
+}
