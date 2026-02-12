@@ -1,4 +1,6 @@
 .services {
+
+    padding-top: calc( var(--p-margin) / 1.5 );
     &__list {
         display: flex;
         gap: 2rem;
@@ -65,9 +67,5 @@
         gap: 2rem;
         justify-content: center;
         margin: calc( var(--p-margin) / 2 ) 0px;
-
-        .btn {
-            min-width: 20.5rem;
-        }
     }
 }

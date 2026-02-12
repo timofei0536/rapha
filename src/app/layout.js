@@ -71,3 +71,4 @@ export default function RootLayout({ children }) {
 // 2) add favicon to meta, create red favicon.
 // 3) remove page.module
 // 4) add btn-component.
+// 5) header styles.

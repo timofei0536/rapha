@@ -25,7 +25,7 @@ export default function Services() {
                         <div className="services__item-text content">
                             <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
                         </div>
-                        <Btn text="Learn more" className="btn--transparent" />
+                        <Btn text="Learn more" className="btn--transparent btn--small" />
                     </div>
                     <div className="services__item">
                         <div className="services__item-icon">
@@ -35,7 +35,7 @@ export default function Services() {
                         <div className="services__item-text content">
                             <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance</p>
                         </div>
-                        <Btn text="Learn more" className="btn--transparent" />
+                        <Btn text="Learn more" className="btn--transparent btn--small" />
                     </div>
                     <div className="services__item">
                         <div className="services__item-icon">
@@ -45,7 +45,7 @@ export default function Services() {
                         <div className="services__item-text content">
                             <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
                         </div>
-                        <Btn text="Learn more" className="btn--transparent" />
+                        <Btn text="Learn more" className="btn--transparent btn--small" />
                     </div>
                     <div className="services__item">
                         <div className="services__item-icon">
@@ -55,7 +55,7 @@ export default function Services() {
                         <div className="services__item-text content">
                             <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
                         </div>
-                        <Btn text="Learn more" className="btn--transparent" />
+                        <Btn text="Learn more" className="btn--transparent btn--small" />
                     </div>
                     <div className="services__item">
                         <div className="services__item-icon">
@@ -65,7 +65,7 @@ export default function Services() {
                         <div className="services__item-text content">
                             <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
                         </div>
-                        <Btn text="Learn more" className="btn--transparent" />
+                        <Btn text="Learn more" className="btn--transparent btn--small" />
                     </div>
                 </div>
                 <div className="services__btns">

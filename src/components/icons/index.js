@@ -1,5 +1,6 @@
 export { default as Arrow } from "./Arrow";
 export { default as Calendar } from "./Calendar";
+export { default as Decor } from "./Decor";
 export { default as Download } from "./Download";
 export { default as Location } from "./Location";
 export { default as Phone } from "./Phone";

@@ -1,16 +1,23 @@
 .btn {   
 
     display: flex;
-    padding: 2rem;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    padding: 2rem;
 
     border-radius: 5rem;
     background: var(--blue);
     letter-spacing: -0.032rem;
-    color: var(--white);
     // #revisions letter-spacing rem->em
+    color: var(--white);
+    min-width: 20.5rem;
+    font-size: 2rem;
+
+    &--small {
+        min-width: 15.5rem;
+        font-size: 1.6rem;
+    }
     svg {
         width: 2.3rem;
         height: 2.3rem;
@@ -24,10 +31,14 @@
 
     &--white {
         background-color: var(--white);
-        color: var(--blue, #213B65);
+        color: var(--blue);
     }
 
     &--blue-l {
         background-color: var(--blue-l);
+    }
+
+    &--orange {
+        background-color: var(--orange);
     }
 }

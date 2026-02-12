@@ -1,0 +1,54 @@
+.header {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+
+    &__item {
+        display: flex;
+        gap: 1.2rem;
+        align-items: center;
+        svg {
+            width: 2.4rem;
+            height: auto;
+        }
+    }
+
+    &__top {
+        padding: 2.35rem 0px;
+        .center-wrap {
+            display: flex;
+            justify-content: space-between;
+            color: var(--white);
+            
+        }
+    }
+
+    &__main {
+        border-radius: 6rem;
+        background: rgba(white, 0.60);
+        backdrop-filter: blur(2.2rem);
+
+        display: flex;
+        padding: 1.7rem;
+        padding-left: 5rem;
+        align-items: center;
+    }
+
+    &__logo {
+        width: 17.7rem;
+        height: auto;
+        margin-right: auto;
+    }
+
+    &__nav {
+        &-list {
+            display: flex;
+            gap: 5rem;
+        }
+
+        margin-right: 7.7rem;
+
+    }
+}

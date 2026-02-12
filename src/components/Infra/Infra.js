@@ -17,7 +17,7 @@ export default function Infra() {
                         height={450}
                             />
                     <h3 className="simple-title infra__item-title">24/7 Ambulance</h3>
-                    <Btn text="Learn More" className='btn--white' />
+                    <Btn text="Learn More" className='btn--white btn--small' />
                 </div>
                 <div className="infra__item">
                     <Image 
@@ -28,7 +28,7 @@ export default function Infra() {
                         height={450}
                             />
                     <h3 className="simple-title infra__item-title">Food and Dietetics</h3>
-                    <Btn text="Learn More" className='btn--white' />
+                    <Btn text="Learn More" className='btn--white btn--small' />
                 </div>
                 <div className="infra__item">
                     <Image 
@@ -39,7 +39,7 @@ export default function Infra() {
                         height={450}
                             />
                     <h3 className="simple-title infra__item-title">Special Nurses</h3>
-                    <Btn text="Learn More" className='btn--white' />
+                    <Btn text="Learn More" className='btn--white btn--small' />
                 </div>
             </div>
             </div>

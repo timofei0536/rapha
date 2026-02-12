@@ -4,6 +4,9 @@
       "@/*": ["src/*"],
       "@img/*": ["public/images/*"],
       "@fonts/*": ["public/fonts/*"]
-    }
+    },
+    "jsx": "react-jsx",
+    "allowJs": true
+    
   }
 }
