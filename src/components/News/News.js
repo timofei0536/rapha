@@ -7,6 +7,7 @@ import Btn from "@/components/Btn/Btn";
 export default function news() {
     return (
         <section className="news">
+            <div className="center-wrap center-wrap--small">
             <h2 className="simple-title simple-title--center news__title">News</h2>
             <div className="news__list">
                 <div className="news__item">
@@ -33,6 +34,7 @@ export default function news() {
                     </div>
                     <Link href="#" className='news__item-link'>Read more</Link>
                 </div>
+            </div>
             </div>
         </section>    
     );
