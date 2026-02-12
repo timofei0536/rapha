@@ -101,6 +101,11 @@ h5 {
 	letter-spacing: -0.096rem;
 	// правки сверху строка letter-spacing в rem.
 
+	&--large {
+		font-size: 11.4246rem;
+		font-weight: 700;
+	}
+
 	&--right {
 		text-align: right;
 	}

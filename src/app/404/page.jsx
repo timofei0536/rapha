@@ -1,5 +1,4 @@
-import Btn from "@/components/Btn/Btn";
-import Error from "../components/Error/Error";
+import Error from "@/components/Error/Error";
 
 export default function NotFound() {
     return (
@@ -8,4 +7,3 @@ export default function NotFound() {
       </main>
     );
   }
-  

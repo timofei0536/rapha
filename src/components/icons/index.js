@@ -1,3 +1,4 @@
+export { default as ArrowLeft } from "./ArrowLeft";
 export { default as Arrow } from "./Arrow";
 export { default as Calendar } from "./Calendar";
 export { default as Decor } from "./Decor";

@@ -1,9 +1,12 @@
-.btn {   
-
+.btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+
+    &--icon-left {
+        justify-content: flex-start;
+    }
     padding: 2rem;
 
     border-radius: 5rem;
