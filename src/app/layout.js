@@ -72,3 +72,5 @@ export default function RootLayout({ children }) {
 // 3) remove page.module
 // 4) add btn-component.
 // 5) header styles.
+// 6) add select component
+// 7) add .content
