@@ -3,7 +3,7 @@ import Send from "@/components/icons/Send";
 // import Select from "@/components/icons/Select";
 import Btn from "@/components/Btn/Btn";
 
-export default function Form() {
+export default function Form({ submitText = "Submit", submitIcon: SubmitIcon = Send }) {
   return (
     <form className="form">
         <div className="form__inputs">
@@ -46,7 +46,7 @@ export default function Form() {
           />
           </div>
 
-          <Btn className="btn--blue-l" text="Submit" icon={Send} />
+          <Btn className="btn--blue-l" text={submitText} icon={SubmitIcon} />
           
     </form>
   );
