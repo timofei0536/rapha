@@ -4,7 +4,7 @@ import "./Contact.scss";
 import Location from "@/components/icons/Location";
 import Phone from "@/components/icons/Phone";
 import Mail from "@/components/icons/Mail";
-import Form from "@/components/Form/Form";
+import Booking from "@/components/Booking/Booking";
 
 
 export default function Contact() {
@@ -52,10 +52,7 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* <div className="contact__form">
-          <h2 className="contact__form-title">Book an appointment</h2>
-          <Form submitText="Book" />
-        </div> */}
+        <Booking />
       </div>
     </section>
   );
