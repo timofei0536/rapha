@@ -74,3 +74,4 @@ export default function RootLayout({ children }) {
 // 5) header styles.
 // 6) add select component
 // 7) add .content
+// 8) add img-wrap style.

@@ -147,6 +147,18 @@ img {
 	image-rendering: -webkit-crisp-edges;
 }
 
+.img-wrap {
+	position: relative;
+	overflow: hidden;
+	img {
+		object-fit: cover;
+	}
+}
+
+.img-auto {
+	width: 100%;
+	height: auto;
+}
 
 :root {
 	color-scheme: light dark;
