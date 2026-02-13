@@ -16,12 +16,13 @@
     }
 
     &__top {
-        height: 6.6rem;
+        
         .center-wrap {
+            height: 6.6rem;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             color: var(--white);
-            
         }
     }
 

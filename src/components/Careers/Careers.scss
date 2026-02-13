@@ -1,0 +1,34 @@
+.careers {
+    &__top {
+        display: flex;
+        gap: 15rem;
+        justify-content: space-between;
+        margin: calc( var(--p-margin) / 1.5 ) 0px;
+    }   
+
+    .simple-title {
+        width: 80rem;
+    }
+
+    &__content {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 140%; 
+        letter-spacing: -0.04rem;
+    }
+
+    &__gallery {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: calc( var(--p-margin) / 2 );
+
+        img {
+            width: auto;
+            height: auto;
+            min-height: 100%;
+            border-radius: 3rem;
+            object-fit: cover;
+            flex-grow: 1;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 .page-screen {
     position: relative;
     color: var(--white);
+    overflow: hidden;
     .center-wrap {
         height: 100vh;
         display: flex;
@@ -25,7 +26,7 @@
         z-index: 1 !important;
     }
 
-    &--blur{
+    &--blur {
 
     &::before {
         background: linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
@@ -58,7 +59,21 @@
         margin-top: 4.8rem;
     }
 
-    .simple-tilte {
+    .simple-title {
         max-width: 81.5rem;
+    }
+
+    &__decore {
+        width: 100%;
+        height: auto;
+        position: absolute !important;
+        bottom: 0px;
+        left: calc( var(--p-page)* -0.1rem );
+        transform: translateY(50%);
+        z-index: 2;
+        width: calc(var(--p-page) * 0.2rem + 100% );
+        * {
+            fill: var(--white);
+        }
     }
 }
