@@ -8,7 +8,6 @@
         justify-content: flex-start;
     }
     padding: 2rem;
-
     border-radius: 5rem;
     background: var(--blue);
     letter-spacing: -0.032rem;
@@ -16,6 +15,7 @@
     color: var(--white);
     min-width: 20.5rem;
     font-size: 2rem;
+    font-weight: 600;
 
     &--small {
         min-width: 15.5rem;
@@ -43,5 +43,10 @@
 
     &--orange {
         background-color: var(--orange);
+    }
+
+    &--gray {
+        background-color: var(--gray);
+        color: var(--blue);
     }
 }

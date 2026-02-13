@@ -1,5 +1,4 @@
 import Script from 'next/script'; // 1. Импортируем компонент
-import Toogles from '@/components/Toogles/Toogles'; // Твой компонент с логикой
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import 'normalize.css';

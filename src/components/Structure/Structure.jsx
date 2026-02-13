@@ -1,33 +1,112 @@
 import "./Structure.scss";
+import "@/components/Toogles/Toogles.scss";
 import Btn from "@/components/Btn/Btn";
 import Plus from "@/components/icons/Plus";
+import Toogles from "@/components/Toogles/Toogles";
+
+const tabs = [
+    {
+        id: "0",
+        label: "Ground Floor",
+        list: [
+            "Endoscopy Unit",
+            "Outpatient consultation",
+            "Emergency Department",
+            "Main Hall",
+            "Internal Medicine and Dialysis Department",
+            "Cafeteria",
+            "Admissions Office",
+            "Box",
+            "Emergency Department",
+            "Main Hall",
+            "Internal Medicine and Dialysis Department",
+            "Cafeteria",
+            "Admissions Office",
+            "Box",
+            "Emergency Department",
+            "Main Hall",
+            "Internal Medicine and Dialysis Department",
+            "Cafeteria",
+            "Admissions Office",
+            "Box",
+            "Emergency Department",
+            "Main Hall",
+            "Internal Medicine and Dialysis Department",
+            "Cafeteria",
+            "Admissions Office",
+            "Box",
+        ],
+    },
+    {
+        id: "1",
+        label: "First Floor",
+        list: [
+            "Operating Theatres",
+            "Recovery Rooms",
+            "Intensive Care Unit",
+            "Consultation Rooms",
+        ],
+    },
+    {
+        id: "2",
+        label: "Second Floor",
+        list: [
+            "Wards",
+            "Nursing Stations",
+            "Day Care",
+        ],
+    },
+    {
+        id: "3",
+        label: "Level R - I",
+        list: [
+            "Radiology",
+            "Laboratory",
+            "Pharmacy",
+        ],
+    },
+];
 
 export default function Structure() {
     return (
         <section className="structure">
+            <Toogles />
             <div className="center-wrap center-wrap--small">
-                <div className="h2 simple-title">The Structure</div>
-                <div className="structure__wrap">
+                <h2 className="structure__title simple-title">The Structure</h2>
+                <div className="structure__wrap toogles">
                     <div className="structure__nav">
-                        <Btn text="Ground Floor" icon={Plus} className="btn--gray" />
-                        <Btn text="First Floor" icon={Plus} className="btn--gray" />
-                        <Btn text="Second Floor" icon={Plus} className="btn--gray" />
-                        <Btn text="Level R - I" icon={Plus} className="btn--gray" />
+                        {tabs.map((tab) => (
+                            <div
+                                key={tab.id}
+                                className="toogles__title structure__btn-wrap"
+                                data-toogles={tab.id}
+                            >
+                                <Btn
+                                    text={tab.label}
+                                    icon={Plus}
+                                    className="btn--gray"
+                                />
+                            </div>
+                        ))}
                     </div>
                     <div className="structure__tabs">
-                        <div className="structure__tab content">
-                            
-                            <ul>
-                                <li>Endoscopy Unit</li>
-                                <li>Outpatient consultation</li>
-                                <li>Emergency Department</li>
-                                <li>Main Hall</li>
-                                <li>Internal Medicine and Dialysis Department</li>
-                                <li>Cafeteria</li>
-                                <li>Admissions Office</li>
-                                <li>Box</li>
-                            </ul>
-                        </div>
+                        {tabs.map((tab) => (
+                            <div
+                                key={tab.id}
+                                className="toogles__item"
+                                data-toogles={tab.id}
+                            >
+                                <div className="toogles__item-content">
+                                    <div className="structure__tab content">
+                                        <ul>
+                                            {tab.list.map((item, i) => (
+                                                <li key={i}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
