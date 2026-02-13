@@ -47,7 +47,7 @@ export default function PrivacyPage() {
   );
 
   return (
-    <main>
+    <main className="page page--bg-gray">
       <TextPage title={title} content={content} />
     </main>
   );
