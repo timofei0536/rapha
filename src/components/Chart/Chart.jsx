@@ -15,6 +15,12 @@ const chartData = {
                     name: "Dr. Amina Yusuf",
                     title: "Chief Medical Officer",
                     avatar: "/images/about/chart/avatar3.png",
+                    children: [],
+                },
+                {
+                    name: "Dr. Peter Banda",
+                    title: "Head of Internal Medicine",
+                    avatar: "/images/about/chart/avatar4.png",
                     children: [
                         {
                             name: "Dr. Faith Kamau",
@@ -29,12 +35,6 @@ const chartData = {
                             children: [],
                         },
                     ],
-                },
-                {
-                    name: "Dr. Peter Banda",
-                    title: "Head of Internal Medicine",
-                    avatar: "/images/about/chart/avatar4.png",
-                    children: [],
                 },
                 {
                     name: "Mr. Samuel Okoro",
@@ -60,12 +60,21 @@ const chartData = {
     ],
 };
 
-function ChartNode({ node }) {
+function ChartNode({ node, siblingIndex }) {
     const hasChildren = node.children && node.children.length > 0;
+    const nodeClass =
+        "chart__node" +
+        (siblingIndex === undefined
+            ? " chart__node--right"
+            : hasChildren
+                ? siblingIndex <= 1
+                    ? " chart__node--right"
+                    : " chart__node--left"
+                : "");
 
     return (
         <div className="chart__branch">
-            <div className="chart__node">
+            <div className={nodeClass}>
                 <div className="chart__node-avatar">
                     <div className="img-wrap" style={{ aspectRatio: "1/1" }}>
                       <Image
@@ -82,14 +91,18 @@ function ChartNode({ node }) {
             </div>
             {hasChildren && (
                 <>
-                    <div className="chart__connector chart__connector--down" />
+                    {node.children.length > 1 && (
+                        <div className="chart__connector chart__connector--down" />
+                    )}
                     <div className="chart__children">
-                        <div className="chart__connector chart__connector--horizontal" />
+                        {node.children.length > 1 && (
+                            <div className="chart__connector chart__connector--horizontal" />
+                        )}
                         <div className="chart__children-list">
                             {node.children.map((child, i) => (
                                 <div key={i} className="chart__child-wrap">
                                     <div className="chart__connector chart__connector--to-child" />
-                                    <ChartNode node={child} />
+                                    <ChartNode node={child} siblingIndex={i} />
                                 </div>
                             ))}
                         </div>

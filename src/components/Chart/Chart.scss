@@ -1,5 +1,5 @@
 .chart {
-    
+
     &__wrap {
         padding: var(--p-margin) 0;
         background-color: var(--blue);
@@ -32,6 +32,18 @@
         text-align: center;
         flex-shrink: 0;
         gap: 1.6rem;
+
+        &--center {
+            // background-color: green !important;
+        }
+
+        &--left {
+            flex-direction: row-reverse;
+        }
+
+        &--right {
+            flex-direction: row;
+        }
 
         &-avatar {
             border-radius: 3rem;
