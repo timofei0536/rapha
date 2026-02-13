@@ -23,6 +23,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        .chart__children-list .chart__child-wrap:nth-child(1) & {
+
+        }
     }
 
     &__node {
@@ -32,17 +35,19 @@
         text-align: center;
         flex-shrink: 0;
         gap: 1.6rem;
+        
 
-        &--center {
-            // background-color: green !important;
-        }
 
         &--left {
             flex-direction: row-reverse;
+            text-align: right;
+            transform: translate( calc( ( 22rem + 1.6rem ) / -2 ), 0rem);
         }
 
         &--right {
             flex-direction: row;
+            text-align: left;
+            transform: translate( calc( ( 22rem + 1.6rem ) / 2 ), 0rem);    
         }
 
         &-avatar {
@@ -64,6 +69,11 @@
             font-size: 2rem;
             letter-spacing: -0.06rem;
         }
+
+        &-text {
+            // opacity: 0.2;
+            width: 22rem;
+        }
     }
 
     &__connector {
@@ -72,18 +82,18 @@
 
         &--down {
             width: 1px;
-            min-height: 3rem;
+            min-height: 4rem;
         }
 
         &--horizontal {
             width: 100%;
-            height: 1px;
+            height: 0.5px;
             min-width: 4rem;
         }
 
         &--to-child {
-            width: 1px;
-            min-height: 2rem;
+            width: 0.5px;
+            min-height: 4rem;
         }
     }
 
@@ -97,10 +107,8 @@
 
     &__children-list {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         gap: 4rem 8rem;
-        flex-wrap: wrap;
-        padding-top: 2rem;
 
         @media screen and (max-width: 1023px) {
             gap: 3rem 4rem;
@@ -112,6 +120,22 @@
         flex-direction: column;
         align-items: center;
         position: relative;
+    }
+
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:nth-child(1) .chart__branch {
+        transform: translate(-50%, 0px);
+    }
+
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:nth-child(1) {
+        align-items: flex-start;
+    }
+
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:last-child .chart__branch {
+        transform: translate(50%, 0px);
+    }
+
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:last-child {
+        align-items: flex-end;
     }
 
     @media screen and (max-width: 1023px) {
