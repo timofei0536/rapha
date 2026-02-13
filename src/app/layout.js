@@ -1,8 +1,9 @@
+import Script from 'next/script'; // 1. Импортируем компонент
+import Toogles from '@/components/Toogles/Toogles'; // Твой компонент с логикой
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import 'normalize.css';
 import "@/styles/globals.scss";
-
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
@@ -58,6 +59,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
+      <Script 
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
+          strategy="beforeInteractive" 
+        />
         <Header />
         {children}
         <Footer />
@@ -75,3 +80,4 @@ export default function RootLayout({ children }) {
 // 6) add select component
 // 7) add .content
 // 8) add img-wrap style.
+// 9) gsap подключить
