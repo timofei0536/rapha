@@ -122,7 +122,7 @@
         position: relative;
     }
 
-    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:nth-child(1) .chart__branch {
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:nth-child(1) > .chart__branch {
         transform: translate(-50%, 0px);
     }
 
@@ -130,7 +130,7 @@
         align-items: flex-start;
     }
 
-    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:last-child .chart__branch {
+    &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:last-child > .chart__branch {
         transform: translate(50%, 0px);
     }
 
