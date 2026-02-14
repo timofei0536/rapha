@@ -42,9 +42,9 @@
 
 
     &__decore {
+        aspect-ratio: 1920 / 56;
         width: 100%;
         height: auto;
-        aspect-ratio: 1920 / 56; /* по viewBox SVG — сохраняем низкую полосу */
         position: absolute;
         bottom: 0px;
         left: 0px;
