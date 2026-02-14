@@ -5,6 +5,10 @@
   display: flex;
   gap: 2.25rem;
 
+  .booking & {
+    gap: 1.7rem;
+  }
+  
   .hero & {
     max-width: 140rem;
   }
@@ -12,6 +16,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2.25rem;
+    .booking & {
+      gap: 1.7rem;
+    }
+
+
+    
   }
 
   &__input {

@@ -24,6 +24,8 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+    padding-right: calc( 2.4rem + 1rem );
 
     &::before {
       content: '';
@@ -31,9 +33,9 @@
       top: 50%;
       transform: translateY(-50%);
       right: 0;
-      width: 1rem;
-      height: 0.5rem;
-      background-image: url('/images/svg/select.svg');
+      width: 2.4rem;
+      height: 2.4rem;
+      background-image: url('/images/svg/arrow_down.svg');
       background-repeat: no-repeat;
       background-size: contain;
       transition: transform 0.5s;
