@@ -1,5 +1,5 @@
 import "./Btn.scss";
-import Arrow from "@/components/icons/Arrow";
+import Arrow from "@/components/ui/icons/Arrow";
 
 export default function Btn({ text = "Learn more", icon: Icon = Arrow, iconPosition = "right", className = "" }) {
     const isIconLeft = iconPosition === "left";

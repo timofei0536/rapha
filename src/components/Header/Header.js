@@ -1,10 +1,10 @@
 import "./Header.scss";
 import Link from "next/link";
 import Image from "next/image";
-import PhoneIcon from "@/components/icons/Phone";
-import CalendarIcon from "@/components/icons/Calendar";
-import LocationIcon from "@/components/icons/Location";
-import Search from "@/components/Search/Search";
+import PhoneIcon from "@/components/ui/icons/Phone";
+import CalendarIcon from "@/components/ui/icons/Calendar";
+import LocationIcon from "@/components/ui/icons/Location";
+import Search from "@/components/ui/Search/Search";
 
 
 export default function Header() {

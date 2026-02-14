@@ -1,8 +1,8 @@
 import "./Structure.scss";
-import "@/components/Toogles/Toogles.scss";
-import Btn from "@/components/Btn/Btn";
-import Plus from "@/components/icons/Plus";
-import Toogles from "@/components/Toogles/Toogles";
+import "@/components/ui/Toogles/Toogles.scss";
+import Btn from "@/components/ui/Btn/Btn";
+import Plus from "@/components/ui/icons/Plus";
+import Toogles from "@/components/ui/Toogles/Toogles";
 
 const tabs = [
     {

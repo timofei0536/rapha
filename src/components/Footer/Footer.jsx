@@ -1,10 +1,10 @@
 import "./Footer.scss";
 import Image from "next/image";
 import Link from "next/link";
-import PhoneIcon from "@/components/icons/Phone";
-import LocationIcon from "@/components/icons/Location";
-import CalendarIcon from "@/components/icons/Calendar";
-import Decor from "@/components/icons/Decor";
+import PhoneIcon from "@/components/ui/icons/Phone";
+import LocationIcon from "@/components/ui/icons/Location";
+import CalendarIcon from "@/components/ui/icons/Calendar";
+import Decor from "@/components/ui/icons/Decor";
 
 export default function Footer() {
     return (

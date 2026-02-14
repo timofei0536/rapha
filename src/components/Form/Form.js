@@ -1,7 +1,7 @@
 import "./Form.scss";
-import Send from "@/components/icons/Send";
-import Select from "@/components/Select/Select";
-import Btn from "@/components/Btn/Btn";
+import Send from "@/components/ui/icons/Send";
+import Select from "@/components/ui/Select/Select";
+import Btn from "@/components/ui/Btn/Btn";
 
 const DATE_OPTIONS = [
   { value: "tomorrow", label: "Tomorrow" },

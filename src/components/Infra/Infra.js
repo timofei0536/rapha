@@ -1,6 +1,6 @@
 import "./Infra.scss";
 import Image from "next/image";
-import Btn from "@/components/Btn/Btn";
+import Btn from "@/components/ui/Btn/Btn";
 
 export default function Infra() {
     return (

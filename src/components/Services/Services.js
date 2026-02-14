@@ -1,12 +1,12 @@
 import "./Services.scss";
 import Image from "next/image";
-import Icon1 from "@/components/icons/services/Icon1";
-import Icon2 from "@/components/icons/services/Icon2";
-import Icon3 from "@/components/icons/services/Icon3";
-import Icon4 from "@/components/icons/services/Icon4";
-import Icon5 from "@/components/icons/services/Icon5";
-import Btn from "@/components/Btn/Btn";
-import Send from "@/components/icons/Download";
+import Icon1 from "@/components/ui/icons/services/Icon1";
+import Icon2 from "@/components/ui/icons/services/Icon2";
+import Icon3 from "@/components/ui/icons/services/Icon3";
+import Icon4 from "@/components/ui/icons/services/Icon4";
+import Icon5 from "@/components/ui/icons/services/Icon5";
+import Btn from "@/components/ui/Btn/Btn";
+import Send from "@/components/ui/icons/Download";
 
 export default function Services() {
     return (

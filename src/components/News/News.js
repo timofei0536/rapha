@@ -1,7 +1,7 @@
 import "./News.scss";
 import Image from "next/image";
 import Link from 'next/link'
-import Btn from "@/components/Btn/Btn";
+import Btn from "@/components/ui/Btn/Btn";
 
 
 export default function news() {

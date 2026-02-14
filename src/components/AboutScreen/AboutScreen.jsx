@@ -1,6 +1,6 @@
 import "./AboutScreen.scss";
 import Image from 'next/image';
-import Decor from "@/components/icons/Decor";
+import Decor from "@/components/ui/icons/Decor";
 export default function AboutScreen() {
     return (
         <section className="about-screen white-header">

@@ -1,7 +1,7 @@
 // import Link from "next/link";
 // import PageScreen from "@/components/PageScreen/PageScreen";
-// import Btn from "@/components/Btn/Btn";
-// import { ArrowLeft } from "@/components/icons";
+// import Btn from "@/components/ui/Btn/Btn";
+// import { ArrowLeft } from "@/components/ui/icons";
 // import Services from "@/components/Services/Services";
 // import News from "@/components/News/News";
 

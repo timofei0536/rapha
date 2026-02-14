@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
-import Btn from "@/components/Btn/Btn";
-import { ArrowLeft } from "@/components/icons";
+import Btn from "@/components/ui/Btn/Btn";
+import { ArrowLeft } from "@/components/ui/icons";
 
 export default function NotFound() {
   return (

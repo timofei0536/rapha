@@ -1,7 +1,7 @@
 import "./Hero.scss";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
-import Decor from "@/components/icons/Decor";
+import Decor from "@/components/ui/icons/Decor";
 
 export default function Hero() {
     return (

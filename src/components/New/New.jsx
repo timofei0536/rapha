@@ -1,10 +1,10 @@
 import "./New.scss";
 import Image from "next/image";
 import Link from "next/link";
-import Btn from "@/components/Btn/Btn";
-import { ArrowLeft } from "@/components/icons";
+import Btn from "@/components/ui/Btn/Btn";
+import { ArrowLeft } from "@/components/ui/icons";
 import NewShare from "./NewShare";
-import Decor from "@/components/icons/Decor";
+import Decor from "@/components/ui/icons/Decor";
 
 export default function New({ title, date, image, content = "" }) {
     return (

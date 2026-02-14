@@ -1,5 +1,5 @@
 import "./Search.scss";
-import SearchIcon from "@/components/icons/Search";
+import SearchIcon from "@/components/ui/icons/Search";
 
 export default function Search() {
   return (

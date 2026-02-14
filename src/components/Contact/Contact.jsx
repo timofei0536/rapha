@@ -1,9 +1,9 @@
 "use client";
 
 import "./Contact.scss";
-import Location from "@/components/icons/Location";
-import Phone from "@/components/icons/Phone";
-import Mail from "@/components/icons/Mail";
+import Location from "@/components/ui/icons/Location";
+import Phone from "@/components/ui/icons/Phone";
+import Mail from "@/components/ui/icons/Mail";
 import Booking from "@/components/Booking/Booking";
 
 

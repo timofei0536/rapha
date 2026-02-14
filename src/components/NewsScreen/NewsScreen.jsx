@@ -1,7 +1,7 @@
 import "./NewsScreen.scss";
 import Image from "next/image";
 import Link from "next/link";
-import Decor from "@/components/icons/Decor";
+import Decor from "@/components/ui/icons/Decor";
 
 export default function NewsScreen() {
     return (

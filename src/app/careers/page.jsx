@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import Careers from "@/components/Careers/Careers";
-import Decor from "@/components/icons/Decor";
+import Decor from "@/components/ui/icons/Decor";
 
 export const metadata = {
     title: "Careers",
