@@ -108,7 +108,7 @@
     &__children-list {
         display: flex;
         justify-content: space-between;
-        gap: 4rem 8rem;
+        gap: 7rem;
 
         @media screen and (max-width: 1023px) {
             gap: 3rem 4rem;
