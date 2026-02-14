@@ -17,7 +17,7 @@ export default function Hero() {
                     <Form />    
                 </div>
             </div>
-            <Decor className='hero__decore' />
+            <Decor className='decore' />
             <Image
               src="/images/filename.png"
               alt="description"

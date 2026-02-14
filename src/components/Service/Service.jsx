@@ -22,7 +22,7 @@ export default function Service({
 }) {
     const active = services.find((s) => s.slug === activeSlug) ?? services[0];
     // const activeImage = active.image ?? defaultImage;
-    const activeImage = "/images/service-page.png";
+    const activeImage = "/images/service-screen.png";
 
     return (
         <section className="service">

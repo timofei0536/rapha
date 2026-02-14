@@ -4,6 +4,7 @@ import Link from "next/link";
 import Btn from "@/components/Btn/Btn";
 import { ArrowLeft } from "@/components/icons";
 import NewShare from "./NewShare";
+import Decor from "@/components/icons/Decor";
 
 export default function New({ title, date, image, content = "" }) {
     return (
@@ -28,6 +29,7 @@ export default function New({ title, date, image, content = "" }) {
                             <Image src={image.src} alt={image.alt ?? title} fill />
                         </div>
                     )}
+                    <Decor className='decore decore--blue-l' />
                 </div>
             </div>
         </section>

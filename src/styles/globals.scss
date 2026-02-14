@@ -170,3 +170,22 @@ img {
 	text-decoration-line: underline;
 	text-underline-position: from-font;
 }
+
+.decore {
+	aspect-ratio: 1920 / 56;
+	width: 100%;
+	height: auto;
+	position: absolute;
+	bottom: 0px;
+	transform: translateY(50%);
+	z-index: 2;
+	left: 0px;
+
+	&--bluel-l * {
+		fill: var(--blue-l)
+	}
+
+	&--white * {
+		fill: var(--white);
+	}
+}

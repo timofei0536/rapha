@@ -57,7 +57,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <Decor className='footer__decore' />
+            <Decor className='decore' />
         </footer>
     );
 }

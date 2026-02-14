@@ -17,7 +17,7 @@ export default function AboutScreen() {
                     fill
                   />
                 </div>
-                <Decor className='about-screen__decore' />
+                <Decor className='decore decore--white' />
         </section>
     );
 }

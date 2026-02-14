@@ -63,16 +63,16 @@
         padding-left: 3rem;
     }
 
-    &__decore {
-aspect-ratio: 1920 / 56;
-        width: 100%;
-        height: auto;
-        position: absolute;
-        bottom: 0px;
-        transform: translateY(50%);
-        z-index: 2;
-        left: 0px;
-    }
+    // &__decore {
+    //     aspect-ratio: 1920 / 56;
+    //     width: 100%;
+    //     height: auto;
+    //     position: absolute;
+    //     bottom: 0px;
+    //     transform: translateY(50%);
+    //     z-index: 2;
+    //     left: 0px;
+    // }
 
     &__form {
         display: flex;

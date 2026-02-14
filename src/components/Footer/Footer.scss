@@ -45,17 +45,6 @@
     }
 
 
-    &__decore {
-        aspect-ratio: 1920 / 56;
-        width: 100%;
-        height: auto;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        pointer-events: none;
-        z-index: 1;
-    }
-
     &__contact {
         &-item {
             display: flex;

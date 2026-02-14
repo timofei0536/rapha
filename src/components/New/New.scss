@@ -5,6 +5,8 @@
     margin-bottom: 4rem;
     padding-top: calc( var(--p-margin) / 2 );
     padding-bottom: var(--p-margin);
+    position: relative;
+    overflow: hidden;
 
     &__wrap {
         display: flex;

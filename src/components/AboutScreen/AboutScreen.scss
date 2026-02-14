@@ -41,19 +41,9 @@
         font-size: 2rem;
     }
 
-    &__decore {
-aspect-ratio: 1920 / 56;
-        width: 100%;
-        height: auto;
-        position: absolute !important;
-        bottom: 0px;
+    .decore {
         left: calc( var(--p-page)* -0.1rem );
-        transform: translateY(50%);
-        z-index: 2;
         width: calc(var(--p-page) * 0.2rem + 100% );
-        * {
-            fill: var(--white);
-        }
     }
 
 }
