@@ -48,6 +48,8 @@
         display: flex;
         gap: 3.8rem;
         padding-right: 3.8rem;
+        position: relative;
+        opacity: 0.6;
 
         &-part {
             display: flex;

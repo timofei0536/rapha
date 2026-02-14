@@ -4,6 +4,7 @@ import Link from "next/link";
 import PhoneIcon from "@/components/icons/Phone";
 import LocationIcon from "@/components/icons/Location";
 import CalendarIcon from "@/components/icons/Calendar";
+import Decor from "@/components/icons/Decor";
 
 export default function Footer() {
     return (
@@ -47,10 +48,14 @@ export default function Footer() {
                     <div className="footer__col footer__col--emails">
                         <a href="mailto:contact@el-raphaga.com" className="footer__email">contact@el-raphaga.com</a>
                         <a href="mailto:recrutement@el-raphaga.com" className="footer__email">recrutement@el-raphaga.com</a>
+                        <nav className="footer__nav footer__nav--legal">
+                            <Link href="/terms" className="footer__link">Terms & Conditions</Link>
+                            <Link href="/privacy" className="footer__link">Privacy Policy</Link>
+                        </nav>
                     </div>
                 </div>
             </div>
-            <div className="footer__pattern"></div>
+            <Decor className='footer__decore' />
         </footer>
     );
 }

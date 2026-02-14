@@ -1,5 +1,6 @@
 .text-page {
     margin-top: calc( var(--header-height) + 2rem );
+    margin-bottom: 4rem;
 
     &__wrap {
         background-color: var(--white);

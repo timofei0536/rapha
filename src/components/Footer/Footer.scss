@@ -3,28 +3,65 @@
     color: var(--white);
     font-size: 2rem;
     padding-top: calc( var(--p-margin) / 2);
+    padding-bottom: var(--p-margin);
+
+    position: relative;
+    overflow: hidden;
 
     &__wrap {
         display: flex;
-        align-items: flex-start;
         justify-content: space-between;
+        position: relative;
+        z-index: 2;
     }
 
     &__logo {
         width: 22.5rem;
         height: auto;
+        margin-bottom: auto;
     }
 
     &__nav {
         display: flex;
         flex-direction: column;
         gap: 2.4rem;
-        margin-top: 2.4rem;
+
+
+        &--legal {
+            margin-top: auto;
+            flex-direction: row;
+            font-size: 1.2rem;
+        }
     }
 
     &__col {
         display: flex;
         flex-direction: column;
-        gap: 2.4rem
+        gap: 2.4rem;
     }
+
+
+    &__decore {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1920 / 56; /* по viewBox SVG — сохраняем низкую полосу */
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    &__contact {
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            svg {
+                width: 2.4rem;
+                height: auto;
+            }
+        }
+    }
+    
 }
