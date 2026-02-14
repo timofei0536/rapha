@@ -31,9 +31,8 @@ export default function NewsScreen() {
                         </div>
                 </div>
             </div>
-            <div className="news-screen__decor" aria-hidden="true" />
             </div>
-            <Decor className='news-screen__decor' />
+            <Decor className="news-screen__decore" aria-hidden="true" />
         </section>
     );
 }
