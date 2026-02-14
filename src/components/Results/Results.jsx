@@ -23,7 +23,7 @@ export default function Results({ query = "X-ray Services", items = DEFAULT_RESU
                         <li key={index} className="results__item">
                             <h2 className="results__item-title">{item.title}</h2>
                             <p className="results__item-desc">{item.description}</p>
-                            <Link href={item.href} className="results__item-link">
+                            <Link href={item.href} className="results__item-link link">
                                 Read more
                             </Link>
                         </li>

@@ -149,6 +149,7 @@ img {
 .img-wrap {
 	position: relative;
 	overflow: hidden;
+	width: 100%;
 	img {
 		object-fit: cover;
 	}
@@ -161,4 +162,10 @@ img {
 
 :root {
 	color-scheme: light dark;
+}
+
+.link {
+	font-weight: 600;
+	text-decoration-line: underline;
+	text-underline-position: from-font;
 }
