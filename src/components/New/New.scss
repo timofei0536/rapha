@@ -32,6 +32,32 @@
         margin-top: 5rem;
     }
 
+    &__share {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        &-label {
+            font-weight: 600;
+        }
+
+        &-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        &-link {
+            color: inherit;
+            font-size: 1.25rem;
+            transition: opacity 0.2s;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+
     &__img {
         border-radius: 3rem;
     }

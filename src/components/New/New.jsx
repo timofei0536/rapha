@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Btn from "@/components/Btn/Btn";
 import { ArrowLeft } from "@/components/icons";
+import NewShare from "./NewShare";
 
 export default function New({ title, date, image, content = "" }) {
     return (
@@ -15,7 +16,7 @@ export default function New({ title, date, image, content = "" }) {
                         <div className="new__content">
                             <div className="new__body content" dangerouslySetInnerHTML={{ __html: content }} />
                             <div className="new__footer">
-                                <span className="new__share">Share</span>
+                                <NewShare />
                                 <Link href="/news" className="new__back">
                                     <Btn text="Back to news" icon={ArrowLeft} iconPosition="left" />
                                 </Link>
