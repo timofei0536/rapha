@@ -40,10 +40,16 @@
         align-items: center;
     }
 
+    &__logo-link {
+        display: block;
+        margin-right: auto;
+        text-decoration: none;
+        color: inherit;
+    }
+
     &__logo {
         width: 17.7rem;
         height: auto;
-        margin-right: auto;
     }
 
     &__nav {

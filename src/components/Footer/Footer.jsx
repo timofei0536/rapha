@@ -11,13 +11,15 @@ export default function Footer() {
         <footer className="footer">
             <div className="center-wrap">
                 <div className="footer__wrap">
-                            <Image 
-                                className="footer__logo"
-                                src="/images/logo--white.png" 
-                                alt="Polyclinique El Rapha Logo" 
-                                width={225} 
-                                height={160}
-                            />
+                            <Link href="/" className="footer__logo-link">
+                                <Image 
+                                    className="footer__logo"
+                                    src="/images/logo--white.png" 
+                                    alt="Polyclinique El Rapha Logo" 
+                                    width={225} 
+                                    height={160}
+                                />
+                            </Link>
 
                         
                         <nav className="footer__nav">

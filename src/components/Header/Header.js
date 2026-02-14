@@ -29,7 +29,9 @@ export default function Header() {
           </div>   
         
         <div className="header__main">
-          <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70}/>
+          <Link href="/" className="header__logo-link">
+            <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70}/>
+          </Link>
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item"><Link href="/" className="header__nav-link">Home</Link></li>
