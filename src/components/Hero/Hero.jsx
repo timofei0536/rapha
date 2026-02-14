@@ -25,6 +25,7 @@ export default function Hero() {
               height={300}
               priority
             />
+            {/* ask about chart static */}
         </section>    
     );
 }
