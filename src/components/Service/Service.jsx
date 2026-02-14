@@ -27,7 +27,7 @@ export default function Service({
     return (
         <section className="service">
             <div className="center-wrap">
-                <div className="service__wrap">
+                <div className="service__wrap white-header">
                     <div className="center-wrap center-wrap--small">
                     <nav className="service__nav">
                         <ul className="service__list">

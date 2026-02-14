@@ -117,7 +117,7 @@ export default function Chart() {
     return (
         <section className="chart">
             <div className="center-wrap">
-                <div className="chart__wrap">
+                <div className="chart__wrap white-header">
                     <div className="center-wrap center-wrap--small">
                 <h2 className="chart__title simple-title">Organizational Chart</h2>
                 <div className="chart__tree">

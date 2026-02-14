@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import 'normalize.css';
 import "@/styles/globals.scss";
 import Header from '@/components/Header/Header';
+import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
 import Footer from '@/components/Footer/Footer';
 
 const inter = Inter({
@@ -62,7 +63,12 @@ export default function RootLayout({ children }) {
           src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
           strategy="beforeInteractive" 
         />
+        <Script 
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
+          strategy="beforeInteractive" 
+        />
         <Header />
+        <HeaderWhiteTrigger />
         {children}
         <Footer />
       </body>

@@ -6,7 +6,7 @@ export default function Team() {
     return (
         <section className="team">
             <div className="center-wrap">
-                <div className="team__wrap">
+                <div className="team__wrap white-header">
                         <div className="team__left">
                             <h2 className="team__small-title simple-title">Our Medical Teams</h2>
                             <span className="team__title">Excellence in Every Discipline</span>

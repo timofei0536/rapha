@@ -27,7 +27,7 @@ export default function news() {
                     <Link href="#" className='news__item-link link'>Read more</Link>
                 </div>
                 <div className="news__item">
-                    <Image src="/images/news3.png" alt="news-image" className="news__item-img" width={500} height={400} />
+                    <Image src="/images/news3.png" alt="news-image" className="news__item-img white-header" width={500} height={400} />
                     <h3 className="news__item-title">Lorem ipsum dolor</h3>
                     <div className="news__item-text content">
                         <p>Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, </p>

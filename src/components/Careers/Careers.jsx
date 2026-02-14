@@ -23,7 +23,7 @@ export default function Careers() {
             </p>
           </div>
         </div>
-        <div className="careers__gallery">
+        <div className="careers__gallery white-header">
             <Image
               src="/images/careers1.png"
               alt="Medical staff in laboratory"

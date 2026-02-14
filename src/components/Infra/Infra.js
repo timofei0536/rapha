@@ -12,7 +12,7 @@ export default function Infra() {
                     <Image 
                         src="/images/infra1.png" 
                         alt="24/7 Ambulance" 
-                        className="infra__item-img"
+                        className="infra__item-img white-header"
                         width={500}
                         height={450}
                             />
@@ -23,7 +23,7 @@ export default function Infra() {
                     <Image 
                         src="/images/infra2.png" 
                         alt="Food and Dietetics" 
-                        className="infra__item-img"
+                        className="infra__item-img white-header"
                         width={500}
                         height={450}
                             />
@@ -34,7 +34,7 @@ export default function Infra() {
                     <Image 
                         src="/images/infra3.png" 
                         alt="Special Nurses" 
-                        className="infra__item-img"
+                        className="infra__item-img white-header"
                         width={500}
                         height={450}
                             />

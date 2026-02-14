@@ -5,7 +5,7 @@ import Decor from "@/components/icons/Decor";
 
 export default function Hero() {
     return (
-        <section className="hero">
+        <section className="hero white-header">
             <div className="hero__blur-wrap">
                 <Image src="/images/hero-image.png" alt="rapha-polyclinique" className="hero__bg hero__bg--blur" width={1260} height={1070} />
             </div>
