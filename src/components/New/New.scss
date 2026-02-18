@@ -51,7 +51,7 @@
 
         &-link {
             color: inherit;
-            font-size: 1.25rem;
+            font-size: 2rem;
             transition: opacity 0.2s;
 
             &:hover {
@@ -62,5 +62,9 @@
 
     &__img {
         border-radius: 3rem;
+    }
+
+    &__content {
+        font-size: 2rem;
     }
 }

@@ -96,7 +96,7 @@ export default function RootLayout({ children }) {
 // 5) structure --active.
 // 6) chart уточнитью
 // 7) careers form.
-// 8) .content типографика.
 // 9) news - pagination.
 // 10) services -> ask about it.
+// 11) замена шрифта.
 

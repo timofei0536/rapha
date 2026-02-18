@@ -21,7 +21,7 @@ export default function About() {
                 <div className="about__items">
                     <div className="about__item">
                         <div className="about__item-content content">
-                            <p>Welcome to the EL-RAPHA Polyclinic, where the Director, the medical team, and all the staff are pleased to welcome you. While thanking you for your trust, they assure you of their dedication to providing you with the best possible care.</p>
+                            <p><b>Welcome</b> to the <b>EL-RAPHA Polyclinic</b>, where the Director, the medical team, and all the staff are pleased to welcome you. While thanking you for your trust, they assure you of their dedication to providing you with the <b>best possible care</b>.</p>
                         </div>
                           <Image
                             src="/images/about/about1.png"
@@ -34,7 +34,7 @@ export default function About() {
                     </div>
                     <div className="about__item about__item--hor">
                         <div className="about__item-content content">
-                        <p>Our mission has always been to ensure quality and safe care in various fields of general and specialized medicine, respecting our founding values: a welcoming and friendly atmosphere, respect and compassion, sharing and fairness. The primary purpose of any healthcare facility, whether public or private, is, and must remain, the quality of care and the safety of patients.</p>
+                        <p>Our mission has always been to ensure <b>quality</b> <b>and safe care</b> in various fields of general and specialized medicine, respecting our founding values: <b>a welcoming and friendly atmosphere</b>, <b>respect and compassion</b>, <b>sharing and fairness</b>. The primary purpose of any healthcare facility, whether public or private, is, and must remain, the quality of care and the safety of patients.</p>
                         </div>
                           <Image
                             src="/images/about/about2.png"
@@ -55,8 +55,8 @@ export default function About() {
                             className="img-auto"
                           />
                         <div className="about__item-content content">
-                        <p>The EL-RAPHA Polyclinic is constantly evolving to provide its patients with the highest quality of care and safety tailored to their needs and expectations. The Polyclinic's staff, regardless of their role, contributes to this pursuit of excellence, guiding their work to provide you with the best possible care and make your stay as comfortable as possible.</p>
-                        <p>We thank you for your trust over the past 10 years; it is an honor and a responsibility we all share.</p>
+                        <p>The EL-RAPHA Polyclinic is constantly evolving to provide its patients with the <b>highest quality of care and safety</b> tailored to their needs and expectations. The Polyclinic's staff, regardless of their role, contributes to this <b>pursuit of excellence</b>, guiding their work to provide you with the best possible care and make your stay as comfortable as possible.</p>
+                        <p><b>We thank you for your trust over the past 10 years; it is an honor and a responsibility we all share.</b></p>
                         </div>
                     </div>
                 </div>
