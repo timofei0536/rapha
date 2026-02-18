@@ -43,7 +43,7 @@ export default function Footer() {
                                 href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="footer__contact-text footer__link link-hover"
+                                className="footer__contact-text footer__link link-hover link-hover--simple"
                             >
                                 Three Quarters,<br/> Libreville, Gabon
                             </a>

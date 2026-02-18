@@ -89,7 +89,6 @@ export default function RootLayout({ children }) {
 
 //////
 
-// 1) home-image.
-// 2) adaptive
-// 3) html to loops
+// 1) adaptive
+// 2) html to loops
 

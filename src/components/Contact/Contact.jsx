@@ -33,7 +33,7 @@ export default function Contact() {
                 href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+256+Libreville,+Gabon"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="contact__info-link link-hover"
+                className="contact__info-link link-hover link-hover--simple"
               >
                 Three Quarters,<br/> 256 Libreville,<br/> Gabon
               </a>

@@ -173,13 +173,44 @@ img {
 
 .link-hover {
 	text-decoration: none;
+	position: relative;
+	transition: opacity 0.2s ease;
 
-	&:hover {
-		text-decoration: underline;
+	&::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -0.1em;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	&:hover::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	// Модификатор для многострочных (адрес и т.п.) — обычный text-decoration
+	&--simple {
+		&::after {
+			display: none;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
 	&.link {
 		text-decoration: underline;
+
+		&::after {
+			display: none;
+		}
 
 		&:hover {
 			text-decoration: none;

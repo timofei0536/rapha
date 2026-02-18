@@ -10,6 +10,11 @@
     outline: none;
     border-radius: 6rem;
     background: var(--white);
+    transition: max-width 0.3s ease-out;
+
+    &:focus-within {
+        max-width: 28.4rem; // ~20% шире (23.6 * 1.2)
+    }
 
     &__input {
         border: none;

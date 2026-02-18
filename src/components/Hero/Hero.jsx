@@ -7,9 +7,9 @@ export default function Hero() {
     return (
         <section className="hero white-header">
             <div className="hero__blur-wrap">
-                <Image src="/images/hero-image.png" alt="rapha-polyclinique" className="hero__bg hero__bg--blur" width={1260} height={1070} />
+                <Image src="/images/hero-image.png" alt="rapha-polyclinique" fill />
             </div>
-            <Image src="/images/hero-image.png" alt="rapha-polyclinique" className="hero__bg" width={1260} height={1070} />
+            <Image src="/images/hero-image.png" alt="rapha-polyclinique" className="hero__bg" fill />
             <div className="center-wrap">
                 <h1 className="hero__title">Cutting edge medicine in the heart of Africa</h1>
                 <div className="hero__form">
