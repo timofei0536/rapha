@@ -29,7 +29,14 @@ export default function Contact() {
               <div className="contact__info-icon-wrap">
                 <Location className="contact__info-icon" aria-hidden />
               </div>
-              Three Quarters,<br/> 256 Libreville,<br/> Gabon
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+256+Libreville,+Gabon"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact__info-link"
+              >
+                Three Quarters,<br/> 256 Libreville,<br/> Gabon
+              </a>
             </div>
           </div>
           <div className="contact__info-item">

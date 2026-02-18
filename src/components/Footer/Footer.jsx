@@ -35,11 +35,18 @@ export default function Footer() {
                     <div className="footer__col footer__col--contact">
                         <div className="footer__contact-item">
                             <PhoneIcon className="footer__contact-icon" />
-                            <span className="footer__contact-text">+241 077 986 660</span>
+                            <a href="tel:+241077986660" className="footer__contact-text footer__link">+241 077 986 660</a>
                         </div>
                         <div className="footer__contact-item">
                             <LocationIcon className="footer__contact-icon" />
-                            <span className="footer__contact-text">Three Quarters,<br/> Libreville, Gabon</span>
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="footer__contact-text footer__link"
+                            >
+                                Three Quarters,<br/> Libreville, Gabon
+                            </a>
                         </div>
                         <div className="footer__contact-item">
                             <CalendarIcon className="footer__contact-icon" />

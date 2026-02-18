@@ -69,7 +69,16 @@ export default function Services() {
                     </div>
                 </div>
                 <div className="services__btns">
-                    <Btn text="Catalog" icon={Send} className="btn--blue" />
+                    <a
+                        href="https://el-raphaga.com/Moncatalogue"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn--blue"
+                        download="Livret-d-accueil.pdf"
+                    >
+                        <span className="btn__text">Catalog</span>
+                        <Send className="btn__icon" />
+                    </a>
                     <Btn text="All Services" className="btn--blue-l"/>
                 </div>
             </div>

@@ -48,7 +48,7 @@ export const metadata = {
     default: SITE_NAME,
   },
   icons: {
-    icon: "/images/favicon.png",
+    icon: "/images/svg/favicon.png",
   },
 };
 
@@ -86,3 +86,17 @@ export default function RootLayout({ children }) {
 // 7) add .content
 // 8) add img-wrap style.
 // 9) gsap подключить
+
+//////
+
+// 1) phone, adress links.
+// 2) links -> hover.
+// 3) home-logo -> anchor to top.
+// 4) btn hovers
+// 5) download pdf btn
+// 6) selects roundeed
+// 7) home-image.
+// 8) adaptive
+// 9) html to loops
+// 10) favicon
+

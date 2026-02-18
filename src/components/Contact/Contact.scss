@@ -58,5 +58,10 @@
                 align-items: flex-start;
             }
         }
+
+        &-link {
+            color: inherit;
+            text-decoration: none;
+        }
     }
 }

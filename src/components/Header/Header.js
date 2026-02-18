@@ -1,13 +1,17 @@
+"use client";
+
 import "./Header.scss";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import PhoneIcon from "@/components/ui/icons/Phone";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import LocationIcon from "@/components/ui/icons/Location";
 import Search from "@/components/ui/Search/Search";
 
-
 export default function Header() {
+  const isHome = usePathname() === "/";
+
   return (
       <header className='header'>
         <div className="center-wrap">
@@ -15,7 +19,7 @@ export default function Header() {
             <div className="center-wrap center-wrap--small">
                 <div className="header__item">
                   <PhoneIcon />
-                  <span>+241 077 986 660</span>
+                  <a href="tel:+241077986660" className="header__link">+241 077 986 660</a>
                 </div>
                 <div className="header__item">
                   <CalendarIcon />
@@ -23,14 +27,25 @@ export default function Header() {
                 </div>
                 <div className="header__item">
                   <LocationIcon />
-                  <span>Three Quarters, Libreville, Gabon</span>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="header__link"
+                  >
+                    Three Quarters, Libreville, Gabon
+                  </a>
                 </div>
               </div>
           </div>   
         
         <div className="header__main">
-          <Link href="/" className="header__logo-link">
-            <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70}/>
+          <Link
+            href="/"
+            className="header__logo-link"
+            onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+          >
+            <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70} />
           </Link>
           <nav className="header__nav">
             <ul className="header__nav-list">
