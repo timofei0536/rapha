@@ -16,12 +16,19 @@
     min-width: 20.5rem;
     font-size: 2rem;
     font-weight: 600;
+    border: 1px solid transparent;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 
     svg {
         width: 2.3rem;
         height: 2.3rem;
     }
 
+    &:hover {
+        background-color: var(--white);
+        color: var(--blue);
+        border-color: var(--blue);
+    }
 
     &--small {
         min-width: 15.5rem;
@@ -38,23 +45,51 @@
         background-color: transparent;
         border: 1px solid var(--blue);
         color: var(--blue);
+
+        &:hover {
+            background-color: var(--blue);
+            color: var(--white);
+            border-color: var(--blue);
+        }
     }
 
     &--white {
         background-color: var(--white);
         color: var(--blue);
+
+        &:hover {
+            background-color: var(--blue);
+            color: var(--white);
+        }
     }
 
     &--blue-l {
         background-color: var(--blue-l);
+        color: var(--white);
+
+        &:hover {
+            background-color: var(--white);
+            color: var(--blue);
+            border-color: var(--blue);
+        }
     }
 
     &--orange {
         background-color: var(--orange);
+
+        &:hover {
+            background-color: var(--white);
+            color: var(--orange);
+        }
     }
 
     &--gray {
         background-color: var(--gray);
         color: var(--blue);
+
+        &:hover {
+            background-color: var(--blue);
+            color: var(--white);
+        }
     }
 }
