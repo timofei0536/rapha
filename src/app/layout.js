@@ -95,6 +95,7 @@ export default function RootLayout({ children }) {
 // 2) careers form.
 // 3) news - pagination.
 // 5) services -> ask about it.
+// 5) structure  -> 2 columns.
 
 // 1) html to loops
 // 2) adaptive
