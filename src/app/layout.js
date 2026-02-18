@@ -15,22 +15,22 @@ const inter = Inter({
 const ivyPresto = localFont({
   src: [
     {
-      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-100.woff2',
+      path: '../../public/fonts/Ivy-Presto/ivy-presto-display-100.otf',
       weight: '100',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-300.woff2',
+      path: '../../public/fonts/Ivy-Presto/ivy-presto-display-300.otf',
       weight: '300',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-400.woff2',
+      path: '../../public/fonts/Ivy-Presto/ivy-presto-display-400.otf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/Ivy-Presto-font-Family/ivy-presto-display-600.woff2',
+      path: '../../public/fonts/Ivy-Presto/ivy-presto-display-600.otf',
       weight: '600',
       style: 'normal',
     },
@@ -89,13 +89,16 @@ export default function RootLayout({ children }) {
 
 //////
 
-// 1) adaptive
-// 2) html to loops
-// 3) team photo
-// 4) animations
-// 5) chart уточнитью
-// 6) careers form.
-// 7) news - pagination.
+
+
+// 1) team photo
+// 2) chart уточнитью
+// 3) careers form.
+// 4) news - pagination.
+
 // 8) services -> ask about it.
-// 9) замена шрифта.
+
+// 2) html to loops
+// 1) adaptive
+// 4) animations
 
