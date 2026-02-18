@@ -91,4 +91,12 @@ export default function RootLayout({ children }) {
 
 // 1) adaptive
 // 2) html to loops
+// 3) team photo
+// 4) animations
+// 5) structure --active.
+// 6) chart уточнитью
+// 7) careers form.
+// 8) .content типографика.
+// 9) news - pagination.
+// 10) services -> ask about it.
 

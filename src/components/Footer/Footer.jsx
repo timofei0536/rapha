@@ -1,17 +1,26 @@
+"use client";
+
 import "./Footer.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import PhoneIcon from "@/components/ui/icons/Phone";
 import LocationIcon from "@/components/ui/icons/Location";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import Decor from "@/components/ui/icons/Decor";
 
 export default function Footer() {
+    const isHome = usePathname() === "/";
+
     return (
         <footer className="footer">
             <div className="center-wrap">
                 <div className="footer__wrap">
-                            <Link href="/" className="footer__logo-link">
+                            <Link
+                                href="/"
+                                className="footer__logo-link"
+                                onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+                            >
                                 <Image 
                                     className="footer__logo"
                                     src="/images/logo--white.png" 
