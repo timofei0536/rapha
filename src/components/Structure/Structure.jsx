@@ -4,7 +4,8 @@ import Btn from "@/components/ui/Btn/Btn";
 import Plus from "@/components/ui/icons/Plus";
 import Toogles from "@/components/ui/Toogles/Toogles";
 
-const tabs = [
+const DEFAULT_TITLE = "The Structure";
+const DEFAULT_TABS = [
     {
         id: "0",
         label: "Ground Floor",
@@ -67,12 +68,12 @@ const tabs = [
     },
 ];
 
-export default function Structure() {
+export default function Structure({ title = DEFAULT_TITLE, tabs = DEFAULT_TABS }) {
     return (
         <section className="structure">
             <Toogles />
             <div className="center-wrap center-wrap--small">
-                <h2 className="structure__title simple-title">The Structure</h2>
+                <h2 className="structure__title simple-title">{title}</h2>
                 <div className="structure__wrap toogles">
                     <div className="structure__nav">
                         {tabs.map((tab, index) => (

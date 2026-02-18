@@ -1,37 +1,38 @@
 import "./Chart.scss";
 import Image from "next/image";
 
-const chartData = {
+const DEFAULT_TITLE = "Organizational Chart";
+const DEFAULT_DATA = {
     name: "Mr. Samuel Okoro",
     title: "Chief Operating Officer",
-    avatar: "/images/about/chart/avatar1.png",
+    image: { src: "/images/about/chart/avatar1.png", alt: "Mr. Samuel Okoro" },
     children: [
         {
             name: "Dr. Grace Ndlovu",
             title: "Chief Executive Officer",
-            avatar: "/images/about/chart/avatar2.png",
+            image: { src: "/images/about/chart/avatar2.png", alt: "Dr. Grace Ndlovu" },
             children: [
                 {
                     name: "Dr. Amina Yusuf",
                     title: "Chief Medical Officer",
-                    avatar: "/images/about/chart/avatar3.png",
+                    image: { src: "/images/about/chart/avatar3.png", alt: "Dr. Amina Yusuf" },
                     children: [],
                 },
                 {
                     name: "Dr. Peter Banda",
                     title: "Head of Internal Medicine",
-                    avatar: "/images/about/chart/avatar4.png",
+                    image: { src: "/images/about/chart/avatar4.png", alt: "Dr. Peter Banda" },
                     children: [
                         {
                             name: "Dr. Faith Kamau",
                             title: "Head of Surgery",
-                            avatar: "/images/about/chart/avatar7.png",
+                            image: { src: "/images/about/chart/avatar7.png", alt: "Dr. Faith Kamau" },
                             children: [],
                         },
                         {
                             name: "Dr. Ruth Ssebagala",
                             title: "Head of Obstetrics & Gynaecology",
-                            avatar: "/images/about/chart/avatar8.png",
+                            image: { src: "/images/about/chart/avatar8.png", alt: "Dr. Ruth Ssebagala" },
                             children: [],
                         },
                     ],
@@ -39,18 +40,18 @@ const chartData = {
                 {
                     name: "Mr. Samuel Okoro",
                     title: "Chief Operating Officer",
-                    avatar: "/images/about/chart/avatar5.png",
+                    image: { src: "/images/about/chart/avatar5.png", alt: "Mr. Samuel Okoro" },
                     children: [],
                 },
                 {
                     name: "Ms. Mercy Toure",
                     title: "Director of Nursing",
-                    avatar: "/images/about/chart/avatar6.png",
+                    image: { src: "/images/about/chart/avatar6.png", alt: "Ms. Mercy Toure" },
                     children: [
                         {
                             name: "Mr. Joseph Karanja",
                             title: "Hospital Administrator",
-                            avatar: "/images/about/chart/avatar9.png",
+                            image: { src: "/images/about/chart/avatar9.png", alt: "Mr. Joseph Karanja" },
                             children: [],
                         },
                     ],
@@ -78,8 +79,8 @@ function ChartNode({ node, siblingIndex }) {
                 <div className="chart__node-avatar">
                     <div className="img-wrap" style={{ aspectRatio: "1/1" }}>
                       <Image
-                        src={node.avatar}
-                        alt={node.name}
+                        src={node.image.src}
+                        alt={node.image.alt}
                         fill
                       />
                     </div>
@@ -113,15 +114,15 @@ function ChartNode({ node, siblingIndex }) {
     );
 }
 
-export default function Chart() {
+export default function Chart({ title = DEFAULT_TITLE, data = DEFAULT_DATA }) {
     return (
         <section className="chart">
             <div className="center-wrap">
                 <div className="chart__wrap white-header">
                     <div className="center-wrap center-wrap--small">
-                <h2 className="chart__title simple-title">Organizational Chart</h2>
+                <h2 className="chart__title simple-title">{title}</h2>
                 <div className="chart__tree">
-                    <ChartNode node={chartData} />
+                    <ChartNode node={data} />
                 </div>
                 </div>
                 </div>
