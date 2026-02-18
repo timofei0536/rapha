@@ -18,14 +18,6 @@ export default function Hero() {
                 </div>
             </div>
             <Decor className='decore' />
-            <Image
-              src="/images/filename.png"
-              alt="description"
-              width={500}
-              height={300}
-              priority
-            />
-            {/* ask about chart static */}
         </section>    
     );
 }

@@ -2,7 +2,8 @@
     position: relative;
     color: var(--white);
     overflow: hidden;
-    padding-bottom: calc( var(--p-margin) / 1.5 );
+    height: 100vh;
+    display: flex;
 
     &::before {
         content: "";
@@ -13,6 +14,7 @@
         height: 100%;
         background-color: rgba(black,0.2);
         z-index: 2;
+        width: 89rem;
     }
 
     &__blur-wrap {
@@ -42,10 +44,21 @@
     .center-wrap {
         position: relative;
         z-index: 2;
-        height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        flex-grow: 1;
+        padding-top: calc(var(--header-height));
+
+        &::before {
+            content: "";
+            flex-grow: 2; /* Занимает 1 часть пустоты сверху */
+          }
+          
+          &::after {
+            content: "";
+            flex-grow: 1; /* Занимает 2 части пустоты снизу */
+          }
+
     }
 
 
@@ -56,23 +69,16 @@
         max-width: 81.5rem;
         margin-bottom: 7.6rem;
         padding-left: 3rem;
+        margin-top: auto;
+        margin-top: -0.3em;
     }
 
-    // &__decore {
-    //     aspect-ratio: 1920 / 56;
-    //     width: 100%;
-    //     height: auto;
-    //     position: absolute;
-    //     bottom: 0px;
-    //     transform: translateY(50%);
-    //     z-index: 2;
-    //     left: 0px;
-    // }
 
     &__form {
         display: flex;
         gap: 2rem;
         align-items: flex-start;
+        margin-bottom: auto;
         &-title {
             font-size: 2.4rem;
             letter-spacing: -0.048rem;
