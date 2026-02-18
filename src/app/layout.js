@@ -89,14 +89,11 @@ export default function RootLayout({ children }) {
 
 //////
 
-// 1) phone, adress links.
-// 2) links -> hover.
-// 3) home-logo -> anchor to top.
-// 4) btn hovers
-// 5) download pdf btn
-// 6) selects roundeed
-// 7) home-image.
-// 8) adaptive
-// 9) html to loops
-// 10) favicon
+// 1) links -> hover.
+// 2) btn hovers
+// 3) download pdf btn
+// 4) selects roundeed
+// 5) home-image.
+// 6) adaptive
+// 7) html to loops
 
