@@ -94,7 +94,6 @@ export default function RootLayout({ children }) {
 // 1) chart уточнить
 // 2) careers form.
 // 3) news - pagination.
-// 4) image border-radius
 // 5) services -> ask about it.
 
 // 1) html to loops
