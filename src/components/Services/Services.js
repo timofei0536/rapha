@@ -8,65 +8,44 @@ import Icon5 from "@/components/ui/icons/services/Icon5";
 import Btn from "@/components/ui/Btn/Btn";
 import Send from "@/components/ui/icons/Download";
 
-export default function Services() {
+const DEFAULT_TITLE = "Our Services";
+const DEFAULT_IMAGE = { src: "/images/services.png", alt: "services-background" };
+const DEFAULT_SERVICES = [
+    { title: "Emergencies", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Surgery &\n Operating room", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance" },
+    { title: "Medical Imaging", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Analysis Laboratory", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Gynecology-Obstetrics", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+];
+const SERVICE_ICONS = [Icon1, Icon2, Icon3, Icon4, Icon5];
+
+export default function Services({ title = DEFAULT_TITLE, image = DEFAULT_IMAGE, services = DEFAULT_SERVICES }) {
     return (
         <section className="services">
             <div className="center-wrap">
                 <div className="services__list">
                     <div className="services__item services__item--title">
-                        <h2 className='simple-title'>Our Services</h2>
-                        <Image src="/images/services.png" alt="services-background" className="services__item-bg" width={588} height={450} />
+                        <h2 className='simple-title'>{title}</h2>
+                        <Image src={image.src} alt={image.alt} className="services__item-bg" width={588} height={450} />
                     </div>
-                    <div className="services__item">
-                        <div className="services__item-icon">
-                            <Icon1 />
-                        </div>
-                        <h3 className="services__item-title simple-title">Emergencies</h3>
-                        <div className="services__item-text content">
-                            <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
-                        </div>
-                        <Btn text="Learn more" className="btn--transparent btn--small" />
-                    </div>
-                    <div className="services__item">
-                        <div className="services__item-icon">
-                            <Icon2 />
-                        </div>
-                        <h3 className="services__item-title simple-title">Surgery &<br/> Operating room</h3>
-                        <div className="services__item-text content">
-                            <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance</p>
-                        </div>
-                        <Btn text="Learn more" className="btn--transparent btn--small" />
-                    </div>
-                    <div className="services__item">
-                        <div className="services__item-icon">
-                            <Icon3 />
-                        </div>
-                        <h3 className="services__item-title simple-title">Medical Imaging</h3>
-                        <div className="services__item-text content">
-                            <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
-                        </div>
-                        <Btn text="Learn more" className="btn--transparent btn--small" />
-                    </div>
-                    <div className="services__item">
-                        <div className="services__item-icon">
-                            <Icon4 />
-                        </div>
-                        <h3 className="services__item-title simple-title">Analysis Laboratory</h3>
-                        <div className="services__item-text content">
-                            <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
-                        </div>
-                        <Btn text="Learn more" className="btn--transparent btn--small" />
-                    </div>
-                    <div className="services__item">
-                        <div className="services__item-icon">
-                            <Icon5 />
-                        </div>
-                        <h3 className="services__item-title simple-title">Gynecology-Obstetrics</h3>
-                        <div className="services__item-text content">
-                            <p>Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician.</p>
-                        </div>
-                        <Btn text="Learn more" className="btn--transparent btn--small" />
-                    </div>
+                    {services.map((item, i) => {
+                        const Icon = SERVICE_ICONS[i];
+                        const titleLines = item.title.split("\n");
+                        return (
+                            <div key={i} className="services__item">
+                                <div className="services__item-icon">
+                                    {Icon && <Icon />}
+                                </div>
+                                <h3 className="services__item-title simple-title">
+                                    {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
+                                </h3>
+                                <div className="services__item-text content">
+                                    <p>{item.text}</p>
+                                </div>
+                                <Btn text="Learn more" className="btn--transparent btn--small" />
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="services__btns">
                     <Btn
