@@ -47,6 +47,7 @@
     }
 
     .toogles__title--active  {
+        pointer-events: none;
         .btn {
             background-color: var(--blue);
             color: var(--white);
