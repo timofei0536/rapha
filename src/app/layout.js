@@ -89,9 +89,7 @@ export default function RootLayout({ children }) {
 
 //////
 
-// 1) links -> hover.
-// 2) btn hovers
-// 5) home-image.
-// 6) adaptive
-// 7) html to loops
+// 1) home-image.
+// 2) adaptive
+// 3) html to loops
 

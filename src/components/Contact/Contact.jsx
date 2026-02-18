@@ -33,7 +33,7 @@ export default function Contact() {
                 href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+256+Libreville,+Gabon"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="contact__info-link"
+                className="contact__info-link link-hover"
               >
                 Three Quarters,<br/> 256 Libreville,<br/> Gabon
               </a>
@@ -45,7 +45,7 @@ export default function Contact() {
               <div className="contact__info-icon-wrap">
                 <Phone className="contact__info-icon" aria-hidden />
               </div>
-              <a href="tel:+241077986660">+241 077 986 660</a>
+              <a href="tel:+241077986660" className="link-hover">+241 077 986 660</a>
             </div>
           </div>
           <div className="contact__info-item">
@@ -54,7 +54,7 @@ export default function Contact() {
               <div className="contact__info-icon-wrap">
                 <Mail className="contact__info-icon" aria-hidden />
               </div>
-              <a href="mailto:contact@el-raphaga.com">contact@el-raphaga.com</a>
+              <a href="mailto:contact@el-raphaga.com" className="link-hover">contact@el-raphaga.com</a>
             </div>
           </div>
         </div>

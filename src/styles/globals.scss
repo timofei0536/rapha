@@ -171,6 +171,22 @@ img {
 	text-underline-position: from-font;
 }
 
+.link-hover {
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&.link {
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
 .decore {
 	aspect-ratio: 1920 / 56;
 	width: 100%;

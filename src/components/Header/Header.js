@@ -19,7 +19,7 @@ export default function Header() {
             <div className="center-wrap center-wrap--small">
                 <div className="header__item">
                   <PhoneIcon />
-                  <a href="tel:+241077986660" className="header__link">+241 077 986 660</a>
+                  <a href="tel:+241077986660" className="header__link link-hover">+241 077 986 660</a>
                 </div>
                 <div className="header__item">
                   <CalendarIcon />
@@ -31,7 +31,7 @@ export default function Header() {
                     href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="header__link"
+                    className="header__link link-hover"
                   >
                     Three Quarters, Libreville, Gabon
                   </a>
@@ -49,12 +49,12 @@ export default function Header() {
           </Link>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item"><Link href="/" className="header__nav-link">Home</Link></li>
-              <li className="header__nav-item"><Link href="/about" className="header__nav-link">Polyclinic</Link></li>
-              <li className="header__nav-item"><Link href="/services" className="header__nav-link">Services</Link></li>
-              <li className="header__nav-item"><Link href="/news" className="header__nav-link">News</Link></li>
-              <li className="header__nav-item"><Link href="/careers" className="header__nav-link">Careers</Link></li>
-              <li className="header__nav-item"><Link href="/contact" className="header__nav-link">Contact</Link></li>
+              <li className="header__nav-item"><Link href="/" className="header__nav-link link-hover">Home</Link></li>
+              <li className="header__nav-item"><Link href="/about" className="header__nav-link link-hover">Polyclinic</Link></li>
+              <li className="header__nav-item"><Link href="/services" className="header__nav-link link-hover">Services</Link></li>
+              <li className="header__nav-item"><Link href="/news" className="header__nav-link link-hover">News</Link></li>
+              <li className="header__nav-item"><Link href="/careers" className="header__nav-link link-hover">Careers</Link></li>
+              <li className="header__nav-item"><Link href="/contact" className="header__nav-link link-hover">Contact</Link></li>
             </ul>
           </nav>
           <Search />
