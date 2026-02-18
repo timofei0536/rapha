@@ -75,10 +75,10 @@ export default function Structure() {
                 <h2 className="structure__title simple-title">The Structure</h2>
                 <div className="structure__wrap toogles">
                     <div className="structure__nav">
-                        {tabs.map((tab) => (
+                        {tabs.map((tab, index) => (
                             <div
                                 key={tab.id}
-                                className="toogles__title structure__btn-wrap"
+                                className={`toogles__title structure__btn-wrap${index === 0 ? ' toogles__title--active' : ''}`}
                                 data-toogles={tab.id}
                             >
                                 <Btn
@@ -90,10 +90,10 @@ export default function Structure() {
                         ))}
                     </div>
                     <div className="structure__tabs">
-                        {tabs.map((tab) => (
+                        {tabs.map((tab, index) => (
                             <div
                                 key={tab.id}
-                                className="toogles__item"
+                                className={`toogles__item${index === 0 ? ' toogles__item--active' : ''}`}
                                 data-toogles={tab.id}
                             >
                                 <div className="toogles__item-content">
