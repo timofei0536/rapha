@@ -154,7 +154,7 @@ function nextwp_create_components_from_dir( $project_path ) {
             'description' => 'Page',
             'fields'      => $fields,
             'location'    => $location,
-            'menu_order'  => 0,
+            'menu_order'  => 500,
             'active'      => true,
         );
 
@@ -193,6 +193,7 @@ function nextwp_set_component_groups_description() {
         }
         $g['description'] = 'Component';
         $g['location']    = array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) );
+        $g['menu_order']  = 0;
         acf_update_field_group( $g );
         nextwp_log( 'Components: set description Component + location none', $g['title'] );
     }
