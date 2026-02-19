@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\""
+    "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\"",
+    "nextwp:schema": "node nextwp/scripts/build-schema.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -24,6 +25,7 @@
     "@svgr/webpack": "^8.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "open": "^11.0.0"
+    "open": "^11.0.0",
+    "@babel/parser": "^7.26.0"
   }
 }

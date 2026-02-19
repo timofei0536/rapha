@@ -1,0 +1,402 @@
+{
+  "About": [
+    {
+      "name": "gm",
+      "type": "group",
+      "sub_fields": [
+        {
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "position",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "items",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "content",
+          "type": "text"
+        },
+        {
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "name": "layout",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "AboutScreen": [
+    {
+      "name": "subtitle",
+      "type": "text"
+    },
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "content",
+      "type": "content"
+    },
+    {
+      "name": "image",
+      "type": "image"
+    }
+  ],
+  "Careers": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "content",
+      "type": "content"
+    },
+    {
+      "name": "gallery",
+      "type": "gallery"
+    }
+  ],
+  "Chart": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "data",
+      "type": "group",
+      "sub_fields": [
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "name": "children",
+          "type": "repeater",
+          "sub_fields": [
+            {
+              "name": "name",
+              "type": "text"
+            },
+            {
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "name": "image",
+              "type": "image"
+            },
+            {
+              "name": "children",
+              "type": "repeater",
+              "sub_fields": [
+                {
+                  "name": "name",
+                  "type": "text"
+                },
+                {
+                  "name": "title",
+                  "type": "text"
+                },
+                {
+                  "name": "image",
+                  "type": "image"
+                },
+                {
+                  "name": "children",
+                  "type": "repeater"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Contact": [
+    {
+      "name": "map",
+      "type": "link"
+    },
+    {
+      "name": "items",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "link",
+          "type": "link"
+        }
+      ]
+    }
+  ],
+  "Hero": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "formTitle",
+      "type": "text"
+    },
+    {
+      "name": "image",
+      "type": "image"
+    }
+  ],
+  "Infra": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "items",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "New": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "date",
+      "type": "text"
+    },
+    {
+      "name": "image",
+      "type": "text"
+    },
+    {
+      "name": "content",
+      "type": "content"
+    }
+  ],
+  "News": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "items",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "image",
+          "type": "image"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "content",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "PageScreen": [
+    {
+      "name": "children",
+      "type": "text"
+    },
+    {
+      "name": "className",
+      "type": "text"
+    },
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "image",
+      "type": "text"
+    }
+  ],
+  "Results": [
+    {
+      "name": "subtitle",
+      "type": "text"
+    },
+    {
+      "name": "query",
+      "type": "text"
+    },
+    {
+      "name": "items",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "link",
+          "type": "group",
+          "sub_fields": [
+            {
+              "name": "href",
+              "type": "text"
+            },
+            {
+              "name": "target",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Service": [
+    {
+      "name": "services",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "slug",
+          "type": "text"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "activeSlug",
+      "type": "text"
+    },
+    {
+      "name": "basePath",
+      "type": "image"
+    },
+    {
+      "name": "defaultImage",
+      "type": "image"
+    }
+  ],
+  "Services": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "image",
+      "type": "image"
+    },
+    {
+      "name": "services",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "content",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "Structure": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "tabs",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "name": "label",
+          "type": "text"
+        },
+        {
+          "name": "content",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "Team": [
+    {
+      "name": "subtitle",
+      "type": "text"
+    },
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "content",
+      "type": "content"
+    },
+    {
+      "name": "gallery",
+      "type": "group",
+      "sub_fields": [
+        {
+          "name": "left",
+          "type": "gallery"
+        },
+        {
+          "name": "right",
+          "type": "gallery"
+        }
+      ]
+    }
+  ],
+  "TextPage": [
+    {
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "name": "content",
+      "type": "content"
+    }
+  ]
+}

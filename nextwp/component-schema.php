@@ -1,11 +1,30 @@
 <?php
 /**
- * NextWP — ACF fields from component props. key = prop name, type from regex (field-types.php).
- * Supports repeater and gallery. Requires: value-parser.php, field-types.php.
+ * NextWP — ACF fields from component props.
+ * Prefer schema from schema.json (built by Node script). Fallback: PHP inference (value-parser, field-types).
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     return;
+}
+
+/**
+ * Load full schema from nextwp/schema.json (built by: node nextwp/scripts/build-schema.js).
+ *
+ * @param string $project_path NextWP/project root path (e.g. theme/nextwp).
+ * @return array|null Associative array component_name => fields array, or null if file missing.
+ */
+function nextwp_load_schema_json( $project_path ) {
+    $path = rtrim( $project_path, '/\\' ) . '/schema.json';
+    if ( ! is_readable( $path ) ) {
+        return null;
+    }
+    $raw = file_get_contents( $path );
+    if ( $raw === false ) {
+        return null;
+    }
+    $data = json_decode( $raw, true );
+    return is_array( $data ) ? $data : null;
 }
 
 /**
@@ -64,13 +83,28 @@ function nextwp_get_prop_default_value_from_file( $file_path, $prop_name, $file_
 }
 
 /**
- * Build field definitions from component props. Type only from value (regex on default value), not from prop name.
+ * Build field definitions for a component. Uses schema.json if present, else PHP inference.
+ *
+ * @param string $component_name Component name.
+ * @param string $project_path  Project root path (nextwp folder).
+ * @return array List of [ 'name' => ..., 'type' => ..., 'sub_fields' => ... (optional) ].
+ */
+function nextwp_get_schema_for_component( $component_name, $project_path ) {
+    $schema = nextwp_load_schema_json( $project_path );
+    if ( $schema !== null && isset( $schema[ $component_name ] ) && is_array( $schema[ $component_name ] ) ) {
+        return $schema[ $component_name ];
+    }
+    return nextwp_get_schema_for_component_php( $component_name, $project_path );
+}
+
+/**
+ * Build field definitions from component file via PHP (regex/string parsing). Fallback when no schema.json.
  *
  * @param string $component_name Component name.
  * @param string $project_path  Project root path.
  * @return array List of [ 'name' => ..., 'type' => ..., 'sub_fields' => ... (optional) ].
  */
-function nextwp_get_schema_for_component( $component_name, $project_path ) {
+function nextwp_get_schema_for_component_php( $component_name, $project_path ) {
     if ( ! function_exists( 'nextwp_get_component_file_path' ) ) {
         return array();
     }

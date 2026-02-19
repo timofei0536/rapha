@@ -9,6 +9,10 @@
  *    require_once get_template_directory() . '/nextwp/nextwp.php';
  *    add_action( 'init', 'nextwp_run', 11 );
  *
+ * 4) (Recommended) Generate schema.json locally so PHP uses it instead of parsing JS:
+ *    npm run nextwp:schema
+ *    Then upload nextwp/ including schema.json. On PHP-only hosting no Node is needed.
+ *
  * Rollback: open site as admin with ?nextwp_rollback=1
  *
  * Debug: define( 'NEXTWP_DEBUG', true ); before require to get echo + console.log.
