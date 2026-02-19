@@ -15,20 +15,40 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string|null Full path or null.
  */
 function nextwp_get_component_file_path( $project_path, $component_name ) {
-    $base = rtrim( $project_path, '/' ) . '/src/components/' . $component_name;
-    if ( ! is_dir( $base ) ) {
-        $base = rtrim( $project_path, '/' ) . '/components/' . $component_name;
+    $comp = nextwp_resolve_components_path( $project_path );
+    if ( $comp === null ) {
+        return null;
     }
+    $base = $comp . '/' . $component_name;
     if ( ! is_dir( $base ) ) {
         return null;
     }
-    foreach ( array( '.jsx', '.js', '.tsx', '.ts' ) as $ext ) {
-        $path = $base . '/' . $component_name . $ext;
+    foreach ( NEXTWP_FILE_EXTENSIONS as $ext ) {
+        $path = $base . '/' . $component_name . '.' . $ext;
         if ( is_readable( $path ) ) {
             return $path;
         }
     }
     return null;
+}
+
+/**
+ * Normalize name/slug to ACF-safe key (lowercase, non-alphanumeric to underscore).
+ *
+ * @param string $name Component name or slug.
+ * @return string
+ */
+function nextwp_name_to_acf_key( $name ) {
+    return strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
+}
+
+/**
+ * Get list of component names to ignore (case-insensitive).
+ *
+ * @return array List of lowercased names.
+ */
+function nextwp_get_ignore_component_names() {
+    return array_map( 'trim', explode( ',', strtolower( NEXTWP_IGNORE_COMPONENTS ) ) );
 }
 
 /**
@@ -38,16 +58,13 @@ function nextwp_get_component_file_path( $project_path, $component_name ) {
  * @return array List of component names
  */
 function nextwp_get_components_from_dir( $project_path ) {
-    $comp = rtrim( $project_path, '/' ) . '/src/components';
-    if ( ! is_dir( $comp ) ) {
-        $comp = rtrim( $project_path, '/' ) . '/components';
-    }
-    if ( ! is_dir( $comp ) ) {
-        nextwp_log( 'Components: dir not found', $comp );
+    $comp = nextwp_resolve_components_path( $project_path );
+    if ( $comp === null ) {
+        nextwp_log( 'Components: dir not found', $project_path );
         return array();
     }
 
-    $ignore = array_map( 'trim', explode( ',', strtolower( NEXTWP_IGNORE_COMPONENTS ) ) );
+    $ignore = nextwp_get_ignore_component_names();
     $list   = array();
     foreach ( scandir( $comp ) as $name ) {
         if ( $name === '.' || $name === '..' ) {
@@ -71,13 +88,12 @@ function nextwp_get_components_from_dir( $project_path ) {
  * @return string|null Full path or null if not found.
  */
 function nextwp_get_page_file_path( $project_path, $slug ) {
-    $app = rtrim( $project_path, '/' ) . '/src/app';
-    if ( ! is_dir( $app ) ) {
-        $app = rtrim( $project_path, '/' ) . '/app';
+    $app = nextwp_resolve_app_path( $project_path );
+    if ( $app === null ) {
+        return null;
     }
     $base = $slug ? $app . '/' . $slug : $app;
-    $extensions = array( 'jsx', 'js', 'tsx', 'ts' );
-    foreach ( $extensions as $ext ) {
+    foreach ( NEXTWP_FILE_EXTENSIONS as $ext ) {
         $path = $base . '/page.' . $ext;
         if ( file_exists( $path ) ) {
             return $path;
@@ -112,10 +128,10 @@ function nextwp_parse_components_from_page_file( $file_path ) {
  * @return array Component names.
  */
 function nextwp_get_components_for_page_slug( $project_path, $slug ) {
-    $path = nextwp_get_page_file_path( $project_path, $slug );
-    $names = nextwp_parse_components_from_page_file( $path );
-    $ignore = array_map( 'trim', explode( ',', strtolower( NEXTWP_IGNORE_COMPONENTS ) ) );
-    $out = array();
+    $path   = nextwp_get_page_file_path( $project_path, $slug );
+    $names  = nextwp_parse_components_from_page_file( $path );
+    $ignore = nextwp_get_ignore_component_names();
+    $out    = array();
     foreach ( $names as $name ) {
         if ( ! in_array( strtolower( $name ), $ignore, true ) ) {
             $out[] = $name;
@@ -146,14 +162,14 @@ function nextwp_create_components_from_dir( $project_path ) {
         }
         $page_id = (int) $page->ID;
         $components = nextwp_get_components_for_page_slug( $project_path, $slug );
-        $group_key = NEXTWP_ACF_PREFIX . 'page_' . ( $slug ? strtolower( preg_replace( '/[^a-z0-9]/i', '_', $slug ) ) : 'home' );
+        $group_key = NEXTWP_ACF_PREFIX . 'page_' . ( $slug ? nextwp_name_to_acf_key( $slug ) : 'home' );
 
         $fields = array();
         foreach ( $components as $name ) {
-            $comp_key = NEXTWP_ACF_PREFIX . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
-            $tab_key  = 'field_' . md5( $group_key . '_tab_' . $name );
+            $comp_key  = NEXTWP_ACF_PREFIX . nextwp_name_to_acf_key( $name );
+            $tab_key   = 'field_' . md5( $group_key . '_tab_' . $name );
             $clone_key = 'field_' . md5( $group_key . '_clone_' . $name );
-            $fields[] = array(
+            $fields[]  = array(
                 'key'   => $tab_key,
                 'label' => $name,
                 'name'  => '',
@@ -162,7 +178,7 @@ function nextwp_create_components_from_dir( $project_path ) {
             $fields[] = array(
                 'key'     => $clone_key,
                 'label'   => 'Component',
-                'name'    => 'component_' . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) ),
+                'name'    => 'component_' . nextwp_name_to_acf_key( $name ),
                 'type'    => 'clone',
                 'clone'   => array( $comp_key ),
                 'display' => 'seamless',
@@ -202,7 +218,7 @@ function nextwp_create_components_from_dir( $project_path ) {
     $all_component_names = array_values( array_unique( $all_component_names ) );
 
     foreach ( $all_component_names as $name ) {
-        $comp_key = NEXTWP_ACF_PREFIX . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
+        $comp_key = NEXTWP_ACF_PREFIX . nextwp_name_to_acf_key( $name );
         $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $comp_key ) : null;
         if ( ! $existing ) {
             $group = array(

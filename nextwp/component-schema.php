@@ -39,21 +39,27 @@ function nextwp_parse_props_from_file( $file_path ) {
 /**
  * Extract default value string for a prop from file (DEFAULT_PROPNAME = value).
  *
- * @param string $file_path Full path to component file.
- * @param string $prop_name Prop name (e.g. items, image).
+ * @param string      $file_path   Full path to component file.
+ * @param string      $prop_name   Prop name (e.g. items, image).
+ * @param string|null $file_content Optional. If provided, search in this string instead of reading file.
  * @return string|null Value string or null.
  */
-function nextwp_get_prop_default_value_from_file( $file_path, $prop_name ) {
-    if ( ! $file_path || ! is_readable( $file_path ) ) {
+function nextwp_get_prop_default_value_from_file( $file_path, $prop_name, $file_content = null ) {
+    if ( $file_content === null ) {
+        if ( ! $file_path || ! is_readable( $file_path ) ) {
+            return null;
+        }
+        $file_content = file_get_contents( $file_path );
+    }
+    if ( $file_content === false || $file_content === '' ) {
         return null;
     }
-    $content = file_get_contents( $file_path );
-    $upper  = strtoupper( preg_replace( '/[^a-z0-9]/i', '_', $prop_name ) );
-    $const  = 'DEFAULT_' . $upper;
-    if ( ! preg_match( '/\b' . preg_quote( $const, '/' ) . '\s*=\s*/', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+    $upper = strtoupper( preg_replace( '/[^a-z0-9]/i', '_', $prop_name ) );
+    $const = 'DEFAULT_' . $upper;
+    if ( ! preg_match( '/\b' . preg_quote( $const, '/' ) . '\s*=\s*/', $file_content, $m, PREG_OFFSET_CAPTURE ) ) {
         return null;
     }
-    $rest = substr( $content, $m[0][1] + strlen( $m[0][0] ) );
+    $rest = substr( $file_content, $m[0][1] + strlen( $m[0][0] ) );
     return nextwp_extract_one_value( $rest );
 }
 
@@ -78,9 +84,9 @@ function nextwp_get_schema_for_component( $component_name, $project_path ) {
     }
     $file_content = file_get_contents( $file_path );
     $file_content = $file_content !== false ? $file_content : '';
-    $defs = array();
+    $defs         = array();
     foreach ( $prop_names as $name ) {
-        $value_str = nextwp_get_prop_default_value_from_file( $file_path, $name );
+        $value_str = nextwp_get_prop_default_value_from_file( $file_path, $name, $file_content );
         $type = nextwp_infer_field_type_from_value( $value_str, $file_content, $name );
         $def = array( 'name' => $name, 'type' => $type );
         if ( in_array( $type, array( 'repeater', 'group' ), true ) ) {
@@ -142,24 +148,15 @@ function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
         $label = str_replace( array( '_', '-' ), ' ', $label );
         $label = ucwords( strtolower( trim( $label ) ) );
 
-        $field = array(
-            'key'   => $key,
-            'label' => $label,
-            'name'  => $name,
-            'type'  => $acf_type,
+        $field = array_merge(
+            array(
+                'key'   => $key,
+                'label' => $label,
+                'name'  => $name,
+                'type'  => $acf_type,
+            ),
+            nextwp_acf_field_options_for_type( $type )
         );
-
-        if ( $acf_type === 'link' ) {
-            $field['return_format'] = 'array';
-        }
-        if ( $acf_type === 'image' ) {
-            $field['return_format'] = 'array';
-            $field['preview_size']  = 'medium';
-        }
-        if ( $acf_type === 'gallery' ) {
-            $field['return_format'] = 'array';
-            $field['preview_size']  = 'medium';
-        }
 
         if ( in_array( $acf_type, array( 'repeater', 'group' ), true ) && ! empty( $def['sub_fields'] ) ) {
             $field['sub_fields'] = nextwp_build_acf_fields_recursive( $def['sub_fields'], $key, $depth + 1 );

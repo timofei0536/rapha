@@ -45,6 +45,22 @@ function nextwp_field_type_to_acf( $type ) {
 }
 
 /**
+ * Extra ACF field options for our type (return_format, preview_size, etc.).
+ *
+ * @param string $type Our internal type (link, image, gallery, …).
+ * @return array Associative array to merge into ACF field.
+ */
+function nextwp_acf_field_options_for_type( $type ) {
+    if ( $type === NEXTWP_FIELD_LINK ) {
+        return array( 'return_format' => 'array' );
+    }
+    if ( $type === NEXTWP_FIELD_IMAGE || $type === NEXTWP_FIELD_GALLERY ) {
+        return array( 'return_format' => 'array', 'preview_size' => 'medium' );
+    }
+    return array();
+}
+
+/**
  * Check if prop usage in file has an ancestor (or same tag) with class .content in JSX.
  */
 function nextwp_prop_has_content_ancestor( $prop_name, $file_content ) {
@@ -141,10 +157,10 @@ function nextwp_infer_field_type_from_value( $value_str, $file_content = null, $
     }
 
     if ( preg_match( '/^[\'"`]/', $v ) ) {
+        if ( $file_content !== null && $prop_name !== null && nextwp_prop_has_content_ancestor( $prop_name, $file_content ) ) {
+            return NEXTWP_FIELD_CONTENT;
+        }
         if ( preg_match( '/<\s*(?:p|ul|ol|li|div|span|br|h[1-6]|b\b|strong|a\s)/s', $v ) ) {
-            if ( $file_content !== null && $prop_name !== null && nextwp_prop_has_content_ancestor( $prop_name, $file_content ) ) {
-                return NEXTWP_FIELD_CONTENT;
-            }
             return NEXTWP_FIELD_TEXT;
         }
         if ( preg_match( NEXTWP_VALUE_URL_REGEX, trim( $v, '"\'`' ) ) ) {

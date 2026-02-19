@@ -14,18 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array slug as key, title as value
  */
 function nextwp_get_pages_from_app( $project_path ) {
-    $app = rtrim( $project_path, '/' ) . '/src/app';
-    if ( ! is_dir( $app ) ) {
-        $app = rtrim( $project_path, '/' ) . '/app';
-    }
-    if ( ! is_dir( $app ) ) {
-        nextwp_log( 'Pages: app dir not found', $app );
+    $app = nextwp_resolve_app_path( $project_path );
+    if ( $app === null ) {
+        nextwp_log( 'Pages: app dir not found', $project_path );
         return array();
     }
 
     nextwp_log( 'Pages: scanning app', $app );
-    $pages = array();
-    $it = new RecursiveIteratorIterator(
+    $ext_re = implode( '|', NEXTWP_FILE_EXTENSIONS );
+    $pages  = array();
+    $it     = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator( $app, RecursiveDirectoryIterator::SKIP_DOTS ),
         RecursiveIteratorIterator::SELF_FIRST
     );
@@ -35,15 +33,15 @@ function nextwp_get_pages_from_app( $project_path ) {
             continue;
         }
         $name = $file->getFilename();
-        if ( ! preg_match( '/^page\.(js|jsx|ts|tsx)$/', $name ) ) {
+        if ( ! preg_match( '/^page\.(' . $ext_re . ')$/', $name ) ) {
             continue;
         }
         $path = $file->getPathname();
         $rel  = str_replace( $app . DIRECTORY_SEPARATOR, '', $path );
         $rel  = str_replace( DIRECTORY_SEPARATOR, '/', $rel );
-        $rel  = preg_replace( '#/page\.(js|jsx|ts|tsx)$#', '', $rel );
+        $rel  = preg_replace( '#/page\.(' . $ext_re . ')$#', '', $rel );
         $rel  = trim( $rel, '/' );
-        if ( preg_match( '/^page\.(js|jsx|ts|tsx)$/', $rel ) ) {
+        if ( preg_match( '/^page\.(' . $ext_re . ')$/', $rel ) ) {
             $rel = '';
         }
 

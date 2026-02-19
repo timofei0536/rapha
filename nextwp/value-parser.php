@@ -75,6 +75,59 @@ function nextwp_extract_first_object_inner( $value_str ) {
 }
 
 /**
+ * Find position of matching closing brace, respecting quoted strings and escape.
+ *
+ * @param string $str       Full string.
+ * @param int    $open_pos  Position of opening brace (e.g. '{' or '[').
+ * @param string $open_char Opening character.
+ * @param string $close_char Closing character.
+ * @return int|false Index of closing character or false.
+ */
+function nextwp_find_balanced_brace_close( $str, $open_pos, $open_char, $close_char ) {
+    $len = strlen( $str );
+    if ( $open_pos < 0 || $open_pos >= $len || $str[ $open_pos ] !== $open_char ) {
+        return false;
+    }
+    $depth = 0;
+    $i     = $open_pos;
+    while ( $i < $len ) {
+        $c = $str[ $i ];
+        if ( ( $c === '"' || $c === "'" || $c === '`' ) && ( $i === 0 || $str[ $i - 1 ] !== '\\' ) ) {
+            $q = $c;
+            $j = $i + 1;
+            while ( $j < $len ) {
+                if ( $str[ $j ] === '\\' ) {
+                    $j += 2;
+                    continue;
+                }
+                if ( $str[ $j ] === $q ) {
+                    $i = $j;
+                    break;
+                }
+                $j++;
+            }
+            $i++;
+            continue;
+        }
+        if ( $c === $open_char ) {
+            $depth++;
+            $i++;
+            continue;
+        }
+        if ( $c === $close_char ) {
+            $depth--;
+            if ( $depth === 0 ) {
+                return $i;
+            }
+            $i++;
+            continue;
+        }
+        $i++;
+    }
+    return false;
+}
+
+/**
  * Extract one value from string: quoted string, or balanced [...] or {...]. Respects strings and escape.
  *
  * @param string $rest String starting with ", ', `, [ or {.
@@ -101,25 +154,9 @@ function nextwp_extract_one_value( $rest ) {
         return $end !== false ? substr( $rest, 0, $end + 1 ) : null;
     }
     if ( $first === '[' || $first === '{' ) {
-        $close = $first === '[' ? ']' : '}';
-        $depth = 0;
-        $len   = strlen( $rest );
-        for ( $i = 0; $i < $len; $i++ ) {
-            $c = $rest[ $i ];
-            if ( ( $c === '"' || $c === "'" || $c === '`' ) && ( $i === 0 || $rest[ $i - 1 ] !== '\\' ) ) {
-                $q = $c;
-                $j = $i + 1;
-                while ( $j < $len ) {
-                    if ( $rest[ $j ] === '\\' ) { $j += 2; continue; }
-                    if ( $rest[ $j ] === $q ) { $i = $j; break; }
-                    $j++;
-                }
-                continue;
-            }
-            if ( $c === $first ) { $depth++; continue; }
-            if ( $c === $close ) { $depth--; if ( $depth === 0 ) return substr( $rest, 0, $i + 1 ); }
-        }
-        return null;
+        $close_char = $first === '[' ? ']' : '}';
+        $close_pos  = nextwp_find_balanced_brace_close( $rest, 0, $first, $close_char );
+        return $close_pos !== false ? substr( $rest, 0, $close_pos + 1 ) : null;
     }
     return null;
 }

@@ -140,48 +140,17 @@ function nextwp_array_get_elements( $value_str ) {
     if ( $inner === '' ) {
         return array();
     }
-    $len    = strlen( $inner );
-    $out    = array();
-    $i      = 0;
-    $depth  = 0;
-    $in_str = false;
-    $str_ch = '';
-    $start  = null;
+    $len = strlen( $inner );
+    $out = array();
+    $i   = 0;
     while ( $i < $len ) {
-        $c = $inner[ $i ];
-        if ( $in_str ) {
-            if ( $c === '\\' ) {
-                $i += 2;
+        if ( $inner[ $i ] === '{' ) {
+            $close = nextwp_find_balanced_brace_close( $inner, $i, '{', '}' );
+            if ( $close !== false ) {
+                $out[] = trim( substr( $inner, $i, $close - $i + 1 ) );
+                $i     = $close + 1;
                 continue;
             }
-            if ( $c === $str_ch ) {
-                $in_str = false;
-            }
-            $i++;
-            continue;
-        }
-        if ( $c === '"' || $c === "'" || $c === '`' ) {
-            $in_str = true;
-            $str_ch = $c;
-            $i++;
-            continue;
-        }
-        if ( $c === '{' ) {
-            if ( $depth === 0 ) {
-                $start = $i;
-            }
-            $depth++;
-            $i++;
-            continue;
-        }
-        if ( $c === '}' ) {
-            $depth--;
-            if ( $depth === 0 && $start !== null ) {
-                $out[] = trim( substr( $inner, $start, $i - $start + 1 ) );
-                $start = null;
-            }
-            $i++;
-            continue;
         }
         $i++;
     }

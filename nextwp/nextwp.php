@@ -59,6 +59,7 @@ require_once NEXTWP_PATH . '/value-parser.php';
 require_once NEXTWP_PATH . '/field-type-semantics.php';
 require_once NEXTWP_PATH . '/field-types.php';
 require_once NEXTWP_PATH . '/component-schema.php';
+require_once NEXTWP_PATH . '/paths.php';
 require_once NEXTWP_PATH . '/pages.php';
 require_once NEXTWP_PATH . '/components.php';
 
