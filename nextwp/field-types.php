@@ -1,6 +1,16 @@
 <?php
 /**
- * NextWP — standard field types and inference from name (regex).
+ * NextWP — field types. Type inferred only by regex on the field VALUE.
+ *
+ * | type     | definition |
+ * |----------|------------|
+ * | text     | текст, с возможными тегами/символами переноса строк |
+ * | content  | html с предком у которого есть .content |
+ * | image    | V1: объект src + alt. V2: массив таких объектов = gallery |
+ * | href     | обычная ссылка (строка URL или объект с полем href) |
+ * | link     | объект: text, href, target (опционально) |
+ * | gallery  | массив/объект из image |
+ * | repeater | массив повторяющихся объектов (одинаковые ключи) |
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,14 +22,12 @@ define( 'NEXTWP_FIELD_IMAGE', 'image' );
 define( 'NEXTWP_FIELD_GALLERY', 'gallery' );
 define( 'NEXTWP_FIELD_TEXT', 'text' );
 define( 'NEXTWP_FIELD_LINK', 'link' );
+define( 'NEXTWP_FIELD_HREF', 'href' );
 define( 'NEXTWP_FIELD_REPEATER', 'repeater' );
 define( 'NEXTWP_FIELD_GROUP', 'group' );
 
 /**
  * Map our type to ACF field type.
- *
- * @param string $type One of content, image, gallery, text, link, repeater, group.
- * @return string ACF type (wysiwyg, image, gallery, text, link, repeater, group).
  */
 function nextwp_field_type_to_acf( $type ) {
     $map = array(
@@ -28,6 +36,7 @@ function nextwp_field_type_to_acf( $type ) {
         'gallery'  => 'gallery',
         'text'     => 'text',
         'link'     => 'link',
+        'href'     => 'url',
         'repeater' => 'repeater',
         'group'    => 'group',
     );
@@ -35,31 +44,113 @@ function nextwp_field_type_to_acf( $type ) {
 }
 
 /**
- * Infer field type from field name (regex).
- * Order: content → link → gallery → repeater → group → image → text.
- *
- * @param string $name Field/prop name (e.g. title, image, content).
- * @return string One of content, image, gallery, link, repeater, group, text.
+ * Check if prop usage in file has an ancestor (or same tag) with class .content in JSX.
  */
-function nextwp_infer_field_type( $name ) {
-    $name = strtolower( trim( $name ) );
-    if ( preg_match( '/^(content|html|body|wysiwyg|description|content_html|data)$/', $name ) ) {
-        return NEXTWP_FIELD_CONTENT;
+function nextwp_prop_has_content_ancestor( $prop_name, $file_content ) {
+    if ( $file_content === '' || $prop_name === '' ) {
+        return false;
     }
-    if ( preg_match( '/^(link|url|href|cta|button_link|link_|.*_link)$/', $name ) ) {
-        return NEXTWP_FIELD_LINK;
+    $esc = preg_quote( $prop_name, '/' );
+    if ( ! preg_match( '/(?:__html:\s*|>\s*\{\s*)' . $esc . '\b/', $file_content, $m, PREG_OFFSET_CAPTURE ) ) {
+        return false;
     }
-    if ( preg_match( '/^(gallery|images|photos|slides)$/', $name ) ) {
-        return NEXTWP_FIELD_GALLERY;
+    $prop_pos = $m[0][1];
+    $pos = $prop_pos;
+    while ( true ) {
+        $before = substr( $file_content, 0, $pos );
+        $tag_start = strrpos( $before, '<' );
+        if ( $tag_start === false ) {
+            return false;
+        }
+        if ( $tag_start + 1 < strlen( $file_content ) && $file_content[ $tag_start + 1 ] === '/' ) {
+            $pos = $tag_start - 1;
+            continue;
+        }
+        $after_lt = substr( $file_content, $tag_start + 1 );
+        $rel_end = nextwp_find_tag_end( $after_lt, 0 );
+        if ( $rel_end < 0 ) {
+            return false;
+        }
+        $tag_str = substr( $file_content, $tag_start, $rel_end + 2 );
+        if ( preg_match( '/(?:class|className)\s*=\s*["\'][^"\']*\bcontent\b/', $tag_str ) ) {
+            return true;
+        }
+        $pos = $tag_start - 1;
+        if ( $pos < 0 ) {
+            return false;
+        }
     }
-    if ( preg_match( '/^(items|services|tabs|list)$/', $name ) ) {
+    return false;
+}
+
+/**
+ * Find end of opening tag (position of '>') skipping inside quoted strings.
+ */
+function nextwp_find_tag_end( $s, $start = 0 ) {
+    $len = strlen( $s );
+    $in_double = false;
+    $in_single = false;
+    for ( $j = $start; $j < $len; $j++ ) {
+        $c = $s[ $j ];
+        if ( $c === '"' && ! $in_single ) {
+            $in_double = ! $in_double;
+        } elseif ( $c === "'" && ! $in_double ) {
+            $in_single = ! $in_single;
+        } elseif ( ( $c === '>' || $c === '/' ) && ! $in_double && ! $in_single ) {
+            if ( $c === '>' ) {
+                return $j;
+            }
+        }
+    }
+    return -1;
+}
+
+/**
+ * Infer field type only by regex on the value string.
+ * Optional file_content + prop_name: for content type require ancestor with .content.
+ *
+ * @param string      $value_str   Raw default value from file.
+ * @param string|null $file_content Optional, for content: check .content ancestor.
+ * @param string|null $prop_name   Optional, for content: which prop to look up.
+ * @return string content|image|gallery|href|link|repeater|group|text
+ */
+function nextwp_infer_field_type_from_value( $value_str, $file_content = null, $prop_name = null ) {
+    if ( $value_str === null || $value_str === '' ) {
+        return NEXTWP_FIELD_TEXT;
+    }
+    $v = trim( $value_str );
+
+    if ( preg_match( '/^\s*\[\s*\{/s', $v ) ) {
+        if ( preg_match( '/\b(?:src|href)\s*:.*?\balt\s*:/s', $v ) || preg_match( '/\balt\s*:.*?\b(?:src|href)\s*:/s', $v ) ) {
+            return NEXTWP_FIELD_GALLERY;
+        }
         return NEXTWP_FIELD_REPEATER;
     }
-    if ( preg_match( '/^(gm|map|config)$/', $name ) ) {
+
+    if ( preg_match( '/^\s*\{/s', $v ) ) {
+        if ( preg_match( '/\b(?:src|href)\s*:/s', $v ) && preg_match( '/\balt\s*:/s', $v ) ) {
+            return NEXTWP_FIELD_IMAGE;
+        }
+        if ( preg_match( '/\b(?:text|title)\s*:/s', $v ) && preg_match( '/\b(?:href|url|src)\s*:/s', $v ) ) {
+            return NEXTWP_FIELD_LINK;
+        }
+        if ( preg_match( '/\b(?:href|url|src)\s*:/s', $v ) ) {
+            return NEXTWP_FIELD_HREF;
+        }
         return NEXTWP_FIELD_GROUP;
     }
-    if ( preg_match( '/^(image|img|photo|picture|icon|thumb|avatar|logo)$/', $name ) ) {
-        return NEXTWP_FIELD_IMAGE;
+
+    if ( preg_match( '/^[\'"`]/', $v ) ) {
+        if ( preg_match( '/<\s*(?:p|ul|ol|li|div|span|br|h[1-6]|b\b|strong|a\s)/s', $v ) ) {
+            if ( $file_content !== null && $prop_name !== null && nextwp_prop_has_content_ancestor( $prop_name, $file_content ) ) {
+                return NEXTWP_FIELD_CONTENT;
+            }
+            return NEXTWP_FIELD_TEXT;
+        }
+        if ( preg_match( '/^(?:https?:\/\/|tel:|mailto:)/', trim( $v, '"\'`' ) ) ) {
+            return NEXTWP_FIELD_HREF;
+        }
     }
+
     return NEXTWP_FIELD_TEXT;
 }

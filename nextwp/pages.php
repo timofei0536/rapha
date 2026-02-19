@@ -43,6 +43,9 @@ function nextwp_get_pages_from_app( $project_path ) {
         $rel  = str_replace( DIRECTORY_SEPARATOR, '/', $rel );
         $rel  = preg_replace( '#/page\.(js|jsx|ts|tsx)$#', '', $rel );
         $rel  = trim( $rel, '/' );
+        if ( preg_match( '/^page\.(js|jsx|ts|tsx)$/', $rel ) ) {
+            $rel = '';
+        }
 
         if ( preg_match( '#\[[^\]]+\]#', $rel ) ) {
             continue;

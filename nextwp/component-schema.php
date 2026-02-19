@@ -37,38 +37,185 @@ function nextwp_parse_props_from_file( $file_path ) {
 }
 
 /**
- * Parse file for repeater/group default value: get keys from first object in array or from single object.
+ * Extract default value string for a prop from file (DEFAULT_PROPNAME = value).
  *
  * @param string $file_path Full path to component file.
- * @param string $prop_name Prop name (e.g. items, gm).
- * @return array List of sub field names (keys).
+ * @param string $prop_name Prop name (e.g. items, image).
+ * @return string|null Value string or null.
  */
-function nextwp_parse_sub_field_keys_from_file( $file_path, $prop_name ) {
+function nextwp_get_prop_default_value_from_file( $file_path, $prop_name ) {
     if ( ! $file_path || ! is_readable( $file_path ) ) {
-        return array();
+        return null;
     }
     $content = file_get_contents( $file_path );
-    $upper = strtoupper( $prop_name );
-    $variants = array( 'DEFAULT_' . $upper, 'DEFAULT_' . strtoupper( preg_replace( '/[^a-z0-9]/i', '_', $prop_name ) ) );
-    foreach ( $variants as $const ) {
-        if ( preg_match( '/\b' . preg_quote( $const, '/' ) . '\s*=\s*\[\s*\{\s*([^}]+)\s\}\s*\]/s', $content, $m ) ) {
-            $inner = $m[1];
-        } elseif ( preg_match( '/\b' . preg_quote( $const, '/' ) . '\s*=\s*\{\s*([^}]+)\s\}\s*[;\s]/s', $content, $m ) ) {
-            $inner = $m[1];
-        } else {
-            continue;
-        }
-        $keys = array();
-        if ( preg_match_all( '/\b(\w+)\s*[:=]/', $inner, $key_m ) ) {
-            $keys = $key_m[1];
-        }
-        return $keys;
+    $upper = strtoupper( preg_replace( '/[^a-z0-9]/i', '_', $prop_name ) );
+    $const = 'DEFAULT_' . $upper;
+    if ( ! preg_match( '/\b' . preg_quote( $const, '/' ) . '\s*=\s*/', $content, $m, PREG_OFFSET_CAPTURE ) ) {
+        return null;
     }
-    return array();
+    $start = $m[0][1] + strlen( $m[0][0] );
+    $rest = substr( $content, $start );
+    $rest = ltrim( $rest );
+    if ( $rest === '' ) {
+        return null;
+    }
+    $first = $rest[0];
+    if ( $first === '"' || $first === "'" ) {
+        $end = strpos( $rest, $first, 1 );
+        while ( $end !== false && $end > 0 && $rest[ $end - 1 ] === '\\' ) {
+            $end = strpos( $rest, $first, $end + 1 );
+        }
+        return $end !== false ? substr( $rest, 0, $end + 1 ) : null;
+    }
+    if ( $first === '`' ) {
+        $end = strpos( $rest, '`', 1 );
+        return $end !== false ? substr( $rest, 0, $end + 1 ) : null;
+    }
+    if ( $first === '[' ) {
+        $depth = 0;
+        $len = strlen( $rest );
+        for ( $i = 0; $i < $len; $i++ ) {
+            $c = $rest[ $i ];
+            if ( ( $c === '"' || $c === "'" || $c === '`' ) && ( $i === 0 || $rest[ $i - 1 ] !== '\\' ) ) {
+                $close = $c;
+                $j = $i + 1;
+                while ( $j < $len ) {
+                    if ( $rest[ $j ] === '\\' ) { $j += 2; continue; }
+                    if ( $rest[ $j ] === $close ) { $i = $j; break; }
+                    $j++;
+                }
+                continue;
+            }
+            if ( $c === '[' ) { $depth++; continue; }
+            if ( $c === ']' ) { $depth--; if ( $depth === 0 ) return substr( $rest, 0, $i + 1 ); }
+        }
+        return null;
+    }
+    if ( $first === '{' ) {
+        $depth = 0;
+        $len = strlen( $rest );
+        for ( $i = 0; $i < $len; $i++ ) {
+            $c = $rest[ $i ];
+            if ( ( $c === '"' || $c === "'" || $c === '`' ) && ( $i === 0 || $rest[ $i - 1 ] !== '\\' ) ) {
+                $close = $c;
+                $j = $i + 1;
+                while ( $j < $len ) {
+                    if ( $rest[ $j ] === '\\' ) { $j += 2; continue; }
+                    if ( $rest[ $j ] === $close ) { $i = $j; break; }
+                    $j++;
+                }
+                continue;
+            }
+            if ( $c === '{' ) { $depth++; continue; }
+            if ( $c === '}' ) { $depth--; if ( $depth === 0 ) return substr( $rest, 0, $i + 1 ); }
+        }
+        return null;
+    }
+    return null;
 }
 
 /**
- * Build field definitions from component props (name = key, type from regex). Repeater/group get sub_fields from parsed default.
+ * Extract first object from array value (balance braces) or return object content if single object.
+ *
+ * @param string $value_str Full value string.
+ * @return string|null Inner content of first object (keys and values).
+ */
+function nextwp_extract_first_object_inner( $value_str ) {
+    if ( $value_str === null || $value_str === '' ) {
+        return null;
+    }
+    $v = trim( $value_str );
+    if ( preg_match( '/^\s*\{\s*(.*)\s\}\s*$/s', $v, $m ) ) {
+        return $m[1];
+    }
+    if ( preg_match( '/^\s*\[\s*/', $v ) ) {
+        $start = strpos( $v, '{' );
+        if ( $start === false ) {
+            return null;
+        }
+        $depth = 0;
+        $in_str = false;
+        $str_char = '';
+        $len = strlen( $v );
+        for ( $i = $start; $i < $len; $i++ ) {
+            $c = $v[ $i ];
+            if ( ! $in_str ) {
+                if ( $c === '{' ) { $depth++; continue; }
+                if ( $c === '}' ) { $depth--; if ( $depth === 0 ) return trim( substr( $v, $start + 1, $i - $start - 1 ) ); }
+                if ( $c === '"' || $c === "'" || $c === '`' ) { $in_str = true; $str_char = $c; }
+                continue;
+            }
+            if ( $c === '\\' ) { $i++; continue; }
+            if ( $c === $str_char ) { $in_str = false; }
+        }
+    }
+    return null;
+}
+
+/**
+ * Parse first object from value: get [ name => value_snippet ] for repeater/group sub_fields.
+ * Key boundaries only at top level (commas inside quotes or nested {} are ignored).
+ *
+ * @param string $value_str Value from nextwp_get_prop_default_value_from_file.
+ * @return array [ [ 'name' => key, 'value' => value_snippet ], ... ].
+ */
+function nextwp_parse_first_object_key_values( $value_str ) {
+    $inner = nextwp_extract_first_object_inner( $value_str );
+    if ( $inner === null ) {
+        return array();
+    }
+    $len = strlen( $inner );
+    $entries = array();
+    $in_str = false;
+    $str_char = '';
+    $depth = 0;
+    $i = 0;
+    while ( $i < $len ) {
+        $c = $inner[ $i ];
+        if ( $in_str ) {
+            if ( $c === '\\' ) { $i += 2; continue; }
+            if ( $c === $str_char ) { $in_str = false; $i++; continue; }
+            $i++;
+            continue;
+        }
+        if ( $c === '"' || $c === "'" || $c === '`' ) {
+            $in_str = true;
+            $str_char = $c;
+            $i++;
+            continue;
+        }
+        if ( $c === '{' ) { $depth++; $i++; continue; }
+        if ( $c === '}' ) { $depth--; $i++; continue; }
+        if ( $depth !== 0 ) { $i++; continue; }
+        if ( $c === ',' || $i === 0 ) {
+            $comma_pos = ( $c === ',' ) ? $i : -1;
+            $start = $c === ',' ? $i + 1 : $i;
+            $rest = ltrim( substr( $inner, $start ), " \t\n\r" );
+            if ( preg_match( '/^(\w+)\s*:\s*/', $rest, $m ) ) {
+                $val_start = $start + strlen( substr( $inner, $start ) ) - strlen( $rest ) + strlen( $m[0] );
+                $entries[] = array( 'name' => $m[1], 'val_start' => $val_start, 'comma_next' => $comma_pos );
+            }
+            if ( $c === ',' ) {
+                $i++;
+                continue;
+            }
+        }
+        $i++;
+    }
+    $out = array();
+    for ( $j = 0; $j < count( $entries ); $j++ ) {
+        $val_start = $entries[ $j ]['val_start'];
+        $val_end = isset( $entries[ $j + 1 ] ) && $entries[ $j + 1 ]['comma_next'] >= 0
+            ? $entries[ $j + 1 ]['comma_next']
+            : $len;
+        $val_snippet = trim( substr( $inner, $val_start, $val_end - $val_start ) );
+        $out[] = array( 'name' => $entries[ $j ]['name'], 'value' => $val_snippet );
+    }
+    return $out;
+}
+
+/**
+ * Build field definitions from component props. Type only from value (regex on default value), not from prop name.
  *
  * @param string $component_name Component name.
  * @param string $project_path  Project root path.
@@ -86,22 +233,28 @@ function nextwp_get_schema_for_component( $component_name, $project_path ) {
     if ( empty( $prop_names ) ) {
         return array();
     }
+    $file_content = file_get_contents( $file_path );
+    $file_content = $file_content !== false ? $file_content : '';
     $defs = array();
     foreach ( $prop_names as $name ) {
-        $type = nextwp_infer_field_type( $name );
+        $value_str = nextwp_get_prop_default_value_from_file( $file_path, $name );
+        $type = nextwp_infer_field_type_from_value( $value_str, $file_content, $name );
         $def = array( 'name' => $name, 'type' => $type );
         if ( in_array( $type, array( 'repeater', 'group' ), true ) ) {
-            $sub_keys = nextwp_parse_sub_field_keys_from_file( $file_path, $name );
-            if ( ! empty( $sub_keys ) ) {
+            $key_vals = nextwp_parse_first_object_key_values( $value_str );
+            if ( ! empty( $key_vals ) ) {
                 $def['sub_fields'] = array();
-                foreach ( $sub_keys as $key ) {
-                    $def['sub_fields'][] = array( 'name' => $key, 'type' => nextwp_infer_field_type( $key ) );
+                foreach ( $key_vals as $kv ) {
+                    $sub_val = isset( $kv['value'] ) ? $kv['value'] : '';
+                    $def['sub_fields'][] = array(
+                        'name'  => $kv['name'],
+                        'type'  => nextwp_infer_field_type_from_value( $sub_val ),
+                    );
                 }
             } else {
                 $def['sub_fields'] = array(
                     array( 'name' => 'title', 'type' => 'text' ),
-                    array( 'name' => 'content', 'type' => 'content' ),
-                    array( 'name' => 'image', 'type' => 'image' ),
+                    array( 'name' => 'content', 'type' => 'text' ),
                 );
             }
         }
@@ -138,13 +291,17 @@ function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
     $fields = array();
     foreach ( $defs as $i => $def ) {
         $name = isset( $def['name'] ) ? $def['name'] : 'field_' . $i;
-        $type = isset( $def['type'] ) ? $def['type'] : nextwp_infer_field_type( $name );
+        $type = isset( $def['type'] ) ? $def['type'] : nextwp_infer_field_type_from_value( '' );
         $acf_type = nextwp_field_type_to_acf( $type );
         $key = 'field_' . md5( $parent_key . '_' . $name . '_' . $depth );
 
+        $label = preg_replace( '/([a-z])([A-Z])/', '$1 $2', $name );
+        $label = str_replace( array( '_', '-' ), ' ', $label );
+        $label = ucwords( strtolower( trim( $label ) ) );
+
         $field = array(
             'key'   => $key,
-            'label' => ucfirst( str_replace( array( '_', '-' ), ' ', $name ) ),
+            'label' => $label,
             'name'  => $name,
             'type'  => $acf_type,
         );

@@ -198,6 +198,7 @@ function nextwp_create_components_from_dir( $project_path ) {
     foreach ( array_keys( $pages ) as $slug ) {
         $all_component_names = array_merge( $all_component_names, nextwp_get_components_for_page_slug( $project_path, $slug ) );
     }
+    $all_component_names = array_merge( $all_component_names, nextwp_get_components_from_dir( $project_path ) );
     $all_component_names = array_values( array_unique( $all_component_names ) );
 
     foreach ( $all_component_names as $name ) {
