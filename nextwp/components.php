@@ -126,8 +126,9 @@ function nextwp_create_components_from_dir( $project_path ) {
 
         $fields = array();
         foreach ( $components as $name ) {
-            $tab_key = 'field_' . md5( $group_key . '_tab_' . $name );
-            $msg_key = 'field_' . md5( $group_key . '_msg_' . $name );
+            $comp_key = NEXTWP_ACF_PREFIX . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
+            $tab_key  = 'field_' . md5( $group_key . '_tab_' . $name );
+            $clone_key = 'field_' . md5( $group_key . '_clone_' . $name );
             $fields[] = array(
                 'key'   => $tab_key,
                 'label' => $name,
@@ -135,12 +136,13 @@ function nextwp_create_components_from_dir( $project_path ) {
                 'type'  => 'tab',
             );
             $fields[] = array(
-                'key'       => $msg_key,
-                'label'     => 'Component',
-                'name'      => '',
-                'type'      => 'message',
-                'message'   => 'Component',
-                'new_lines' => 'br',
+                'key'     => $clone_key,
+                'label'   => 'Component',
+                'name'    => 'component_' . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) ),
+                'type'    => 'clone',
+                'clone'   => array( $comp_key ),
+                'display' => 'seamless',
+                'layout'  => 'block',
             );
         }
 
@@ -190,8 +192,9 @@ function nextwp_set_component_groups_description() {
             continue;
         }
         $g['description'] = 'Component';
+        $g['location']    = array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) );
         acf_update_field_group( $g );
-        nextwp_log( 'Components: set description Component', $g['title'] );
+        nextwp_log( 'Components: set description Component + location none', $g['title'] );
     }
 }
 

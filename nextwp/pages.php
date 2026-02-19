@@ -48,7 +48,7 @@ function nextwp_get_pages_from_app( $project_path ) {
             continue;
         }
 
-        $slug = ( $rel === '' || $rel === 'page' ) ? '' : $rel;
+        $slug = ( $rel === '' || strtolower( $rel ) === 'page' ) ? '' : $rel;
         $title = $slug === '' ? 'Home' : ucfirst( str_replace( '-', ' ', $slug ) );
         $pages[ $slug ] = $title;
     }
@@ -87,6 +87,32 @@ function nextwp_create_pages_from_app( $project_path ) {
             $created[] = $post_id;
         } else {
             nextwp_log( 'Pages: insert error', $post_id->get_error_message() );
+        }
+    }
+
+    $remove_slugs = array( 'page', 'page_js', 'page-js', 'page.js' );
+    foreach ( $remove_slugs as $bad_slug ) {
+        $p = get_page_by_path( $bad_slug, OBJECT, 'page' );
+        if ( $p && get_post_meta( $p->ID, NEXTWP_META, true ) ) {
+            wp_delete_post( (int) $p->ID, true );
+            $created = array_diff( $created, array( $p->ID ) );
+            nextwp_log( 'Pages: removed unnecessary page', array( 'slug' => $bad_slug ) );
+        }
+    }
+    $our_pages = get_posts( array(
+        'post_type'      => 'page',
+        'post_status'    => 'any',
+        'meta_key'       => NEXTWP_META,
+        'meta_value'     => '1',
+        'posts_per_page' => -1,
+    ) );
+    foreach ( $our_pages as $p ) {
+        $name = $p->post_name;
+        $title = $p->post_title;
+        if ( in_array( $name, $remove_slugs, true ) || $title === 'Page' || $title === 'Page.js' ) {
+            wp_delete_post( (int) $p->ID, true );
+            $created = array_diff( $created, array( $p->ID ) );
+            nextwp_log( 'Pages: removed unnecessary page', array( 'slug' => $name, 'title' => $title ) );
         }
     }
 

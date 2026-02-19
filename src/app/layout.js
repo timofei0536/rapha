@@ -107,3 +107,4 @@ export default function RootLayout({ children }) {
 // Включить ошибки в function.php
 // Включить RestAPi
 // По умолчанию включить ACF, а то скрыто.
+// в fucntion.js добавить nextwp по умолчанию если он существует.
