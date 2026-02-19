@@ -80,8 +80,24 @@ function nextwp_run() {
     $project_path = defined( 'NEXTWP_PROJECT_PATH' ) ? NEXTWP_PROJECT_PATH : NEXTWP_PATH;
     nextwp_log( 'Run migration', array( 'project_path' => $project_path ) );
     nextwp_create_pages_from_app( $project_path );
-    nextwp_create_components_from_dir( $project_path );
+
+    // Skip ACF sync on page/post edit screen so clone fields render (no re-import + cache clear on same request).
+    if ( ! nextwp_is_edit_screen() ) {
+        nextwp_create_components_from_dir( $project_path );
+    }
     nextwp_log( 'Migration run finished' );
+}
+
+/**
+ * True if current request is the post/page edit screen (where ACF renders the form).
+ * Uses $pagenow because get_current_screen() is not available during init.
+ */
+function nextwp_is_edit_screen() {
+    if ( ! is_admin() ) {
+        return false;
+    }
+    global $pagenow;
+    return $pagenow === 'post.php' && ! empty( $_GET['action'] ) && $_GET['action'] === 'edit';
 }
 
 /**

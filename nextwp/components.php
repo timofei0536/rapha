@@ -154,6 +154,37 @@ function nextwp_create_components_from_dir( $project_path ) {
     $pages = nextwp_get_pages_from_app( $project_path );
     $created = (array) get_option( NEXTWP_OPTION_ACF, array() );
 
+    // 1) Build and fill all component groups first so clone fields resolve to groups that already have fields.
+    $all_component_names = array();
+    foreach ( array_keys( $pages ) as $slug ) {
+        $all_component_names = array_merge( $all_component_names, nextwp_get_components_for_page_slug( $project_path, $slug ) );
+    }
+    $all_component_names = array_merge( $all_component_names, nextwp_get_components_from_dir( $project_path ) );
+    $all_component_names = array_values( array_unique( $all_component_names ) );
+
+    foreach ( $all_component_names as $name ) {
+        $comp_key = NEXTWP_ACF_PREFIX . nextwp_name_to_acf_key( $name );
+        $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $comp_key ) : null;
+        if ( ! $existing ) {
+            $group = array(
+                'key'          => $comp_key,
+                'title'        => $name,
+                'description'  => 'Component',
+                'fields'       => array(),
+                'location'     => array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) ),
+                'menu_order'   => 0,
+                'active'       => true,
+            );
+            acf_import_field_group( $group );
+            nextwp_log( 'Components: created component group', array( 'name' => $name ) );
+        }
+        $created[] = $comp_key;
+    }
+
+    nextwp_set_component_groups_description();
+    nextwp_apply_component_fields_from_schema( $project_path );
+
+    // 2) Then create/update page groups (tabs + clone). Clone targets already have fields.
     foreach ( array_keys( $pages ) as $slug ) {
         $check_slug = $slug ? $slug : 'home';
         $page = get_page_by_path( $check_slug, OBJECT, 'page' );
@@ -176,13 +207,14 @@ function nextwp_create_components_from_dir( $project_path ) {
                 'type'  => 'tab',
             );
             $fields[] = array(
-                'key'     => $clone_key,
-                'label'   => 'Component',
-                'name'    => 'component_' . nextwp_name_to_acf_key( $name ),
-                'type'    => 'clone',
-                'clone'   => array( $comp_key ),
-                'display' => 'seamless',
-                'layout'  => 'block',
+                'key'          => $clone_key,
+                'label'        => 'Component',
+                'name'         => 'component_' . nextwp_name_to_acf_key( $name ),
+                'type'         => 'clone',
+                'clone'        => array( $comp_key ),
+                'display'      => 'seamless',
+                'layout'       => 'block',
+                'prefix_name'  => 1,
             );
         }
 
@@ -210,37 +242,24 @@ function nextwp_create_components_from_dir( $project_path ) {
         $created[] = $group_key;
     }
 
-    $all_component_names = array();
-    foreach ( array_keys( $pages ) as $slug ) {
-        $all_component_names = array_merge( $all_component_names, nextwp_get_components_for_page_slug( $project_path, $slug ) );
-    }
-    $all_component_names = array_merge( $all_component_names, nextwp_get_components_from_dir( $project_path ) );
-    $all_component_names = array_values( array_unique( $all_component_names ) );
-
-    foreach ( $all_component_names as $name ) {
-        $comp_key = NEXTWP_ACF_PREFIX . nextwp_name_to_acf_key( $name );
-        $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $comp_key ) : null;
-        if ( ! $existing ) {
-            $group = array(
-                'key'          => $comp_key,
-                'title'        => $name,
-                'description'  => 'Component',
-                'fields'       => array(),
-                'location'     => array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) ),
-                'menu_order'   => 0,
-                'active'       => true,
-            );
-            acf_import_field_group( $group );
-            nextwp_log( 'Components: created component group', array( 'name' => $name ) );
-        }
-        $created[] = $comp_key;
-    }
-
     update_option( NEXTWP_OPTION_ACF, array_values( array_unique( $created ) ) );
     nextwp_log( 'Components: page + component groups (tracked)', count( $created ) );
 
-    nextwp_set_component_groups_description();
-    nextwp_apply_component_fields_from_schema( $project_path );
+    nextwp_clear_acf_cache();
+}
+
+/**
+ * Clear ACF internal cache so the next load (e.g. post edit screen) sees updated field groups and clone targets.
+ * Without this, clone fields can appear empty until the page is re-saved.
+ */
+function nextwp_clear_acf_cache() {
+    wp_cache_delete( 'field_groups', 'acf' );
+    if ( function_exists( 'acf_get_store' ) ) {
+        $store = acf_get_store( 'acf-field-group' );
+        if ( $store && method_exists( $store, 'reset' ) ) {
+            $store->reset();
+        }
+    }
 }
 
 /**
