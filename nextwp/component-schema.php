@@ -35,12 +35,12 @@ function nextwp_get_component_schema() {
             array( 'name' => 'image', 'type' => 'image' ),
         ),
         'Careers' => array(
-            array( 'name' => 'heading', 'type' => 'text' ),
+            array( 'name' => 'title', 'type' => 'text' ),
             array( 'name' => 'content', 'type' => 'content' ),
             array( 'name' => 'gallery', 'type' => 'gallery' ),
         ),
         'About' => array(
-            array( 'name' => 'sectionTitle', 'type' => 'text' ),
+            array( 'name' => 'title', 'type' => 'text' ),
             array(
                 'name' => 'gm',
                 'type' => 'group',
@@ -82,7 +82,7 @@ function nextwp_get_component_schema() {
                 'type' => 'repeater',
                 'sub_fields' => array(
                     array( 'name' => 'title', 'type' => 'text' ),
-                    array( 'name' => 'text', 'type' => 'content' ),
+                    array( 'name' => 'content', 'type' => 'content' ),
                 ),
             ),
         ),
@@ -94,7 +94,7 @@ function nextwp_get_component_schema() {
                 'sub_fields' => array(
                     array( 'name' => 'image', 'type' => 'image' ),
                     array( 'name' => 'title', 'type' => 'text' ),
-                    array( 'name' => 'text', 'type' => 'content' ),
+                    array( 'name' => 'content', 'type' => 'content' ),
                     array( 'name' => 'link', 'type' => 'link' ),
                 ),
             ),
@@ -111,9 +111,9 @@ function nextwp_get_component_schema() {
             ),
         ),
         'Team' => array(
-            array( 'name' => 'titleSmall', 'type' => 'text' ),
+            array( 'name' => 'subtitle', 'type' => 'text' ),
             array( 'name' => 'title', 'type' => 'text' ),
-            array( 'name' => 'text', 'type' => 'content' ),
+            array( 'name' => 'content', 'type' => 'content' ),
             array(
                 'name' => 'gallery',
                 'type' => 'group',

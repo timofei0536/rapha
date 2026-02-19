@@ -1,7 +1,7 @@
 import "./Careers.scss";
 import Image from "next/image";
 
-const DEFAULT_HEADING = "At El-Rapha Hospital, we're dedicated to providing compassionate, high-quality healthcare to our community and beyond.";
+const DEFAULT_TITLE = "At El-Rapha Hospital, we're dedicated to providing compassionate, high-quality healthcare to our community and beyond.";
 const DEFAULT_CONTENT = `<p>Our team is made up of passionate professionals, doctors, nurses, technicians, and support staff, all working together to improve lives every day.</p>
 <p>We believe in continuous learning, teamwork, and respect for every individual. Whether you're starting your medical career or bringing years of experience, you'll find an environment that values your growth and your contribution.</p>
 <p>Join us in shaping a healthier future for Gabon and the region.</p>`;
@@ -11,13 +11,13 @@ const DEFAULT_GALLERY = [
   { image: { src: "/images/careers3.png", alt: "El-Rapha Hospital team" } },
 ];
 
-export default function Careers({ heading = DEFAULT_HEADING, content = DEFAULT_CONTENT, gallery = DEFAULT_GALLERY }) {
+export default function Careers({ title = DEFAULT_TITLE, content = DEFAULT_CONTENT, gallery = DEFAULT_GALLERY }) {
   return (
     <section className="careers">
       <div className="center-wrap center-wrap--small">
         <div className="careers__top">
           <div className="careers__statement">
-            <h2 className="careers__heading simple-title">{heading}</h2>
+            <h2 className="careers__heading simple-title">{title}</h2>
           </div>
           <div className="careers__content content" dangerouslySetInnerHTML={{ __html: content }} />
         </div>

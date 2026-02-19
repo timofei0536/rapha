@@ -11,11 +11,11 @@ import Send from "@/components/ui/icons/Download";
 const DEFAULT_TITLE = "Our Services";
 const DEFAULT_IMAGE = { src: "/images/services.png", alt: "services-background" };
 const DEFAULT_SERVICES = [
-    { title: "Emergencies", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { title: "Surgery &\n Operating room", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance" },
-    { title: "Medical Imaging", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { title: "Analysis Laboratory", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { title: "Gynecology-Obstetrics", text: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Emergencies", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Surgery &\n Operating room", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance" },
+    { title: "Medical Imaging", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Analysis Laboratory", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Gynecology-Obstetrics", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
 ];
 const SERVICE_ICONS = [Icon1, Icon2, Icon3, Icon4, Icon5];
 
@@ -40,7 +40,7 @@ export default function Services({ title = DEFAULT_TITLE, image = DEFAULT_IMAGE,
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>
                                 <div className="services__item-text content">
-                                    <p>{item.text}</p>
+                                    <p>{item.content}</p>
                                 </div>
                                 <Btn text="Learn more" className="btn--transparent btn--small" />
                             </div>
