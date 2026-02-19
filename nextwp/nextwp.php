@@ -12,10 +12,6 @@
  * Rollback: open site as admin with ?nextwp_rollback=1
  *
  * Debug: define( 'NEXTWP_DEBUG', true ); before require to get echo + console.log.
- *
- * ACF deprecation (PHP 8.2): copy nextwp/php82-deprecation-suppress.php to
- * wp-content/mu-plugins/0-suppress-deprecation.php (rename so it loads first).
- * If notices still show, in wp-config.php add: error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

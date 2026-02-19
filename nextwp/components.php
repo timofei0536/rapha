@@ -1,6 +1,6 @@
 <?php
 /**
- * NextWP — create ACF field groups from Next components/ (no inner fields yet).
+ * NextWP — one ACF field group per page with comment "Page", components as tabs with comment "Component".
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,68 +81,27 @@ function nextwp_parse_components_from_page_file( $file_path ) {
 }
 
 /**
- * Build map: component_name => array of page slugs that use it (from Next.js page files).
+ * Get component names used on a page (from Next.js file), filtered by ignore list.
  *
  * @param string $project_path Path to Next project.
- * @return array Associative array component => array of slugs.
+ * @param string $slug Page slug.
+ * @return array Component names.
  */
-function nextwp_get_component_pages_map( $project_path ) {
-    $pages = nextwp_get_pages_from_app( $project_path );
-    $map  = array();
-    foreach ( array_keys( $pages ) as $slug ) {
-        $path = nextwp_get_page_file_path( $project_path, $slug );
-        $components = nextwp_parse_components_from_page_file( $path );
-        foreach ( $components as $name ) {
-            if ( ! isset( $map[ $name ] ) ) {
-                $map[ $name ] = array();
-            }
-            $map[ $name ][] = $slug;
+function nextwp_get_components_for_page_slug( $project_path, $slug ) {
+    $path = nextwp_get_page_file_path( $project_path, $slug );
+    $names = nextwp_parse_components_from_page_file( $path );
+    $ignore = array_map( 'trim', explode( ',', strtolower( NEXTWP_IGNORE_COMPONENTS ) ) );
+    $out = array();
+    foreach ( $names as $name ) {
+        if ( ! in_array( strtolower( $name ), $ignore, true ) ) {
+            $out[] = $name;
         }
     }
-    return $map;
+    return $out;
 }
 
 /**
- * Get WP page IDs for pages where this component is used (from Next.js).
- *
- * @param string $component_name Component name.
- * @param string $project_path Path to Next project.
- * @return array Page IDs.
- */
-function nextwp_get_page_ids_for_component( $component_name, $project_path ) {
-    $map = nextwp_get_component_pages_map( $project_path );
-    $slugs = isset( $map[ $component_name ] ) ? $map[ $component_name ] : array();
-    $ids = array();
-    foreach ( $slugs as $slug ) {
-        $check_slug = $slug ? $slug : 'home';
-        $page = get_page_by_path( $check_slug, OBJECT, 'page' );
-        if ( $page && isset( $page->ID ) ) {
-            $ids[] = (int) $page->ID;
-        }
-    }
-    return $ids;
-}
-
-/**
- * ACF location rule: show only on these page IDs (one OR group per page).
- * Empty page_ids = show on no page (rule that does not match), so group does not appear everywhere.
- *
- * @param array $page_ids Page post IDs.
- * @return array ACF location array.
- */
-function nextwp_build_acf_location_for_pages( $page_ids ) {
-    if ( empty( $page_ids ) ) {
-        return array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) );
-    }
-    $rules = array();
-    foreach ( $page_ids as $id ) {
-        $rules[] = array( array( 'param' => 'page', 'operator' => '==', 'value' => (string) $id ) );
-    }
-    return $rules;
-}
-
-/**
- * Create one ACF group per component. Idempotent. Location = only pages that use it in Next.js.
+ * Create one ACF group per page: title "Page", description "Page", components as tabs; each tab has message "Component".
  *
  * @param string $project_path Path to Next project.
  */
@@ -152,44 +111,92 @@ function nextwp_create_components_from_dir( $project_path ) {
         return;
     }
 
-    $names = nextwp_get_components_from_dir( $project_path );
+    $pages = nextwp_get_pages_from_app( $project_path );
     $created = (array) get_option( NEXTWP_OPTION_ACF, array() );
 
-    foreach ( $names as $name ) {
-        $key = NEXTWP_ACF_PREFIX . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
-        $page_ids = nextwp_get_page_ids_for_component( $name, $project_path );
-        $location = nextwp_build_acf_location_for_pages( $page_ids );
-
-        $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $key ) : null;
-        if ( $existing && isset( $existing['ID'] ) ) {
-            $existing['location'] = $location;
-            $existing['fields']   = array();
-            acf_import_field_group( $existing );
-            nextwp_log( 'Components: updated location + cleared fields', array( 'name' => $name, 'pages' => count( $page_ids ) ) );
-            $created[] = $key;
+    foreach ( array_keys( $pages ) as $slug ) {
+        $check_slug = $slug ? $slug : 'home';
+        $page = get_page_by_path( $check_slug, OBJECT, 'page' );
+        if ( ! $page || ! isset( $page->ID ) ) {
             continue;
         }
+        $page_id = (int) $page->ID;
+        $components = nextwp_get_components_for_page_slug( $project_path, $slug );
+        $group_key = NEXTWP_ACF_PREFIX . 'page_' . ( $slug ? strtolower( preg_replace( '/[^a-z0-9]/i', '_', $slug ) ) : 'home' );
 
-        nextwp_log( 'Components: create ACF group', array( 'name' => $name, 'key' => $key, 'pages' => count( $page_ids ) ) );
+        $fields = array();
+        foreach ( $components as $name ) {
+            $tab_key = 'field_' . md5( $group_key . '_tab_' . $name );
+            $msg_key = 'field_' . md5( $group_key . '_msg_' . $name );
+            $fields[] = array(
+                'key'   => $tab_key,
+                'label' => $name,
+                'name'  => '',
+                'type'  => 'tab',
+            );
+            $fields[] = array(
+                'key'       => $msg_key,
+                'label'     => 'Component',
+                'name'      => '',
+                'type'      => 'message',
+                'message'   => 'Component',
+                'new_lines' => 'br',
+            );
+        }
+
+        $page_title = isset( $pages[ $slug ] ) ? $pages[ $slug ] : ucfirst( $check_slug );
+        $location = array( array( array( 'param' => 'page', 'operator' => '==', 'value' => (string) $page_id ) ) );
         $group = array(
-            'key'        => $key,
-            'title'      => $name,
-            'fields'     => array(),
-            'location'   => $location,
-            'menu_order' => 0,
-            'active'     => true,
+            'key'         => $group_key,
+            'title'       => $page_title . ' Page',
+            'description' => 'Page',
+            'fields'      => $fields,
+            'location'    => $location,
+            'menu_order'  => 0,
+            'active'      => true,
         );
 
-        acf_import_field_group( $group );
-        $created[] = $key;
+        $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $group_key ) : null;
+        if ( $existing && isset( $existing['ID'] ) ) {
+            $group['ID'] = $existing['ID'];
+            acf_import_field_group( $group );
+            nextwp_log( 'Components: updated page group', array( 'slug' => $check_slug, 'components' => count( $components ) ) );
+        } else {
+            acf_import_field_group( $group );
+            nextwp_log( 'Components: created page group', array( 'slug' => $check_slug, 'components' => count( $components ) ) );
+        }
+        $created[] = $group_key;
     }
 
     update_option( NEXTWP_OPTION_ACF, array_values( array_unique( $created ) ) );
-    nextwp_log( 'Components: total groups (tracked)', count( $created ) );
+    nextwp_log( 'Components: page groups (tracked)', count( $created ) );
+
+    nextwp_set_component_groups_description();
 }
 
 /**
- * Delete all ACF groups created by this script.
+ * Set description "Component" on all our legacy component groups (so "Component" shows in Field Groups list).
+ */
+function nextwp_set_component_groups_description() {
+    if ( ! function_exists( 'acf_get_field_groups' ) || ! function_exists( 'acf_update_field_group' ) ) {
+        return;
+    }
+    $all = acf_get_field_groups();
+    $prefix = NEXTWP_ACF_PREFIX;
+    $page_prefix = $prefix . 'page_';
+    foreach ( $all as $g ) {
+        $key = isset( $g['key'] ) ? $g['key'] : '';
+        if ( strpos( $key, $prefix ) !== 0 || strpos( $key, $page_prefix ) === 0 ) {
+            continue;
+        }
+        $g['description'] = 'Component';
+        acf_update_field_group( $g );
+        nextwp_log( 'Components: set description Component', $g['title'] );
+    }
+}
+
+/**
+ * Delete all ACF groups created by this script (page groups).
  */
 function nextwp_rollback_components() {
     if ( ! function_exists( 'acf_get_field_group' ) || ! function_exists( 'acf_delete_field_group' ) ) {
