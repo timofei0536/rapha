@@ -211,8 +211,14 @@ function hasContentAncestorInJSX(ast, propName) {
         }
       }
       stack.push(hasContent);
+      for (const child of node.children || []) visit(child);
+      stack.pop();
+      return;
     }
     if (node.type === 'Identifier' && node.name === propName && stack.some(Boolean)) {
+      found = true;
+    }
+    if (node.type === 'MemberExpression' && node.property?.name === propName && stack.some(Boolean)) {
       found = true;
     }
     for (const k of Object.keys(node)) {
@@ -220,24 +226,24 @@ function hasContentAncestorInJSX(ast, propName) {
       if (Array.isArray(child)) child.forEach(visit);
       else if (child && typeof child === 'object' && child.type) visit(child);
     }
-    if (node.type === 'JSXElement') stack.pop();
   };
   visit(ast);
   return found;
 }
 
-function buildFieldDef(name, val, constants, contentAncestor) {
+function buildFieldDef(name, val, constants, contentAncestor, ast) {
   const type = inferTypeFromValue(val, { hasContentAncestor: contentAncestor });
   const def = { name, type };
 
-  if (type === 'repeater' || type === 'group') {
+  if ((type === 'repeater' || type === 'group') && ast) {
     const first = Array.isArray(val) ? val[0] : val;
     if (first && typeof first === 'object' && first !== null) {
       const keys = Object.keys(first);
       if (keys.length > 0) {
         def.sub_fields = keys.map((k) => {
           const subVal = first[k];
-          return buildFieldDef(k, subVal, constants, false);
+          const subContent = contentAncestor ? false : hasContentAncestorInJSX(ast, k);
+          return buildFieldDef(k, subVal, constants, subContent, ast);
         });
       }
     }
@@ -285,7 +291,7 @@ function getSchemaForComponent(componentName) {
       }
     }
     const hasContentAncestor = hasContentAncestorInJSX(ast, name);
-    fields.push(buildFieldDef(name, val, constants, hasContentAncestor));
+    fields.push(buildFieldDef(name, val, constants, hasContentAncestor, ast));
   }
 
   return fields;

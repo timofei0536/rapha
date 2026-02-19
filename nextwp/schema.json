@@ -52,7 +52,7 @@
     },
     {
       "name": "content",
-      "type": "content"
+      "type": "text"
     },
     {
       "name": "image",
@@ -66,7 +66,7 @@
     },
     {
       "name": "content",
-      "type": "content"
+      "type": "text"
     },
     {
       "name": "gallery",
@@ -206,7 +206,7 @@
     },
     {
       "name": "content",
-      "type": "content"
+      "type": "text"
     }
   ],
   "News": [
@@ -228,7 +228,7 @@
         },
         {
           "name": "content",
-          "type": "text"
+          "type": "content"
         }
       ]
     }
@@ -336,7 +336,7 @@
         },
         {
           "name": "content",
-          "type": "text"
+          "type": "content"
         }
       ]
     }

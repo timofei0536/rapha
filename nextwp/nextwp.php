@@ -9,9 +9,8 @@
  *    require_once get_template_directory() . '/nextwp/nextwp.php';
  *    add_action( 'init', 'nextwp_run', 11 );
  *
- * 4) (Recommended) Generate schema.json locally so PHP uses it instead of parsing JS:
- *    npm run nextwp:schema
- *    Then upload nextwp/ including schema.json. On PHP-only hosting no Node is needed.
+ * 4) Generate schema.json locally (required): npm run nextwp:schema
+ *    Upload nextwp/ including schema.json. On PHP-only hosting no Node is needed.
  *
  * Rollback: open site as admin with ?nextwp_rollback=1
  *
@@ -59,8 +58,6 @@ function nextwp_log( $message, $data = null ) {
     }
 }
 
-require_once NEXTWP_PATH . '/value-parser.php';
-require_once NEXTWP_PATH . '/field-type-semantics.php';
 require_once NEXTWP_PATH . '/field-types.php';
 require_once NEXTWP_PATH . '/component-schema.php';
 require_once NEXTWP_PATH . '/paths.php';
