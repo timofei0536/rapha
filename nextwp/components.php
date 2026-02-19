@@ -174,6 +174,7 @@ function nextwp_create_components_from_dir( $project_path ) {
     nextwp_log( 'Components: page groups (tracked)', count( $created ) );
 
     nextwp_set_component_groups_description();
+    nextwp_apply_component_fields_from_schema();
 }
 
 /**
@@ -196,6 +197,35 @@ function nextwp_set_component_groups_description() {
         $g['menu_order']  = 0;
         acf_update_field_group( $g );
         nextwp_log( 'Components: set description Component + location none', $g['title'] );
+    }
+}
+
+/**
+ * Apply fields from component schema to each component group (content, image, gallery, text, link, repeater, group).
+ */
+function nextwp_apply_component_fields_from_schema() {
+    if ( ! function_exists( 'acf_get_field_groups' ) || ! function_exists( 'acf_import_field_group' ) ) {
+        return;
+    }
+    $all = acf_get_field_groups();
+    $prefix = NEXTWP_ACF_PREFIX;
+    $page_prefix = $prefix . 'page_';
+    foreach ( $all as $g ) {
+        $key = isset( $g['key'] ) ? $g['key'] : '';
+        if ( strpos( $key, $prefix ) !== 0 || strpos( $key, $page_prefix ) === 0 ) {
+            continue;
+        }
+        $component_name = isset( $g['title'] ) ? $g['title'] : '';
+        if ( ! $component_name ) {
+            continue;
+        }
+        $fields = nextwp_build_acf_fields_from_schema( $component_name, $key );
+        if ( empty( $fields ) ) {
+            continue;
+        }
+        $g['fields'] = $fields;
+        acf_import_field_group( $g );
+        nextwp_log( 'Components: applied schema fields', array( 'component' => $component_name, 'count' => count( $fields ) ) );
     }
 }
 
