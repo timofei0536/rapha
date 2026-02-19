@@ -1,7 +1,10 @@
 <?php
 /**
- * NextWP — semantics: is value string link/image/gallery by values (used by field-types).
+ * NextWP — semantics: link/image/gallery by values only (no key names).
  * Requires value-parser.php.
+ *
+ * src = path or image resource (path starting with /, or image extension, or URL to image).
+ * url = link (http/tel/mailto) that is not an image resource.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,31 +17,70 @@ define( 'NEXTWP_VALUE_URL_REGEX', '/^(?:https?:\/\/|tel:|mailto:)/' );
 /** Regex: value looks like URL or path (includes leading /). */
 define( 'NEXTWP_VALUE_URL_OR_PATH_REGEX', '/^(?:https?:\/\/|tel:|mailto:|\/)/' );
 
+/** Regex: path/URL has image file extension. */
+define( 'NEXTWP_VALUE_IMAGE_EXT_REGEX', '/\.(png|jpe?g|gif|webp|svg|ico)(\?|$)/i' );
+
 /**
- * Check if object has link semantics: key href or url (or src when value is not image path) with URL + at least one text.
+ * Value is image src: path (starts with /), or has image extension, or full URL pointing to image.
+ *
+ * @param string $content Single string value (unquoted).
+ * @return bool
+ */
+function nextwp_value_is_image_src( $content ) {
+    if ( $content === '' ) {
+        return false;
+    }
+    $c = trim( $content );
+    if ( preg_match( '/^\//', $c ) ) {
+        return true;
+    }
+    if ( preg_match( NEXTWP_VALUE_IMAGE_EXT_REGEX, $c ) ) {
+        return true;
+    }
+    if ( preg_match( NEXTWP_VALUE_URL_REGEX, $c ) && ( preg_match( NEXTWP_VALUE_IMAGE_EXT_REGEX, $c ) || strpos( $c, '/images/' ) !== false ) ) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Value is link url: http/tel/mailto and not an image resource.
+ *
+ * @param string $content Single string value (unquoted).
+ * @return bool
+ */
+function nextwp_value_is_link_url( $content ) {
+    if ( $content === '' ) {
+        return false;
+    }
+    $c = trim( $content );
+    if ( ! preg_match( NEXTWP_VALUE_URL_REGEX, $c ) ) {
+        return false;
+    }
+    return ! nextwp_value_is_image_src( $c );
+}
+
+/**
+ * Object has link semantics by values only: at least one link URL + at least one text.
  *
  * @param string $value_str Object value string.
  * @return bool
  */
 function nextwp_object_value_is_link_by_values( $value_str ) {
-    $pairs    = nextwp_parse_first_object_key_values( $value_str );
-    $has_url  = false;
-    $has_text = false;
-    foreach ( $pairs as $p ) {
-        $key     = isset( $p['name'] ) ? $p['name'] : '';
-        $content = nextwp_get_quoted_string_content( $p['value'] );
-        if ( $content === null || $content === '' ) {
+    $values = nextwp_collect_string_values_from_object( $value_str );
+    $has_link_url = false;
+    $has_text     = false;
+    foreach ( $values as $content ) {
+        if ( $content === '' ) {
             continue;
         }
-        if ( ( $key === 'href' || $key === 'url' ) && preg_match( NEXTWP_VALUE_URL_REGEX, $content ) ) {
-            $has_url = true;
-        } elseif ( $key === 'src' && preg_match( NEXTWP_VALUE_URL_REGEX, $content ) && stripos( $content, 'image' ) === false ) {
-            $has_url = true;
-        } else {
+        if ( nextwp_value_is_link_url( $content ) ) {
+            $has_link_url = true;
+        } elseif ( ! nextwp_value_is_image_src( $content ) && ! preg_match( NEXTWP_VALUE_URL_REGEX, $content ) ) {
             $has_text = true;
         }
     }
-    return $has_url && $has_text;
+    return $has_link_url && $has_text;
 }
 
 /**
@@ -68,61 +110,36 @@ function nextwp_collect_string_values_from_object( $value_str ) {
 }
 
 /**
- * Check if object has "single image" semantics: exactly one URL/path that contains "image" and one text; nesting allowed.
+ * Object has "single image" semantics by values only: exactly one image src + one text; nesting allowed.
  *
  * @param string $value_str Object value string.
  * @return bool
  */
 function nextwp_object_has_single_image_values_only( $value_str ) {
     $values = nextwp_collect_string_values_from_object( $value_str );
-    $urls   = 0;
-    $texts  = 0;
+    $src_count = 0;
+    $text_count = 0;
     foreach ( $values as $content ) {
         if ( $content === '' ) {
             continue;
         }
-        if ( preg_match( NEXTWP_VALUE_URL_OR_PATH_REGEX, $content ) && stripos( $content, 'image' ) !== false ) {
-            $urls++;
+        if ( nextwp_value_is_image_src( $content ) ) {
+            $src_count++;
         } else {
-            $texts++;
+            $text_count++;
         }
     }
-    return $urls === 1 && $texts === 1;
+    return $src_count === 1 && $text_count === 1;
 }
 
 /**
- * Check if a single object has image semantics: key src with URL/path that contains "image" + text; no nested objects.
+ * Object has image semantics by values only: exactly one image src + one text; nesting allowed.
  *
  * @param string $value_str Object value string.
  * @return bool
  */
 function nextwp_object_value_is_image_by_values( $value_str ) {
-    $pairs = nextwp_parse_first_object_key_values( $value_str );
-    if ( empty( $pairs ) ) {
-        return false;
-    }
-    $has_src_image = false;
-    $has_text      = false;
-    foreach ( $pairs as $p ) {
-        $val = trim( $p['value'] );
-        if ( strlen( $val ) < 2 ) {
-            continue;
-        }
-        if ( $val[0] === '{' ) {
-            return false;
-        }
-        $key     = isset( $p['name'] ) ? $p['name'] : '';
-        $content = nextwp_get_quoted_string_content( $p['value'] );
-        if ( $content === null ) {
-            continue;
-        }
-        if ( $key === 'src' && preg_match( NEXTWP_VALUE_URL_OR_PATH_REGEX, $content ) && stripos( $content, 'image' ) !== false ) {
-            $has_src_image = true;
-        } elseif ( $content !== '' ) {
-            $has_text = true;
-        }
-    }
-    return $has_src_image && $has_text;
+    return nextwp_object_has_single_image_values_only( $value_str );
 }
 
 /**

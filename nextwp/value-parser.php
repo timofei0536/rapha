@@ -163,7 +163,7 @@ function nextwp_extract_one_value( $rest ) {
 
 /**
  * Parse first object from value: get [ name => value_snippet ] for repeater/group sub_fields.
- * Key boundaries only at top level (commas inside quotes or nested {} are ignored).
+ * Key boundaries only at top level (commas inside quotes or nested {} [] are ignored).
  *
  * @param string $value_str Value from nextwp_get_prop_default_value_from_file.
  * @return array [ [ 'name' => key, 'value' => value_snippet ], ... ].
@@ -177,7 +177,8 @@ function nextwp_parse_first_object_key_values( $value_str ) {
     $entries = array();
     $in_str = false;
     $str_char = '';
-    $depth = 0;
+    $brace_depth   = 0;
+    $bracket_depth = 0;
     $i = 0;
     while ( $i < $len ) {
         $c = $inner[ $i ];
@@ -193,9 +194,27 @@ function nextwp_parse_first_object_key_values( $value_str ) {
             $i++;
             continue;
         }
-        if ( $c === '{' ) { $depth++; $i++; continue; }
-        if ( $c === '}' ) { $depth--; $i++; continue; }
-        if ( $depth !== 0 ) { $i++; continue; }
+        if ( $c === '{' ) {
+            $brace_depth++;
+            $i++;
+            continue;
+        }
+        if ( $c === '}' ) {
+            $brace_depth--;
+            $i++;
+            continue;
+        }
+        if ( $c === '[' ) {
+            $bracket_depth++;
+            $i++;
+            continue;
+        }
+        if ( $c === ']' ) {
+            $bracket_depth--;
+            $i++;
+            continue;
+        }
+        if ( $brace_depth !== 0 || $bracket_depth !== 0 ) { $i++; continue; }
         if ( $c === ',' || $i === 0 ) {
             $comma_pos = ( $c === ',' ) ? $i : -1;
             $start = $c === ',' ? $i + 1 : $i;
