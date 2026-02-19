@@ -1,0 +1,238 @@
+@import "@/styles/content";
+@import "@/components/ui/Select/Select.scss";
+
+* {
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+img {
+	max-width: 100%;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input {
+	-webkit-border-radius: 0px;
+	-webkit-appearance: none;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+html,
+body {
+	 // scroll-behavior: smooth;
+
+	overscroll-behavior: none;
+	font-size: calc(100vw / ( (var(--wrap) + var(--p-page)*2) / 10 ) );
+	
+	@media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
+		font-size: 83%;
+	}
+}
+
+.center-wrap {
+	width: 100%;
+	margin: 0px auto;
+
+	max-width: calc(100% - var(--p-page)*2*0.1rem);
+
+	// @media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
+	// 	max-width: calc( $large_mobile - var(--p-page)*2*0.1rem);
+	// }
+	&--small {
+		max-width: 155.6rem;
+	}
+}
+
+body {
+	font-family: var(--primary-f);
+	color: var(--primary-c);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 100vh;
+	font-size: 1.6rem;
+	user-select: none;
+
+	&.scroll {
+		overflow: hidden;
+	}
+}
+
+.body {
+	&__wrap {
+		&--scroll {
+			pointer-events: none;
+		}
+	}
+}
+
+main {
+	flex-grow: 1;
+	// padding-top: var(--header-height);
+}
+
+.page--bg-gray {
+	background-color: var(--gray);
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	margin: 0px;
+	font-family: var(--secondary-f);
+}
+
+.simple-title {
+
+	font-size: 4.8rem;
+	font-weight: 600;
+	letter-spacing: -0.096rem;
+	// правки сверху строка letter-spacing в rem.
+
+	&--large {
+		font-size: 11.4246rem;
+		font-weight: 700;
+	}
+
+	&--right {
+		text-align: right;
+	}
+
+	&--left {
+		text-align: left;
+	}
+
+	&--center {
+		text-align: center;
+	}
+
+	@media screen and (max-width: $large_tablet) {}
+}
+
+.desktop--hide {
+	@media screen and (min-width: $large_tablet + 1) {
+		display: none !important;
+	}
+}
+
+.mobile--hide {
+	@media screen and (max-width: $large_tablet) {
+		display: none !important;
+	}
+}
+
+img {
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: crisp-edges;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+}
+
+.img-wrap {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	img {
+		object-fit: cover;
+	}
+}
+
+.img-auto {
+	width: 100%;
+	height: auto;
+}
+
+:root {
+	color-scheme: light dark;
+}
+
+.link {
+	font-weight: 600;
+	text-decoration-line: underline;
+	text-underline-position: from-font;
+}
+
+.link-hover {
+	text-decoration: none;
+	position: relative;
+	transition: opacity 0.2s ease;
+
+	&::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -0.1em;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.3s ease;
+	}
+
+	&:hover::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	// Модификатор для многострочных (адрес и т.п.) — обычный text-decoration
+	&--simple {
+		&::after {
+			display: none;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	&.link {
+		text-decoration: underline;
+
+		&::after {
+			display: none;
+		}
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+.decore {
+	aspect-ratio: 1920 / 56;
+	width: 100%;
+	height: auto;
+	position: absolute;
+	bottom: 0px;
+	transform: translateY(50%);
+	z-index: 2;
+	left: 0px;
+
+	&--bluel-l * {
+		fill: var(--blue-l)
+	}
+
+	&--white * {
+		fill: var(--white);
+	}
+}

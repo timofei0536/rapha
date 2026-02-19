@@ -1,0 +1,25 @@
+.text-page {
+    margin-top: calc( var(--header-height) + 2rem );
+    margin-bottom: 4rem;
+
+    &__wrap {
+        background-color: var(--white);
+        border-radius: 3rem;
+        padding: calc( var(--p-margin) / 1.5 ) 0px;
+    }
+
+    &__page {
+        display: flex;
+        justify-content: space-between;
+        gap: 10rem;
+    }
+
+    &__title {
+        width: 53.6rem;
+        flex-shrink: 0;
+    }
+
+    &__content {
+        font-size: 2rem;
+    }
+}

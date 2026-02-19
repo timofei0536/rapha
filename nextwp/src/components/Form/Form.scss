@@ -1,0 +1,43 @@
+.form {
+  border-radius: 3rem;
+  background: var(--blue);
+  padding: 2rem;
+  display: flex;
+  gap: 2.25rem;
+
+  .booking & {
+    gap: 1.7rem;
+  }
+  
+  .hero & {
+    max-width: 140rem;
+  }
+  &__inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.25rem;
+    .booking & {
+      gap: 1.7rem;
+    }
+
+
+    
+  }
+
+  &__input {
+    border-radius: 2rem;
+    background: var(--white);
+    padding: 2rem;
+    border: none !important;
+    color: var(--blue);
+    flex-grow: 1;
+    &::placeholder {
+      color: var(--blue);
+    }
+  }
+
+  .btn {
+    border-radius: 2rem;
+    padding: 2.7rem;
+  }
+}

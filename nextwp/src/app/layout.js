@@ -102,8 +102,3 @@ export default function RootLayout({ children }) {
 // 3) animations
 
 
-
-// THEME:
-// Включить ошибки в function.php
-// Включить RestAPi
-// По умолчанию включить ACF, а то скрыто.
