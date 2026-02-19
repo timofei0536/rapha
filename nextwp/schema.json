@@ -28,7 +28,7 @@
       "sub_fields": [
         {
           "name": "content",
-          "type": "text"
+          "type": "content"
         },
         {
           "name": "image",
@@ -52,7 +52,7 @@
     },
     {
       "name": "content",
-      "type": "text"
+      "type": "content"
     },
     {
       "name": "image",
@@ -66,7 +66,7 @@
     },
     {
       "name": "content",
-      "type": "text"
+      "type": "content"
     },
     {
       "name": "gallery",
@@ -206,7 +206,7 @@
     },
     {
       "name": "content",
-      "type": "text"
+      "type": "content"
     }
   ],
   "News": [
@@ -356,7 +356,7 @@
         },
         {
           "name": "content",
-          "type": "text"
+          "type": "content"
         }
       ]
     }

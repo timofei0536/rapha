@@ -211,6 +211,7 @@ function hasContentAncestorInJSX(ast, propName) {
         }
       }
       stack.push(hasContent);
+      if (node.openingElement) visit(node.openingElement);
       for (const child of node.children || []) visit(child);
       stack.pop();
       return;
