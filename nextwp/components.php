@@ -194,8 +194,33 @@ function nextwp_create_components_from_dir( $project_path ) {
         $created[] = $group_key;
     }
 
+    $all_component_names = array();
+    foreach ( array_keys( $pages ) as $slug ) {
+        $all_component_names = array_merge( $all_component_names, nextwp_get_components_for_page_slug( $project_path, $slug ) );
+    }
+    $all_component_names = array_values( array_unique( $all_component_names ) );
+
+    foreach ( $all_component_names as $name ) {
+        $comp_key = NEXTWP_ACF_PREFIX . strtolower( preg_replace( '/[^a-z0-9]/i', '_', $name ) );
+        $existing = function_exists( 'acf_get_field_group' ) ? acf_get_field_group( $comp_key ) : null;
+        if ( ! $existing ) {
+            $group = array(
+                'key'          => $comp_key,
+                'title'        => $name,
+                'description'  => 'Component',
+                'fields'       => array(),
+                'location'     => array( array( array( 'param' => 'page', 'operator' => '==', 'value' => '0' ) ) ),
+                'menu_order'   => 0,
+                'active'       => true,
+            );
+            acf_import_field_group( $group );
+            nextwp_log( 'Components: created component group', array( 'name' => $name ) );
+        }
+        $created[] = $comp_key;
+    }
+
     update_option( NEXTWP_OPTION_ACF, array_values( array_unique( $created ) ) );
-    nextwp_log( 'Components: page groups (tracked)', count( $created ) );
+    nextwp_log( 'Components: page + component groups (tracked)', count( $created ) );
 
     nextwp_set_component_groups_description();
     nextwp_apply_component_fields_from_schema( $project_path );
