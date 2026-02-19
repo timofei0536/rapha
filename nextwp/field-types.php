@@ -8,7 +8,7 @@
  * | content  | html с предком у которого есть .content |
  * | image    | V1: объект src + alt. V2: массив таких объектов = gallery |
  * | href     | обычная ссылка (строка URL или объект с полем href) |
- * | link     | объект: text, href, target (опционально) |
+ * | link     | объект по значениям: есть значение-URL и значение-текст, опционально target |
  * | gallery  | массив/объект из image |
  * | repeater | массив повторяющихся объектов (одинаковые ключи) |
  */
@@ -106,6 +106,57 @@ function nextwp_find_tag_end( $s, $start = 0 ) {
 }
 
 /**
+ * Check if object value string has link semantics: at least one value is URL, one is text; optional key "target".
+ * Uses values, not key names.
+ *
+ * @param string $value_str Object value string (e.g. { title: "...", src: "https://...", target: "_blank" }).
+ * @return bool
+ */
+function nextwp_object_value_is_link_by_values( $value_str ) {
+    if ( ! function_exists( 'nextwp_parse_first_object_key_values' ) ) {
+        return false;
+    }
+    $pairs = nextwp_parse_first_object_key_values( $value_str );
+    if ( empty( $pairs ) ) {
+        return false;
+    }
+    $has_url  = false;
+    $has_text = false;
+    $url_re   = '/^(?:https?:\/\/|tel:|mailto:)/';
+    foreach ( $pairs as $p ) {
+        $val = trim( $p['value'] );
+        if ( strlen( $val ) < 2 ) {
+            continue;
+        }
+        $first = $val[0];
+        if ( $first === '"' || $first === "'" || $first === '`' ) {
+            $len_val = strlen( $val );
+            $end     = false;
+            for ( $i = 1; $i < $len_val; $i++ ) {
+                if ( $val[ $i ] === '\\' ) {
+                    $i++;
+                    continue;
+                }
+                if ( $val[ $i ] === $first ) {
+                    $end = $i;
+                    break;
+                }
+            }
+            if ( $end === false ) {
+                continue;
+            }
+            $content = trim( substr( $val, 1, $end - 1 ) );
+            if ( preg_match( $url_re, $content ) ) {
+                $has_url = true;
+            } elseif ( $content !== '' ) {
+                $has_text = true;
+            }
+        }
+    }
+    return $has_url && $has_text;
+}
+
+/**
  * Infer field type only by regex on the value string.
  * Optional file_content + prop_name: for content type require ancestor with .content.
  *
@@ -131,7 +182,7 @@ function nextwp_infer_field_type_from_value( $value_str, $file_content = null, $
         if ( preg_match( '/\b(?:src|href)\s*:/s', $v ) && preg_match( '/\balt\s*:/s', $v ) ) {
             return NEXTWP_FIELD_IMAGE;
         }
-        if ( preg_match( '/\b(?:text|title)\s*:/s', $v ) && preg_match( '/\b(?:href|url|src)\s*:/s', $v ) ) {
+        if ( nextwp_object_value_is_link_by_values( $v ) ) {
             return NEXTWP_FIELD_LINK;
         }
         if ( preg_match( '/\b(?:href|url|src)\s*:/s', $v ) ) {
