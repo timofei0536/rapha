@@ -36,21 +36,27 @@ function nextwp_field_type_to_acf( $type ) {
 
 /**
  * Infer field type from field name (regex).
- * Order: content → link → gallery → image → text.
+ * Order: content → link → gallery → repeater → group → image → text.
  *
  * @param string $name Field/prop name (e.g. title, image, content).
- * @return string One of content, image, gallery, text, link.
+ * @return string One of content, image, gallery, link, repeater, group, text.
  */
 function nextwp_infer_field_type( $name ) {
     $name = strtolower( trim( $name ) );
-    if ( preg_match( '/^(content|html|body|wysiwyg|description|content_html)$/', $name ) ) {
+    if ( preg_match( '/^(content|html|body|wysiwyg|description|content_html|data)$/', $name ) ) {
         return NEXTWP_FIELD_CONTENT;
     }
     if ( preg_match( '/^(link|url|href|cta|button_link|link_|.*_link)$/', $name ) ) {
         return NEXTWP_FIELD_LINK;
     }
-    if ( preg_match( '/^(gallery|images|photos|slides|items|list)$/', $name ) ) {
+    if ( preg_match( '/^(gallery|images|photos|slides)$/', $name ) ) {
         return NEXTWP_FIELD_GALLERY;
+    }
+    if ( preg_match( '/^(items|services|tabs|list)$/', $name ) ) {
+        return NEXTWP_FIELD_REPEATER;
+    }
+    if ( preg_match( '/^(gm|map|config)$/', $name ) ) {
+        return NEXTWP_FIELD_GROUP;
     }
     if ( preg_match( '/^(image|img|photo|picture|icon|thumb|avatar|logo)$/', $name ) ) {
         return NEXTWP_FIELD_IMAGE;

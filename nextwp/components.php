@@ -8,6 +8,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Get component file path (ComponentName/ComponentName.jsx or .js).
+ *
+ * @param string $project_path Path to Next project.
+ * @param string $component_name Component name (e.g. Careers).
+ * @return string|null Full path or null.
+ */
+function nextwp_get_component_file_path( $project_path, $component_name ) {
+    $base = rtrim( $project_path, '/' ) . '/src/components/' . $component_name;
+    if ( ! is_dir( $base ) ) {
+        $base = rtrim( $project_path, '/' ) . '/components/' . $component_name;
+    }
+    if ( ! is_dir( $base ) ) {
+        return null;
+    }
+    foreach ( array( '.jsx', '.js', '.tsx', '.ts' ) as $ext ) {
+        $path = $base . '/' . $component_name . $ext;
+        if ( is_readable( $path ) ) {
+            return $path;
+        }
+    }
+    return null;
+}
+
+/**
  * Get component names: top-level dirs in components/ (except NEXTWP_IGNORE_COMPONENTS).
  *
  * @param string $project_path Path to folder containing src/components or components.
@@ -174,7 +198,7 @@ function nextwp_create_components_from_dir( $project_path ) {
     nextwp_log( 'Components: page groups (tracked)', count( $created ) );
 
     nextwp_set_component_groups_description();
-    nextwp_apply_component_fields_from_schema();
+    nextwp_apply_component_fields_from_schema( $project_path );
 }
 
 /**
@@ -201,9 +225,11 @@ function nextwp_set_component_groups_description() {
 }
 
 /**
- * Apply fields from component schema to each component group (content, image, gallery, text, link, repeater, group).
+ * Apply fields from component props to each component group. key = prop name, type from regex.
+ *
+ * @param string $project_path Project root path (src/components lives here).
  */
-function nextwp_apply_component_fields_from_schema() {
+function nextwp_apply_component_fields_from_schema( $project_path ) {
     if ( ! function_exists( 'acf_get_field_groups' ) || ! function_exists( 'acf_import_field_group' ) ) {
         return;
     }
@@ -219,13 +245,13 @@ function nextwp_apply_component_fields_from_schema() {
         if ( ! $component_name ) {
             continue;
         }
-        $fields = nextwp_build_acf_fields_from_schema( $component_name, $key );
+        $fields = nextwp_build_acf_fields_from_schema( $component_name, $key, $project_path );
         if ( empty( $fields ) ) {
             continue;
         }
         $g['fields'] = $fields;
         acf_import_field_group( $g );
-        nextwp_log( 'Components: applied schema fields', array( 'component' => $component_name, 'count' => count( $fields ) ) );
+        nextwp_log( 'Components: applied fields from props', array( 'component' => $component_name, 'count' => count( $fields ) ) );
     }
 }
 
