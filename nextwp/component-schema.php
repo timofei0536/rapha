@@ -63,9 +63,38 @@ function nextwp_build_acf_fields_from_schema( $component_name, $group_key, $proj
 }
 
 /**
+ * Convert schema default value to ACF default_value (scalar or array for link/image).
+ *
+ * @param mixed  $default  Value from schema (default).
+ * @param string $acf_type ACF field type.
+ * @return mixed Value for ACF default_value, or null to omit.
+ */
+function nextwp_default_value_for_acf( $default, $acf_type ) {
+    if ( $default === null ) {
+        return null;
+    }
+    if ( in_array( $acf_type, array( 'repeater', 'group' ), true ) ) {
+        return null;
+    }
+    if ( $acf_type === 'link' && is_array( $default ) ) {
+        return $default;
+    }
+    if ( ( $acf_type === 'image' || $acf_type === 'gallery' ) && is_array( $default ) ) {
+        return $default;
+    }
+    if ( is_string( $default ) || is_numeric( $default ) || is_bool( $default ) ) {
+        return $default;
+    }
+    if ( is_array( $default ) && isset( $default['url'] ) ) {
+        return $default;
+    }
+    return null;
+}
+
+/**
  * Recursive build of ACF field arrays (handles group + repeater).
  *
- * @param array  $defs       Array of [ name, type, sub_fields? ].
+ * @param array  $defs       Array of [ name, type, sub_fields?, default? ].
  * @param string $parent_key Parent field key or group key.
  * @param int    $depth      Depth for unique keys.
  * @return array ACF fields.
@@ -91,6 +120,13 @@ function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
             ),
             nextwp_acf_field_options_for_type( $type )
         );
+
+        if ( array_key_exists( 'default', $def ) ) {
+            $acf_default = nextwp_default_value_for_acf( $def['default'], $acf_type );
+            if ( $acf_default !== null ) {
+                $field['default_value'] = $acf_default;
+            }
+        }
 
         if ( in_array( $acf_type, array( 'repeater', 'group' ), true ) && ! empty( $def['sub_fields'] ) ) {
             $field['sub_fields'] = nextwp_build_acf_fields_recursive( $def['sub_fields'], $key, $depth + 1 );

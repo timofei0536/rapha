@@ -232,9 +232,31 @@ function hasContentAncestorInJSX(ast, propName) {
   return found;
 }
 
+/** Make value JSON-serializable for schema (strip undefined, keep plain data). */
+function valueForSchema(val) {
+  if (val === null) return null;
+  if (val === undefined) return undefined;
+  if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return val;
+  if (Array.isArray(val)) return val.map(valueForSchema).filter((v) => v !== undefined);
+  if (typeof val === 'object') {
+    const out = {};
+    for (const k of Object.keys(val)) {
+      const v = valueForSchema(val[k]);
+      if (v !== undefined) out[k] = v;
+    }
+    return out;
+  }
+  return undefined;
+}
+
 function buildFieldDef(name, val, constants, contentAncestor, ast) {
   const type = inferTypeFromValue(val, { hasContentAncestor: contentAncestor });
   const def = { name, type };
+
+  const defaultVal = valueForSchema(val);
+  if (defaultVal !== undefined) {
+    def.default = defaultVal;
+  }
 
   if ((type === 'repeater' || type === 'group') && ast) {
     const first = Array.isArray(val) ? val[0] : val;
