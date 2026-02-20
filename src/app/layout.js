@@ -6,6 +6,7 @@ import "@/styles/globals.scss";
 import Header from '@/components/Header/Header';
 import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
 import Footer from '@/components/Footer/Footer';
+import { getPageComponentData, getContactInfo } from "@/lib/wp-api";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,7 +56,10 @@ export const metadata = {
 
 
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const contactData = await getPageComponentData("contact", "contact");
+  const contactInfo = getContactInfo(contactData);
+
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
@@ -67,10 +71,10 @@ export default function RootLayout({ children }) {
           src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
           strategy="beforeInteractive" 
         />
-        <Header />
+        <Header contactInfo={contactInfo} />
         <HeaderWhiteTrigger />
         {children}
-        <Footer />
+        <Footer contactInfo={contactInfo} />
       </body>
     </html>
   );

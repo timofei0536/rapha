@@ -106,3 +106,26 @@ export function orDefault(value) {
   const s = value != null ? String(value).trim() : "";
   return s || undefined;
 }
+
+/**
+ * Extract phone, address, email from Contact page component data (items: [address, phone, email]).
+ * Returns null for missing fields when no data.
+ *
+ * @param {Record<string, unknown> | null} data getPageComponentData("contact", "contact")
+ * @returns {{ phone: { text, href } | null, address: { text, href } | null, email: { text, href } | null } | null}
+ */
+export function getContactInfo(data) {
+  if (!data || typeof data !== "object") return null;
+  const items = Array.isArray(data.items) ? data.items : [];
+  const link = (i) => {
+    const item = items[i];
+    const l = item?.link ?? item;
+    if (!l?.href) return null;
+    return { text: l.text ?? "", href: l.href };
+  };
+  return {
+    phone: link(1) ?? null,
+    address: link(0) ?? null,
+    email: link(2) ?? null,
+  };
+}
