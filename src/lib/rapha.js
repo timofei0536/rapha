@@ -5,12 +5,13 @@ import { getPageProps, getBlockProps } from "@/lib/wp-api";
 import { ContactDefaults } from "@/components/Contact/defaults";
 import { CareersDefaults } from "@/components/Careers/defaults";
 import { InfraDefaults } from "@/components/Infra/defaults";
+import { ServicesDefaults } from "@/components/Services/defaults";
 
 /** Defaults by page slug and block key. Used by getBlockPropsForPage. */
 const blockDefaults = {
   careers: { careers: CareersDefaults },
   contact: { contact: ContactDefaults },
-  page: { infra: InfraDefaults },
+  page: { infra: InfraDefaults, services: ServicesDefaults },
 };
 
 /**
