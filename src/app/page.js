@@ -7,11 +7,11 @@ import { getBlockPropsForPage } from "@/lib/rapha";
 
 export default async function Home({ searchParams }) {
   const [heroProps, servicesProps, infraProps, teamProps, newsProps] = await Promise.all([
-    getBlockPropsForPage("page", "hero", searchParams),
-    getBlockPropsForPage("page", "services", searchParams),
-    getBlockPropsForPage("page", "infra", searchParams),
-    getBlockPropsForPage("page", "team", searchParams),
-    getBlockPropsForPage("page", "news", searchParams),
+    getBlockPropsForPage("home", "hero", searchParams),
+    getBlockPropsForPage("home", "services", searchParams),
+    getBlockPropsForPage("home", "infra", searchParams),
+    getBlockPropsForPage("home", "team", searchParams),
+    getBlockPropsForPage("home", "news", searchParams),
   ]);
 
   return (

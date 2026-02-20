@@ -20,7 +20,7 @@ import { ResultsDefaults } from "@/components/Results/defaults";
 const blockDefaults = {
   careers: { careers: CareersDefaults },
   contact: { contact: ContactDefaults },
-  page: {
+  home: {
     hero: HeroDefaults,
     services: ServicesDefaults,
     infra: InfraDefaults,
@@ -41,7 +41,7 @@ const blockDefaults = {
 
 /**
  * Get block props from WP; defaults are resolved internally (no need to import them on the page).
- * @param {string} slug Page slug (e.g. 'page', 'careers', 'contact')
+ * @param {string} slug Page slug (e.g. 'home', 'careers', 'contact')
  * @param {string} componentKey Block key (e.g. 'infra', 'careers', 'contact')
  * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
  * @returns {Promise<Record<string, unknown>>}
