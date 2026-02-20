@@ -1,16 +1,18 @@
 import NewsScreen from "@/components/NewsScreen/NewsScreen";
 import News from "@/components/News/News";
-import { NewsDefaults } from "@/components/News/defaults";
+import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "News",
 };
 
-export default function NewsPage() {
-    return (
-        <main>
-            <NewsScreen />
-            <News {...NewsDefaults} />
-        </main>
-    );
+export default async function NewsPage({ searchParams }) {
+  const newsProps = await getBlockPropsForPage("news", "news", searchParams);
+
+  return (
+    <main>
+      <NewsScreen />
+      <News {...newsProps} />
+    </main>
+  );
 }

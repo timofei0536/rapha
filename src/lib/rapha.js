@@ -6,12 +6,37 @@ import { ContactDefaults } from "@/components/Contact/defaults";
 import { CareersDefaults } from "@/components/Careers/defaults";
 import { InfraDefaults } from "@/components/Infra/defaults";
 import { ServicesDefaults } from "@/components/Services/defaults";
+import { HeroDefaults } from "@/components/Hero/defaults";
+import { TeamDefaults } from "@/components/Team/defaults";
+import { NewsDefaults } from "@/components/News/defaults";
+import { AboutScreenDefaults } from "@/components/AboutScreen/defaults";
+import { AboutDefaults } from "@/components/About/defaults";
+import { StructureDefaults } from "@/components/Structure/defaults";
+import { ChartDefaults } from "@/components/Chart/defaults";
+import { ServiceDefaults } from "@/components/Service/defaults";
+import { ResultsDefaults } from "@/components/Results/defaults";
 
 /** Defaults by page slug and block key. Used by getBlockPropsForPage. */
 const blockDefaults = {
   careers: { careers: CareersDefaults },
   contact: { contact: ContactDefaults },
-  page: { infra: InfraDefaults, services: ServicesDefaults },
+  page: {
+    hero: HeroDefaults,
+    services: ServicesDefaults,
+    infra: InfraDefaults,
+    team: TeamDefaults,
+    news: NewsDefaults,
+  },
+  about: {
+    aboutScreen: AboutScreenDefaults,
+    about: AboutDefaults,
+    structure: StructureDefaults,
+    chart: ChartDefaults,
+    news: NewsDefaults,
+  },
+  services: { service: ServiceDefaults, news: NewsDefaults },
+  news: { news: NewsDefaults },
+  results: { results: ResultsDefaults },
 };
 
 /**
