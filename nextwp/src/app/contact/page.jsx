@@ -1,15 +1,16 @@
-import Image from "next/image";
-import PageScreen from "@/components/PageScreen/PageScreen";
 import Contact from "@/components/Contact/Contact";
+import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "Contact",
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }) {
+  const props = await getBlockPropsForPage("contact", "contact", searchParams);
+
   return (
     <main>
-      <Contact />
+      <Contact map={props.map} items={props.items} />
     </main>
   );
 }

@@ -6,6 +6,7 @@ import "@/styles/globals.scss";
 import Header from '@/components/Header/Header';
 import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
 import Footer from '@/components/Footer/Footer';
+import { getContactInfoForLayout } from "@/lib/rapha";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,7 +41,7 @@ const ivyPresto = localFont({
 });
 
 
-const SITE_NAME = "WebsiteName";
+const SITE_NAME = "El-Rapha";
 
 export const metadata = {
   title: {
@@ -52,10 +53,9 @@ export const metadata = {
   },
 };
 
+export default async function RootLayout({ children }) {
+  const contactInfo = await getContactInfoForLayout();
 
-
-
-export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
@@ -67,10 +67,10 @@ export default function RootLayout({ children }) {
           src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
           strategy="beforeInteractive" 
         />
-        <Header />
+        <Header contactInfo={contactInfo} />
         <HeaderWhiteTrigger />
         {children}
-        <Footer />
+        <Footer contactInfo={contactInfo} />
       </body>
     </html>
   );
@@ -96,9 +96,26 @@ export default function RootLayout({ children }) {
 // 3) news - pagination.
 // 5) services -> ask about it.
 // 5) structure  -> 2 columns.
+// 6) hero select z-index.
 
 // 1) html to loops
 // 2) adaptive
 // 3) animations
 
 
+
+// THEME:
+// Включить ошибки в function.php
+// Включить RestAPi
+// По умолчанию включить ACF, а то скрыто.
+// в fucntion.js добавить nextwp по умолчанию если он существует.
+
+
+// NEXTWP:
+
+// 1) надо page update  прежде чем acf сохранятся.
+// 2) ссылки не натянулись.
+
+// Contact
+// 1) 3я items ограничить.
+// 2) svg icons натянуть.

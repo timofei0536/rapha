@@ -9,33 +9,39 @@ import CalendarIcon from "@/components/ui/icons/Calendar";
 import LocationIcon from "@/components/ui/icons/Location";
 import Search from "@/components/ui/Search/Search";
 
-export default function Header() {
+export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
+  const phone = contactInfo?.phone;
+  const address = contactInfo?.address;
 
   return (
       <header className='header'>
         <div className="center-wrap">
           <div className="header__top">
             <div className="center-wrap center-wrap--small">
+                {phone?.href && (
                 <div className="header__item">
                   <PhoneIcon />
-                  <a href="tel:+241077986660" className="header__link link-hover">+241 077 986 660</a>
+                  <a href={phone.href} className="header__link link-hover">{phone.text || ""}</a>
                 </div>
+                )}
                 <div className="header__item">
                   <CalendarIcon />
                   <span>7 days a week, 24/7</span>
                 </div>
+                {address?.href && (
                 <div className="header__item">
                   <LocationIcon />
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
+                    href={address.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="header__link link-hover"
                   >
-                    Three Quarters, Libreville, Gabon
+                    {(address.text || "").replace(/\n/g, " ")}
                   </a>
                 </div>
+                )}
               </div>
           </div>   
         

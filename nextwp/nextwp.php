@@ -9,7 +9,7 @@
  *    require_once get_template_directory() . '/nextwp/nextwp.php';
  *    add_action( 'init', 'nextwp_run', 11 );
  *
- * 4) Generate schema.json locally (required): npm run nextwp:schema
+ * 4) Generate schema.json locally (required): npm run schema
  *    Upload nextwp/ including schema.json. On PHP-only hosting no Node is needed.
  *
  * Rollback: open site as admin with ?nextwp_rollback=1

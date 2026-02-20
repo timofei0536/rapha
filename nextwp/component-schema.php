@@ -1,7 +1,7 @@
 <?php
 /**
  * NextWP — ACF fields from schema.json (built by: node nextwp/scripts/build-schema.js).
- * Schema is required; run npm run nextwp:schema before deploying.
+ * Schema is required; run npm run schema before deploying.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,7 +37,7 @@ function nextwp_load_schema_json( $project_path ) {
 function nextwp_get_schema_for_component( $component_name, $project_path ) {
     $schema = nextwp_load_schema_json( $project_path );
     if ( $schema === null ) {
-        nextwp_log( 'schema.json missing; run npm run nextwp:schema', $project_path );
+        nextwp_log( 'schema.json missing; run npm run schema', $project_path );
         return array();
     }
     if ( ! isset( $schema[ $component_name ] ) || ! is_array( $schema[ $component_name ] ) ) {

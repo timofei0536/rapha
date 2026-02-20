@@ -9,8 +9,11 @@ import LocationIcon from "@/components/ui/icons/Location";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import Decor from "@/components/ui/icons/Decor";
 
-export default function Footer() {
+export default function Footer({ contactInfo }) {
     const isHome = usePathname() === "/";
+    const phone = contactInfo?.phone;
+    const address = contactInfo?.address;
+    const email = contactInfo?.email;
 
     return (
         <footer className="footer">
@@ -42,21 +45,25 @@ export default function Footer() {
                         </nav>
 
                     <div className="footer__col footer__col--contact">
+                        {phone?.href && (
                         <div className="footer__contact-item">
                             <PhoneIcon className="footer__contact-icon" />
-                            <a href="tel:+241077986660" className="footer__contact-text footer__link link-hover">+241 077 986 660</a>
+                            <a href={phone.href} className="footer__contact-text footer__link link-hover">{phone.text || ""}</a>
                         </div>
+                        )}
+                        {address?.href && (
                         <div className="footer__contact-item">
                             <LocationIcon className="footer__contact-icon" />
                             <a
-                                href="https://www.google.com/maps/search/?api=1&query=Three+Quarters,+Libreville,+Gabon"
+                                href={address.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="footer__contact-text footer__link link-hover link-hover--simple"
                             >
-                                Three Quarters,<br/> Libreville, Gabon
+                                {(address.text || "").split("\n").map((line, i, arr) => <span key={i}>{line}{i < arr.length - 1 && <br />}</span>)}
                             </a>
                         </div>
+                        )}
                         <div className="footer__contact-item">
                             <CalendarIcon className="footer__contact-icon" />
                             <span className="footer__contact-text">7 days a week, 24/7</span>
@@ -64,7 +71,7 @@ export default function Footer() {
                     </div>
 
                     <div className="footer__col footer__col--emails">
-                        <a href="mailto:contact@el-raphaga.com" className="footer__email link-hover">contact@el-raphaga.com</a>
+                        {email?.href && <a href={email.href} className="footer__email link-hover">{email.text || ""}</a>}
                         <a href="mailto:recrutement@el-raphaga.com" className="footer__email link-hover">recrutement@el-raphaga.com</a>
                         <nav className="footer__nav footer__nav--legal">
                             <Link href="/terms" className="footer__link link-hover">Terms & Conditions</Link>
