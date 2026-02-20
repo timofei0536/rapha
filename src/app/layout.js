@@ -96,6 +96,7 @@ export default async function RootLayout({ children }) {
 // 3) news - pagination.
 // 5) services -> ask about it.
 // 5) structure  -> 2 columns.
+// 6) hero select z-index.
 
 // 1) html to loops
 // 2) adaptive
