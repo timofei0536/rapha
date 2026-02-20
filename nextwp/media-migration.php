@@ -236,6 +236,48 @@ function nextwp_fill_component_defaults_recursive( $page_id, $clone_prefix, $sch
                 $sub_type = isset( $sub['type'] ) ? $sub['type'] : 'text';
                 $sub_acf  = function_exists( 'nextwp_field_type_to_acf' ) ? nextwp_field_type_to_acf( $sub_type ) : 'text';
                 $sub_meta_key = $meta_key . '_' . $sub_name;
+
+                if ( $sub_acf === 'repeater' && ! empty( $sub['sub_fields'] ) && array_key_exists( 'default', $sub ) && is_array( $sub['default'] ) ) {
+                    $existing_count = get_post_meta( $page_id, $sub_meta_key, true );
+                    if ( is_numeric( $existing_count ) && (int) $existing_count > 0 ) {
+                        continue;
+                    }
+                    $default_rows = $sub['default'];
+                    $rows = array();
+                    foreach ( $default_rows as $row ) {
+                        $new_row = array();
+                        foreach ( $sub['sub_fields'] as $cell_def ) {
+                            $cell_name = isset( $cell_def['name'] ) ? $cell_def['name'] : '';
+                            $cell_type = isset( $cell_def['type'] ) ? $cell_def['type'] : 'text';
+                            $cell_acf  = function_exists( 'nextwp_field_type_to_acf' ) ? nextwp_field_type_to_acf( $cell_type ) : 'text';
+                            $val = isset( $row[ $cell_name ] ) ? $row[ $cell_name ] : null;
+                            if ( $cell_acf === 'image' && is_array( $val ) ) {
+                                $id = nextwp_default_image_to_attachment_id( $project_path, $val );
+                                $new_row[ $cell_name ] = $id !== null ? $id : '';
+                            } else {
+                                $new_row[ $cell_name ] = $val;
+                            }
+                        }
+                        $rows[] = $new_row;
+                    }
+                    if ( ! empty( $rows ) ) {
+                        update_post_meta( $page_id, $sub_meta_key, count( $rows ) );
+                        foreach ( $sub['sub_fields'] as $cell_def ) {
+                            $cell_name = isset( $cell_def['name'] ) ? $cell_def['name'] : '';
+                            if ( $cell_name === '' ) {
+                                continue;
+                            }
+                            foreach ( $rows as $i => $row ) {
+                                $cell_key = $sub_meta_key . '_' . $i . '_' . $cell_name;
+                                $cell_val = isset( $row[ $cell_name ] ) ? $row[ $cell_name ] : '';
+                                update_post_meta( $page_id, $cell_key, $cell_val );
+                            }
+                        }
+                        nextwp_log( 'Media migration: set repeater (inside group)', array( 'meta_key' => $sub_meta_key, 'rows' => count( $rows ) ) );
+                    }
+                    continue;
+                }
+
                 $existing = get_post_meta( $page_id, $sub_meta_key, true );
                 if ( ! nextwp_meta_value_empty( $existing ) ) {
                     continue;
