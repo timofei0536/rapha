@@ -9,7 +9,7 @@ export default function Careers(props) {
           <div className="careers__statement">
             <h2 className="careers__heading simple-title">{props.title}</h2>
           </div>
-          <div className="careers__content content" dangerouslySetInnerHTML={{ __html: props.content }} />
+          <div className="careers__content content" dangerouslySetInnerHTML={{ __html: typeof props.content === "string" ? props.content : "" }} />
         </div>
         <div className="careers__gallery white-header">
           {(props.gallery || []).map((item, i) => (
