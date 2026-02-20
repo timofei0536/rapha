@@ -93,13 +93,15 @@ function nextwp_default_value_for_acf( $default, $acf_type ) {
 
 /**
  * Recursive build of ACF field arrays (handles group + repeater).
+ * Repeater sub_fields get no default_value so every new row isn't filled with the first row's data.
  *
- * @param array  $defs       Array of [ name, type, sub_fields?, default? ].
- * @param string $parent_key Parent field key or group key.
- * @param int    $depth      Depth for unique keys.
+ * @param array  $defs            Array of [ name, type, sub_fields?, default? ].
+ * @param string $parent_key      Parent field key or group key.
+ * @param int    $depth           Depth for unique keys.
+ * @param string $parent_acf_type Parent field ACF type (e.g. 'repeater') to skip default_value on repeater sub_fields.
  * @return array ACF fields.
  */
-function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
+function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0, $parent_acf_type = null ) {
     $fields = array();
     foreach ( $defs as $i => $def ) {
         $name = isset( $def['name'] ) ? $def['name'] : 'field_' . $i;
@@ -121,7 +123,8 @@ function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
             nextwp_acf_field_options_for_type( $type )
         );
 
-        if ( array_key_exists( 'default', $def ) ) {
+        $allow_default = ( $parent_acf_type !== 'repeater' );
+        if ( $allow_default && array_key_exists( 'default', $def ) ) {
             $acf_default = nextwp_default_value_for_acf( $def['default'], $acf_type );
             if ( $acf_default !== null ) {
                 $field['default_value'] = $acf_default;
@@ -129,7 +132,7 @@ function nextwp_build_acf_fields_recursive( $defs, $parent_key, $depth = 0 ) {
         }
 
         if ( in_array( $acf_type, array( 'repeater', 'group' ), true ) && ! empty( $def['sub_fields'] ) ) {
-            $field['sub_fields'] = nextwp_build_acf_fields_recursive( $def['sub_fields'], $key, $depth + 1 );
+            $field['sub_fields'] = nextwp_build_acf_fields_recursive( $def['sub_fields'], $key, $depth + 1, $acf_type );
         }
 
         $fields[] = $field;

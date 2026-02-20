@@ -63,6 +63,7 @@ require_once NEXTWP_PATH . '/component-schema.php';
 require_once NEXTWP_PATH . '/paths.php';
 require_once NEXTWP_PATH . '/pages.php';
 require_once NEXTWP_PATH . '/components.php';
+require_once NEXTWP_PATH . '/media-migration.php';
 
 /**
  * Run migration (idempotent). Call from init. Use ?nextwp_rollback=1 to undo.
@@ -84,6 +85,7 @@ function nextwp_run() {
     // Skip ACF sync on page/post edit screen so clone fields render (no re-import + cache clear on same request).
     if ( ! nextwp_is_edit_screen() ) {
         nextwp_create_components_from_dir( $project_path );
+        nextwp_migrate_defaults_to_pages( $project_path );
     }
     nextwp_log( 'Migration run finished' );
 }
@@ -108,4 +110,7 @@ function nextwp_rollback() {
     nextwp_rollback_pages();
     nextwp_log( 'Rollback components' );
     nextwp_rollback_components();
+    if ( function_exists( 'nextwp_rollback_defaults_migration' ) ) {
+        nextwp_rollback_defaults_migration();
+    }
 }
