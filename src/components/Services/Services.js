@@ -31,9 +31,7 @@ export default function Services(props) {
                                 <h3 className="services__item-title simple-title">
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>
-                                <div className="services__item-text content">
-                                    <p>{item.content}</p>
-                                </div>
+                                <div className="services__item-text content" dangerouslySetInnerHTML={{ __html: item.content ?? "" }} />
                                 <Btn text="Learn more" className="btn--transparent btn--small" />
                             </div>
                         );

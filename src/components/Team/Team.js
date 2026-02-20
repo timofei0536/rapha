@@ -11,9 +11,7 @@ export default function Team(props) {
                         <div className="team__left">
                             <h2 className="team__small-title simple-title">{subtitle}</h2>
                             <span className="team__title">{title}</span>
-                            <div className="team__text content">
-                                <p>{content}</p>
-                            </div>
+                            <div className="team__text content" dangerouslySetInnerHTML={{ __html: content ?? "" }} />
                             <Btn text='Read More' className="btn--orange" />
                         </div>
                         <div className="team__gallery">
