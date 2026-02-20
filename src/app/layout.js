@@ -113,3 +113,4 @@ export default function RootLayout({ children }) {
 // NEXTWP:
 
 // 1) надо page update  прежде чем acf сохранятся.
+// 2) ссылки не натянулись.

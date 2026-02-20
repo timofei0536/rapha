@@ -18,12 +18,14 @@ const WP_API_BASE =
  * @param {string} slug Page slug (e.g. 'careers')
  * @returns {Promise<Record<string, unknown> | null>} Page object or null
  */
+const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
+
 export async function getPageBySlug(slug) {
   if (!WP_API_BASE) return null;
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_embed`,
-      { next: { revalidate: 60 } }
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
     );
     if (!res.ok) return null;
     const data = await res.json();
