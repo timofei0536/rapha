@@ -165,17 +165,25 @@ export async function getPageProps(slug, componentKey, defaults, options = {}) {
 }
 
 /**
- * getPageProps + strictWp from searchParams (and env). Use on pages that have searchParams.
- * @param {string} slug
- * @param {string} componentKey
- * @param {Record<string, unknown>} defaults
- * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
- * @returns {Promise<Record<string, unknown>>}
+ * Universal: get block props from WP page (slug + componentKey), merge with defaults, strictWp from searchParams/env.
+ * Use on any page for any block (hero, infra, news, …).
+ * @param {string} slug Page slug in WP (e.g. 'page', 'careers', 'contact')
+ * @param {string} componentKey ACF block key (e.g. 'infra', 'hero', 'contact')
+ * @param {Record<string, unknown>} defaults Default props for the block
+ * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams] Next.js page searchParams (for ?wp=1)
+ * @returns {Promise<Record<string, unknown>>} Props to spread into the component
  */
-export async function getPagePropsFromSearchParams(slug, componentKey, defaults, searchParams) {
+export async function getBlockProps(slug, componentKey, defaults, searchParams) {
   const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
   const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
   return getPageProps(slug, componentKey, defaults, { strictWp });
+}
+
+/**
+ * @deprecated Use getBlockProps. Same signature.
+ */
+export async function getPagePropsFromSearchParams(slug, componentKey, defaults, searchParams) {
+  return getBlockProps(slug, componentKey, defaults, searchParams);
 }
 
 /** Re-export from lib/acf for backward compatibility. */

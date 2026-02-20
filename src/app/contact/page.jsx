@@ -1,18 +1,12 @@
 import Contact from "@/components/Contact/Contact";
-import { getPagePropsFromSearchParams } from "@/lib/wp-api";
-import { ContactDefaults } from "@/components/Contact/defaults";
+import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "Contact",
 };
 
 export default async function ContactPage({ searchParams }) {
-  const props = await getPagePropsFromSearchParams(
-    "contact",
-    "contact",
-    ContactDefaults,
-    searchParams
-  );
+  const props = await getBlockPropsForPage("contact", "contact", searchParams);
 
   return (
     <main>

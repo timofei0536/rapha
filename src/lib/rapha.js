@@ -1,8 +1,30 @@
 /**
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
-import { getPageProps } from "@/lib/wp-api";
+import { getPageProps, getBlockProps } from "@/lib/wp-api";
 import { ContactDefaults } from "@/components/Contact/defaults";
+import { CareersDefaults } from "@/components/Careers/defaults";
+import { InfraDefaults } from "@/components/Infra/defaults";
+
+/** Defaults by page slug and block key. Used by getBlockPropsForPage. */
+const blockDefaults = {
+  careers: { careers: CareersDefaults },
+  contact: { contact: ContactDefaults },
+  page: { infra: InfraDefaults },
+};
+
+/**
+ * Get block props from WP; defaults are resolved internally (no need to import them on the page).
+ * @param {string} slug Page slug (e.g. 'page', 'careers', 'contact')
+ * @param {string} componentKey Block key (e.g. 'infra', 'careers', 'contact')
+ * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
+ * @returns {Promise<Record<string, unknown>>}
+ */
+export async function getBlockPropsForPage(slug, componentKey, searchParams) {
+  const defaults = blockDefaults[slug]?.[componentKey];
+  if (!defaults) throw new Error(`No defaults registered for slug="${slug}" componentKey="${componentKey}"`);
+  return getBlockProps(slug, componentKey, defaults, searchParams);
+}
 
 /**
  * Contact info for layout (header/footer): phone, address, email from Contact page data.
