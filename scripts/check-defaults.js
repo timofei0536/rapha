@@ -145,7 +145,7 @@ function main() {
     console.error("");
   });
   console.error("Всего нарушений:", allViolations.length);
-  console.error("Запустите npm run check:defaults после исправлений.\n");
+  console.error("Запустите npm run defaults после исправлений.\n");
   process.exit(1);
 }
 

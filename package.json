@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\"",
-    "nextwp:schema": "node nextwp/scripts/build-schema.js",
-    "check:defaults": "node scripts/check-defaults.js"
+    "schema": "node nextwp/scripts/build-schema.js",
+    "defaults": "node scripts/check-defaults.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
