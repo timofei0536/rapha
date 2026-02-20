@@ -6,7 +6,8 @@ import "@/styles/globals.scss";
 import Header from '@/components/Header/Header';
 import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
 import Footer from '@/components/Footer/Footer';
-import { getPageComponentData, getContactInfo } from "@/lib/wp-api";
+import { getPageProps } from "@/lib/wp-api";
+import { ContactDefaults } from "@/app/contact/contact-defaults";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,7 +42,7 @@ const ivyPresto = localFont({
 });
 
 
-const SITE_NAME = "WebsiteName";
+const SITE_NAME = "El-Rapha";
 
 export const metadata = {
   title: {
@@ -56,9 +57,21 @@ export const metadata = {
 
 
 
+function contactInfoFromItems(items) {
+  const list = Array.isArray(items) ? items : [];
+  const link = (i) => {
+    const l = list[i]?.link;
+    return l?.href ? { text: l.text ?? "", href: l.href } : null;
+  };
+  return { phone: link(1), address: link(0), email: link(2) };
+}
+
 export default async function RootLayout({ children }) {
-  const contactData = await getPageComponentData("contact", "contact");
-  const contactInfo = getContactInfo(contactData);
+  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
+  const contactProps = await getPageProps("contact", "contact", ContactDefaults, {
+    strictWp,
+  });
+  const contactInfo = contactInfoFromItems(contactProps.items);
 
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>

@@ -4,9 +4,18 @@
  *
  * Set NEXT_PUBLIC_WP_API_URL to your WP site URL (e.g. https://rapha.tim-work.com).
  * If unset, no fetch is performed and components use their default props.
+ * Strict WP mode: set ?wp=1 in URL or NEXT_PUBLIC_STRICT_WP=true to use only WP data (no default fallback).
  */
 
-import { normalizeGallery as normalizeGalleryAcf, normalizeText } from "@/lib/acf";
+import {
+  normalizeText,
+  normalizeContent,
+  normalizeHref,
+  normalizeImage,
+  normalizeGallery,
+  normalizeLink,
+  normalizeRepeater,
+} from "@/lib/acf";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
@@ -79,6 +88,96 @@ export async function getPageComponentData(slug, componentKey) {
   return getComponentData(page, componentKey);
 }
 
+/**
+ * Infer normalizer function for a key from its default value shape.
+ * @param {string} key
+ * @param {unknown} defaultVal
+ * @returns {(raw: unknown) => unknown}
+ */
+function getNormalizerForKey(key, defaultVal) {
+  if (typeof defaultVal === "string") {
+    return (raw) => (key === "content" ? normalizeContent(raw) : normalizeText(raw));
+  }
+  if (Array.isArray(defaultVal)) {
+    const first = defaultVal[0];
+    if (first && typeof first === "object") {
+      if ("image" in first && typeof first.image === "object") return (raw) => normalizeGallery(raw);
+      if ("link" in first || ("href" in first && "title" in first))
+        return (raw) => normalizeRepeater(raw, { title: normalizeText, link: normalizeLink });
+      if ("content" in first && "image" in first)
+        return (raw) =>
+          normalizeRepeater(raw, {
+            content: normalizeContent,
+            image: normalizeImage,
+            layout: (v) => normalizeText(v),
+          });
+    }
+    return (raw) => (Array.isArray(raw) ? raw : undefined);
+  }
+  if (defaultVal && typeof defaultVal === "object") {
+    if ("src" in defaultVal && "alt" in defaultVal) return (raw) => normalizeImage(raw);
+    if (("href" in defaultVal || "url" in defaultVal) && ("text" in defaultVal || "title" in defaultVal))
+      return (raw) => normalizeLink(raw);
+    if ("title" in defaultVal && "src" in defaultVal && !("alt" in defaultVal))
+      return (raw) => {
+        if (!raw || typeof raw !== "object") return undefined;
+        const src = normalizeHref(raw.url ?? raw.src);
+        const title = normalizeText(raw.title) ?? "";
+        return src ? { title, src } : undefined;
+      };
+    if ("left" in defaultVal && "right" in defaultVal)
+      return (raw) => {
+        if (!raw || typeof raw !== "object") return undefined;
+        const left = Array.isArray(raw.left) ? raw.left : [];
+        const right = Array.isArray(raw.right) ? raw.right : [];
+        return { left, right };
+      };
+  }
+  return (raw) => (raw !== undefined && raw !== null ? raw : undefined);
+}
+
+/**
+ * Fetch WP data and merge with defaults. One entry point for page component props.
+ * @param {string} slug Page slug (e.g. 'careers')
+ * @param {string} componentKey ACF clone key (e.g. 'careers')
+ * @param {Record<string, unknown>} defaults Default props (keys = component props)
+ * @param {{ strictWp?: boolean }} [options] strictWp: if true, only use WP values (no default fallback)
+ * @returns {Promise<Record<string, unknown>>} Props to pass to component
+ */
+export async function getPageProps(slug, componentKey, defaults, options = {}) {
+  const { strictWp = false } = options;
+  if (!WP_API_BASE) return { ...defaults };
+
+  const raw = await getPageComponentData(slug, componentKey);
+  const result = {};
+  for (const key of Object.keys(defaults)) {
+    const normalizer = getNormalizerForKey(key, defaults[key]);
+    const value = normalizer(raw?.[key]);
+    if (value !== undefined) {
+      result[key] = value;
+    } else if (!strictWp) {
+      result[key] = defaults[key];
+    } else {
+      result[key] = undefined;
+    }
+  }
+  return result;
+}
+
+/**
+ * getPageProps + strictWp from searchParams (and env). Use on pages that have searchParams.
+ * @param {string} slug
+ * @param {string} componentKey
+ * @param {Record<string, unknown>} defaults
+ * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
+ * @returns {Promise<Record<string, unknown>>}
+ */
+export async function getPagePropsFromSearchParams(slug, componentKey, defaults, searchParams) {
+  const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
+  const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
+  return getPageProps(slug, componentKey, defaults, { strictWp });
+}
+
 /** Re-export from lib/acf for backward compatibility. */
 export { normalizeGallery } from "@/lib/acf";
 
@@ -94,11 +193,7 @@ export function orDefault(value) {
 }
 
 /**
- * Extract phone, address, email from Contact page component data (items: [address, phone, email]).
- * Returns null for missing fields when no data.
- *
- * @param {Record<string, unknown> | null} data getPageComponentData("contact", "contact")
- * @returns {{ phone: { text, href } | null, address: { text, href } | null, email: { text, href } | null } | null}
+ * @deprecated Use getPageProps; then derive phone/address/email from props.items in layout.
  */
 export function getContactInfo(data) {
   if (!data || typeof data !== "object") return null;
