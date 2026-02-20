@@ -1,5 +1,5 @@
 /**
- * Results page component defaults.
+ * Results component default props.
  */
 export const ResultsDefaults = {
   subtitle: "Search results for:",

@@ -1,6 +1,6 @@
 import Contact from "@/components/Contact/Contact";
 import { getPagePropsFromSearchParams } from "@/lib/wp-api";
-import { ContactDefaults } from "./contact-defaults";
+import { ContactDefaults } from "@/components/Contact/defaults";
 
 export const metadata = {
   title: "Contact",

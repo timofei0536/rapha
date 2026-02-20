@@ -1,7 +1,7 @@
 /**
- * Single news article page defaults (fallback when no WP data).
+ * New (single article) component default props. Fallback when no WP data.
  */
-export const SingleNewsDefaults = {
+export const NewDefaults = {
   title: "Pink October at El-Rapha",
   date: "31st October 2025",
   image: { src: "/images/news-page.png", alt: "Pink October at El-Rapha" },

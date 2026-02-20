@@ -1,7 +1,7 @@
 import PageScreen from "@/components/PageScreen/PageScreen";
 import Careers from "@/components/Careers/Careers";
 import { getPagePropsFromSearchParams } from "@/lib/wp-api";
-import { CareersDefaults } from "./careers-defaults";
+import { CareersDefaults } from "@/components/Careers/defaults";
 
 export const metadata = {
   title: "Careers",

@@ -1,5 +1,5 @@
 import TextPage from "@/components/TextPage/TextPage";
-import { PrivacyDefaults } from "./privacy-defaults";
+import { PrivacyDefaults } from "@/components/TextPage/defaults";
 
 export const metadata = {
   title: "Privacy",

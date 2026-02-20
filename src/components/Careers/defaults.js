@@ -1,5 +1,5 @@
 /**
- * Careers page defaults.
+ * Careers component default props.
  */
 export const CareersDefaults = {
   title:

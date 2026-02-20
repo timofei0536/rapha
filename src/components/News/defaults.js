@@ -1,5 +1,5 @@
 /**
- * News page component defaults.
+ * News component default props. Shared by all pages that use News.
  */
 export const NewsDefaults = {
   title: "News",

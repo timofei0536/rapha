@@ -7,7 +7,7 @@ import Header from '@/components/Header/Header';
 import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
 import Footer from '@/components/Footer/Footer';
 import { getPageProps } from "@/lib/wp-api";
-import { ContactDefaults } from "@/app/contact/contact-defaults";
+import { ContactDefaults } from "@/components/Contact/defaults";
 
 const inter = Inter({
   subsets: ["latin"],

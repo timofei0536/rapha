@@ -1,5 +1,5 @@
 import New from "@/components/New/New";
-import { SingleNewsDefaults } from "./single-news-defaults";
+import { NewDefaults } from "@/components/New/defaults";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
 export default async function SingleNewsPage({ params }) {
   const { slug } = await params;
   // TODO: fetch article by slug
-  const article = SingleNewsDefaults;
+  const article = NewDefaults;
 
   return (
     <main className="page page--bg-gray">

@@ -1,5 +1,5 @@
 /**
- * Privacy page component defaults.
+ * TextPage component default props (e.g. for Privacy page).
  */
 export const PrivacyDefaults = {
   title: "Privacy Policy",

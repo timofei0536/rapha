@@ -1,5 +1,5 @@
 /**
- * Contact page defaults. Shared by contact page and layout (header/footer).
+ * Contact component default props. Used by contact page and layout (header/footer).
  */
 export const ContactDefaults = {
   map: {

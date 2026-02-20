@@ -1,6 +1,6 @@
 import NewsScreen from "@/components/NewsScreen/NewsScreen";
 import News from "@/components/News/News";
-import { NewsDefaults } from "./news-defaults";
+import { NewsDefaults } from "@/components/News/defaults";
 
 export const metadata = {
   title: "News",

@@ -1,5 +1,5 @@
 import Results from "@/components/Results/Results";
-import { ResultsDefaults } from "./results-defaults";
+import { ResultsDefaults } from "@/components/Results/defaults";
 
 export const metadata = {
   title: "Search Results",

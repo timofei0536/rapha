@@ -2,7 +2,8 @@ import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
 import Service from "@/components/Service/Service";
-import { ServiceDefaults, NewsDefaults } from "./services-defaults";
+import { ServiceDefaults } from "@/components/Service/defaults";
+import { NewsDefaults } from "@/components/News/defaults";
 
 export const metadata = {
   title: "Our Services",
