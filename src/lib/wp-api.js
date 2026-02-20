@@ -89,9 +89,11 @@ export async function getPageComponentData(slug, componentKey) {
 }
 
 /**
- * Infer normalizer function for a key from its default value shape.
- * @param {string} key
- * @param {unknown} defaultVal
+ * Build a normalizer from default value shape. Universal for all components: no per-component branches.
+ * Mirrors default → schema → ACF: same structure, only converts ACF format (url, alt_text) to app format (src, alt).
+ *
+ * @param {string} key Field name (used for "content" vs text).
+ * @param {unknown} defaultVal Shape from defaults (same as schema).
  * @returns {(raw: unknown) => unknown}
  */
 function getNormalizerForKey(key, defaultVal) {
@@ -100,17 +102,14 @@ function getNormalizerForKey(key, defaultVal) {
   }
   if (Array.isArray(defaultVal)) {
     const first = defaultVal[0];
-    if (first && typeof first === "object") {
-      if ("image" in first && typeof first.image === "object") return (raw) => normalizeGallery(raw);
-      if ("link" in first || ("href" in first && "title" in first))
-        return (raw) => normalizeRepeater(raw, { title: normalizeText, link: normalizeLink });
-      if ("content" in first && "image" in first)
-        return (raw) =>
-          normalizeRepeater(raw, {
-            content: normalizeContent,
-            image: normalizeImage,
-            layout: (v) => normalizeText(v),
-          });
+    if (first && typeof first === "object" && !Array.isArray(first)) {
+      const normalizers = {};
+      for (const k of Object.keys(first)) {
+        normalizers[k] = getNormalizerForKey(k, first[k]);
+      }
+      if (Object.keys(normalizers).length > 0) {
+        return (raw) => normalizeRepeater(raw, normalizers);
+      }
     }
     return (raw) => (Array.isArray(raw) ? raw : undefined);
   }
@@ -125,13 +124,22 @@ function getNormalizerForKey(key, defaultVal) {
         const title = normalizeText(raw.title) ?? "";
         return src ? { title, src } : undefined;
       };
-    if ("left" in defaultVal && "right" in defaultVal)
+    // Group: normalize each key by its shape (e.g. gallery.left, gallery.right as repeaters).
+    const groupNormalizers = {};
+    for (const k of Object.keys(defaultVal)) {
+      groupNormalizers[k] = getNormalizerForKey(k, defaultVal[k]);
+    }
+    if (Object.keys(groupNormalizers).length > 0) {
       return (raw) => {
         if (!raw || typeof raw !== "object") return undefined;
-        const left = Array.isArray(raw.left) ? raw.left : [];
-        const right = Array.isArray(raw.right) ? raw.right : [];
-        return { left, right };
+        const result = {};
+        for (const k of Object.keys(groupNormalizers)) {
+          const v = groupNormalizers[k](raw[k]);
+          if (v !== undefined) result[k] = v;
+        }
+        return Object.keys(result).length ? result : undefined;
       };
+    }
   }
   return (raw) => (raw !== undefined && raw !== null ? raw : undefined);
 }
