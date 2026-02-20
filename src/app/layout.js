@@ -108,3 +108,8 @@ export default function RootLayout({ children }) {
 // Включить RestAPi
 // По умолчанию включить ACF, а то скрыто.
 // в fucntion.js добавить nextwp по умолчанию если он существует.
+
+
+// NEXTWP:
+
+// 1) надо page update  прежде чем acf сохранятся.
