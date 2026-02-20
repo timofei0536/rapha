@@ -2,6 +2,7 @@
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
 import { getPageProps, getBlockProps } from "@/lib/wp-api";
+import { applyBlockFilter } from "@/lib/block-filter";
 import { ContactDefaults } from "@/components/Contact/defaults";
 import { CareersDefaults } from "@/components/Careers/defaults";
 import { InfraDefaults } from "@/components/Infra/defaults";
@@ -49,7 +50,8 @@ const blockDefaults = {
 export async function getBlockPropsForPage(slug, componentKey, searchParams) {
   const defaults = blockDefaults[slug]?.[componentKey];
   if (!defaults) throw new Error(`No defaults registered for slug="${slug}" componentKey="${componentKey}"`);
-  return getBlockProps(slug, componentKey, defaults, searchParams);
+  const result = await getBlockProps(slug, componentKey, defaults, searchParams);
+  return applyBlockFilter(result, defaults);
 }
 
 /**

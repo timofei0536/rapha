@@ -1,0 +1,11 @@
+---
+description: When creating or editing component defaults (defaults.js, default props), use canonical shapes from docs/defaults-rules.md.
+globs: ["**/defaults.js", "**/defaults.ts"]
+alwaysApply: false
+---
+
+# Canonical defaults
+
+При создании или изменении default props (`**/defaults.js` или объекты-defaults на страницах) соблюдай **единственный источник правил**: [docs/defaults-rules.md](docs/defaults-rules.md). Там описаны формы для link, image, repeater/group. Не дублируй правила здесь — только ссылка на файл.
+
+Проверка: `npm run check:defaults`.

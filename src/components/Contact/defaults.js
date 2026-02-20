@@ -20,6 +20,7 @@ export const ContactDefaults = {
       link: {
         text: "+241 077 986 660",
         href: "tel:+241077986660",
+        target: "_self",
       },
     },
     {
@@ -27,6 +28,7 @@ export const ContactDefaults = {
       link: {
         text: "contact@el-raphaga.com",
         href: "mailto:contact@el-raphaga.com",
+        target: "_self",
       },
     },
   ],
