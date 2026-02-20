@@ -114,3 +114,7 @@ export default function RootLayout({ children }) {
 
 // 1) надо page update  прежде чем acf сохранятся.
 // 2) ссылки не натянулись.
+
+// Contact
+// 1) 3я items ограничить.
+// 2) svg icons натянуть.
