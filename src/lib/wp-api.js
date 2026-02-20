@@ -6,6 +6,8 @@
  * If unset, no fetch is performed and components use their default props.
  */
 
+import { normalizeGallery as normalizeGalleryAcf, normalizeText } from "@/lib/acf";
+
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
     ? process.env.NEXT_PUBLIC_WP_API_URL.replace(/\/$/, "")
@@ -77,34 +79,18 @@ export async function getPageComponentData(slug, componentKey) {
   return getComponentData(page, componentKey);
 }
 
-/**
- * Normalize ACF/WP gallery to { image: { src, alt } }[].
- * WP may return items with url, source_url, or nested item.image.
- *
- * @param {unknown} gallery Raw gallery from ACF (array or undefined)
- * @returns {{ image: { src: string; alt: string } }[] | undefined}
- */
-export function normalizeGallery(gallery) {
-  if (!Array.isArray(gallery) || gallery.length === 0) return undefined;
-  const out = gallery.map((item) => {
-    const img = item?.image ?? item;
-    const src = img?.src ?? img?.url ?? img?.source_url ?? (typeof img === "string" ? img : null);
-    const alt = img?.alt ?? img?.alt_text ?? "";
-    if (!src) return null;
-    return { image: { src, alt } };
-  }).filter(Boolean);
-  return out.length ? out : undefined;
-}
+/** Re-export from lib/acf for backward compatibility. */
+export { normalizeGallery } from "@/lib/acf";
 
 /**
  * Return value if non-empty string, else undefined (so component can use DEFAULT_*).
+ * Uses normalizeText from lib/acf.
  *
  * @param {unknown} value
  * @returns {string | undefined}
  */
 export function orDefault(value) {
-  const s = value != null ? String(value).trim() : "";
-  return s || undefined;
+  return normalizeText(value);
 }
 
 /**
