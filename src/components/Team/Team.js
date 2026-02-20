@@ -2,22 +2,8 @@ import "./Team.scss";
 import Image from "next/image";
 import Btn from "@/components/ui/Btn/Btn";
 
-const DEFAULT_SUBTITLE = "Our Medical Teams";
-const DEFAULT_TITLE = "Excellence in Every Discipline";
-const DEFAULT_CONTENT = "Our hospital brings together leading experts across medicine, surgery, and diagnostics. With advanced training and a shared mission to raise healthcare standards in Africa, our teams set new benchmarks for patient care.";
-const DEFAULT_GALLERY = {
-    left: [
-        { image: { src: "/images/team-gallery/team-gallery-2.png", alt: "Medical team member" }, width: 434, height: 412 },
-        { image: { src: "/images/team-gallery/team-gallery-4.png", alt: "Medical team member" }, width: 434, height: 536 },
-        { image: { src: "/images/team-gallery/team-gallery-3.png", alt: "Medical team member" }, width: 434, height: 64 },
-    ],
-    right: [
-        { image: { src: "/images/team-gallery/team-gallery-5.png", alt: "Medical team member" }, width: 434, height: 224 },
-        { image: { src: "/images/team-gallery/team-gallery-1.png", alt: "Medical team members" }, width: 434, height: 450 },
-    ],
-};
-
-export default function Team({ subtitle = DEFAULT_SUBTITLE, title = DEFAULT_TITLE, content = DEFAULT_CONTENT, gallery = DEFAULT_GALLERY }) {
+export default function Team(props) {
+    const { subtitle, title, content, gallery } = props;
     return (
         <section className="team">
             <div className="center-wrap">
@@ -32,7 +18,7 @@ export default function Team({ subtitle = DEFAULT_SUBTITLE, title = DEFAULT_TITL
                         </div>
                         <div className="team__gallery">
                             <div className="team__gallery-part team__gallery-part--left">
-                                {(gallery.left ?? []).map((item, i) => (
+                                {(gallery?.left ?? []).map((item, i) => (
                                     <Image
                                         key={i}
                                         src={item.image.src}
@@ -44,7 +30,7 @@ export default function Team({ subtitle = DEFAULT_SUBTITLE, title = DEFAULT_TITL
                                 ))}
                             </div>
                             <div className="team__gallery-part team__gallery-part--right">
-                                {(gallery.right ?? []).map((item, i) => (
+                                {(gallery?.right ?? []).map((item, i) => (
                                     <Image
                                         key={i}
                                         src={item.image.src}

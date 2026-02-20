@@ -2,25 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import "./Service.scss";
 
-const DEFAULT_SERVICES = [
-    { slug: "resuscitation", title: "Resuscitation" },
-    { slug: "surgery-operating-room", title: "Surgery & Operating Room" },
-    { slug: "emergencies", title: "Emergencies" },
-    { slug: "internal-medicine-dialysis", title: "Internal Medicine Dialysis" },
-    { slug: "analysis-laboratory", title: "Analysis Laboratory" },
-    { slug: "other-specialties", title: "Other Specialties" },
-    { slug: "hospitality-catering", title: "Hospitality & Catering" },
-    { slug: "medical-imaging", title: "Medical Imaging" },
-    { slug: "gynecology-obstetrics", title: "Gynecology-Obstetrics" },
-];
-
-export default function Service({
-    services = DEFAULT_SERVICES,
-    activeSlug,
-    basePath = "/services",
-    defaultImage = "/images/services-screen.png",
-}) {
-    const active = services.find((s) => s.slug === activeSlug) ?? services[0];
+export default function Service(props) {
+    const {
+        services = [],
+        activeSlug,
+        basePath = "/services",
+        defaultImage = "/images/services-screen.png",
+    } = props;
+    const list = Array.isArray(services) ? services : [];
+    const active = list.find((s) => s.slug === activeSlug) ?? list[0];
     // const activeImage = active.image ?? defaultImage;
     const activeImage = "/images/service-screen.png";
 
@@ -31,8 +21,8 @@ export default function Service({
                     <div className="center-wrap center-wrap--small">
                     <nav className="service__nav">
                         <ul className="service__list">
-                            {services.map((item) => {
-                                const isActive = item.slug === active.slug;
+                            {list.map((item) => {
+                                const isActive = active && item.slug === active.slug;
                                 return (
                                     <li key={item.slug} className="service__item">
                                         <Link
@@ -49,12 +39,12 @@ export default function Service({
                     <div className="service__content">
                             <Image
                                 src={activeImage}
-                                alt={active.title}
+                                alt={active?.title ?? ""}
                                 width={1250}
                                 height={640}
                                 className="service__image"
                             />
-                            <h2 className="service__title simple-title">{active.title}</h2>
+                            <h2 className="service__title simple-title">{active?.title}</h2>
                     </div>
             </div>
             </div>

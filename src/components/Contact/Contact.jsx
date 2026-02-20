@@ -6,46 +6,17 @@ import Phone from "@/components/ui/icons/Phone";
 import Mail from "@/components/ui/icons/Mail";
 import Booking from "@/components/Booking/Booking";
 
-// const DEFAULT_MAP = {
-//   title: "Polyclinique El Rapha - Libreville",
-//   src: "https://www.google.com/maps?q=Polyclinique+El+Rapha+Libreville+Gabon&z=16&output=embed",
-// };
-
 const CONTACT_ICONS = [Location, Phone, Mail];
 
-// const DEFAULT_ITEMS = [
-//   {
-//     title: "Polyclinique El Rapha",
-//     link: {
-//       text: "Three Quarters,\n256 Libreville,\nGabon",
-//       href: "https://www.google.com/maps/search/?api=1&query=Three+Quarters,+256+Libreville,+Gabon",
-//       target: "_blank",
-//     },
-//   },
-//   {
-//     title: "Call us",
-//     link: {
-//       text: "+241 077 986 660",
-//       href: "tel:+241077986660",
-//     },
-//   },
-//   {
-//     title: "Email us",
-//     link: {
-//       text: "contact@el-raphaga.com",
-//       href: "mailto:contact@el-raphaga.com",
-//     },
-//   },
-// ];
-
-export default function Contact({ map = DEFAULT_MAP, items = DEFAULT_ITEMS }) {
+export default function Contact(props) {
+  const { map, items } = props;
   return (
     <section className="contact">
       <div className="center-wrap center-wrap--small">
         <div className="contact__map">
           <iframe
-            title={map.title}
-            src={map.src}
+            title={map?.title}
+            src={map?.src}
             className="contact__map-iframe"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -54,7 +25,7 @@ export default function Contact({ map = DEFAULT_MAP, items = DEFAULT_ITEMS }) {
         </div>
 
         <div className="contact__info">
-          {items.map((item, i) => {
+          {(items || []).map((item, i) => {
             const Icon = CONTACT_ICONS[i] ?? Location;
             const { link } = item;
             const linkProps = {

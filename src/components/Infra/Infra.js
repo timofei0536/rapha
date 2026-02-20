@@ -2,20 +2,14 @@ import "./Infra.scss";
 import Image from "next/image";
 import Btn from "@/components/ui/Btn/Btn";
 
-const DEFAULT_TITLE = "Our Infrastructure";
-const DEFAULT_ITEMS = [
-    { image: { src: "/images/infra1.png", alt: "24/7 Ambulance" }, title: "24/7 Ambulance" },
-    { image: { src: "/images/infra2.png", alt: "Food and Dietetics" }, title: "Food and Dietetics" },
-    { image: { src: "/images/infra3.png", alt: "Special Nurses" }, title: "Special Nurses" },
-];
-
-export default function Infra({ title = DEFAULT_TITLE, items = DEFAULT_ITEMS }) {
+export default function Infra(props) {
+    const { title, items } = props;
     return (
         <section className="infra">
             <div className="center-wrap center-wrap--small">
             <h2 className="infra__title simple-title simple-title--center">{title}</h2>
             <div className="infra__list">
-                {items.map((item, i) => (
+                {(items || []).map((item, i) => (
                     <div key={i} className="infra__item">
                         <Image 
                             src={item.image.src} 

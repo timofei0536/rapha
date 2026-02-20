@@ -20,7 +20,9 @@ try {
 
 const EXTENSIONS = ['.jsx', '.js', '.tsx', '.ts'];
 const COMPONENTS_DIR = path.resolve(__dirname, '../../src/components');
+const APP_DIR = path.resolve(__dirname, '../../src/app');
 const SCHEMA_PATH = path.resolve(__dirname, '../schema.json');
+const PAGE_FILENAME = 'page';
 
 const URL_REGEX = /^(?:https?:\/\/|tel:|mailto:)/;
 const IMAGE_EXT_REGEX = /\.(png|jpe?g|gif|webp|svg|ico)(\?|$)/i;
@@ -232,6 +234,145 @@ function hasContentAncestorInJSX(ast, propName) {
   return found;
 }
 
+/**
+ * List all page files under app dir (e.g. app/careers/page.jsx).
+ * @returns {string[]} Absolute paths
+ */
+function listPageFiles() {
+  const out = [];
+  function scan(dir) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) scan(full);
+      else if (e.isFile()) {
+        const base = path.basename(e.name, path.extname(e.name));
+        const ext = path.extname(e.name);
+        if (base === PAGE_FILENAME && EXTENSIONS.includes(ext)) out.push(full);
+      }
+    }
+  }
+  scan(APP_DIR);
+  return out;
+}
+
+/**
+ * Get component names imported from @/components/... in this file (local name).
+ * @param {import('@babel/parser').ParseResult} ast
+ * @returns {string[]}
+ */
+function getComponentsImportedInPage(ast) {
+  const names = [];
+  if (!ast?.program?.body) return names;
+  for (const node of ast.program.body) {
+    if (node.type !== 'ImportDeclaration') continue;
+    const src = node.source?.value || '';
+    if (!/^@\/components\/|\.\.\/.*components\//.test(src)) continue;
+    for (const spec of node.specifiers || []) {
+      if (spec.type === 'ImportDefaultSpecifier' && spec.local?.name) {
+        names.push(spec.local.name);
+      }
+    }
+  }
+  return names;
+}
+
+/**
+ * Get prop names from a page that uses the component with a spread (e.g. <Careers {...CareersDefaults} />).
+ * @param {string} componentName
+ * @returns {string[] | null}
+ */
+function getPropNamesFromPageForComponent(componentName) {
+  const pagePaths = listPageFiles();
+  for (const filePath of pagePaths) {
+    const code = fs.readFileSync(filePath, 'utf8');
+    let ast;
+    try {
+      ast = parse(code, { sourceType: 'module', plugins: ['jsx'] });
+    } catch {
+      continue;
+    }
+    if (!getComponentsImportedInPage(ast).includes(componentName)) continue;
+    const constants = getConstantsFromFile(ast);
+    const propNames = findPropNamesFromJSXSpread(ast, componentName, constants);
+    if (propNames && propNames.length > 0) return propNames;
+  }
+  return null;
+}
+
+function findPropNamesFromJSXSpread(ast, componentName, constants) {
+  let found = null;
+  function visit(node) {
+    if (!node) return;
+    if (node.type === 'JSXElement' && node.openingElement) {
+      const name = node.openingElement.name;
+      const tagName = (name.type === 'Identifier' || name.type === 'JSXIdentifier') ? name.name : null;
+      if (tagName === componentName) {
+        const spreadKeys = [];
+        const attrNames = [];
+        for (const attr of node.openingElement.attributes || []) {
+          if (attr.type === 'JSXSpreadAttribute' && attr.argument) {
+            const arg = attr.argument;
+            if (arg.type === 'Identifier' && constants[arg.name]) {
+              const val = constants[arg.name];
+              if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+                spreadKeys.push(...Object.keys(val));
+              }
+            }
+          } else if (attr.type === 'JSXAttribute' && attr.name?.name) {
+            attrNames.push(attr.name.name);
+          }
+        }
+        if (spreadKeys.length > 0) {
+          found = [...new Set(spreadKeys)];
+          return;
+        }
+        if (attrNames.length > 0) {
+          found = attrNames;
+          return;
+        }
+      }
+    }
+    for (const k of Object.keys(node)) {
+      const child = node[k];
+      if (Array.isArray(child)) child.forEach(visit);
+      else if (child && typeof child === 'object' && child.type) visit(child);
+    }
+  }
+  visit(ast);
+  return found;
+}
+
+/**
+ * Get default values for a component from a page that imports it (object constant with keys = prop names).
+ * @param {string} componentName
+ * @param {string[]} propNames
+ * @returns {Record<string, unknown> | null}
+ */
+function getDefaultsFromPageForComponent(componentName, propNames) {
+  const pagePaths = listPageFiles();
+  const need = new Set(propNames);
+  for (const filePath of pagePaths) {
+    const code = fs.readFileSync(filePath, 'utf8');
+    let ast;
+    try {
+      ast = parse(code, { sourceType: 'module', plugins: ['jsx'] });
+    } catch {
+      continue;
+    }
+    if (!getComponentsImportedInPage(ast).includes(componentName)) continue;
+    const constants = getConstantsFromFile(ast);
+    for (const [name, val] of Object.entries(constants)) {
+      if (typeof val !== 'object' || val === null || Array.isArray(val)) continue;
+      const keys = Object.keys(val);
+      const hasAll = propNames.every((p) => keys.includes(p));
+      if (hasAll) return val;
+    }
+  }
+  return null;
+}
+
 /** Make value JSON-serializable for schema (strip undefined, keep plain data). */
 function valueForSchema(val) {
   if (val === null) return null;
@@ -299,9 +440,16 @@ function getSchemaForComponent(componentName) {
   }
 
   const constants = getConstantsFromFile(ast);
-  const props = getPropsWithDefaults(ast);
+  let props = getPropsWithDefaults(ast);
 
-  if (props.length === 0) return null;
+  if (props.length === 0) {
+    const propNames = getPropNamesFromPageForComponent(componentName);
+    if (!propNames || propNames.length === 0) return null;
+    props = propNames.map((name) => ({ name, defaultNode: null }));
+  }
+
+  const propNames = props.map((p) => p.name);
+  const pageDefaults = getDefaultsFromPageForComponent(componentName, propNames);
 
   const fields = [];
   for (const { name, defaultNode } of props) {
@@ -312,6 +460,9 @@ function getSchemaForComponent(componentName) {
       } else {
         val = astToValue(defaultNode, constants);
       }
+    }
+    if (val === undefined && pageDefaults && name in pageDefaults) {
+      val = pageDefaults[name];
     }
     const hasContentAncestor = hasContentAncestorInJSX(ast, name);
     fields.push(buildFieldDef(name, val, constants, hasContentAncestor, ast));

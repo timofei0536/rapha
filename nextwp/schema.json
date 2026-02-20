@@ -587,15 +587,21 @@
   "New": [
     {
       "name": "title",
-      "type": "text"
+      "type": "text",
+      "default": "Pink October at El-Rapha"
     },
     {
       "name": "date",
-      "type": "text"
+      "type": "text",
+      "default": "31st October 2025"
     },
     {
       "name": "image",
-      "type": "text"
+      "type": "image",
+      "default": {
+        "src": "/images/news-page.png",
+        "alt": "Pink October at El-Rapha"
+      }
     },
     {
       "name": "content",
@@ -607,55 +613,55 @@
     {
       "name": "title",
       "type": "text",
-      "default": "News"
+      "default": "The word of\nGeneral manager"
     },
     {
       "name": "items",
       "type": "repeater",
       "default": [
         {
+          "content": "<p><b>Welcome</b> to the <b>EL-RAPHA Polyclinic</b>, where the Director, the medical team, and all the staff are pleased to welcome you. While thanking you for your trust, they assure you of their dedication to providing you with the <b>best possible care</b>.</p>",
           "image": {
-            "src": "/images/news1.png",
-            "alt": "news-image"
+            "src": "/images/about/about1.png",
+            "alt": "image"
           },
-          "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "layout": "content-image"
         },
         {
+          "content": "<p>Our mission has always been to ensure <b>quality</b> <b>and safe care</b> in various fields of general and specialized medicine, respecting our founding values: <b>a welcoming and friendly atmosphere</b>, <b>respect and compassion</b>, <b>sharing and fairness</b>. The primary purpose of any healthcare facility, whether public or private, is, and must remain, the quality of care and the safety of patients.</p>",
           "image": {
-            "src": "/images/news2.png",
-            "alt": "news-image"
+            "src": "/images/about/about2.png",
+            "alt": "image"
           },
-          "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "layout": "content-image"
         },
         {
+          "content": "<p>The EL-RAPHA Polyclinic is constantly evolving to provide its patients with the <b>highest quality of care and safety</b> tailored to their needs and expectations. The Polyclinic's staff, regardless of their role, contributes to this <b>pursuit of excellence</b>, guiding their work to provide you with the best possible care and make your stay as comfortable as possible.</p><p><b>We thank you for your trust over the past 10 years; it is an honor and a responsibility we all share.</b></p>",
           "image": {
-            "src": "/images/news3.png",
-            "alt": "news-image"
+            "src": "/images/about/about3.png",
+            "alt": "image"
           },
-          "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "layout": "image-content"
         }
       ],
       "sub_fields": [
         {
+          "name": "content",
+          "type": "content",
+          "default": "<p><b>Welcome</b> to the <b>EL-RAPHA Polyclinic</b>, where the Director, the medical team, and all the staff are pleased to welcome you. While thanking you for your trust, they assure you of their dedication to providing you with the <b>best possible care</b>.</p>"
+        },
+        {
           "name": "image",
           "type": "image",
           "default": {
-            "src": "/images/news1.png",
-            "alt": "news-image"
+            "src": "/images/about/about1.png",
+            "alt": "image"
           }
         },
         {
-          "name": "title",
+          "name": "layout",
           "type": "text",
-          "default": "Lorem ipsum dolor"
-        },
-        {
-          "name": "content",
-          "type": "content",
-          "default": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "default": "content-image"
         }
       ]
     }
@@ -823,20 +829,6 @@
           "default": "Resuscitation"
         }
       ]
-    },
-    {
-      "name": "activeSlug",
-      "type": "text"
-    },
-    {
-      "name": "basePath",
-      "type": "image",
-      "default": "/services"
-    },
-    {
-      "name": "defaultImage",
-      "type": "image",
-      "default": "/images/services-screen.png"
     }
   ],
   "Services": [
