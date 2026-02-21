@@ -20,7 +20,7 @@ export default async function Home({ searchParams }) {
       <Services {...servicesProps} />
       <Infra {...infraProps} />
       {/* <Team {...teamProps} /> */}
-      {/* <News {...newsProps} /> */}
+      <News {...newsProps} />
     </main>
   );
 }

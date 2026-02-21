@@ -54,8 +54,11 @@ body {
 	// @media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
 	// 	max-width: calc( $large_mobile - var(--p-page)*2*0.1rem);
 	// }
-	&--small {
-		max-width: 155.6rem;
+
+	@media screen and (min-width: $large_tablet) {
+		&--small {
+			max-width: 155.6rem;
+		}
 	}
 }
 
@@ -109,8 +112,9 @@ h5 {
 	font-size: 4.8rem;
 	font-weight: 600;
 	letter-spacing: -0.02em; /* -0.096rem при 4.8rem */
+
 	@media screen and (max-width: $large_tablet) {
-		font-size: 4rem;
+		font-size: 2.8rem;
 	}
 
 	&--large {

@@ -2,7 +2,7 @@
 
     padding-top: calc( var(--p-margin) / 1.5 );
     @media screen and (max-width: $large_tablet) {
-        padding-top: calc( var(--p-margin) / 4 );
+        padding-top: calc( var(--p-margin) / 3 );
     }
     &__list {
         display: flex;

@@ -13,6 +13,17 @@
     &__item {
         width: calc( ( 100% - 2.2rem*2 ) /3 );
 
+
+        @media screen and (max-width: $large_tablet) {
+            
+            &:not(:first-child) {
+               display: none;
+            }
+
+            width: 100%;
+        }
+
+
         &-img {
             aspect-ratio: 1.26 / 1;
             width: 100%;
@@ -27,6 +38,9 @@
             letter-spacing: -0.02em; /* -0.056rem при 2.8rem */
             margin-bottom: 1.7rem;
             font-family: var(--primary-f);
+            @media screen and (max-width: $large_tablet) {
+                font-size: 2rem;
+            }
         }
 
         &-text {
