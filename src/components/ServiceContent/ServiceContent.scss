@@ -1,0 +1,55 @@
+.service-content {
+  &__nav-wrap {
+    border-radius: var(--radius);
+    background: var(--gray);
+    padding: calc(var(--p-margin) / 1.5);
+    margin-bottom: 2rem;
+  }
+
+  &__nav {
+    //
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.2rem;
+    font-size: 1.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    display: inline-flex;
+  }
+
+  &__btn {
+    min-width: auto;
+    border-radius: 9rem;
+    padding: 1.6rem 2.8rem;
+    font-size: 1.6rem;
+    background: var(--white);
+    color: var(--primary-c);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    .btn__icon {
+      display: none;
+    }
+
+    &--active {
+      font-weight: 600;
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+
+      &:hover {
+        background: var(--blue);
+        color: var(--white);
+        border-color: var(--blue);
+      }
+    }
+  }
+}
