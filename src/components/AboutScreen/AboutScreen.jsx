@@ -9,7 +9,7 @@ export default function AboutScreen(props) {
                 <div className="about-screen__left">
                     <div className="about-screen__subtitle">{subtitle}</div>
                     <h1 className="about-screen__title simple-title">{title}</h1>
-                    <div className="about-screen__content content" dangerouslySetInnerHTML={{ __html: content }} />
+                    <div className="about-screen__content content" dangerouslySetInnerHTML={{ __html: typeof content === "string" ? content : "" }} />
                 </div>
 
                 <div className="about-screen__image img-wrap">
