@@ -120,6 +120,9 @@ h5 {
 	&--large {
 		font-size: 11.4246rem;
 		font-weight: 700;
+		@media screen and (max-width: $large_tablet) {
+			font-size: 4rem;
+		}
 	}
 
 	&--right {
@@ -243,5 +246,9 @@ img {
 
 	&--white * {
 		fill: var(--white);
+	}
+
+	@media screen and (max-width: $large_tablet) {
+		width: 140rem;
 	}
 }

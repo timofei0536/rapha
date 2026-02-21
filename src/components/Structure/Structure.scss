@@ -3,6 +3,9 @@
     background: var(--gray);
     &__title {
      margin-bottom: calc( var(--p-margin) / 2 );   
+        @media screen and (max-width: $large_tablet) {
+            text-align: center;
+        }
     }
 
     &__tab.content ul {
@@ -31,6 +34,11 @@
         padding: 3rem;
         display: flex;
         gap: 5.5rem;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 4rem;
+            padding: 2.4rem;
+        }
     }
 
     &__nav {
@@ -38,6 +46,9 @@
         display: flex;
         flex-direction: column;
         gap: 3rem;
+        @media screen and (max-width: $large_tablet) {
+            gap: 1.2rem;
+        }
         .btn {
             svg {
                 width: 1.8rem;

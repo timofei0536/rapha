@@ -6,12 +6,25 @@
     align-items: center;
     overflow: hidden;
     position: relative;
+    @media screen and (max-width: $large_tablet) {
+        flex-direction: column-reverse;
+        padding-bottom: calc( var(--p-margin) / 2 );
+    }
 
     &__image {
         width: 83rem;
         height: 100vh;
         margin-left: auto;
         flex-shrink: 0;
+        @media screen and (max-width: $large_tablet) {
+            width: 100%;
+            height: auto;
+            overflow: visible;
+            img {
+                position: static !important;
+                height: auto !important;
+            }
+        }
     }
 
     &__subtitle {
@@ -25,6 +38,17 @@
         font-weight: 600;
         letter-spacing: -0.02em; /* -0.04rem при 2rem */
         margin-bottom: 5.6rem;
+        @media screen and (max-width: $large_tablet) {
+            padding: 1.2rem 2.4rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 4rem;
+        }
+    }
+    &__title {
+        @media screen and (max-width: $large_tablet) {
+            font-size: 2.1rem;
+        }
     }
 
     &__left {
@@ -33,17 +57,34 @@
         flex-direction: column;
         align-items: flex-start;
         padding-right: 10rem;
+        @media screen and (max-width: $large_tablet) {
+            padding-top: 6rem;
+            max-width: calc(100% - var(--p-page)*2*0.1rem);
+            padding-right: 0px;
+        }
     }
 
     &__content {
         margin-top: 8.7rem;
         max-width: 73rem;
         font-size: 2rem;
+        @media screen and (max-width: $large_tablet) {
+            margin-top: 2rem;
+            font-size: 1.6rem;
+        }
     }
 
-    .decore {
-        left: calc( var(--p-page)* -0.1rem );
-        width: calc(var(--p-page) * 0.2rem + 100% );
+    
+        .decore {
+            @media screen and (min-width: $large_tablet) {
+                left: calc( var(--p-page)* -0.1rem );
+               width: calc(var(--p-page) * 0.2rem + 100% );
+            }
+
+            @media screen and (max-width: $large_tablet) {
+                transform: translateY(40%);
+            }
+
     }
 
 }

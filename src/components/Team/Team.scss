@@ -3,6 +3,7 @@
 
     background: var(--gray);
     padding-bottom: calc( var(--p-margin) / 1 );
+    
     &__wrap {
         
         background:var(--blue);
@@ -12,17 +13,37 @@
         align-items: center;
         justify-content: space-between;
         gap: 10rem;
+        padding: 12rem 0px;
         padding-left: calc( (100% - 155.6rem)  / 2);
+        position: relative;
+        overflow: hidden;
+        
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 0px;
+            padding-bottom: 4rem;
+            padding-top: 4rem;
+        }
     }
 
     &__left {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        max-width: 63rem;
+        width: 100%;
+        @media screen and (max-width: $large_tablet) {
+            align-items: center;
+            text-align: center;
+        }
     }
 
     &__small-title {
         margin-bottom: 13.5rem;
+        @media screen and (max-width: $large_tablet) {
+            font-size: 1.8rem;
+            margin-bottom: 3.5rem;
+        }
     }
 
     &__title {
@@ -33,11 +54,18 @@
         line-height: 100%;
         letter-spacing: -0.02em; /* -0.192rem при 9.6rem */
         margin-bottom: 7.6rem;
+        @media screen and (max-width: $large_tablet) {
+            font-size: 4rem;
+            margin-bottom: 4rem;
+        }
     }
 
 
     &__text {
         max-width: 45.5rem;
+        @media screen and (max-width: $large_tablet) {
+            display: none;
+        }
     }
 
     .btn {
@@ -47,28 +75,40 @@
     &__gallery {
         display: flex;
         gap: 3.8rem;
-        padding-right: 3.8rem;
+        align-items: center;
         position: relative;
         opacity: 0.6;
+        position: absolute;
+        right: 3.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        @media screen and (max-width: $large_tablet) {
+            position: static;
+            transform: none;
+            flex-direction: column-reverse;
+            gap: 1.2rem;
+        }
+        
 
         &-part {
             display: flex;
             flex-direction: column;
             gap: 3.8rem;
             width: 43.5rem;
+            @media screen and (max-width: $large_tablet) {
+                flex-direction: row;
+                gap: 1.2rem;
+                width: 100%;
+                justify-content: center;
+            }
             img {
                 width: 100%;
                 height: auto;
                 border-radius: var(--radius);
                 object-fit: cover;
-
-                &:first-child {
-                    border-top-left-radius: 0;
-                    border-top-right-radius: 0;
-                }
-                &:last-child {
-                    border-bottom-left-radius: 0;
-                    border-bottom-right-radius: 0;
+                @media screen and (max-width: $large_tablet) {
+                    width: auto !important;
+                    height: auto !important;
                 }
             }
         }

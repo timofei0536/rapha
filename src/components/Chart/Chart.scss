@@ -1,5 +1,7 @@
 .chart {
 
+    background: var(--gray);
+    
     &__wrap {
         padding: var(--p-margin) 0;
         background-color: var(--blue);
@@ -11,6 +13,10 @@
         font-size: 4.8rem;
         font-weight: 600;
         margin-bottom: 6rem;
+        @media screen and (max-width: $large_tablet) {
+            text-align: center;
+            font-size: 4rem;
+        }
     }
 
     &__tree {

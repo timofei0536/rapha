@@ -75,6 +75,9 @@
         .btn {
             margin-bottom: 3rem;
             margin-top: auto;
+            @media screen and (max-width: $large_tablet) {
+                margin-bottom: 2.4rem;
+            }
         }
     }
 }

@@ -8,21 +8,36 @@
     position: relative;
     overflow: hidden;
 
+    @media screen and (max-width: $large_tablet) {
+        font-size: 1.6rem;
+        padding-bottom: 18rem;
+    }
+
     &__wrap {
         display: flex;
         justify-content: space-between;
         position: relative;
         z-index: 2;
+        @media screen and (max-width: $large_tablet) {
+            flex-wrap: wrap;
+        }
     }
 
     &__logo-link {
         display: block;
         margin-bottom: auto;
+        @media screen and (max-width: $large_tablet) {
+            width: 100%;
+            margin-bottom: 3.8rem;
+        }
     }
 
     &__logo {
         width: 22.5rem;
         height: auto;
+        @media screen and (max-width: $large_tablet) {
+            width: 16.4rem;
+        }
     }
 
     &__nav {
@@ -30,13 +45,22 @@
         flex-direction: column;
         gap: 2.4rem;
         align-items: flex-start;
+        @media screen and (max-width: $large_tablet) {
+            gap: 1.6rem;
+        }
 
 
         &--legal {
             margin-top: auto;
             flex-direction: row;
             font-size: 1.2rem;
+            @media screen and (max-width: $large_tablet) {
+                margin-top: calc( 4rem - 1.6rem );
+                flex-direction: column;
+
+            }
         }
+
     }
 
     &__col {
@@ -44,17 +68,42 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 2.4rem;
+
+
+        &--emails {
+            @media screen and (max-width: $large_tablet) {
+                margin-top: 4rem;
+                gap: 1.6rem;
+
+                > a {
+                    text-decoration: underline;
+                    text-decoration-line: underline;
+                    text-decoration-color: var(--blue-l);
+                    text-underline-position: from-font;
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+        
     }
 
 
     &__contact {
         &-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1.2rem;
+            @media screen and (max-width: $large_tablet) {
+                gap: 0.8rem;
+            }
             svg {
                 width: 2.4rem;
                 height: auto;
+                @media screen and (max-width: $large_tablet) {
+                    width: 1.8rem;
+                }
             }
         }
 
@@ -68,4 +117,10 @@
         text-decoration: none;
     }
     
+
+    .decore {
+        @media screen and (max-width: $large_tablet) {
+            transform: none;
+        }
+    }
 }

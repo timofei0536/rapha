@@ -128,3 +128,6 @@ export default async function RootLayout({ children }) {
 // 3) Careers -> create form.
 // 4) 404 натянуть.
 // 5) text page натянуть.
+// 5) about -> content --reverse on mobile
+// 6) header сразу чтоб менял цвет.
+// 7) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.

@@ -47,4 +47,13 @@
             margin-bottom: 1.82rem;
         }
     }
+
+    &__more {
+        display: none;
+
+        @media screen and (max-width: $large_tablet) {
+            display: block;
+            margin-top: 3.2rem;
+        }
+    }
 }

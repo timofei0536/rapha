@@ -17,7 +17,7 @@ export default function PageScreen({ children, className = "", title, image }) {
                             height={1070}
                         />
                         <h1 className="simple-title simple-title--large">{title}</h1>
-                        <Decor className="page-screen__decore" />
+                        <Decor className="decore decore--white" />
                     </>
                 ) : (
                     children

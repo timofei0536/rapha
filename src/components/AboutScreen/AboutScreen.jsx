@@ -18,8 +18,9 @@ export default function AboutScreen(props) {
                     alt={image?.alt}
                     fill
                   />
+                  <Decor className='decore decore--white desktop--hide' />
                 </div>
-                <Decor className='decore decore--white' />
+                <Decor className='decore decore--white mobile--hide' />
         </section>
     );
 }

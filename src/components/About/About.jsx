@@ -7,6 +7,11 @@ export default function About(props) {
     return (
         <section className="about">
             <div className="center-wrap center-wrap--small">
+                
+            <h2 className="simple-title about__title desktop--hide">
+                    {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : title}
+            </h2>
+
             <div className="about__gm">
                 <div className="img-wrap about__gm-img" style={{ aspectRatio: "1/1" }}>
                   <Image
@@ -19,7 +24,7 @@ export default function About(props) {
                 <div className="about__gm-position">{gm?.position}</div>
             </div>
             <div className="about__content">
-                <h2 className="simple-title about__title">
+                <h2 className="simple-title about__title mobile--hide">
                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : title}
                 </h2>
                 <div className="about__items">

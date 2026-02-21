@@ -8,6 +8,9 @@
         aspect-ratio: 133/58;
         position: relative;
         overflow: hidden;
+        @media screen and (max-width: $large_tablet) {
+            aspect-ratio: 1/1;
+        }
         iframe {
             position: absolute;
             left: 0px;
@@ -25,9 +28,18 @@
         justify-content: space-between;
         padding: 0px 15rem;
         margin: calc( var(--p-margin) / 2 ) auto;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            padding: 0px;
+        }
 
         &-item {
+            a {
             font-size: 2rem;
+                @media screen and (max-width: $large_tablet) {
+                    font-size: 1.6rem;
+               }
+            }
         }
 
         &-title {
@@ -35,11 +47,15 @@
             font-weight: 600;
             margin-bottom: 2.4rem;
             font-family: inherit;
+            @media screen and (max-width: $large_tablet) {
+                font-size: 2rem;
+            }
         }
 
         &-icon {
             &-wrap {
                 width: 3.2rem;
+                flex-shrink: 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;

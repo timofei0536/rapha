@@ -12,7 +12,7 @@ export default function Team(props) {
                             <h2 className="team__small-title simple-title">{subtitle}</h2>
                             <span className="team__title">{title}</span>
                             <div className="team__text content" dangerouslySetInnerHTML={{ __html: content }} />
-                            <Btn text='Read More' className="btn--orange" href="/about" />
+                            <Btn text='Read More' className="btn--orange mobile--hide" href="/about" />
                         </div>
                         <div className="team__gallery">
                             <div className="team__gallery-part team__gallery-part--left">
@@ -40,6 +40,7 @@ export default function Team(props) {
                                 ))}
                             </div>
                         </div>
+                        <Btn text='Read More' className="btn--orange desktop--hide" href="/about" />
                 </div>
             </div>
         </section>    

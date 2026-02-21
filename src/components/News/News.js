@@ -1,6 +1,7 @@
 import "./News.scss";
 import Image from "next/image";
 import Link from 'next/link';
+import Btn from "@/components/ui/Btn/Btn";
 
 export default function News(props) {
     const { title, items } = props;
@@ -17,6 +18,9 @@ export default function News(props) {
                         <Link href="#" className='news__item-link link link-hover'>Read more</Link>
                     </div>
                 ))}
+            </div>
+            <div className="news__more">
+                <Btn text="More News" href="#" className="btn--blue-l" />
             </div>
             </div>
         </section>    

@@ -8,6 +8,9 @@
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
+        @media screen and (max-width: $large_tablet) {
+            align-items: center;
+        }
         > * {
             z-index: 2;
             position: relative;
@@ -69,18 +72,8 @@
         max-width: 81.5rem;
     }
 
-    &__decore {
-aspect-ratio: 1920 / 56;
-        width: 100%;
-        height: auto;
+    .decore {
+        left: 0px;
         position: absolute !important;
-        bottom: 0px;
-        left: calc( var(--p-page)* -0.1rem );
-        transform: translateY(50%);
-        z-index: 2;
-        width: calc(var(--p-page) * 0.2rem + 100% );
-        * {
-            fill: var(--white);
-        }
     }
 }
