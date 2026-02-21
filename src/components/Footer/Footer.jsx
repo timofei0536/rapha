@@ -74,8 +74,8 @@ export default function Footer({ contactInfo }) {
                         {email?.href && <a href={email.href} className="footer__email link-hover">{email.text || ""}</a>}
                         <a href="mailto:recrutement@el-raphaga.com" className="footer__email link-hover">recrutement@el-raphaga.com</a>
                         <nav className="footer__nav footer__nav--legal">
-                            <Link href="/terms" className="footer__link link-hover">Terms & Conditions</Link>
-                            <Link href="/privacy" className="footer__link link-hover">Privacy Policy</Link>
+                            <Link href="/terms-conditions" className="footer__link link-hover">Terms & Conditions</Link>
+                            <Link href="/privacy-policy" className="footer__link link-hover">Privacy Policy</Link>
                         </nav>
                     </div>
                 </div>
