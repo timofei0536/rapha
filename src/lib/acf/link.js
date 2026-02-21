@@ -1,3 +1,5 @@
+import { literalNewlines } from "./text.js";
+
 /**
  * Normalize ACF link field to { text, href, target? }.
  * ACF returns { url, title, target }; also support { href, text }.
@@ -12,7 +14,7 @@ export function normalizeLink(raw) {
   const text = raw.text ?? raw.title ?? "";
   const target = raw.target;
   return {
-    text: String(text ?? "").trim(),
+    text: literalNewlines(String(text ?? "").trim()),
     href: href.trim(),
     ...(target != null && String(target).trim() ? { target: String(target).trim() } : {}),
   };

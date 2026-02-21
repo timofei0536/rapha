@@ -119,3 +119,7 @@ export default async function RootLayout({ children }) {
 // Contact
 // 1) 3я items ограничить.
 // 2) svg icons натянуть.
+
+
+// EDITS:
+// 1) PageScreen натянуть
