@@ -1,5 +1,6 @@
 import PageScreen from "@/components/PageScreen/PageScreen";
 import Careers from "@/components/Careers/Careers";
+import Apply from "@/components/Apply/Apply";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
@@ -16,6 +17,7 @@ export default async function CareersPage({ searchParams }) {
     <main>
       <PageScreen title={PAGE_TITLE} image={PAGE_IMAGE} />
       <Careers {...props} />
+      <Apply />
     </main>
   );
 }
