@@ -1,6 +1,6 @@
 .booking {
   
-  border-radius: 3rem;
+  border-radius: var(--radius);
   background: var(--gray);
   padding: calc( var(--p-margin) / 2 ) 15rem;
   display: flex;

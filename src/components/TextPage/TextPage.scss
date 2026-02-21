@@ -4,7 +4,7 @@
 
     &__wrap {
         background-color: var(--white);
-        border-radius: 3rem;
+        border-radius: var(--radius);
         padding: calc( var(--p-margin) / 1.5 ) 0px;
     }
 

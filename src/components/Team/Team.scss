@@ -31,7 +31,7 @@
         font-size: 9.6rem;
         font-weight: 600;
         line-height: 100%;
-        letter-spacing: -0.192rem;
+        letter-spacing: -0.02em; /* -0.192rem при 9.6rem */
         margin-bottom: 7.6rem;
     }
 
@@ -59,7 +59,7 @@
             img {
                 width: 100%;
                 height: auto;
-                border-radius: 3rem;
+                border-radius: var(--radius);
                 object-fit: cover;
 
                 &:first-child {

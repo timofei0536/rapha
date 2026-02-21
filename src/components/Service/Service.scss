@@ -1,6 +1,6 @@
 .service {
     &__wrap {
-        border-radius: 3rem;
+        border-radius: var(--radius);
         background: var(--blue);
         color: var(--white);
         padding: calc( var(--p-margin) / 1.5 ) 0px;
@@ -39,7 +39,7 @@
     &__content {
         position: relative;
         overflow: hidden;
-        border-radius: 3rem;
+        border-radius: var(--radius);
 
         img {
             width: 100%;

@@ -1,5 +1,5 @@
 .form {
-  border-radius: 3rem;
+  border-radius: var(--radius);
   background: var(--blue);
   padding: 2rem;
   display: flex;

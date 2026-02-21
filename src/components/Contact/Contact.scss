@@ -3,7 +3,7 @@
     margin-bottom: var(--p-margin);
 
     &__map {
-        border-radius: 3rem;
+        border-radius: var(--radius);
         width: 100%;
         aspect-ratio: 133/58;
         position: relative;

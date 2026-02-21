@@ -1,7 +1,7 @@
 .new {
     margin-top: calc(var(--header-height) + 2rem);
     background-color: var(--white);
-    border-radius: 3rem;
+    border-radius: var(--radius);
     margin-bottom: 4rem;
     padding-top: calc( var(--p-margin) / 2 );
     padding-bottom: var(--p-margin);
@@ -61,7 +61,7 @@
     }
 
     &__img {
-        border-radius: 3rem;
+        border-radius: var(--radius);
     }
 
     &__content {

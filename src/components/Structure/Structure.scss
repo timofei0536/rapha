@@ -26,7 +26,7 @@
     }
 
     &__wrap {
-        border-radius: 3rem;
+        border-radius: var(--radius);
         background: var(--white);
         padding: 3rem;
         display: flex;

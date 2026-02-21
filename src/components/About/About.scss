@@ -19,7 +19,7 @@
         }
 
         img {
-            border-radius: 1.4823rem;
+            border-radius: 1.48rem;
         }
 
         &-position {
@@ -61,7 +61,7 @@
         gap: 5.65rem;
         
         img {
-            border-radius: 3rem;
+            border-radius: var(--radius);
         }
 
         &--hor {

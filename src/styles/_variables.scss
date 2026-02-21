@@ -21,6 +21,7 @@
 --p-page: 30;
 --p-margin: 20rem;
 --header-height: calc( 9.4rem + 6.6rem );
+--radius: 3rem;
 }
 
 
@@ -36,6 +37,7 @@ $large_mobile: 480px;
     --p-page: 45;
     --p-margin: 10rem;
     --header-height: calc( 7.2rem + 4.8rem );
+    --radius: 2rem;
   }
 }
 

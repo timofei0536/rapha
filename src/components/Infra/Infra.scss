@@ -21,7 +21,7 @@
         justify-content: center;
         align-items: center;
         aspect-ratio: 89/79;
-        border-radius: 3rem;
+        border-radius: var(--radius);
         overflow: hidden;
 
         &-title {
