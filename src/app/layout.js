@@ -122,4 +122,9 @@ export default async function RootLayout({ children }) {
 
 
 // EDITS:
+
 // 1) PageScreen натянуть
+// 2) Contact -> book appointment title.
+// 3) Careers -> create form.
+// 4) 404 натянуть.
+// 5) text page натянуть.
