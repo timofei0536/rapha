@@ -1,7 +1,7 @@
 .chart {
 
     background: var(--gray);
-    
+
     &__wrap {
         padding: var(--p-margin) 0;
         background-color: var(--blue);
@@ -19,19 +19,59 @@
         }
     }
 
+    &__scroll-outer {
+        position: relative;
+        @media screen and (max-width: 1023px) {
+            overflow: hidden;
+        }
+    }
+
+    &__scroll-inner {
+        @media screen and (max-width: 1023px) {
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
+
+    &__scroll-outer::after {
+        content: "";
+        display: none;
+        @media screen and (max-width: 1023px) {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: linear-gradient(
+                90deg,
+                var(--blue) 0%,
+                transparent 12%,
+                transparent 88%,
+                var(--blue) 100%
+            );
+        }
+    }
+
     &__tree {
         display: flex;
         flex-direction: column;
         align-items: center;
+        @media screen and (max-width: 1023px) {
+            min-width: min-content;
+        }
     }
 
     &__branch {
         display: flex;
         flex-direction: column;
         align-items: center;
-        .chart__children-list .chart__child-wrap:nth-child(1) & {
-
-        }
     }
 
     &__node {

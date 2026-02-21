@@ -1,5 +1,7 @@
+"use client";
 import "./Chart.scss";
 import Image from "next/image";
+import { useRef, useEffect } from "react";
 
 function ChartNode({ node, siblingIndex }) {
     const hasChildren = node.children && node.children.length > 0;
@@ -54,19 +56,44 @@ function ChartNode({ node, siblingIndex }) {
     );
 }
 
+const MOBILE_BREAKPOINT = 1024;
+
 export default function Chart(props) {
     const { title, data } = props;
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el || typeof window === "undefined") return;
+
+        const scrollToCenter = () => {
+            if (window.innerWidth >= MOBILE_BREAKPOINT) return;
+            el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+        };
+
+        const t = setTimeout(scrollToCenter, 0);
+        window.addEventListener("resize", scrollToCenter);
+        return () => {
+            clearTimeout(t);
+            window.removeEventListener("resize", scrollToCenter);
+        };
+    }, [data]);
+
     if (!data) return null;
     return (
         <section className="chart">
             <div className="center-wrap">
                 <div className="chart__wrap white-header">
                     <div className="center-wrap center-wrap--small">
-                <h2 className="chart__title simple-title">{title}</h2>
-                <div className="chart__tree">
-                    <ChartNode node={data} />
-                </div>
-                </div>
+                        <h2 className="chart__title simple-title">{title}</h2>
+                        <div className="chart__scroll-outer">
+                            <div className="chart__scroll-inner" ref={scrollRef}>
+                                <div className="chart__tree">
+                                    <ChartNode node={data} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
