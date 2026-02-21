@@ -16,7 +16,7 @@ export default function Footer({ contactInfo }) {
     const email = contactInfo?.email;
 
     return (
-        <footer className="footer">
+        <footer className="footer white-header">
             <div className="center-wrap">
                 <div className="footer__wrap">
                             <Link

@@ -1,4 +1,43 @@
 .apply {
     background-color: var(--gray);
-    padding: var(--p-margin) 0px;
+    padding: calc( var(--p-margin) /2) 0px;
+    &__wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+        }
+    }
+    
+    &__content {
+        max-width: 43rem;
+        width: 100%;
+        @media screen and (max-width: $large_tablet) {
+            max-width: 100%;
+            margin-bottom: 4rem;
+        }
+    }
+
+    .form {
+        max-width: 92.5rem;
+        width: 100%;
+        flex-direction: column;
+        &__input {
+            width: 100%;
+        }
+
+        .form__upload {
+            width: calc( 50% - 1.13rem );
+            @media screen and (max-width: $large_tablet) {
+                width: 100%;
+            }
+        }
+
+        .btn {
+            justify-content: center;
+            padding: 2rem 0px;
+        }
+
+    }
 }

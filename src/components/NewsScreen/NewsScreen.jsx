@@ -32,7 +32,7 @@ export default function NewsScreen() {
                 </div>
             </div>
             </div>
-            <Decor className="news-screen__decore" aria-hidden="true" />
+            <Decor className="decore decore--blue" aria-hidden="true" />
         </section>
     );
 }

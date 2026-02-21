@@ -7,12 +7,11 @@ export default function Service(props) {
         services = [],
         activeSlug,
         basePath = "/services",
-        defaultImage = "/images/services-screen.png",
+        defaultImage = "/images/service-page.png",
     } = props;
     const list = Array.isArray(services) ? services : [];
     const active = list.find((s) => s.slug === activeSlug) ?? list[0];
-    // const activeImage = active.image ?? defaultImage;
-    const activeImage = "/images/service-screen.png";
+    const activeImage = active.image ?? defaultImage;
 
     return (
         <section className="service">
@@ -37,13 +36,11 @@ export default function Service(props) {
                         </ul>
                     </nav>
                     <div className="service__content">
-                            <Image
+                              <Image
                                 src={activeImage}
                                 alt={active?.title ?? ""}
-                                width={1250}
-                                height={640}
-                                className="service__image"
-                            />
+                                fill
+                              />
                             <h2 className="service__title simple-title">{active?.title}</h2>
                     </div>
             </div>

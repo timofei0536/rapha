@@ -2,12 +2,9 @@
  * Apply component default props.
  */
 export const ApplyDefaults = {
-  heading: "Interested in applying to El-Rapha?",
-  email: "recrutement@el-raphaga.com",
-  textIntro:
-    "You can complete the online application form below or send your application (resume and cover letter) directly by email to:",
-  textNote:
-    "However, we recommend considering geographical proximity when choosing a location. Candidates are encouraged to submit their application electronically with an uploaded resume.",
+  content: `<h2>Interested in applying to El-Rapha?</h2>
+<p>You can complete the online application form below or send your application (resume and cover letter) directly by email to: <strong><a href="mailto:recrutement@el-raphaga.com">recrutement@el-raphaga.com</a></strong></p>
+<p>However, we recommend considering geographical proximity when choosing a location. Candidates are encouraged to submit their application electronically with an uploaded resume.</p>`,
   submitText: "Submit",
   roleOptions: [
     { value: "", label: "Role" },

@@ -7,11 +7,18 @@
     padding-bottom: var(--p-margin);
     position: relative;
     overflow: hidden;
+    @media screen and (max-width: $large_tablet) {
+        padding-top: 2rem;
+    }
 
     &__wrap {
         display: flex;
         gap: 18rem;
         align-items: flex-start;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column-reverse;
+            gap: 3rem;
+        }
     }
 
     &__date {
@@ -20,6 +27,9 @@
         text-decoration-line: underline;
         text-underline-position: from-font;
         display: inline-block;
+        @media screen and (max-width: $large_tablet) {
+            margin-bottom: 3rem;
+        }
     }
 
     &__title {
@@ -32,6 +42,10 @@
         align-items: center;
         justify-content: space-between;
         margin-top: 5rem;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 2rem;
+        }
     }
 
     &__share {
@@ -65,6 +79,8 @@
     }
 
     &__content {
-        font-size: 2rem;
+        @media screen and (min-width: $large_tablet) {
+            font-size: 2rem;
+        }
     }
 }

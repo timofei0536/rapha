@@ -7,10 +7,18 @@
     overflow: hidden;
     display: flex;
     align-items: center;
+    @media screen and (max-width: $large_tablet) {
+        padding: calc( var(--header-height) + ( var(--p-margin) / 2 )  ) 3rem calc( var(--p-margin) / 2 );
+        text-align: center;
+        min-height: 1px;
+        background-color: var(--yellow);
+   }
     &__wrap {
         display: flex;
         gap: 10rem;
-        background-color: redx;
+        @media screen and (max-width: $large_tablet) {
+            justify-content: center;
+        }
     }
 
     &__title {
@@ -23,6 +31,9 @@
         border-left: 1px solid var(--blue);
         align-items: flex-start;
         width: 100%;
+        @media screen and (max-width: $large_tablet) {
+            display: none;
+        }
     }
     &__content {
         display: flex;
@@ -52,18 +63,9 @@
         }
     }
 
-    &__decore {
-aspect-ratio: 1920 / 56;
-        width: 100%;
-        height: auto;
-        position: absolute !important;
-        bottom: 0px;
-        left: calc( var(--p-page)* -0.1rem );
-        transform: translateY(50%);
-        z-index: 2;
-        width: calc(var(--p-page) * 0.2rem + 100% );
-        * {
-            fill: var(--blue);
+    .decore {
+        @media screen and (max-width: $large_tablet) {
+            display: none;
         }
     }
     

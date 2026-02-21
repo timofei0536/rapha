@@ -173,6 +173,7 @@ img {
 	height: auto;
 }
 
+
 :root {
 	color-scheme: light dark;
 }
@@ -239,6 +240,11 @@ img {
 	transform: translateY(50%);
 	z-index: 2;
 	left: 0px;
+
+	&--blue * {
+		fill: var(--blue)
+	}
+
 
 	&--bluel-l * {
 		fill: var(--blue-l)

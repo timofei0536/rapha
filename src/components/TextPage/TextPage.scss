@@ -2,24 +2,39 @@
     margin-top: calc( var(--header-height) + 2rem );
     margin-bottom: 4rem;
 
+    @media screen and (max-width: $large_tablet) {
+        margin-bottom: calc( var(--p-margin) / 2 );
+    }
+
     &__wrap {
         background-color: var(--white);
         border-radius: var(--radius);
         padding: calc( var(--p-margin) / 1.5 ) 0px;
+        @media screen and (max-width: $large_tablet) {
+            padding: calc( var(--p-margin) / 2 ) 0px;
+        }
     }
 
     &__page {
         display: flex;
         justify-content: space-between;
         gap: 10rem;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 2rem;
+        }
     }
 
     &__title {
-        width: 53.6rem;
+        max-width: 53.6rem;
+        width: 100%;
         flex-shrink: 0;
     }
 
-    &__content {
-        font-size: 2rem;
-    }
+    @media screen and (min-width: $large_tablet) {
+    
+        &__content {
+            font-size: 2rem;
+        }
+    }   
 }

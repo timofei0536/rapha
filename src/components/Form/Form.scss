@@ -77,10 +77,12 @@
     }
   }
 
+
+
   &__upload {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 0.8rem;
     border-radius: 2rem;
     background: var(--white);
@@ -95,6 +97,7 @@
 
     @media screen and (max-width: $large_tablet) {
       border-radius: 1.2rem;
+      width: 100%;
     }
 
     &:hover {
@@ -123,5 +126,14 @@
     height: 100%;
     opacity: 0;
     cursor: pointer;
+  }
+
+  &__sep {
+    height: 0.5px;
+    width: 100%;
+    background-color: white;
+    @media screen and (max-width: $large_tablet) {
+      display: none;
+    }
   }
 }

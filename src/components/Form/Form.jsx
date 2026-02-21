@@ -63,7 +63,7 @@ export default function Form({
             className="form__input"
             type="email"
             name="email"
-            placeholder="email"
+            placeholder="Email"
             autoComplete="email"
             aria-label="Email"
           />
@@ -81,6 +81,7 @@ export default function Form({
             name="date"
             aria-label="Date"
           />
+          <div className="form__sep"></div>
           <label className="form__upload">
             <span className="form__upload-text">Upload CV</span>
             <Upload className="form__upload-icon" />
@@ -94,7 +95,7 @@ export default function Form({
         </div>
         <button type="submit" className="btn btn--blue-l">
           <span className="btn__text">{submitText}</span>
-          <SubmitIcon className="btn__icon" />
+          {/* <SubmitIcon className="btn__icon" /> */}
         </button>
       </form>
     );
@@ -138,7 +139,7 @@ export default function Form({
           className="form__input"
           type="email"
           name="email"
-          placeholder="email"
+          placeholder="Email"
           autoComplete="email"
         />
         <input

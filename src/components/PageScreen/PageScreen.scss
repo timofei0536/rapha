@@ -10,6 +10,7 @@
         flex-direction: column;
         @media screen and (max-width: $large_tablet) {
             align-items: center;
+            text-align: center;
         }
         > * {
             z-index: 2;
