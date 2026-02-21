@@ -45,7 +45,7 @@ export default function Services(props) {
                         href="/cataloge.pdf"
                         download="cataloge.pdf"
                     />
-                    <Btn text="All Services" className="btn--blue-l"/>
+                    <Btn text="All Services" className="btn--blue-l" href="/services" />
                 </div>
             </div>
         </section>    
