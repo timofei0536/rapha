@@ -20,11 +20,13 @@ function ChartNode({ node, siblingIndex }) {
             <div className={nodeClass}>
                 <div className="chart__node-avatar">
                     <div className="img-wrap" style={{ aspectRatio: "1/1" }}>
-                      <Image
-                        src={node.image.src}
-                        alt={node.image.alt}
-                        fill
-                      />
+                      {node.image?.src ? (
+                        <Image
+                          src={node.image.src}
+                          alt={node.image.alt ?? node.name ?? ""}
+                          fill
+                        />
+                      ) : null}
                     </div>
                 </div>
                 <div className="chart__node-text">
