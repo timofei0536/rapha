@@ -5,6 +5,10 @@
         display: flex;
         gap: 2rem;
         flex-wrap: wrap;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 1.2rem;
+        }
     }
 
     &__item {
@@ -15,12 +19,18 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        @media screen and (max-width: $large_tablet) {
+            width: 100%;
+        }
 
         &--title {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            @media screen and (max-width: $large_tablet) {
+                aspect-ratio: 369/200 !important;
+            }
             .simple-title {
                 z-index: 2;
                 color: white;
@@ -35,6 +45,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: inherit;
+
         }
         &-icon {
             display: flex;
@@ -67,5 +78,10 @@
         gap: 2rem;
         justify-content: center;
         margin: calc( var(--p-margin) / 2 ) 0px;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
     }
 }

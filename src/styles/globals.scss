@@ -68,6 +68,9 @@ body {
 	min-height: 100vh;
 	font-size: 1.6rem;
 	// user-select: none;
+	@media screen and (max-width: $large_tablet) {
+		font-size: 1.4rem;
+	}
 
 	&.scroll {
 		overflow: hidden;
@@ -106,6 +109,9 @@ h5 {
 	font-size: 4.8rem;
 	font-weight: 600;
 	letter-spacing: -0.096rem;
+	@media screen and (max-width: $large_tablet) {
+		font-size: 4rem;
+	}
 	// правки сверху строка letter-spacing в rem.
 
 	&--large {

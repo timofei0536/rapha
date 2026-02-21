@@ -1,0 +1,12 @@
+{
+  "Media query (tablet max)": {
+    "scope": "scss",
+    "prefix": ["mq", "mq "],
+    "body": [
+      "@media screen and (max-width: \\$large_tablet) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Media query max-width tablet как в globals.scss"
+  }
+}

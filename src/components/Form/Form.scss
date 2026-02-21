@@ -5,6 +5,11 @@
   display: flex;
   gap: 2.25rem;
 
+  @media screen and (max-width: $large_tablet) {
+    gap: 1.2rem;
+    flex-direction: column;
+  }
+
   .booking & {
     gap: 1.7rem;
   }
@@ -16,6 +21,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2.25rem;
+    @media screen and (max-width: $large_tablet) {
+      gap: 1.2rem;
+      font-size: 1.6rem;
+    }
     .booking & {
       gap: 1.7rem;
     }
@@ -31,6 +40,12 @@
     border: none !important;
     color: var(--blue);
     flex-grow: 1;
+    
+    @media screen and (max-width: $large_tablet) {
+      width: 100%;
+      border-radius: 1.2rem;
+    }
+
     &::placeholder {
       color: var(--blue);
     }
@@ -39,5 +54,9 @@
   .btn {
     border-radius: 2rem;
     padding: 2.7rem;
+    @media screen and (max-width: $large_tablet) {
+      padding: 1rem 2rem;
+      border-radius: 1.2rem;
+    }
   }
 }

@@ -12,7 +12,7 @@ export default function Hero(props) {
             </div>
             <Image src={image?.src} alt={image?.alt} className="hero__bg" fill />
             <div className="center-wrap">
-                <h1 className="hero__title">{title}</h1>
+                <h1 className="hero__title simple-title simple-title--large">{title}</h1>
                 <div className="hero__form">
                     <span className="hero__form-title">{formTitle}</span>
                     <Form />    

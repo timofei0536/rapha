@@ -64,6 +64,11 @@ export default function Header({ contactInfo }) {
             </ul>
           </nav>
           <Search />
+          <div className="header__burger">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         </div>
         </div>
 

@@ -2,8 +2,11 @@
     position: relative;
     color: var(--white);
     overflow: hidden;
-    height: 100vh;
     display: flex;
+
+    @media screen and (min-width: $large_tablet) {
+        height: 100vh;    
+    }
 
     &::before {
         content: "";
@@ -15,6 +18,9 @@
         background-color: rgba(black,0.2);
         z-index: 2;
         width: 89rem;
+        @media screen and (max-width: $large_tablet) {
+            display: none;
+        }
     }
 
     &__blur-wrap {
@@ -26,6 +32,10 @@
         z-index: 1;
         width: 89rem;
         overflow: hidden;
+        @media screen and (max-width: $large_tablet) {
+            display: none;
+        }
+
         img {
             filter: blur(1.5rem);
             transform: scale(1.05);
@@ -38,6 +48,11 @@
         left: auto !important;
         object-fit: cover;
         right: 0px !important;
+        top: 0px;
+        @media screen and (max-width: $large_tablet) {
+            width: 100% !important;
+            height: 100vh !important;
+        }
     }
 
 
@@ -63,31 +78,53 @@
 
 
     &__title {
-        font-size: 11.4246rem;
-        font-weight: 700;
         line-height: 106%;
         max-width: 81.5rem;
         margin-bottom: 7.6rem;
         padding-left: 3rem;
         margin-top: auto;
         margin-top: -0.3em;
+        @media screen and (max-width: $large_tablet) {
+            text-align: center;
+            font-size: 4rem;
+            padding-left: 0px;
+            width: 90%;
+            margin: 12rem auto;
+        }
     }
-
 
     &__form {
         display: flex;
         gap: 2rem;
         align-items: flex-start;
         margin-bottom: auto;
+        @media screen and (max-width: $large_tablet) {
+            flex-direction: column;
+            gap: 0px;
+        }
         &-title {
-            font-size: 2.4rem;
-            letter-spacing: -0.048rem;
-            flex-shrink: 0;
-            border-radius: 3rem;
-            background: var(--blue-l);
-            line-height: 8.5rem;
-            padding: 0px 10.85rem;
-            font-weight: normal;
+            @media screen and (min-width: $large_tablet) {
+                font-size: 2.4rem;
+                letter-spacing: -0.048rem;
+                flex-shrink: 0;
+                border-radius: 3rem;
+                background: var(--blue-l);
+                line-height: 8.5rem;
+                padding: 0px 10.85rem;
+                font-weight: normal;
+            }
+            @media screen and (max-width: $large_tablet) {
+                text-align: center;
+            }
+        }
+    }
+
+    .decore {
+        @media screen and (max-width: $large_tablet) {
+            bottom: calc( 100% - 100vh );
+            transform: none;
+            width: 100rem;
+            z-index: 1;
         }
     }
 
