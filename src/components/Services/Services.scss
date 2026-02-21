@@ -1,6 +1,9 @@
 .services {
 
     padding-top: calc( var(--p-margin) / 1.5 );
+    @media screen and (max-width: $large_tablet) {
+        padding-top: calc( var(--p-margin) / 4 );
+    }
     &__list {
         display: flex;
         gap: 2rem;
@@ -21,6 +24,7 @@
         align-items: flex-start;
         @media screen and (max-width: $large_tablet) {
             width: 100%;
+            padding: 2.4rem;
         }
 
         &--title {
@@ -54,19 +58,38 @@
             padding: 1rem;
             justify-content: center;
             align-items: center;
-            gap: 1rem;
             background-color: var(--white);
             border-radius: 2rem;  
             svg {
                 width: 5.8rem;
                 height: auto;
+                @media screen and (max-width: $large_tablet) {
+                    width: 3.8rem;
+                }
             } 
             margin-bottom: 3rem;
+
+            @media screen and (max-width: $large_tablet) {
+                width: 6rem;
+                height: 6rem;
+                border-radius: 1rem;
+                margin-bottom: 2rem;
+            }
+        }
+
+        .simple-title {
+            @media screen and (max-width: $large_tablet) {
+                font-size: 2.8rem;
+            }
         }
 
         &-text {
             margin: 1.6rem 0px;
+            @media screen and (max-width: $large_tablet) {
+                margin: 2rem 0px;
+            }
         }
+
 
         .btn {
             margin-top: auto;

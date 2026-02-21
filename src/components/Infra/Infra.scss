@@ -6,6 +6,9 @@
         display: flex;
         gap: 2.3rem;
         flex-wrap: wrap;
+        @media screen and (max-width: $large_tablet) {
+            flex-wrap: nowrap;
+        }
     }
 
     &__title {
@@ -23,6 +26,9 @@
         aspect-ratio: 89/79;
         border-radius: var(--radius);
         overflow: hidden;
+        @media screen and (max-width: $large_tablet) {
+            width: 31rem;
+        }
 
         &-title {
             position: absolute;

@@ -10,24 +10,23 @@
     padding: 2rem;
     border-radius: 5rem;
     background: var(--blue);
-    letter-spacing: -0.016em; /* -0.032rem при 2rem */
+    letter-spacing: -0.032rem;
+    // #revisions letter-spacing rem->em
     color: var(--white);
     min-width: 20.5rem;
     font-size: 2rem;
     font-weight: 600;
     border: 1px solid transparent;
     transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+
     @media screen and (max-width: $large_tablet) {
         font-size: 1.6rem;
+        padding: 1.5rem 2rem;
     }
 
     svg {
-        width: 5.3rem;
-        height: 5.3rem;
-        @media screen and (max-width: $large_tablet) {
-            width: 3.6rem;
-            height: 3.6rem;
-        }
+        width: 2.3rem;
+        height: 2.3rem;
     }
 
     &:hover {
@@ -42,10 +41,16 @@
         font-weight: 400;
         @media screen and (max-width: $large_tablet) {
             font-size: 1.2rem;
+            min-width: 13.5rem;
+            padding: 1.2rem 2.4rem;
         }
         svg {
             width: 1.8rem;
             height: 1.8rem;
+            @media screen and (max-width: $large_tablet) {
+                width: 1.4rem;
+                height: 1.4rem;
+            }
         }
     }
 
