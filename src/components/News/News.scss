@@ -3,7 +3,8 @@
 
     &__list {
         display: flex;
-        gap: 2.2rem;
+        gap: calc( var(--p-margin) / 2 ) 2.2rem;
+        flex-wrap: wrap;
     }
 
     &__title {

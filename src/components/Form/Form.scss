@@ -56,6 +56,24 @@
     &::placeholder {
       color: var(--blue);
     }
+
+    &--date-wrap {
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__input-date {
+    width: 100%;
+    min-height: 100%;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
   }
 
   .btn {

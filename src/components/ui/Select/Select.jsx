@@ -9,13 +9,25 @@ export default function Select({
   placeholder = "",
   defaultValue = "",
   className = "",
+  required = false,
 }) {
   const [value, setValue] = useState(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
   const wrapRef = useRef(null);
+  const nativeSelectRef = useRef(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
   const displayText = selectedOption ? selectedOption.label : placeholder;
+
+  useEffect(() => {
+    const sel = nativeSelectRef.current;
+    if (!sel) return;
+    if (required && !value) {
+      sel.setCustomValidity("Please select an option.");
+    } else {
+      sel.setCustomValidity("");
+    }
+  }, [required, value]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -50,10 +62,28 @@ export default function Select({
       tabIndex={0}
       aria-haspopup="listbox"
       aria-expanded={isOpen}
+      aria-required={required}
     >
-      <input type="hidden" name={name} value={value} readOnly />
+      <select
+        ref={nativeSelectRef}
+        name={name}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onFocus={() => wrapRef.current?.focus()}
+        required={required}
+        className="select__native"
+        tabIndex={-1}
+        aria-hidden="true"
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div className="select__value">
-        {displayText}
+        <span className="select__value-text">{displayText}</span>
       </div>
       <div className="select__variants">
         {options.map((option) => (
