@@ -17,19 +17,7 @@ function addLoadEvent(func) {
 function runScrollTriggers() {
   window.ScrollTrigger.refresh();
   headerWhite();
-  sectionPin({
-    sectionSelector: '.about',
-    pinSelector: '.about__gm',
-    getEnd: (el) => {
-      const pb = parseFloat(getComputedStyle(el).paddingBottom) || 0;
-      return `bottom bottom+=${pb + 40}`;
-    },
-  });
-  sectionPin({
-    sectionSelector: '.new',
-    pinSelector: '.new__img',
-    getEnd: 'bottom bottom+=30',
-  });
+  sectionPin();
   window.ScrollTrigger.refresh();
 }
 

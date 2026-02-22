@@ -1,20 +1,32 @@
-export function sectionPin(config) {
-  const { sectionSelector, pinSelector, getEnd } = config;
-  const sectionEl = document.querySelector(sectionSelector);
-  const pinEl = document.querySelector(pinSelector);
-  if (!sectionEl || !pinEl) return;
+const PINS = [
+  { section: '.about > .center-wrap', pin: '.about__gm' },
+  { section: '.new__wrap', pin: '.new__img' },
+];
+
+function getEnd(sectionEl) {
+  const pb = parseFloat(getComputedStyle(sectionEl).paddingBottom) || 0;
+  return `bottom bottom+=${pb + 40}`;
+}
+
+export function sectionPin() {
   const headerEl = document.querySelector('.header');
-  const getStart = () => {
-    const h = headerEl ? headerEl.offsetHeight : 0;
-    return `top ${h + 48}px`;
-  };
-  const endValue = typeof getEnd === 'function' ? getEnd(sectionEl) : getEnd;
-  window.ScrollTrigger.create({
-    trigger: sectionEl,
-    endTrigger: sectionEl,
-    start: getStart(),
-    end: endValue,
-    pin: pinEl,
-    invalidateOnRefresh: true,
+  const start = `top ${(headerEl ? headerEl.offsetHeight : 0) + 50}px`;
+
+  PINS.forEach(({ section, pin }) => {
+    const sectionEl = document.querySelector(section);
+    const pinEl = document.querySelector(pin);
+    if (!sectionEl || !pinEl) return;
+
+    window.ScrollTrigger.create({
+      trigger: sectionEl,
+      endTrigger: sectionEl,
+      // start,
+      start: "top top",
+      // end: getEnd(sectionEl),
+      end: "+="+ ( sectionEl.offsetHeight - pinEl.offsetHeight * 1 ) + "px",
+      pin: pinEl,
+      invalidateOnRefresh: true,
+    });
+
   });
 }
