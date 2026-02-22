@@ -12,14 +12,22 @@
         padding: calc( var(--p-margin) / 1.5 ) 0px;
         .center-wrap {
             display: flex;
+            @media screen and (max-width: $large_tablet) {
+                flex-direction: column;
+            }
         }
     }
 
     &__nav {
-        padding-right: 3.5rem;
-        margin-right: 3.5rem;
-        border-right: 0.5px solid rgba(white, 0.5);
-        flex-shrink: 0;
+        @media screen and (min-width: $large_tablet) {
+            padding-right: 3.5rem;
+            margin-right: 3.5rem;
+            border-right: 0.5px solid rgba(white, 0.5);
+            flex-shrink: 0;
+        }
+        @media screen and (max-width: $large_tablet) {
+            width: 100%;
+        }
     }
 
     &__list {
@@ -38,7 +46,6 @@
         &--active {
             font-weight: 600;
             background: var(--orange);
-
         }
     }
 

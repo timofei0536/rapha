@@ -1,4 +1,4 @@
-import Btn from "@/components/ui/Btn/Btn";
+import Link from "next/link";
 import "./ServiceContent.scss";
 
 export default function ServiceContent({
@@ -16,6 +16,7 @@ export default function ServiceContent({
 
   return (
     <section className="service-content">
+      <div className="center-wrap">
       {hasButtons && (
         <div className="service-content__nav-wrap">
           <div className="center-wrap">
@@ -25,11 +26,12 @@ export default function ServiceContent({
                   const isActive = item.slug === activeSlug;
                   return (
                     <li key={item.slug} className="service-content__item">
-                      <Btn
-                        text={item.title}
+                      <Link
                         href={`${basePath}/${item.slug}`}
-                        className={`service-content__btn ${isActive ? "service-content__btn--active" : ""}`}
-                      />
+                        className={`service-content__link ${isActive ? "service-content__link--active" : ""}`}
+                      >
+                        {item.title}
+                      </Link>
                     </li>
                   );
                 })}
@@ -39,12 +41,11 @@ export default function ServiceContent({
         </div>
       )}
       {hasContent && (
-        <div className="center-wrap">
-          <div className="service-content__wrap center-wrap center-wrap--small">
-            <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
-          </div>
-        </div>
+            <div className="service-content__content">
+              <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
+            </div>
       )}
+      </div>
     </section>
   );
 }

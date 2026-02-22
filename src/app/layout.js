@@ -132,3 +132,4 @@ export default async function RootLayout({ children }) {
 // 6) header сразу чтоб менял цвет.
 // 7) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.
 // 8) chart gradient 
+// 9) q: why the font is italic?

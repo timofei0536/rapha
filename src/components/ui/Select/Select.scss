@@ -3,6 +3,8 @@
   position: relative;
   display: inline-flex;
   cursor: pointer;
+  min-width: 0;
+  width: 100%;
 
   &--active {
     border-bottom-left-radius: 0 !important;
@@ -27,7 +29,11 @@
     display: flex;
     align-items: center;
     width: 100%;
+    min-width: 0;
     padding-right: calc( 2.4rem + 1rem );
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &::before {
       content: '';

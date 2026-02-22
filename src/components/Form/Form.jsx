@@ -6,13 +6,6 @@ import Upload from "@/components/ui/icons/Upload";
 import Select from "@/components/ui/Select/Select";
 import Btn from "@/components/ui/Btn/Btn";
 
-const DATE_OPTIONS = [
-  { value: "tomorrow", label: "Tomorrow" },
-  { value: "this-week", label: "This week" },
-  { value: "next-week", label: "Next week" },
-  { value: "in-two-weeks", label: "In two weeks" },
-];
-
 const SERVICE_OPTIONS = [
   { value: "general", label: "General consultation" },
   { value: "pediatrics", label: "Pediatrics" },
@@ -104,11 +97,11 @@ export default function Form({
   return (
     <form className="form">
       <div className="form__inputs">
-        <Select
+        <input
+          className="form__input"
+          type="date"
           name="date"
-          placeholder="Appointment date"
-          className="form__input form__input--select"
-          options={DATE_OPTIONS}
+          aria-label="Date"
         />
         <Select
           name="service"

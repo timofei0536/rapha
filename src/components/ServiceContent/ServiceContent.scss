@@ -6,50 +6,40 @@
     margin-bottom: 2rem;
   }
 
-  &__nav {
-    //
-  }
-
   &__list {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
     justify-content: center;
-    gap: 1.2rem;
-    font-size: 1.6rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: 1.6rem;
   }
 
   &__item {
     display: inline-flex;
   }
 
-  &__btn {
-    min-width: auto;
+  // как у .service__link
+  &__link {
     border-radius: 9rem;
-    padding: 1.6rem 2.8rem;
-    font-size: 1.6rem;
+    padding: 2rem 3.4rem;
+    font-size: 2rem;
     background: var(--white);
-    color: var(--primary-c);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-
-    .btn__icon {
-      display: none;
-    }
-
-    &--active {
+    &--active, &:hover {
       font-weight: 600;
       background: var(--blue);
       color: var(--white);
-      border-color: var(--blue);
-
-      &:hover {
-        background: var(--blue);
-        color: var(--white);
-        border-color: var(--blue);
-      }
     }
+
+    &:hover {
+      font-weight: initial;
+    }
+    &--active {
+      pointer-events: none;
+    }
+  }
+
+  &__content {
+    max-width: 92.5rem;
+    margin: calc(var(--p-margin) / 2 ) auto;
+    font-size: 2rem;
   }
 }

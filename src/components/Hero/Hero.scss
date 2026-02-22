@@ -1,7 +1,6 @@
 .hero {
     position: relative;
     color: var(--white);
-    overflow: hidden;
     display: flex;
 
     @media screen and (min-width: $large_tablet) {
@@ -37,7 +36,7 @@
         }
 
         img {
-            filter: blur(1.5rem);
+            filter: blur(28px);
             transform: scale(1.05);
             object-fit: cover;
         }
@@ -136,12 +135,19 @@
                 text-underline-position: from-font;
             }
         }
+
+        .btn {
+            font-weight: normal;
+            width: 27rem;
+            flex-shrink: 0;
+        }
     }
 
     .decore {
+        clip-path: inset(0 0 50% 0);
+        z-index: 1;
         @media screen and (max-width: $large_tablet) {
             bottom: calc( 100% - 100vh );
-            transform: none;
             width: 100rem;
             z-index: 1;
         }
