@@ -71,9 +71,11 @@ body {
 	justify-content: space-between;
 	min-height: 100vh;
 	font-size: 1.6rem;
+	--content-fz: 1.6rem; // база для .content remToEm(); при переопределении fz у .content задавать и --content-fz
 	// user-select: none;
 	@media screen and (max-width: $large_tablet) {
 		font-size: 1.4rem;
+		--content-fz: 1.4rem;
 	}
 
 	&.scroll {

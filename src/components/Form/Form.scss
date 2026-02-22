@@ -39,6 +39,10 @@
       width: calc( ( 100% - 3 * 2rem ) / 4);
     }
 
+    .apply & {
+      opacity: 0.1;
+    }
+
 
     @media screen and (max-width: $large_tablet) {
       width: 100%;

@@ -4,7 +4,9 @@
 }
 
 .content {
-	--content-fz: 1em; // единица масштаба = font-size .content
+	// Не 1em: наследуется как токен и в потомках (h2 и т.д.) пересчитывается → отступы раздуваются.
+	// Задаём явной длиной: по умолчанию из body, в Structure и т.д. — font-size и --content-fz в паре.
+	--content-fz: inherit;
 
 	p {
 
