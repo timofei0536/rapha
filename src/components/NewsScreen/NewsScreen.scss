@@ -59,8 +59,15 @@
 
     &__img {
         width: 60rem;
+        overflow: hidden;
+        display: block;
+        border-radius: var(--radius);
         img {
-            border-radius: var(--radius);
+            
+            transition: transform 0.35s ease-out;
+        }
+        &:hover img {
+            transform: scale(1.05);
         }
     }
 
