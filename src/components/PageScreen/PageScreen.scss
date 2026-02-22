@@ -71,6 +71,10 @@
 
     .simple-title {
         max-width: 81.5rem;
+        line-height: 1.1;
+        @media screen and (min-width: $large_tablet) {
+        padding-left: 3rem;    
+        }
     }
 
     .decore {
