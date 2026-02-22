@@ -36,7 +36,7 @@ export default async function ServicePage({ params, searchParams }) {
     <main>
       <PageScreen className="page-screen--blur">
         <Image
-          src="/images/services-screen.png"
+          src="/images/service-page.png"
           alt={pageTitle}
           className="page-screen__bg"
           width={1920}

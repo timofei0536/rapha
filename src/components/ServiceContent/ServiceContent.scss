@@ -1,4 +1,11 @@
 .service-content {
+
+  .page-screen + & {
+    margin-top: calc( var(--p-margin) * -1.15  ) ;
+    z-index: 2;
+    position: relative;
+}
+
   &__nav-wrap {
     border-radius: var(--radius);
     background: var(--gray);
