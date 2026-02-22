@@ -136,12 +136,15 @@ export default async function RootLayout({ children }) {
 // 3) content
 // 4) build и пенос на сервер.
 // 5) presentation.
+// 6) animations
+// 7) видимость натянутых services, infra, news.
 
 // MIDDLE P
 // 1) 404 натянуть и check bg
 // 2) select crop.
 // 3) fix content ( apply .content )
 // 4) chart gradient on mobile.
+// 5) tablet
 
 // LOW P:
 
