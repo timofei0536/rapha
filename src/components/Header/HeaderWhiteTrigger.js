@@ -4,11 +4,7 @@ import { useEffect } from 'react';
 
 export default function HeaderWhiteTrigger() {
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
-
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
-    gsap.registerPlugin(ScrollTrigger);
+    if (!window.ScrollTrigger) return;
 
     const header = document.querySelector('.header');
     const getSections = () => document.querySelectorAll('.white-header');
@@ -31,25 +27,15 @@ export default function HeaderWhiteTrigger() {
       header.classList.toggle('header--white', inside);
     };
 
-    const trigger = ScrollTrigger.create({
+    const trigger = window.ScrollTrigger.create({
       trigger: document.body,
       start: 0,
       end: 'max',
       onUpdate: updateHeaderClass,
     });
-
     updateHeaderClass();
 
-    const onRefresh = () => {
-      ScrollTrigger.refresh();
-      updateHeaderClass();
-    };
-    window.addEventListener('resize', onRefresh);
-
-    return () => {
-      trigger.kill();
-      window.removeEventListener('resize', onRefresh);
-    };
+    return () => trigger.kill();
   }, []);
 
   return null;

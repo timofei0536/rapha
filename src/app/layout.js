@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import 'normalize.css';
 import "@/styles/globals.scss";
 import Header from '@/components/Header/Header';
-import HeaderWhiteTrigger from '@/components/Header/HeaderWhiteTrigger';
+import AnimationsInit from '@/components/AnimationsInit/AnimationsInit';
 import Footer from '@/components/Footer/Footer';
 import { getContactInfoForLayout } from "@/lib/rapha";
 
@@ -68,7 +68,7 @@ export default async function RootLayout({ children }) {
           strategy="beforeInteractive" 
         />
         <Header contactInfo={contactInfo} />
-        <HeaderWhiteTrigger />
+        <AnimationsInit />
         {children}
         <Footer contactInfo={contactInfo} />
       </body>
@@ -138,7 +138,6 @@ export default async function RootLayout({ children }) {
 // 14) select crop.
 // 16) newFeatures -> link., news-img -> link.
 // 17) infra where to go? services on home-page
-
 
 
 // HIGH P:
