@@ -43,6 +43,7 @@ body {
 	@media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
 		font-size: 83%;
 	}
+	font-weight: 300;
 }
 
 .center-wrap {
@@ -257,4 +258,8 @@ img {
 	@media screen and (max-width: $large_tablet) {
 		width: 140rem;
 	}
+}
+
+b, strong {
+	font-weight: 700;
 }

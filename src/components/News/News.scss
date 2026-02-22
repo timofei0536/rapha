@@ -24,10 +24,8 @@
         }
 
 
-        &-img {
-            aspect-ratio: 1.26 / 1;
+        .img-wrap {
             width: 100%;
-            height: auto;
             margin-bottom: 3.2rem;
             border-radius: var(--radius);
         }

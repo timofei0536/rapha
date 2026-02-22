@@ -28,8 +28,8 @@ export default function Footer({ contactInfo }) {
                                     className="footer__logo"
                                     src="/images/logo--white.png" 
                                     alt="Polyclinique El Rapha Logo" 
-                                    width={225} 
-                                    height={160}
+                                    width={300} 
+                                    height={116}
                                 />
                             </Link>
 

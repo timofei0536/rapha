@@ -15,8 +15,7 @@ export default function Infra(props) {
                             src={item.image.src} 
                             alt={item.image.alt} 
                             className="infra__item-img white-header"
-                            width={500}
-                            height={450}
+                            fill
                         />
                         <h3 className="simple-title infra__item-title">{item.title}</h3>
                         <Btn text="Learn More" className='btn--white btn--small' />

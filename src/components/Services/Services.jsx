@@ -18,7 +18,7 @@ export default function Services(props) {
                 <div className="services__list">
                     <div className="services__item services__item--title">
                         <h2 className='simple-title'>{title}</h2>
-                        <Image src={image?.src} alt={image?.alt} className="services__item-bg" width={588} height={450} />
+                        <Image src={image?.src} alt={image?.alt} className="services__item-bg" fill />
                     </div>
                     {(services || []).map((item, i) => {
                         const Icon = SERVICE_ICONS[i];
