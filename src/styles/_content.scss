@@ -1,3 +1,8 @@
+// rem → em (1rem = 10px): пишем значение как в Figma, получаем em под текущий font-size
+@function re($val) {
+	@return calc(#{$val} * 10px / 1em * 1em);
+}
+
 :root {
 	--fz: 16;
 }
@@ -7,24 +12,24 @@
 		font-family: var(--primary-f);
 
 		& + p {
-			margin-top: 3rem;
+			margin-top: re(3);
 		}
 
 		& + ul {
-			margin-top: 1rem;
-			margin-bottom: 3.5rem;
+			margin-top: re(1);
+			margin-bottom: re(3.5);
 		}
 
 		& + img {
-			margin-top: 3rem;
+			margin-top: re(3);
 
 			@media screen and (max-width: $large_tablet) {
-				min-height: 16rem;
+				min-height: re(16);
 			}
 		}
 
 		img {
-			margin: 0 0.8rem;
+			margin: 0 re(0.8);
 			vertical-align: middle;
 		}
 	}
@@ -36,50 +41,50 @@
 
 	h2 {
 		font-size: calc(42 / var(--fz) * 1em);
-		margin: 0 auto 6rem;
+		margin: 0 auto re(6);
 	}
 
 	h3 {
 		font-size: calc(18 / var(--fz) * 1em);
-		margin: 6.5rem 0 2rem;
+		margin: re(6.5) 0 re(2);
 	}
 
 	h4 {
 		font-size: calc(46 / var(--fz) * 1em);
-		margin: 4.5rem auto;
+		margin: re(4.5) auto;
 	}
 
 	h5 {
 		font-size: calc(40 / var(--fz) * 1em);
-		margin: 3.5rem auto;
+		margin: re(3.5) auto;
 	}
 
 	h6 {
 		font-size: calc(34 / var(--fz) * 1em);
-		margin: 7rem auto 2.5rem;
+		margin: re(7) auto re(2.5);
 	}
 
 	ul,
 	ol {
-		padding-left: 1.5rem;
+		padding-left: re(1.5);
 	}
 
 	ul {
-            ul {
-                padding-left: 1.5rem;
-                margin: 1em 0px;
-                li {
-                    list-style-type: none;
-                    &::before {
-                        content: "– ";
-                    }
-                }
-            }
+		ul {
+			padding-left: re(1.5);
+			margin: 1em 0px;
+			li {
+				list-style-type: none;
+				&::before {
+					content: "– ";
+				}
+			}
+		}
 	}
 
 	li {
 		list-style: initial;
-		margin-bottom: 1rem;
+		margin-bottom: re(1);
 
 		&:last-child {
 			margin-bottom: 0;
@@ -88,6 +93,6 @@
 
 	img {
 		height: auto;
-		margin: 8.5rem auto;
+		margin: re(8.5) auto;
 	}
 }
