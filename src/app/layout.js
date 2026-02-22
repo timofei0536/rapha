@@ -121,31 +121,36 @@ export default async function RootLayout({ children }) {
 // 2) svg icons натянуть.
 
 
+
 // EDITS:
 
 // 1) PageScreen натянуть
-// 2) Contact -> book appointment title.
-// 5) text page натянуть.
-// 5) about -> content --reverse on mobile
-// 6) header сразу чтоб менял цвет.
-// 7) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.
-// 8) chart gradient 
-// 9) fonts решитью
-// 10) chart натянуть
-// 11) 404 натянуть и check bg
-// 12) Career -> create br
-// 13) fix content ( apply .content )
-// 14) select crop.
-// 16) newFeatures -> link., news-img -> link.
-// 17) infra where to go? services on home-page
+// 2) text page натянуть.
+// 4) infra where to go? services on home-page
 
 
 // HIGH P:
 
-// 20) adaptive pp.
-// 19) fixed news picture.
+// 1) adaptive pp.
+// 2) mobile-menu
+// 3) content
+// 4) build и пенос на сервер.
+// 5) presentation.
+
+// MIDDLE P
+// 1) 404 натянуть и check bg
+// 2) select crop.
+// 3) fix content ( apply .content )
+// 4) chart gradient on mobile.
 
 // LOW P:
 
-// 1) 404 натянуть.
-// 2) btn -> svg.
+// 1) btn -> svg.
+// 2) Career -> create br
+// 3) Contact -> book appointment title.
+// 4) chart натянуть
+// 5) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.
+
+// QUESTIONS:
+// 1) fonts решить.
+// 2) about -> content --reverse on mobile
