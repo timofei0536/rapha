@@ -124,6 +124,11 @@
     width: 100%;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding: 1.2rem 0px;
+    transition: opacity 0.2s;
+
+    &:hover:not(&--active) {
+      opacity: 0.5;
+    }
 
     &:last-child {
         border-bottom: none;

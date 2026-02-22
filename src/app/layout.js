@@ -126,7 +126,6 @@ export default async function RootLayout({ children }) {
 
 // 1) PageScreen натянуть
 // 2) text page натянуть.
-// 4) infra where to go? services on home-page
 
 
 // HIGH P:
@@ -137,14 +136,14 @@ export default async function RootLayout({ children }) {
 // 4) build и пенос на сервер.
 // 5) presentation.
 // 6) animations
-// 7) видимость натянутых services, infra, news.
 
 // MIDDLE P
 // 1) 404 натянуть и check bg
-// 2) select crop.
-// 3) fix content ( apply .content )
-// 4) chart gradient on mobile.
+// 2) fix content ( apply .content )
+// 3) chart gradient on mobile.
+// 4) tablet
 // 5) tablet
+// 6) share
 
 // LOW P:
 

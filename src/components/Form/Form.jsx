@@ -38,6 +38,7 @@ export default function Form({
   const [coverLabel, setCoverLabel] = useState("Upload Cover Letter");
   const [showPopup, setShowPopup] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [formKey, setFormKey] = useState(0);
   const dateInputRef = useRef(null);
   const formRef = useRef(null);
   const today = new Date().toISOString().slice(0, 10);
@@ -61,12 +62,17 @@ export default function Form({
     setShowPopup(true);
   };
 
-  const closePopup = () => setShowPopup(false);
+  const closePopup = () => {
+    setShowPopup(false);
+    setFormKey((k) => k + 1);
+    setCvLabel("Upload CV");
+    setCoverLabel("Upload Cover Letter");
+  };
 
   if (variant === "apply") {
     return (
       <>
-      <form ref={formRef} className="form form--apply" onSubmit={handleSubmit}>
+      <form key={formKey} ref={formRef} className="form form--apply" onSubmit={handleSubmit}>
         <div className="form__inputs">
           <input
             className="form__input"
@@ -158,7 +164,7 @@ export default function Form({
 
   return (
     <>
-    <form ref={formRef} className="form" onSubmit={handleSubmit}>
+    <form key={formKey} ref={formRef} className="form" onSubmit={handleSubmit}>
       <div className="form__inputs">
         <div
           className="form__input form__input--date-wrap"
