@@ -31,14 +31,14 @@
     font-size: 2rem;
     background: var(--white);
     &--active, &:hover {
-      font-weight: 600;
       background: var(--blue);
       color: var(--white);
     }
 
-    &:hover {
-      font-weight: initial;
+    &--active {
+      font-weight: 600;
     }
+
     &--active {
       pointer-events: none;
     }

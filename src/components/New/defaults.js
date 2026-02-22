@@ -3,7 +3,7 @@
  */
 export const NewDefaults = {
   title: "Pink October at El-Rapha",
-  date: "31st October 2025",
+  date: "17th February 2026",
   image: { src: "/images/news-page.png", alt: "Pink October at El-Rapha" },
   content: `
     <p><b>Welcome to the El-Rapha Polyclinic. This October, Breast Cancer Awareness Month, let's join forces in the fight against breast and cervical cancer.</b></p>

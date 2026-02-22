@@ -10,6 +10,16 @@ import Send from "@/components/ui/icons/Download";
 
 const SERVICE_ICONS = [Icon1, Icon2, Icon3, Icon4, Icon5];
 
+function titleToSlug(title) {
+  if (!title) return "";
+  return String(title)
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export default function Services(props) {
     const { title, image, services } = props;
     return (
@@ -23,6 +33,8 @@ export default function Services(props) {
                     {(services || []).map((item, i) => {
                         const Icon = SERVICE_ICONS[i];
                         const titleLines = item.title.split("\n");
+                        const slug = item.slug || titleToSlug(item.title);
+                        const href = slug ? `/services/${slug}` : null;
                         return (
                             <div key={i} className="services__item">
                                 <div className="services__item-icon">
@@ -32,7 +44,7 @@ export default function Services(props) {
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>
                                 <div className="services__item-text content" dangerouslySetInnerHTML={{ __html: item.content }} />
-                                <Btn text="Learn more" className="btn--transparent btn--small" />
+                                <Btn text="Learn more" className="btn--transparent btn--small" href={href} />
                             </div>
                         );
                     })}

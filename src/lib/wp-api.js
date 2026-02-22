@@ -182,8 +182,8 @@ export async function getPageProps(slug, componentKey, defaults, options = {}) {
  * @returns {Promise<Record<string, unknown>>} Props to spread into the component
  */
 export async function getBlockProps(slug, componentKey, defaults, searchParams) {
-  // chart: always use defaults only, never fetch from WP
-  if (componentKey === "chart") return { ...defaults };
+  // chart, news: always use defaults so home and /news page show the same content
+  if (componentKey === "chart" || componentKey === "news") return { ...defaults };
   const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
   const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
   return getPageProps(slug, componentKey, defaults, { strictWp });

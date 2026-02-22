@@ -3,6 +3,11 @@ import Image from "next/image";
 import Link from 'next/link';
 import Btn from "@/components/ui/Btn/Btn";
 
+function titleToSlug(title) {
+  if (!title) return "";
+  return String(title).toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
 export default function News(props) {
     const { title, items } = props;
     return (
@@ -11,7 +16,7 @@ export default function News(props) {
             <h2 className="simple-title simple-title--center news__title">{title}</h2>
             <div className="news__list">
                 {(items || []).map((item, i) => {
-                    const slug = item.slug || `news-${i + 1}`;
+                    const slug = item.slug || titleToSlug(item.title) || `news-${i + 1}`;
                     const href = `/news/${slug}`;
                     return (
                     <div key={i} className="news__item">
@@ -29,7 +34,7 @@ export default function News(props) {
                 })}
             </div>
             <div className="news__more">
-                <Btn text="More News" href="#" className="btn--blue-l" />
+                <Btn text="More News" href="/news" className="btn--blue-l" />
             </div>
             </div>
         </section>    
