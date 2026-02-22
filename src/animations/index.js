@@ -32,3 +32,10 @@ export function initAnimations() {
     addLoadEvent(runScrollTriggers);
   }
 }
+
+/** Для Next.js: перезапуск анимаций после смены страницы (клиентский переход). */
+export function refreshAnimations() {
+  if (typeof window === 'undefined' || !window.ScrollTrigger) return;
+  window.ScrollTrigger.getAll().forEach((t) => t.kill());
+  runScrollTriggers();
+}
