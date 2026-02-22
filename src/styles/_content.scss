@@ -89,12 +89,15 @@
 		list-style: initial;
 		margin-bottom: remToEm(1);
 
-		.structure & {
-			margin-bottom: remToEm(2);
-		}
-
 		&:last-child {
 			margin-bottom: 0;
+		}
+	}
+
+	// только первый уровень списка (не li внутри ul ul)
+	ul:not(ul ul) > li {
+		.structure & {
+			margin-bottom: remToEm(2);
 		}
 	}
 
