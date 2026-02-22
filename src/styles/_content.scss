@@ -1,5 +1,5 @@
 // rem → em (1rem = 10px): пишем значение как в Figma, получаем em под текущий font-size
-@function re($val) {
+@function remToEm($val) {
 	@return calc(#{$val} * 10px / 1em * 1em);
 }
 
@@ -7,24 +7,24 @@
 	p {
 
 		& + p {
-			margin-top: re(3);
+			margin-top: remToEm(3);
 		}
 
 		& + ul {
-			margin-top: re(1);
-			margin-bottom: re(3.5);
+			margin-top: remToEm(1);
+			margin-bottom: remToEm(3.5);
 		}
 
 		& + img {
-			margin-top: re(3);
+			margin-top: remToEm(3);
 
 			@media screen and (max-width: $large_tablet) {
-				min-height: re(16);
+				min-height: remToEm(16);
 			}
 		}
 
 		img {
-			margin: 0 re(0.8);
+			margin: 0 remToEm(0.8);
 			vertical-align: middle;
 		}
 	}
@@ -35,39 +35,44 @@
 	}
 
 	h2 {
-		font-size: re(4.2);
-		margin: 0 auto re(6);
+		font-size: remToEm(4.2);
+		margin: 0 auto remToEm(6);
 	}
 
 	h3 {
-		font-size: re(1.8);
-		margin: re(6.5) 0 re(2);
+		font-size: remToEm(1.8);
+		margin: remToEm(6.5) 0 remToEm(2);
 	}
 
 	h4 {
-		font-size: re(4.6);
-		margin: re(4.5) auto;
+		font-size: remToEm(4.6);
+		margin: remToEm(4.5) auto;
 	}
 
 	h5 {
-		font-size: re(4);
-		margin: re(3.5) auto;
+		font-size: remToEm(4);
+		margin: remToEm(3.5) auto;
 	}
 
 	h6 {
-		font-size: re(3.4);
-		margin: re(7) auto re(2.5);
+		font-size: remToEm(3.4);
+		margin: remToEm(7) auto remToEm(2.5);
 	}
 
 	ul,
 	ol {
-		padding-left: re(1.5);
+		padding-left: remToEm(1.5);
 	}
 
 	ul {
+		li > ul {
+			margin-bottom:  remToEm(3);
+			// background-color: red;
+		}
+
 		ul {
-			padding-left: re(1.5);
-			margin: 1em 0px;
+			padding-left: remToEm(0.5);
+			margin: remToEm(2) 0px;
 			li {
 				list-style-type: none;
 				&::before {
@@ -79,7 +84,11 @@
 
 	li {
 		list-style: initial;
-		margin-bottom: re(1);
+		margin-bottom: remToEm(1);
+
+		.structure & {
+			margin-bottom: remToEm(2);
+		}
 
 		&:last-child {
 			margin-bottom: 0;
@@ -88,6 +97,6 @@
 
 	img {
 		height: auto;
-		margin: re(8.5) auto;
+		margin: remToEm(8.5) auto;
 	}
 }
