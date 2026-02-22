@@ -9,16 +9,16 @@
 	p {
 
 		& + p {
-			margin-top: remToEm(3);
+			margin-top: remToEm(2);
 		}
 
 		& + ul {
-			margin-top: remToEm(1);
-			margin-bottom: remToEm(3.5);
+			margin-top: remToEm(2);
+			margin-bottom: remToEm(2);
 		}
 
 		& + img {
-			margin-top: remToEm(3);
+			margin-top: remToEm(2);
 
 			@media screen and (max-width: $large_tablet) {
 				min-height: remToEm(16);
@@ -33,12 +33,11 @@
 
 	h2, h3, h4, h5, h6 {
 		font-weight: 400;
-		color: #B4B4B4;
 	}
 
 	h2 {
 		font-size: remToEm(4.2);
-		margin: 0 auto remToEm(6);
+		margin: 0 auto remToEm(2);
 	}
 
 	h3 {
@@ -69,7 +68,7 @@
 	ul {
 		// font-size наследуется от .content — без remToEm, иначе при .content 2rem список был бы 4rem
 		li > ul {
-			// margin-bottom:  remToEm(3);
+			// margin-bottom:  remToEm(2);
 			// background-color: red;
 		}
 

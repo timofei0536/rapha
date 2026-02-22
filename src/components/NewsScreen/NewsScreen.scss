@@ -1,5 +1,5 @@
 .news-screen {
-    padding: calc( var(--header-height) + var(--p-margin) / 2 );
+    padding: calc( var(--header-height) + var(--p-margin) / 2 ) 0px;
     padding-bottom: calc( var(--p-margin) / 2 );
     min-height: 100vh;
     background-color: var(--gray);
@@ -22,15 +22,15 @@
     }
 
     &__title {
-        line-height: 1;
+        margin-top: -0.2em;
+        flex-grow: 1;
     }
 
     &__right {
         display: flex;
-        align-items: flex;
-        border-left: 1px solid var(--blue);
+        justify-content: flex-end;
+        border-left: 0.5px solid var(--blue);
         align-items: flex-start;
-        width: 100%;
         @media screen and (max-width: $large_tablet) {
             display: none;
         }
@@ -58,6 +58,7 @@
     }
 
     &__img {
+        width: 60rem;
         img {
             border-radius: var(--radius);
         }

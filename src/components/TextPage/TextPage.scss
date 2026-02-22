@@ -31,6 +31,10 @@
         flex-shrink: 0;
     }
 
+    &__content {
+        width: 100%;
+    }
+
     @media screen and (min-width: $large_tablet) {
     
         &__content {

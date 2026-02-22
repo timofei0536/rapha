@@ -134,3 +134,13 @@ export default async function RootLayout({ children }) {
 // 8) chart gradient 
 // 9) fonts решитью
 // 10) chart натянуть
+// 11) 404 натянуть и check bg
+// 12) Career -> create br
+// 13) fix content ( apply .content )
+// 14) select crop.
+// 14) select crop.
+// 16) newFeatures -> link., news-img -> link.
+// 17) infra where to go? services on home-page
+// 18) btn -> svgs.
+// 18) btn -> svgs.
+// 19) fix news picture.

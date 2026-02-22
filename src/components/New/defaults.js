@@ -7,7 +7,7 @@ export const NewDefaults = {
   image: { src: "/images/news-page.png", alt: "Pink October at El-Rapha" },
   content: `
     <p><b>Welcome to the El-Rapha Polyclinic. This October, Breast Cancer Awareness Month, let's join forces in the fight against breast and cervical cancer.</b></p>
-    <p style="color: var(--blue-l)">We're offering free services to promote early detection, including:</p>
+    <p style="color: var(--blue-l)"><b>We're offering free services to promote early detection, including:</b></p>
     <ul>
         <li>Gynecological exam</li>
         <li>Cervical smear</li>
