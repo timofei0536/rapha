@@ -37,7 +37,7 @@ export default function Footer({ contactInfo }) {
                         <nav className="footer__nav">
                             <span className="footer__title">Pages</span>
                             <Link href="/" className="footer__link link-hover">Home</Link>
-                            <Link href="/polyclinic" className="footer__link link-hover">Polyclinic</Link>
+                            <Link href="/about" className="footer__link link-hover">Polyclinic</Link>
                             <Link href="/services" className="footer__link link-hover">Services</Link>
                             <Link href="/news" className="footer__link link-hover">News</Link>
                             <Link href="/careers" className="footer__link link-hover">Careers</Link>

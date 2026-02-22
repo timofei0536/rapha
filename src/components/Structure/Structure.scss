@@ -8,24 +8,9 @@
         }
     }
 
-    &__tab.content ul {
-        li {
-            list-style-type: disc;
-            &::marker {
-                color: var(--blue, #1a365d);
-            }
-        }
-        ul {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-            li {
-                list-style-type: none;
-                &::before {
-                    content: "– ";
-                    color: var(--blue, #1a365d);
-                }
-            }
-        }
+    &__tab.content {
+        font-size: 2rem; 
+        padding-left: 0.2rem;
     }
 
     &__wrap {
