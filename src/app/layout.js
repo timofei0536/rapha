@@ -125,8 +125,6 @@ export default async function RootLayout({ children }) {
 
 // 1) PageScreen натянуть
 // 2) Contact -> book appointment title.
-// 3) Careers -> create form.
-// 4) 404 натянуть.
 // 5) text page натянуть.
 // 5) about -> content --reverse on mobile
 // 6) header сразу чтоб менял цвет.
@@ -138,9 +136,17 @@ export default async function RootLayout({ children }) {
 // 12) Career -> create br
 // 13) fix content ( apply .content )
 // 14) select crop.
-// 14) select crop.
 // 16) newFeatures -> link., news-img -> link.
 // 17) infra where to go? services on home-page
-// 18) btn -> svgs.
-// 18) btn -> svgs.
-// 19) fix news picture.
+
+
+
+// HIGH P:
+
+// 20) adaptive pp.
+// 19) fixed news picture.
+
+// LOW P:
+
+// 1) 404 натянуть.
+// 2) btn -> svg.

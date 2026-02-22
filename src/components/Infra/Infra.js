@@ -1,6 +1,9 @@
 import "./Infra.scss";
 import Image from "next/image";
+import Link from "next/link";
 import Btn from "@/components/ui/Btn/Btn";
+
+const NEWS_ARTICLE_SLUG = "pink-october";
 
 export default function Infra(props) {
     const { title, items } = props;
@@ -11,14 +14,16 @@ export default function Infra(props) {
             <div className="infra__list">
                 {(items || []).map((item, i) => (
                     <div key={i} className="infra__item">
-                        <Image 
-                            src={item.image.src} 
-                            alt={item.image.alt} 
-                            className="infra__item-img white-header"
-                            fill
-                        />
+                        <Link href={`/news/${item.slug || NEWS_ARTICLE_SLUG}`} className="infra__item-img-wrap">
+                            <Image 
+                                src={item.image.src} 
+                                alt={item.image.alt} 
+                                className="infra__item-img white-header"
+                                fill
+                            />
+                        </Link>
                         <h3 className="simple-title infra__item-title">{item.title}</h3>
-                        <Btn text="Learn More" className='btn--white btn--small' />
+                        <Btn text="Learn More" href={`/news/${item.slug || NEWS_ARTICLE_SLUG}`} className='btn--white btn--small' />
                     </div>
                 ))}
             </div>

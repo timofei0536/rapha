@@ -18,17 +18,17 @@ export default function NewsScreen() {
                         <p className="news-screen__content-text content">
                             Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
                         </p>
-                        <Link href="#" className="news-screen__link link">
+                        <Link href="/news/pink-october" className="news-screen__link link">
                             Read more
                         </Link>
                     </div>
-                    <div className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }}>
+                    <Link href="/news/pink-october" className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }}>
                             <Image
                             src="/images/news-page.png"
                             alt="image"
                             fill
                             />
-                        </div>
+                        </Link>
                 </div>
             </div>
             </div>

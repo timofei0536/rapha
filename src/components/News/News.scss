@@ -25,9 +25,19 @@
 
 
         .img-wrap {
+            display: block;
+            position: relative;
             width: 100%;
             margin-bottom: 3.2rem;
             border-radius: var(--radius);
+            overflow: hidden;
+
+            .news__item-img {
+                transition: transform 0.35s ease-out;
+            }
+            &:hover .news__item-img {
+                transform: scale(1.05);
+            }
         }
 
         &-title {
