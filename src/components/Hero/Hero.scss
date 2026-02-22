@@ -6,6 +6,9 @@
     @media screen and (min-width: $large_tablet) {
         height: 100vh;    
     }
+    @media screen and (max-width: $large_tablet) {
+        overflow: hidden;
+    }
 
     &::before {
         content: "";
@@ -151,6 +154,8 @@
             bottom: calc( 100% - 100vh );
             width: 100rem;
             z-index: 1;
+            transform: none;
+            clip-path: none;
         }
     }
 

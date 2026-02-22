@@ -1,6 +1,7 @@
 import { initGlobals } from '@/globals';
 import { headerWhite } from './headerWhite';
 import { sectionPin } from './sectionPin';
+import { initMobileMenu } from './mobileMenu';
 
 function addLoadEvent(func) {
   const oldonload = window.onload;
@@ -18,6 +19,7 @@ function runScrollTriggers() {
   window.ScrollTrigger.refresh();
   headerWhite();
   sectionPin();
+  initMobileMenu();
   window.ScrollTrigger.refresh();
 }
 

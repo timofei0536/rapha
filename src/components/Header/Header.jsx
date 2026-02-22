@@ -8,6 +8,7 @@ import PhoneIcon from "@/components/ui/icons/Phone";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import LocationIcon from "@/components/ui/icons/Location";
 import Search from "@/components/ui/Search/Search";
+import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
@@ -15,7 +16,7 @@ export default function Header({ contactInfo }) {
   const address = contactInfo?.address;
 
   return (
-      <header className='header'>
+      <header className="header">
         <div className="center-wrap">
           <div className="header__top">
             <div className="center-wrap center-wrap--small">
@@ -43,36 +44,36 @@ export default function Header({ contactInfo }) {
                 </div>
                 )}
               </div>
-          </div>   
-        
-        <div className="header__main">
-          <Link
-            href="/"
-            className="header__logo-link"
-            onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
-          >
-            <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70} />
-          </Link>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item"><Link href="/" className="header__nav-link link-hover">Home</Link></li>
-              <li className="header__nav-item"><Link href="/about" className="header__nav-link link-hover">Polyclinic</Link></li>
-              <li className="header__nav-item"><Link href="/services" className="header__nav-link link-hover">Services</Link></li>
-              <li className="header__nav-item"><Link href="/news" className="header__nav-link link-hover">News</Link></li>
-              <li className="header__nav-item"><Link href="/careers" className="header__nav-link link-hover">Careers</Link></li>
-              <li className="header__nav-item"><Link href="/contact" className="header__nav-link link-hover">Contact</Link></li>
-            </ul>
-          </nav>
-          <Search />
-          <div className="header__burger desktop--hide">
-            <div></div>
-            <div></div>
-            <div></div>
+          </div>
+
+          <div className="header__main">
+            <Link
+              href="/"
+              className="header__logo-link"
+              onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+            >
+              <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70} />
+            </Link>
+            <nav className="header__nav">
+              <ul className="header__nav-list">
+                <li className="header__nav-item"><Link href="/" className="header__nav-link link-hover">Home</Link></li>
+                <li className="header__nav-item"><Link href="/about" className="header__nav-link link-hover">Polyclinic</Link></li>
+                <li className="header__nav-item"><Link href="/services" className="header__nav-link link-hover">Services</Link></li>
+                <li className="header__nav-item"><Link href="/news" className="header__nav-link link-hover">News</Link></li>
+                <li className="header__nav-item"><Link href="/careers" className="header__nav-link link-hover">Careers</Link></li>
+                <li className="header__nav-item"><Link href="/contact" className="header__nav-link link-hover">Contact</Link></li>
+              </ul>
+            </nav>
+            <Search />
+            <button type="button" className="header__burger desktop--hide" aria-label="Open menu">
+              <span className="header__burger-line" />
+              <span className="header__burger-line" />
+              <span className="header__burger-line" />
+            </button>
           </div>
         </div>
-        </div>
 
+        <MobileMenu />
       </header>
-
   );
 }
