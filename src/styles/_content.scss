@@ -3,13 +3,8 @@
 	@return calc(#{$val} * 10px / 1em * 1em);
 }
 
-:root {
-	--fz: 16;
-}
-
 .content {
 	p {
-		font-family: var(--primary-f);
 
 		& + p {
 			margin-top: re(3);
@@ -40,27 +35,27 @@
 	}
 
 	h2 {
-		font-size: calc(42 / var(--fz) * 1em);
+		font-size: re(4.2);
 		margin: 0 auto re(6);
 	}
 
 	h3 {
-		font-size: calc(18 / var(--fz) * 1em);
+		font-size: re(1.8);
 		margin: re(6.5) 0 re(2);
 	}
 
 	h4 {
-		font-size: calc(46 / var(--fz) * 1em);
+		font-size: re(4.6);
 		margin: re(4.5) auto;
 	}
 
 	h5 {
-		font-size: calc(40 / var(--fz) * 1em);
+		font-size: re(4);
 		margin: re(3.5) auto;
 	}
 
 	h6 {
-		font-size: calc(34 / var(--fz) * 1em);
+		font-size: re(3.4);
 		margin: re(7) auto re(2.5);
 	}
 
