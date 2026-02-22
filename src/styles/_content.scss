@@ -1,9 +1,11 @@
-// rem → em (1rem = 10px): пишем значение как в Figma, получаем em под текущий font-size
+// rem → em относительно font-size .content (без удвоения во вложенности)
 @function remToEm($val) {
-	@return calc(#{$val} * 10px / 1em * 1em);
+	@return calc(#{$val} * var(--content-fz));
 }
 
 .content {
+	--content-fz: 1em; // единица масштаба = font-size .content
+
 	p {
 
 		& + p {
@@ -65,8 +67,9 @@
 	}
 
 	ul {
+		// font-size наследуется от .content — без remToEm, иначе при .content 2rem список был бы 4rem
 		li > ul {
-			margin-bottom:  remToEm(3);
+			// margin-bottom:  remToEm(3);
 			// background-color: red;
 		}
 
