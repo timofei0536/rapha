@@ -3,7 +3,7 @@
     background: var(--gray);
 
     &__wrap {
-        padding: var(--p-margin) 0;
+        padding: calc( var(--p-margin) / 2) 0;
         background-color: var(--blue);
         border-radius: var(--radius);
         color: var(--white);

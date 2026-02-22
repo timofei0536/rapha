@@ -51,7 +51,15 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
   const defaults = blockDefaults[slug]?.[componentKey];
   if (!defaults) throw new Error(`No defaults registered for slug="${slug}" componentKey="${componentKey}"`);
   const result = await getBlockProps(slug, componentKey, defaults, searchParams);
-  return applyBlockFilter(result, defaults);
+  const out = applyBlockFilter(result, defaults);
+  // Chart: ensure we always have usable tree from defaults when data is missing or empty
+  if (componentKey === "chart" && defaults.data) {
+    const data = out?.data;
+    if (!data || (typeof data === "object" && !data.name)) {
+      return { ...defaults, ...out, title: out?.title ?? defaults.title, data: defaults.data };
+    }
+  }
+  return out;
 }
 
 /**

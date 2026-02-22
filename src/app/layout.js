@@ -133,3 +133,4 @@ export default async function RootLayout({ children }) {
 // 7) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.
 // 8) chart gradient 
 // 9) fonts решитью
+// 10) chart натянуть
