@@ -13,8 +13,6 @@
     &__content {
         max-width: 43rem;
         width: 100%;
-        font-size: 2rem;
-        --content-fz: 2rem;
         @media screen and (max-width: $large_tablet) {
             max-width: 100%;
             margin-bottom: 4rem;

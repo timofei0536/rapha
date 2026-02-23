@@ -187,10 +187,15 @@ img {
 	text-underline-position: from-font;
 }
 
+a {
+	text-underline-position: from-font;
+}
+
 .link-hover {
 	text-decoration: none;
 	position: relative;
 	transition: opacity 0.2s ease;
+
 
 	&::after {
 		content: "";

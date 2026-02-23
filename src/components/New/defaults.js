@@ -2,7 +2,7 @@
  * New (single article) component default props. Fallback when no WP data.
  */
 export const NewDefaults = {
-  title: "Pink October at El-Rapha",
+  title: "Pink October\nat El-Rapha",
   date: "17th February 2026",
   image: { src: "/images/news-page.png", alt: "Pink October at El-Rapha" },
   content: `

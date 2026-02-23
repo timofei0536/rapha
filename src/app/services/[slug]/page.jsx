@@ -56,7 +56,7 @@ export default async function ServicePage({ params, searchParams }) {
         </h1>
       </PageScreen>
       <ServiceContent
-        content={ServiceContentDefaults[slug]}
+        content={ServiceContentDefaults[slug] ?? ServiceContentDefaults.resuscitation}
         services={serviceProps?.services}
         activeSlug={slug}
       />

@@ -13,7 +13,16 @@ export default function New({ title, date, image, content = "" }) {
                 <div className="new__wrap">
                     <div className="new__left">
                         <time className="new__date">{date}</time>
-                        <h1 className="new__title simple-title simple-title--large">{title}</h1>
+                        <h1 className="new__title simple-title simple-title--large">
+                            {typeof title === "string" && title.includes("\n")
+                                ? title.split("\n").map((line, i, arr) => (
+                                      <span key={i}>
+                                          {line}
+                                          {i < arr.length - 1 && <br />}
+                                      </span>
+                                  ))
+                                : title}
+                        </h1>
                         <div className="new__content">
                             <div className="new__body content" dangerouslySetInnerHTML={{ __html: content }} />
                             <div className="new__footer">

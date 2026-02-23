@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   const title = article?.title ?? slugToTitle(slug);
-  return { title: title || "News" };
+  return { title: (typeof title === "string" ? title.replace(/\n/g, " ") : title) || "News" };
 }
 
 export default async function SingleNewsPage({ params }) {

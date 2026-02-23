@@ -12,16 +12,16 @@ $content-figma-base: 16;
 	p {
 
 		& + p {
-			margin-top: figma(32);
+			margin-top: figma(28);
 		}
 
 		& + ul {
-			margin-top: figma(32);
-			margin-bottom: figma(32);
+			margin-top: figma(28);
+			margin-bottom: figma(28);
 		}
 
 		& + img {
-			margin-top: figma(32);
+			margin-top: figma(28);
 
 			@media screen and (max-width: $large_tablet) {
 				min-height: figma(256);
@@ -41,12 +41,12 @@ $content-figma-base: 16;
 
 	h2 {
 		font-size: figma(28);
-		margin: 0 auto figma(32);
+		margin: 0 auto figma(28);
 	}
 
 	h3 {
 		font-size: figma(28.8);
-		margin: figma(104) 0 figma(32);
+		margin: figma(104) 0 figma(28);
 	}
 
 	h4 {
@@ -64,20 +64,23 @@ $content-figma-base: 16;
 		margin: figma(112) auto figma(40);
 	}
 
+	a {
+		text-decoration: underline !important;
+		&:hover {
+			text-decoration: none !important;
+		}
+	}
+
 	ul,
 	ol {
 		padding-left: figma(24);
 	}
 
 	ul {
-		li > ul {
-			// margin-bottom: figma(32);
-			// background-color: red;
-		}
 
 		ul {
-			padding-left: figma(8);
-			margin: figma(32) 0px;
+			padding-left: figma(4);
+			margin: figma(28) 0px;
 			li {
 				list-style-type: none;
 				&::before {
@@ -89,17 +92,10 @@ $content-figma-base: 16;
 
 	li {
 		list-style: initial;
-		margin-bottom: figma(16);
+		margin-bottom: figma(14);
 
 		&:last-child {
 			margin-bottom: 0;
-		}
-	}
-
-	// только первый уровень списка (не li внутри ul ul)
-	ul:not(ul ul) > li {
-		.structure & {
-			margin-bottom: figma(32);
 		}
 	}
 
