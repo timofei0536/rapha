@@ -77,7 +77,6 @@
         gap: 3.8rem;
         align-items: center;
         position: relative;
-        opacity: 0.6;
         position: absolute;
         right: 3.8rem;
         top: 50%;
@@ -95,6 +94,14 @@
             flex-direction: column;
             gap: 3.8rem;
             width: 43.5rem;
+
+            &--left {
+                transform-origin: top;
+            }
+            &--right {
+                transform-origin: bottom;
+            }
+
             @media screen and (max-width: $large_tablet) {
                 flex-direction: row;
                 gap: 1.2rem;
