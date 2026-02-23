@@ -154,7 +154,14 @@ function getNormalizerForKey(key, defaultVal) {
  */
 export async function getPageProps(slug, componentKey, defaults, options = {}) {
   const { strictWp = false } = options;
-  if (!WP_API_BASE) return { ...defaults };
+  if (!WP_API_BASE) {
+    if (strictWp) {
+      const empty = {};
+      for (const k of Object.keys(defaults)) empty[k] = undefined;
+      return empty;
+    }
+    return { ...defaults };
+  }
 
   const raw = await getPageComponentData(slug, componentKey);
   const result = {};
@@ -182,10 +189,12 @@ export async function getPageProps(slug, componentKey, defaults, options = {}) {
  * @returns {Promise<Record<string, unknown>>} Props to spread into the component
  */
 export async function getBlockProps(slug, componentKey, defaults, searchParams) {
-  // chart, news: always use defaults so home and /news page show the same content
-  if (componentKey === "chart" || componentKey === "news") return { ...defaults };
   const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
   const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
+  if (componentKey === "chart") {
+    if (strictWp) return getPageProps(slug, componentKey, defaults, { strictWp: true });
+    return { ...defaults };
+  }
   return getPageProps(slug, componentKey, defaults, { strictWp });
 }
 

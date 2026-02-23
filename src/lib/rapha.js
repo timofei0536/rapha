@@ -1,7 +1,8 @@
 /**
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
-import { getPageProps, getBlockProps } from "@/lib/wp-api";
+import { getPageBySlug, getComponentData, getPageProps, getBlockProps } from "@/lib/wp-api";
+import { normalizeText, normalizeContent, normalizeImage } from "@/lib/acf";
 import { applyBlockFilter } from "@/lib/block-filter";
 import { ContactDefaults } from "@/components/Contact/defaults";
 import { CareersDefaults } from "@/components/Careers/defaults";
@@ -16,6 +17,142 @@ import { StructureDefaults } from "@/components/Structure/defaults";
 import { ChartDefaults } from "@/components/Chart/defaults";
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ResultsDefaults } from "@/components/Results/defaults";
+
+const WP_API_BASE =
+  typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
+    ? process.env.NEXT_PUBLIC_WP_API_URL.replace(/\/$/, "")
+    : "";
+const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
+
+async function getPostsByIds(ids) {
+  if (!WP_API_BASE || !Array.isArray(ids) || ids.length === 0) return [];
+  const unique = [...new Set(ids.map(Number).filter(Boolean))];
+  if (!unique.length) return [];
+  try {
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/posts?include=${unique.join(",")}&_embed&per_page=100`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+async function getPostBySlug(slug) {
+  if (!WP_API_BASE || !slug || typeof slug !== "string") return null;
+  try {
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/posts?slug=${encodeURIComponent(String(slug).trim())}&_embed`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const post = Array.isArray(data) ? data[0] : data;
+    return post && typeof post === "object" ? post : null;
+  } catch {
+    return null;
+  }
+}
+
+async function getPosts() {
+  if (!WP_API_BASE) return [];
+  try {
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/posts?per_page=100&_embed&orderby=date&order=desc`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function ensureAbsoluteImageUrl(src) {
+  if (typeof src !== "string" || !src.trim()) return src;
+  if (src.startsWith("http://") || src.startsWith("https://")) return src;
+  if (src.startsWith("/") && WP_API_BASE) return WP_API_BASE + src;
+  return src;
+}
+
+function ensureAbsoluteImageUrls(obj, depth = 0) {
+  if (depth > 8) return obj;
+  if (obj == null) return obj;
+  if (Array.isArray(obj)) return obj.map((o) => ensureAbsoluteImageUrls(o, depth + 1));
+  if (typeof obj !== "object") return obj;
+  const out = { ...obj };
+  if ("src" in out && (out.alt !== undefined || "alt" in out) && typeof out.src === "string") out.src = ensureAbsoluteImageUrl(out.src);
+  for (const k of Object.keys(out)) out[k] = ensureAbsoluteImageUrls(out[k], depth + 1);
+  return out;
+}
+
+// --- News ---
+const txt = (v) => (v && (typeof v.rendered === "string" ? v.rendered : String(v)))?.trim() ?? "";
+const img = (post) => {
+  const acfImg = post.acf?.image && typeof post.acf.image === "object" ? normalizeImage(post.acf.image) : null;
+  if (acfImg?.src) return { src: ensureAbsoluteImageUrl(acfImg.src), alt: acfImg.alt ?? "" };
+  const emb = post._embedded?.["wp:featuredmedia"]?.[0];
+  const src = emb?.source_url ?? emb?.url ?? "";
+  if (typeof src === "string" && src.trim()) return { src: ensureAbsoluteImageUrl(src.trim()), alt: String(emb?.alt_text ?? "").trim() };
+  return { src: "", alt: "" };
+};
+function postToNewsItem(post) {
+  const slug = String(post.slug ?? post.id ?? "");
+  const title = (normalizeText(txt(post.title)) || txt(post.title) || "").trim();
+  const content = txt(post.acf?.content) || normalizeContent(txt(post.content)) || "";
+  const preview = txt(post.acf?.preview) || normalizeContent(txt(post.excerpt)) || (content ? content.replace(/<[^>]*>/g, " ").trim().slice(0, 300) : "") || "";
+  return { slug, title, image: img(post), content, preview };
+}
+function idsFromRaw(raw) {
+  if (raw == null) return [];
+  const arr = Array.isArray(raw) ? raw : [raw];
+  return [...new Set(arr.map((v) => (v != null && typeof v === "object" ? Number(v.id ?? v.ID ?? v.post_id) : Number(v))).filter((id) => !Number.isNaN(id) && id > 0))];
+}
+async function resolveNewsItemsFromIds(raw) {
+  const ids = idsFromRaw(raw);
+  if (!ids.length) return [];
+  const posts = await getPostsByIds(ids);
+  const order = new Map(ids.map((id, i) => [id, i]));
+  return [...posts].sort((a, b) => (order.get(Number(a.id)) ?? 99) - (order.get(Number(b.id)) ?? 99)).map(postToNewsItem);
+}
+async function resolveFeaturedFromPage(page) {
+  const raw = page?.acf?.featured_news;
+  const ids = idsFromRaw(Array.isArray(raw) ? raw : raw != null ? [raw] : []);
+  if (!ids.length) return null;
+  const items = await resolveNewsItemsFromIds(Array.isArray(raw) ? raw : [raw]);
+  return items[0] ?? null;
+}
+
+export async function getNewsPageFeatured(pageSlug = "news") {
+  const page = await getPageBySlug(pageSlug);
+  return page ? resolveFeaturedFromPage(page) : null;
+}
+
+export async function getNewsListForPage() {
+  const strict = process.env.NEXT_PUBLIC_STRICT_WP === "true";
+  const [posts, page] = await Promise.all([getPosts(), getPageBySlug("news")]);
+  const allItems = (posts || []).map(postToNewsItem);
+  const featured = page ? await resolveFeaturedFromPage(page) : null;
+  const pageTitle = !page ? (strict ? "" : "News") : (txt(page.title) || (strict ? "" : "News"));
+  return { pageTitle, featured, items: featured ? allItems.filter((i) => i.slug !== featured.slug) : allItems };
+}
+
+export async function getSingleNewsBySlug(slug) {
+  const post = await getPostBySlug(slug);
+  if (!post) return null;
+  const item = postToNewsItem(post);
+  const d = post.date || post.date_gmt;
+  const date = d && !Number.isNaN(new Date(d).getTime())
+    ? new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+    : "";
+  return { title: item.title, date, image: item.image?.src ? item.image : null, content: item.content || "" };
+}
+
+// --- Block props ---
 
 /** Defaults by page slug and block key. Used by getBlockPropsForPage. */
 const blockDefaults = {
@@ -42,18 +179,58 @@ const blockDefaults = {
 
 /**
  * Get block props from WP; defaults are resolved internally (no need to import them on the page).
+ * News block: resolved in rapha only (ACF relationship items → posts from WP), no default fallback.
+ *
  * @param {string} slug Page slug (e.g. 'home', 'careers', 'contact')
- * @param {string} componentKey Block key (e.g. 'infra', 'careers', 'contact')
+ * @param {string} componentKey Block key (e.g. 'infra', 'careers', 'contact', 'news')
  * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
  * @returns {Promise<Record<string, unknown>>}
  */
 export async function getBlockPropsForPage(slug, componentKey, searchParams) {
   const defaults = blockDefaults[slug]?.[componentKey];
   if (!defaults) throw new Error(`No defaults registered for slug="${slug}" componentKey="${componentKey}"`);
+
+  const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
+  const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
+
+  if (componentKey === "news") {
+    const slugsToTry = slug === "home" ? ["home", "front-page", "accueil"] : [slug];
+    let raw = null;
+    for (const s of slugsToTry) {
+      const page = await getPageBySlug(s);
+      if (!page) continue;
+      const r = getComponentData(page, componentKey);
+      if (r?.items != null && idsFromRaw(r.items).length > 0) {
+        raw = r;
+        break;
+      }
+      if (!raw) raw = r;
+    }
+    if (!raw || idsFromRaw(raw.items).length === 0) {
+      const newsPage = await getPageBySlug("news");
+      if (newsPage) {
+        const newsRaw = getComponentData(newsPage, componentKey);
+        if (newsRaw?.items != null && idsFromRaw(newsRaw.items).length > 0) raw = newsRaw;
+      }
+    }
+    let items = [];
+    if (raw?.items != null) items = await resolveNewsItemsFromIds(raw.items);
+    const title = (raw?.title != null && String(raw.title).trim())
+      ? String(raw.title).trim()
+      : (strictWp ? "" : (defaults.title ?? "News"));
+    const out = ensureAbsoluteImageUrls(applyBlockFilter({ title, items }, defaults, strictWp));
+    return out;
+  }
+
+  if (componentKey === "chart" && strictWp) {
+    const result = await getPageProps(slug, componentKey, defaults, { strictWp: true });
+    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, true));
+    return out;
+  }
+
   const result = await getBlockProps(slug, componentKey, defaults, searchParams);
-  const out = applyBlockFilter(result, defaults);
-  // Chart: ensure we always have usable tree from defaults when data is missing or empty
-  if (componentKey === "chart" && defaults.data) {
+  const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
+  if (!strictWp && componentKey === "chart" && defaults.data) {
     const data = out?.data;
     if (!data || (typeof data === "object" && !data.name)) {
       return { ...defaults, ...out, title: out?.title ?? defaults.title, data: defaults.data };

@@ -28,7 +28,7 @@ export default async function ServicesPage({ searchParams }) {
         <h1 className="simple-title simple-title--large">Our<br /> Services</h1>
       </PageScreen>
       <Service {...serviceProps} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
     </main>
   );
 }

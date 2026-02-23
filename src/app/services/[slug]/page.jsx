@@ -62,7 +62,7 @@ export default async function ServicePage({ params, searchParams }) {
         activeSlug={slug}
       />
       <Service {...serviceProps} activeSlug={slug} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
     </main>
   );
 }

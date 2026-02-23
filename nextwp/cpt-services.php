@@ -40,8 +40,8 @@ function rapha_register_cpt_services() {
         'hierarchical'        => false,
         'menu_position'       => 20,
         'menu_icon'           => 'dashicons-admin-generic',
-        'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-        'show_in_rest'        => true,
+        'supports'            => array( 'title' ),
+        'show_in_rest'        => false,
     );
 
     register_post_type( 'services', $args );

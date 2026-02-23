@@ -25,7 +25,7 @@ export default async function AboutPage({ searchParams }) {
       <About {...aboutProps} />
       <Structure {...structureProps} />
       <Chart {...chartProps} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
     </main>
   );
 }

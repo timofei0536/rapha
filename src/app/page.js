@@ -21,7 +21,7 @@ export default async function Home({ searchParams }) {
       <Services {...servicesProps} />
       <Infra {...infraProps} />
       <Team {...teamProps} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
     </main>
   );
 }

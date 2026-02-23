@@ -8,6 +8,8 @@ function titleToSlug(title) {
   return String(title).toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
 }
 
+const DEFAULT_NEWS_IMAGE = { src: "/images/news-page.png", alt: "" };
+
 export default function News(props) {
     const { title, items, hideTitle, hideMoreButton } = props;
     return (
@@ -18,16 +20,19 @@ export default function News(props) {
                 {(items || []).map((item, i) => {
                     const slug = item.slug || titleToSlug(item.title) || `news-${i + 1}`;
                     const href = `/news/${slug}`;
+                    const image = item.image && typeof item.image === "object"
+                      ? { src: item.image.src || DEFAULT_NEWS_IMAGE.src, alt: item.image.alt ?? "" }
+                      : DEFAULT_NEWS_IMAGE;
                     return (
                     <div key={i} className="news__item">
                         <Link href={href} className="img-wrap" style={{ aspectRatio: "500/400" }}>
                           <Image
-                            src={item.image.src} alt={item.image.alt} className={i === 2 ? "news__item-img white-header" : "news__item-img"}
+                            src={image.src} alt={image.alt} className={i === 2 ? "news__item-img white-header" : "news__item-img"}
                             fill
                           />
                         </Link>
                         <h3 className="news__item-title">{item.title}</h3>
-                        <div className="news__item-text content" dangerouslySetInnerHTML={{ __html: item.content }} />
+                        <div className="news__item-text content" dangerouslySetInnerHTML={{ __html: item.preview ?? item.content ?? "" }} />
                         <Link href={href} className='news__item-link link link-hover'>Read more</Link>
                     </div>
                     );

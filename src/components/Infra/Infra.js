@@ -21,18 +21,20 @@ export default function Infra(props) {
             <div className="infra__list">
                 {(items || []).map((item, i) => {
                     const slug = item.slug || titleToSlug(item.title) || `infra-${i + 1}`;
+                    const href = item.link?.href || `/news/${slug}`;
+                    const linkText = item.link?.text || "Learn More";
                     return (
                     <div key={i} className="infra__item">
-                        <Link href={`/news/${slug}`} className="infra__item-img-wrap">
+                        <Link href={href} className="infra__item-img-wrap">
                             <Image 
-                                src={item.image.src} 
-                                alt={item.image.alt} 
+                                src={item.image?.src} 
+                                alt={item.image?.alt ?? ""} 
                                 className="infra__item-img white-header"
                                 fill
                             />
                         </Link>
                         <h3 className="simple-title infra__item-title">{item.title}</h3>
-                        <Btn text="Learn More" href={`/news/${slug}`} className='btn--white btn--small' />
+                        <Btn text={linkText} href={href} className='btn--white btn--small' />
                     </div>
                 );
                 })}
