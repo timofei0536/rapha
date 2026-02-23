@@ -1,12 +1,5 @@
-// База шрифта в Figma (px). Подставляй значения из макета как есть: figma(32) при базе 16 → 2× от .content fz.
 $content-figma-base: 16;
 
-// Множитель от .content fz (1 = один «content rem»).
-@function remToEm($val) {
-	@return calc(#{$val} * var(--content-fz));
-}
-
-// Значения как в Figma (px): figma(32) при базе 16 даёт размер как 2× от .content fz, без ручного расчёта.
 @function figma($px) {
 	@return calc(#{$px / $content-figma-base} * var(--content-fz));
 }
@@ -77,7 +70,6 @@ $content-figma-base: 16;
 	}
 
 	ul {
-		// font-size наследуется от .content — без figma/remToEm, иначе при .content 2rem список был бы 4rem
 		li > ul {
 			// margin-bottom: figma(32);
 			// background-color: red;

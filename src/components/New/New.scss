@@ -81,6 +81,7 @@
     &__content {
         @media screen and (min-width: $large_tablet) {
             font-size: 2rem;
+            --content-fz: 2rem;
         }
     }
 }

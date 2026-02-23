@@ -68,9 +68,11 @@
         margin-top: 8.7rem;
         max-width: 73rem;
         font-size: 2rem;
+        --content-fz: 2rem;
         @media screen and (max-width: $large_tablet) {
             margin-top: 2rem;
             font-size: 1.6rem;
+            --content-fz: 1.6rem;
         }
     }
 
