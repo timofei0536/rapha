@@ -7,6 +7,12 @@ export function sectionClipReveal() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
 
   const gsap = window.gsap;
+
+  if (typeof window.location !== 'undefined' && window.location.pathname === '/careers') {
+    gsap.set(document.querySelectorAll('.footer'), { clearProps: 'clipPath' });
+    return;
+  }
+
   // const sections = document.querySelectorAll('.infra, .footer');
   const sections = document.querySelectorAll('.footer');
 

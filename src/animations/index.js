@@ -2,7 +2,7 @@ import { initGlobals } from '@/globals';
 import { headerWhite } from './headerWhite';
 import { sectionPin } from './sectionPin';
 import { initMobileMenu } from './mobileMenu';
-import { heroEntrance } from './heroEntrance';
+import { heroEntrance, setHeroInitialState, resetHeroInitialState } from './heroEntrance';
 import { parallaxAppearance } from './parallaxAppearance';
 import { sectionClipReveal } from './sectionClipReveal';
 // import { teamClipReveal } from './sectionClipReveal';
@@ -47,6 +47,7 @@ export function initAnimations() {
   const hasPreloader = document.querySelector('.preloader');
 
   if (hasPreloader) {
+    if (document.querySelector('.hero')) setHeroInitialState();
     window.addEventListener('preloaderEnd', runScrollTriggers, { once: true });
   } else {
     if (document.readyState === 'complete') {
@@ -61,5 +62,6 @@ export function initAnimations() {
 export function refreshAnimations() {
   if (typeof window === 'undefined' || !window.ScrollTrigger) return;
   window.ScrollTrigger.getAll().forEach((t) => t.kill());
+  resetHeroInitialState();
   runScrollTriggers();
 }
