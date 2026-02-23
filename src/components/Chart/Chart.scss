@@ -1,6 +1,7 @@
 .chart {
 
     background: var(--gray);
+    padding-bottom: calc( var(--p-margin) / 2);
 
     &__wrap {
         padding: calc( var(--p-margin) / 2) 0;
@@ -81,6 +82,9 @@
         text-align: center;
         flex-shrink: 0;
         gap: 1.6rem;
+        @media screen and (max-width: $large_tablet) {
+            gap: 1rem;
+        }
         
 
 
@@ -100,6 +104,9 @@
             border-radius: var(--radius);
             width: 12.5rem;
             overflow: hidden;
+            @media screen and (max-width: $large_tablet) {
+                width: 7.5rem;
+            }
         }
 
         &-name {
@@ -108,12 +115,18 @@
             font-size: 2.4rem;
             font-weight: 700;
             line-height: 160%;
+            @media screen and (max-width: $large_tablet) {
+                font-size: 1.5rem;
+            }
         }
 
         &-title {
             color: var(--blue-l);
             font-size: 2rem;
             letter-spacing: -0.03em; /* -0.06rem при 2rem */
+            @media screen and (max-width: $large_tablet) {
+                font-size: 1.25rem;
+            }
         }
 
         &-text {
@@ -140,6 +153,9 @@
         &--to-child {
             width: 1px;
             min-height: 4rem;
+            @media screen and (max-width: $large_tablet) {
+                min-height: 2rem;
+            }
         }
     }
 
@@ -171,6 +187,9 @@
     // Connector from root node: 2× length
     &__tree > &__branch > &__children > &__children-list > &__child-wrap > &__connector--to-child {
         min-height: 8rem;
+        @media screen and (max-width: $large_tablet) {
+            min-height: 4rem;
+        }
     }
 
     &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:nth-child(1) > .chart__branch {
@@ -187,20 +206,5 @@
 
     &__children-list:has(> .chart__child-wrap:nth-child(2)) > .chart__child-wrap:last-child {
         align-items: flex-end;
-    }
-
-    @media screen and (max-width: 1023px) {
-        .chart__node-avatar {
-            width: 8rem;
-            height: 8rem;
-        }
-
-        .chart__node-name {
-            font-size: 2rem;
-        }
-
-        .chart__node-title {
-            font-size: 1.6rem;
-        }
     }
 }

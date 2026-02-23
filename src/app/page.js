@@ -3,6 +3,7 @@ import Services from "../components/Services/Services";
 import Team from "../components/Team/Team";
 import Infra from "../components/Infra/Infra";
 import News from "../components/News/News";
+import { getNewsItemsForBlock } from "@/components/News/defaults";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
 export default async function Home({ searchParams }) {
@@ -20,7 +21,7 @@ export default async function Home({ searchParams }) {
       <Services {...servicesProps} />
       <Infra {...infraProps} />
       <Team {...teamProps} />
-      <News {...newsProps} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
     </main>
   );
 }

@@ -27,7 +27,6 @@
             width: 100%;
         }
 
-
         .img-wrap {
             display: block;
             position: relative;
@@ -57,6 +56,19 @@
 
         &-text {
             margin-bottom: 1.82rem;
+            @media screen and (max-width: $large_tablet) {
+                font-size: 1.2rem;
+                --content-fz: 1.2rem;
+              }
+        }
+    }
+
+    // На странице новостей показываем все карточки на мобилке
+    &--full-list &__item {
+        @media screen and (max-width: $large_tablet) {
+            &:not(:first-child) {
+                display: block;
+            }
         }
     }
 

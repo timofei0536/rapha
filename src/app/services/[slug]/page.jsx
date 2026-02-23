@@ -1,6 +1,7 @@
 import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
+import { getNewsItemsForBlock } from "@/components/News/defaults";
 import Service from "@/components/Service/Service";
 import ServiceContent from "@/components/ServiceContent/ServiceContent";
 import { ServiceContentDefaults } from "@/components/ServiceContent/defaults";
@@ -61,7 +62,7 @@ export default async function ServicePage({ params, searchParams }) {
         activeSlug={slug}
       />
       <Service {...serviceProps} activeSlug={slug} />
-      <News {...newsProps} />
+      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items, { limit: 3, featuredFirst: true })} />
     </main>
   );
 }

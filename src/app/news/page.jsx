@@ -15,11 +15,13 @@ export default async function NewsPage({ searchParams }) {
     content: item.content ?? "",
   }));
   const allItems = [...newsItems, ...infraItems];
+  const withoutPink = allItems.filter((item) => item.slug !== "pink-october");
+  const itemsOnPage = (withoutPink.length >= 6 ? withoutPink : allItems).slice(0, 6);
 
   return (
     <main>
       <NewsScreen />
-      <News {...newsProps} items={allItems} />
+      <News {...newsProps} items={itemsOnPage} hideTitle hideMoreButton />
     </main>
   );
 }

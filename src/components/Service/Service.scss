@@ -10,10 +10,13 @@
         background: var(--blue);
         color: var(--white);
         padding: calc( var(--p-margin) / 1.5 ) 0px;
+        @media screen and (max-width: $large_tablet) {
+            padding: 2rem 0px;
+        }
         .center-wrap {
             display: flex;
             @media screen and (max-width: $large_tablet) {
-                flex-direction: column;
+                flex-direction: column-reverse;
             }
         }
     }
@@ -36,6 +39,10 @@
         font-size: 2rem;
         gap: 1rem;
         width: 100%;
+        @media screen and (max-width: $large_tablet) {
+            font-size: 1.6rem;
+            gap: 0px;
+        }
     }
 
     &__link {
@@ -43,6 +50,9 @@
         padding: 2rem 3.4rem;
         width: 100%;
         display: inline-block;
+        @media screen and (max-width: $large_tablet) {
+            padding: 1.5rem 2.4rem;
+        }
         &--active {
             font-weight: 600;
             background: var(--orange);
@@ -55,6 +65,11 @@
         border-radius: var(--radius);
         width: 100%;
         min-height: 50rem;
+        @media screen and (max-width: $large_tablet) {
+            min-height: 1rem;
+            aspect-ratio: 1241 / 641;
+            margin-bottom: 2rem;
+        }
 
         img {
             object-fit: cover;
@@ -78,6 +93,10 @@
             bottom: 4.8rem;
             left: 6.2rem;
             z-index: 2;
+            @media screen and (max-width: $large_tablet) {
+                bottom: 2rem;
+                left: 2rem;
+            }
         }
     }
 

@@ -6,11 +6,17 @@
     position: relative;
 }
 
+
   &__nav-wrap {
     border-radius: var(--radius);
     background: var(--gray);
     padding: calc(var(--p-margin) / 1.5);
     margin-bottom: 2rem;
+    @media screen and (max-width: $large_tablet) {
+    padding: calc( var(--p-page) * 0.1rem) 0rem;
+
+    }
+
   }
 
   &__list {
@@ -18,10 +24,17 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.6rem;
+    @media screen and (max-width: $large_tablet) {
+      gap: 1.2rem;
+    }
   }
 
   &__item {
     display: inline-flex;
+    @media screen and (max-width: $large_tablet) {
+      width: 100% !important;
+      // display: block;
+    }
   }
 
   // как у .service__link
@@ -30,6 +43,12 @@
     padding: 2rem 3.4rem;
     font-size: 2rem;
     background: var(--white);
+    @media screen and (max-width: $large_tablet) {
+      width: 100%;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 1.6rem;
+    }
     &--active, &:hover {
       background: var(--blue);
       color: var(--white);
@@ -49,5 +68,9 @@
     margin: calc(var(--p-margin) / 2 ) auto;
     font-size: 2rem;
     --content-fz: 2rem;
+    @media screen and (max-width: $large_tablet) {
+      font-size: 1.6rem;
+      --content-fz: 1.6rem;
+    }
   }
 }

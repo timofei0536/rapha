@@ -9,11 +9,11 @@ function titleToSlug(title) {
 }
 
 export default function News(props) {
-    const { title, items } = props;
+    const { title, items, hideTitle, hideMoreButton } = props;
     return (
-        <section className="news">
+        <section className={`news${hideMoreButton ? " news--full-list" : ""}`}>
             <div className="center-wrap center-wrap--small">
-            <h2 className="simple-title simple-title--center news__title">{title}</h2>
+            {!hideTitle && <h2 className="simple-title simple-title--center news__title">{title}</h2>}
             <div className="news__list">
                 {(items || []).map((item, i) => {
                     const slug = item.slug || titleToSlug(item.title) || `news-${i + 1}`;
@@ -33,9 +33,11 @@ export default function News(props) {
                     );
                 })}
             </div>
+            {!hideMoreButton && (
             <div className="news__more">
                 <Btn text="More News" href="/news" className="btn--blue-l" />
             </div>
+            )}
             </div>
         </section>    
     );

@@ -13,6 +13,10 @@
         --content-fz: 2rem; // в паре с font-size, иначе remToEm пересчитывается у h2 и отступы раздуваются
         padding-left: 0.2rem;
         padding-top: 0.5rem;
+        @media screen and (max-width: $large_tablet) {
+            font-size: 1.2rem;
+            --content-fz: 1.2rem; // в паре с font-size, иначе remToEm пересчитывается у h2 и отступы раздуваются
+        }
     }
 
     &__wrap {
@@ -25,6 +29,7 @@
             flex-direction: column;
             gap: 4rem;
             padding: 2.4rem;
+            padding-bottom: 4rem;
         }
     }
 
