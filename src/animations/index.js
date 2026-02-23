@@ -3,6 +3,10 @@ import { headerWhite } from './headerWhite';
 import { sectionPin } from './sectionPin';
 import { initMobileMenu } from './mobileMenu';
 import { heroEntrance } from './heroEntrance';
+import { parallaxAppearance } from './parallaxAppearance';
+import { sectionClipReveal } from './sectionClipReveal';
+// import { teamClipReveal } from './sectionClipReveal';
+import { teamGallery } from './teamGallery';
 
 export { textLinesScript } from './textLines';
 
@@ -24,6 +28,11 @@ function runScrollTriggers() {
   }
   window.ScrollTrigger.refresh();
   headerWhite();
+  parallaxAppearance();
+  sectionClipReveal(); // только footer clip-path
+  // teamClipReveal();
+  if (document.querySelector('.team__wrap')) teamGallery();
+  if (document.querySelector('.calc')) calcCards();
   if (window.its_desktop) sectionPin();
   initMobileMenu();
   window.ScrollTrigger.refresh();

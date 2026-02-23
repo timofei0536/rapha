@@ -24,7 +24,7 @@ export function teamGallery() {
         trigger: teamWrap,
         start: 'center bottom',
         end: 'center center',
-        scrub: 1,
+        scrub: 2,
       },
     }
   );

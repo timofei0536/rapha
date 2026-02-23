@@ -6,6 +6,7 @@ export default function Team(props) {
     const { subtitle, title, content, gallery } = props;
     return (
         <section className="team">
+            <div className="team__bg" aria-hidden="true" />
             <div className="center-wrap">
                 <div className="team__wrap white-header">
                         <div className="team__left">
