@@ -28,10 +28,17 @@ export function initAnimations() {
   window.gsap.registerPlugin(window.ScrollTrigger);
   initGlobals();
   window.addLoadEvent = addLoadEvent;
-  if (document.readyState === 'complete') {
-    runScrollTriggers();
+
+  const hasPreloader = document.querySelector('.preloader');
+
+  if (hasPreloader) {
+    window.addEventListener('preloaderEnd', runScrollTriggers, { once: true });
   } else {
-    addLoadEvent(runScrollTriggers);
+    if (document.readyState === 'complete') {
+      runScrollTriggers();
+    } else {
+      addLoadEvent(runScrollTriggers);
+    }
   }
 }
 

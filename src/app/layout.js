@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import 'normalize.css';
 import "@/styles/globals.scss";
+import Preloader from '@/components/Preloader/Preloader';
 import Header from '@/components/Header/Header';
 import AnimationsInit from '@/components/AnimationsInit/AnimationsInit';
 import Footer from '@/components/Footer/Footer';
@@ -59,7 +60,8 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
-      <Script 
+        <Preloader />
+        <Script 
           src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
           strategy="beforeInteractive" 
         />

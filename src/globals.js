@@ -14,9 +14,4 @@ export function initGlobals() {
     window.its_desktop = false;
   }
 
-  if (document.querySelector('.preloader')) {
-    window.PRELOADER_DELAY = 3800;
-  } else {
-    window.PRELOADER_DELAY = 0;
-  }
 }
