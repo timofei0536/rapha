@@ -8,6 +8,7 @@
   @media screen and (max-width: $large_tablet) {
     flex-direction: column;
     padding: 3rem calc(var(--p-page)*0.1rem);
+    padding-bottom: 2rem;
   }
 
   &__title {
