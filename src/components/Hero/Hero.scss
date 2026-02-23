@@ -46,6 +46,8 @@
     }
 
     &__bg {
+        position: absolute;
+        height: 100%;
         width: calc( 100% - 89rem ) !important;
         left: auto !important;
         object-fit: cover;
@@ -54,6 +56,13 @@
         @media screen and (max-width: $large_tablet) {
             width: 100% !important;
             height: 100vh !important;
+        }
+
+        &-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
     }
 
@@ -139,11 +148,12 @@
         }
 
         .btn {
-            font-weight: normal;
-            width: 27rem;
-            flex-shrink: 0;
-            padding-left: 4rem !important;
-            font-size: 2.4rem;
+            @media screen and (min-width: $large_tablet) {
+                font-weight: 300;
+                padding-left: 4rem !important;
+                font-size: 2.4rem;
+                width: 27rem;
+            }
         }
     }
 

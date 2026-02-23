@@ -109,6 +109,7 @@
                 @media screen and (max-width: $large_tablet) {
                     width: auto !important;
                     height: auto !important;
+                    max-height: 16rem;
                 }
             }
         }

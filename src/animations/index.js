@@ -18,7 +18,7 @@ function addLoadEvent(func) {
 function runScrollTriggers() {
   window.ScrollTrigger.refresh();
   headerWhite();
-  sectionPin();
+  if (window.its_desktop) sectionPin();
   initMobileMenu();
   window.ScrollTrigger.refresh();
 }

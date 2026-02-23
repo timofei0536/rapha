@@ -4,6 +4,7 @@
     width: 100%;
     top: 0px;
     left: 0px;
+    display: none;
 
     &__item {
         display: flex;
@@ -120,9 +121,9 @@
             height: 1px;
             background-color: var(--blue);
             transition: transform 0.25s ease, opacity 0.25s ease;
-            &:nth-child(1) { top: 0.4rem; }
+            &:nth-child(1) { top: 0.5rem; }
             &:nth-child(2) { top: 50%; margin-top: -0.5px; }
-            &:nth-child(3) { bottom: 0.4rem; }
+            &:nth-child(3) { bottom: 0.5rem; }
         }
 
         &--active &-line {

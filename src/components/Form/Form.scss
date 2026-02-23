@@ -49,7 +49,7 @@
 
 
     @media screen and (max-width: $large_tablet) {
-      width: 100%;
+      width: 100% !important;
       border-radius: 1.2rem;
     }
 

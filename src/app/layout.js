@@ -136,6 +136,7 @@ export default async function RootLayout({ children }) {
 // 4) build и пенос на сервер.
 // 5) presentation.
 // 6) animations
+// 7) new вылезла
 
 // MIDDLE P
 // 1) 404 натянуть и check bg

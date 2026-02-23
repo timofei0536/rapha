@@ -9,6 +9,9 @@
 
     &__title {
         margin-bottom: calc( var(--p-margin) / 2 );
+        @media screen and (max-width: $large_tablet) {
+            font-size: 4rem;
+        }
     }
 
     &__item {
