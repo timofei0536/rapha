@@ -53,6 +53,7 @@
         object-fit: cover;
         right: 0px !important;
         top: 0px;
+        overflow: hidden;
         @media screen and (max-width: $large_tablet) {
             width: 100% !important;
             height: 100vh !important;
@@ -100,6 +101,15 @@
             padding-left: 0px;
             width: 90%;
             margin: 12rem auto;
+        }
+
+        /* Строки для анимации появления (textLines) */
+        .anim-line-wrap {
+            display: block;
+            // overflow: hidden;
+        }
+        .anim-line {
+            display: inline-block;
         }
     }
 

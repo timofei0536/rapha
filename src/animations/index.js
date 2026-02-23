@@ -2,6 +2,7 @@ import { initGlobals } from '@/globals';
 import { headerWhite } from './headerWhite';
 import { sectionPin } from './sectionPin';
 import { initMobileMenu } from './mobileMenu';
+import { heroEntrance } from './heroEntrance';
 
 export { textLinesScript } from './textLines';
 
@@ -18,6 +19,9 @@ function addLoadEvent(func) {
 }
 
 function runScrollTriggers() {
+  if (document.querySelector('.hero')) {
+    heroEntrance();
+  }
   window.ScrollTrigger.refresh();
   headerWhite();
   if (window.its_desktop) sectionPin();
