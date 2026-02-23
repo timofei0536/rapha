@@ -6,7 +6,7 @@ import { ArrowLeft } from "@/components/ui/icons";
 import NewShare from "./NewShare";
 import Decor from "@/components/ui/icons/Decor";
 
-export default function New({ title, date, image, content = "" }) {
+export default function New({ title, date, image, content = "", shareUrl }) {
     return (
         <section className="new center-wrap">
             <div className="center-wrap center-wrap--small">
@@ -26,7 +26,7 @@ export default function New({ title, date, image, content = "" }) {
                         <div className="new__content">
                             <div className="new__body content" dangerouslySetInnerHTML={{ __html: content }} />
                             <div className="new__footer">
-                                <NewShare />
+                                <NewShare shareUrl={shareUrl} />
                                 <Link href="/news" className="new__back">
                                     <Btn text="Back to news" icon={ArrowLeft} iconPosition="left" />
                                 </Link>

@@ -8,9 +8,8 @@ import {
     faGoogle,
 } from "@fortawesome/free-brands-svg-icons";
 
-export default function NewShare() {
-    const url = typeof window !== "undefined" ? window.location.href : "";
-    const encoded = encodeURIComponent(url);
+export default function NewShare({ shareUrl = "" }) {
+    const encoded = encodeURIComponent(shareUrl);
 
     return (
         <div className="new__share">

@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import New from "@/components/New/New";
 import { NewDefaults } from "@/components/New/defaults";
 import { InfraDefaults } from "@/components/Infra/defaults";
@@ -47,6 +48,11 @@ export default async function SingleNewsPage({ params }) {
   const image = articleBySlug?.image ?? fallback.image;
   const content = fallback.content;
 
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "localhost:3000";
+  const proto = headersList.get("x-forwarded-proto") ?? "http";
+  const shareUrl = `${proto}://${host}/news/${slug}`;
+
   return (
     <main className="page page--bg-gray">
       <New
@@ -54,6 +60,7 @@ export default async function SingleNewsPage({ params }) {
         date={fallback.date}
         image={image}
         content={content}
+        shareUrl={shareUrl}
       />
     </main>
   );
