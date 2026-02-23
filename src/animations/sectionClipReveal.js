@@ -3,12 +3,21 @@
  * ScrollTrigger: start "bottom bottom", end "center center".
  */
 
+function isFooterClipDisabled() {
+  if (typeof window === 'undefined' || !window.location) return false;
+  const path = window.location.pathname;
+  if (path === '/careers') return true;
+  if (path.startsWith('/news/')) return true; // single news
+  if (path !== '/' && /^\/[^/]+$/.test(path)) return true; // text page (one segment: /about, /privacy, etc.)
+  return false;
+}
+
 export function sectionClipReveal() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
 
   const gsap = window.gsap;
 
-  if (typeof window.location !== 'undefined' && window.location.pathname === '/careers') {
+  if (isFooterClipDisabled()) {
     gsap.set(document.querySelectorAll('.footer'), { clearProps: 'clipPath' });
     return;
   }
