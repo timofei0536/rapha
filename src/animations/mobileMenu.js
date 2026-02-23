@@ -2,11 +2,17 @@
  * Mobile menu: open/close by burger (burger turns into X when open).
  * Animation: menu panel height 0 → 100% (bg first), then nav + search stagger.
  */
+let previousBurgerToggle = null;
+let previousTimeline = null;
+
 export function initMobileMenu() {
   const header = document.querySelector('.header');
   const burger = document.querySelector('.header__burger');
   const menu = document.querySelector('.mobile-menu');
   if (!header || !burger || !menu) return;
+
+  const gsap = window.gsap;
+  const isReinit = previousBurgerToggle !== null;
 
   if (typeof window.stopScrollMobile !== 'function') {
     window.stopScrollMobile = () => { document.body.style.overflow = 'hidden'; };
@@ -15,7 +21,21 @@ export function initMobileMenu() {
     window.startScrollMobile = () => { document.body.style.overflow = ''; };
   }
 
-  burger.addEventListener('click', toggleMenu);
+  if (isReinit) {
+    if (previousTimeline) previousTimeline.kill();
+    gsap.set(['.mobile-menu', '.mobile-menu__nav-item', '.mobile-menu .search'], { clearProps: 'all' });
+    header.classList.remove('header--menu-open');
+    menu.classList.remove('mobile-menu--overflow', 'mobile-menu--active');
+    burger.classList.remove('header__burger--active');
+    burger.setAttribute('aria-label', 'Open menu');
+    if (!window.its_desktop) window.startScrollMobile?.();
+  }
+
+  if (previousBurgerToggle) {
+    burger.removeEventListener('click', previousBurgerToggle);
+  }
+  previousBurgerToggle = toggleMenu;
+  burger.addEventListener('click', previousBurgerToggle);
 
   function openMenu() {
     header.classList.add('header--menu-open');
@@ -41,7 +61,6 @@ export function initMobileMenu() {
     }
   }
 
-  const gsap = window.gsap;
   const viewMenuAnimation = gsap.timeline({ paused: true });
 
   // 1) BG выезжает сверху вниз (height 0 → 100%)
@@ -73,4 +92,6 @@ export function initMobileMenu() {
     menu.classList.remove('mobile-menu--overflow');
     menu.classList.remove('mobile-menu--active');
   });
+
+  previousTimeline = viewMenuAnimation;
 }

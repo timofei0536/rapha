@@ -1,6 +1,14 @@
-// rem → em относительно font-size .content (без удвоения во вложенности)
+// База шрифта в Figma (px). Подставляй значения из макета как есть: figma(32) при базе 16 → 2× от .content fz.
+$content-figma-base: 16;
+
+// Множитель от .content fz (1 = один «content rem»).
 @function remToEm($val) {
 	@return calc(#{$val} * var(--content-fz));
+}
+
+// Значения как в Figma (px): figma(32) при базе 16 даёт размер как 2× от .content fz, без ручного расчёта.
+@function figma($px) {
+	@return calc(#{$px / $content-figma-base} * var(--content-fz));
 }
 
 .content {
@@ -11,24 +19,24 @@
 	p {
 
 		& + p {
-			margin-top: remToEm(2);
+			margin-top: figma(32);
 		}
 
 		& + ul {
-			margin-top: remToEm(2);
-			margin-bottom: remToEm(2);
+			margin-top: figma(32);
+			margin-bottom: figma(32);
 		}
 
 		& + img {
-			margin-top: remToEm(2);
+			margin-top: figma(32);
 
 			@media screen and (max-width: $large_tablet) {
-				min-height: remToEm(16);
+				min-height: figma(256);
 			}
 		}
 
 		img {
-			margin: 0 remToEm(0.8);
+			margin: 0 figma(12.8);
 			vertical-align: middle;
 		}
 	}
@@ -39,45 +47,45 @@
 	}
 
 	h2 {
-		font-size: remToEm(2.8);
-		margin: 0 auto remToEm(2);
+		font-size: figma(28);
+		margin: 0 auto figma(32);
 	}
 
 	h3 {
-		font-size: remToEm(1.8);
-		margin: remToEm(6.5) 0 remToEm(2);
+		font-size: figma(28.8);
+		margin: figma(104) 0 figma(32);
 	}
 
 	h4 {
-		font-size: remToEm(4.6);
-		margin: remToEm(4.5) auto;
+		font-size: figma(73.6);
+		margin: figma(72) auto;
 	}
 
 	h5 {
-		font-size: remToEm(4);
-		margin: remToEm(3.5) auto;
+		font-size: figma(64);
+		margin: figma(56) auto;
 	}
 
 	h6 {
-		font-size: remToEm(3.4);
-		margin: remToEm(7) auto remToEm(2.5);
+		font-size: figma(54.4);
+		margin: figma(112) auto figma(40);
 	}
 
 	ul,
 	ol {
-		padding-left: remToEm(1.5);
+		padding-left: figma(24);
 	}
 
 	ul {
-		// font-size наследуется от .content — без remToEm, иначе при .content 2rem список был бы 4rem
+		// font-size наследуется от .content — без figma/remToEm, иначе при .content 2rem список был бы 4rem
 		li > ul {
-			// margin-bottom:  remToEm(2);
+			// margin-bottom: figma(32);
 			// background-color: red;
 		}
 
 		ul {
-			padding-left: remToEm(0.5);
-			margin: remToEm(2) 0px;
+			padding-left: figma(8);
+			margin: figma(32) 0px;
 			li {
 				list-style-type: none;
 				&::before {
@@ -89,7 +97,7 @@
 
 	li {
 		list-style: initial;
-		margin-bottom: remToEm(1);
+		margin-bottom: figma(16);
 
 		&:last-child {
 			margin-bottom: 0;
@@ -99,12 +107,12 @@
 	// только первый уровень списка (не li внутри ul ul)
 	ul:not(ul ul) > li {
 		.structure & {
-			margin-bottom: remToEm(2);
+			margin-bottom: figma(32);
 		}
 	}
 
 	img {
 		height: auto;
-		margin: remToEm(8.5) auto;
+		margin: figma(136) auto;
 	}
 }
