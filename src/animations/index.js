@@ -3,6 +3,8 @@ import { headerWhite } from './headerWhite';
 import { sectionPin } from './sectionPin';
 import { initMobileMenu } from './mobileMenu';
 
+export { textLinesScript } from './textLines';
+
 function addLoadEvent(func) {
   const oldonload = window.onload;
   if (typeof window.onload !== 'function') {
