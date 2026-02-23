@@ -66,6 +66,8 @@
         align-items: center;
         @media screen and (max-width: 1023px) {
             min-width: min-content;
+            padding-left: 12rem;
+            padding-right: 12rem;
         }
     }
 
@@ -92,12 +94,18 @@
             flex-direction: row-reverse;
             text-align: right;
             transform: translate( calc( ( 22rem + 1.6rem ) / -2 ), 0rem);
+            @media screen and (max-width: $large_tablet) {
+                transform: translate( calc( ( 14rem + 1.6rem ) / -2 ), 0rem);
+            }
         }
 
         &--right {
             flex-direction: row;
             text-align: left;
-            transform: translate( calc( ( 22rem + 1.6rem ) / 2 ), 0rem);    
+            transform: translate( calc( ( 22rem + 1.6rem ) / 2 ), 0rem);
+            @media screen and (max-width: $large_tablet) {
+                transform: translate( calc( ( 14rem + 1.6rem ) / 2 ), 0rem);
+            }
         }
 
         &-avatar {
@@ -132,6 +140,9 @@
         &-text {
             // opacity: 0.2;
             width: 22rem;
+            @media screen and (max-width: $large_tablet) {
+                width: 14rem;
+            }
         }
     }
 
@@ -173,7 +184,7 @@
         gap: 7rem;
 
         @media screen and (max-width: 1023px) {
-            gap: 3rem 4rem;
+            gap: 2rem 2.5rem;
         }
     }
 
