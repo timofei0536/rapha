@@ -21,7 +21,7 @@ export default function New({ title, date, image, content = "" }) {
                                           {i < arr.length - 1 && <br />}
                                       </span>
                                   ))
-                                : title}
+                                : (title != null ? String(title) : "")}
                         </h1>
                         <div className="new__content">
                             <div className="new__body content" dangerouslySetInnerHTML={{ __html: content }} />
