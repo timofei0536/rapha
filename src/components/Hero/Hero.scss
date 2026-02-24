@@ -1,3 +1,22 @@
+/* Начальные состояния до анимации (только на главной) — как в setHeroInitialState/heroEntrance */
+@media screen and (min-width: $large_tablet) {
+    body.page-home .header {
+        transform: translateY(-100%);
+    }
+}
+.hero .hero__title {
+    opacity: 0;
+}
+.hero .hero__bg-img {
+    transform: scale(1.08);
+}
+@media screen and (min-width: $large_tablet) {
+    .hero .hero__form .form {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+}
+
 .hero {
     position: relative;
     color: var(--white);

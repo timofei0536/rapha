@@ -14,6 +14,7 @@ export default function AnimationsInit() {
 
   useEffect(() => {
     if (!pathname) return;
+    document.body.classList.toggle('page-home', pathname === '/');
     if (isFirst.current) {
       isFirst.current = false;
       return;

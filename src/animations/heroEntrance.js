@@ -18,7 +18,7 @@ export function setHeroInitialState() {
   const gsap = window.gsap;
 
   heroInitialStatePromise = (async () => {
-    gsap.set(header, { yPercent: -100 });
+    if (window.its_desktop) gsap.set(header, { yPercent: -100 });
     gsap.set(bgEl, { scale: 1.08 });
     if (window.its_desktop) gsap.set(formElems, { y: 40, opacity: 0 });
 
@@ -54,8 +54,9 @@ export async function heroEntrance() {
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
   if (header) header.classList.add('header--white');
+  tl.set(titleEl, { opacity: 1 }, 0);
   tl.to(lines, { opacity: 1, y: 0, duration: 1, stagger: 0.2 }, 0);
   if (window.its_desktop) tl.to(formElems, { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power2.out' }, 1);
-  tl.to(header, { yPercent: 0, duration: 1, ease: 'power2.out' }, 1);
+  if (window.its_desktop) tl.to(header, { yPercent: 0, duration: 1, ease: 'power2.out' }, 1);
   tl.to(bgEl, { scale: 1, duration: 5, ease: 'power3.out' }, 0);
 }
