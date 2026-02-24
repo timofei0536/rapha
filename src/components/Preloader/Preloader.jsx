@@ -27,12 +27,12 @@ export default function Preloader() {
 
     const t1 = setTimeout(() => {
       setHideClass(true);
-    }, 2500);
+    }, 1500);
 
     const t2 = setTimeout(() => {
       window.dispatchEvent(new CustomEvent('preloaderEnd'));
       setShouldRender(false);
-    }, 4000);
+    }, 2400);
 
     return () => {
       clearTimeout(t1);

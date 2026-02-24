@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
 
-  transition: opacity 0.5s;
+  transition: opacity 0.3s;
   animation-fill-mode: forwards !important;
 
 
@@ -26,7 +26,7 @@
   &__logo {
     max-width: 25rem;
     width: 30%;
-    animation: preloaderLogoOpacity 0.75s 0.5s ease-in-out forwards;
+    animation: preloaderLogoOpacity 0.45s 0.3s ease-in-out forwards;
     opacity: 0;
 
     @keyframes preloaderLogoOpacity {
@@ -45,7 +45,7 @@
   }
 
   &.preloader--hide {
-    animation: preloaderHide 1s 1s forwards;
+    animation: preloaderHide 0.6s 0.6s forwards;
 
     @keyframes preloaderHide {
       0% {
@@ -58,7 +58,7 @@
     }
 
     .preloader__logo {
-      animation: preloaderLogoHide 1s forwards;
+      animation: preloaderLogoHide 0.6s forwards;
 
       @keyframes preloaderLogoHide {
         0% {
