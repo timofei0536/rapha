@@ -71,6 +71,14 @@ export async function getPageSlugs() {
 }
 
 /**
+ * Convert component key to ACF key format (matches NextWP nextwp_name_to_acf_key).
+ * "AboutScreen" → "aboutscreen", "pageScreen" → "pagescreen"
+ */
+function toAcfComponentKey(name) {
+  return String(name).replace(/[^a-z0-9]/gi, "_").toLowerCase();
+}
+
+/**
  * Get component data from page ACF.
  * Supports: 1) nested acf.component_careers = { title, content, gallery }; 2) flat component_careers_title, ...
  * @param {Record<string, unknown> | null} page Page from getPageBySlug
@@ -82,7 +90,8 @@ export function getComponentData(page, componentKey) {
   const acf = page.acf;
   if (!acf || typeof acf !== "object") return null;
 
-  const nestedKey = `component_${componentKey}`;
+  const acfKey = toAcfComponentKey(componentKey);
+  const nestedKey = `component_${acfKey}`;
   const nested = acf[nestedKey];
   if (nested && typeof nested === "object" && !Array.isArray(nested)) {
     return nested;

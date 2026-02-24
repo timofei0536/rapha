@@ -1,4 +1,3 @@
-import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
 import Service from "@/components/Service/Service";
@@ -50,36 +49,19 @@ export default async function ServicePage({ params }) {
   }
   const activeService = list.find((s) => s.slug === slug) ?? list[0];
   const pageTitle = activeService?.title ?? formatServiceTitle(slug);
-  const titleLines = pageTitle.split("\n");
-
   const pageScreenImage = activeService?.image ?? wpServiceBySlug?.image;
-  const pageScreenSrc =
-    typeof pageScreenImage === "object" && pageScreenImage?.src ? pageScreenImage.src : "/images/service-page.png";
-  const pageScreenAlt = typeof pageScreenImage === "object" && pageScreenImage?.alt != null ? pageScreenImage.alt : pageTitle;
+  const pageScreen = {
+    title: pageTitle,
+    image:
+      typeof pageScreenImage === "object" && pageScreenImage?.src
+        ? { src: pageScreenImage.src, alt: pageScreenImage.alt ?? pageTitle }
+        : { src: "/images/service-page.png", alt: pageTitle },
+    className: "page-screen--blur",
+  };
 
   return (
     <main>
-      <PageScreen className="page-screen--blur">
-        <Image
-          src={pageScreenSrc}
-          alt={pageScreenAlt}
-          className="page-screen__bg"
-          width={1920}
-          height={1070}
-        />
-        <h1 className="simple-title simple-title--large">
-          {titleLines.length > 1 ? (
-            titleLines.map((line, i) => (
-              <span key={i}>
-                {line}
-                {i < titleLines.length - 1 && <br />}
-              </span>
-            ))
-          ) : (
-            pageTitle
-          )}
-        </h1>
-      </PageScreen>
+      <PageScreen {...pageScreen} />
       <ServiceContent
         content={
           (wpServiceBySlug?.content ?? activeService?.content ?? "") ||
