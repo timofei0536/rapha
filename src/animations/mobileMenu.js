@@ -37,11 +37,15 @@ export function initMobileMenu() {
   previousBurgerToggle = toggleMenu;
   burger.addEventListener('click', previousBurgerToggle);
 
+  const menuItemsSelector = '.mobile-menu__nav-item, .mobile-menu .search';
+
   function openMenu() {
     header.classList.add('header--menu-open');
     menu.classList.add('mobile-menu--active');
     burger.classList.add('header__burger--active');
     burger.setAttribute('aria-label', 'Close menu');
+    // Set initial state only when opening (avoids hydration mismatch from GSAP inline styles on SSR markup)
+    gsap.set(menuItemsSelector, { opacity: 0, y: 40 });
     viewMenuAnimation.play();
     if (!window.its_desktop) window.stopScrollMobile();
   }
@@ -71,10 +75,9 @@ export function initMobileMenu() {
     ease: 'power2.out',
   }, 0);
 
-  // 2) Элементы по stagger после фона
-  viewMenuAnimation.fromTo(
-    '.mobile-menu__nav-item, .mobile-menu .search',
-    { opacity: 0, y: 40 },
+  // 2) Элементы по stagger после фона (from-state set in openMenu() to avoid hydration mismatch)
+  viewMenuAnimation.to(
+    menuItemsSelector,
     {
       opacity: 1,
       y: 0,

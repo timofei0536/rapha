@@ -166,3 +166,4 @@ export default async function RootLayout({ children }) {
 // image optimziation.
 // page-screen натянуть.
 // other services - последним.
+// shared
