@@ -10,8 +10,8 @@ export const metadata = {
 const PAGE_TITLE = "Join Our Team at El-Rapha";
 const PAGE_IMAGE = { src: "/images/careers-page.png", alt: "Join Our Team at El-Rapha" };
 
-export default async function CareersPage({ searchParams }) {
-  const props = await getBlockPropsForPage("careers", "careers", searchParams);
+export default async function CareersPage() {
+  const props = await getBlockPropsForPage("careers", "careers", {});
 
   return (
     <main>

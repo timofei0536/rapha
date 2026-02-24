@@ -48,6 +48,29 @@ export async function getPageBySlug(slug) {
 }
 
 /**
+ * Fetch all page slugs from WP for static export (generateStaticParams).
+ * @returns {Promise<Array<{ slug: string }>>}
+ */
+export async function getPageSlugs() {
+  if (!WP_API_BASE) return [];
+  try {
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/pages?per_page=100&_fields=slug`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    const list = Array.isArray(data) ? data : [];
+    return list
+      .map((p) => (p && typeof p.slug === "string" ? { slug: p.slug.trim() } : null))
+      .filter(Boolean)
+      .filter((s) => s.slug && !["not-found"].includes(s.slug));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Get component data from page ACF.
  * Supports: 1) nested acf.component_careers = { title, content, gallery }; 2) flat component_careers_title, ...
  * @param {Record<string, unknown> | null} page Page from getPageBySlug

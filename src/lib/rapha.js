@@ -74,6 +74,17 @@ async function getPosts() {
 }
 
 /**
+ * Return post slugs for static export (generateStaticParams) on news/[slug].
+ * @returns {Promise<Array<{ slug: string }>>}
+ */
+export async function getPostSlugs() {
+  const posts = await getPosts();
+  return (posts || [])
+    .map((p) => ({ slug: String((p && p.slug) || "").trim() }))
+    .filter((s) => s.slug);
+}
+
+/**
  * Fetch services CPT from WP. Returns array of { slug, title, content, image? }.
  * Used for Services block (home), Service list and ServiceContent (services pages).
  *

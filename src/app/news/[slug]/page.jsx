@@ -1,7 +1,11 @@
-import { headers } from "next/headers";
 import New from "@/components/New/New";
 import { NewDefaults } from "@/components/New/defaults";
-import { getSingleNewsBySlug } from "@/lib/rapha";
+import { getSingleNewsBySlug, getPostSlugs } from "@/lib/rapha";
+
+export async function generateStaticParams() {
+  const slugs = await getPostSlugs();
+  return slugs;
+}
 
 function slugToTitle(slug) {
   if (!slug) return "";
@@ -29,10 +33,11 @@ export default async function SingleNewsPage({ params }) {
   const image = article?.image ?? (strictWp ? null : NewDefaults.image);
   const content = article?.content ?? (strictWp ? "" : NewDefaults.content);
 
-  const headersList = await headers();
-  const host = headersList.get("host") ?? "localhost:3000";
-  const proto = headersList.get("x-forwarded-proto") ?? "http";
-  const shareUrl = `${proto}://${host}/news/${slug}`;
+  const baseUrl =
+    typeof process !== "undefined" && process.env.NEXT_PUBLIC_SITE_URL
+      ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
+      : "";
+  const shareUrl = baseUrl ? `${baseUrl}/news/${slug}/` : "";
 
   return (
     <main className="page page--bg-gray">

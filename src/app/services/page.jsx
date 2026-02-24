@@ -9,10 +9,10 @@ export const metadata = {
   title: "Our Services",
 };
 
-export default async function ServicesPage({ searchParams }) {
+export default async function ServicesPage() {
   const [serviceProps, newsProps, wpServices] = await Promise.all([
-    getBlockPropsForPage("services", "service", searchParams),
-    getBlockPropsForPage("services", "news", searchParams),
+    getBlockPropsForPage("services", "service", {}),
+    getBlockPropsForPage("services", "news", {}),
     getWpServices(),
   ]);
 

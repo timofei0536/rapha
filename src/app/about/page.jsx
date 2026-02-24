@@ -9,13 +9,13 @@ export const metadata = {
   title: "About",
 };
 
-export default async function AboutPage({ searchParams }) {
+export default async function AboutPage() {
   const [aboutScreenProps, aboutProps, structureProps, chartProps, newsProps] = await Promise.all([
-    getBlockPropsForPage("about", "aboutScreen", searchParams),
-    getBlockPropsForPage("about", "about", searchParams),
-    getBlockPropsForPage("about", "structure", searchParams),
-    getBlockPropsForPage("about", "chart", searchParams),
-    getBlockPropsForPage("about", "news", searchParams),
+    getBlockPropsForPage("about", "aboutScreen", {}),
+    getBlockPropsForPage("about", "about", {}),
+    getBlockPropsForPage("about", "structure", {}),
+    getBlockPropsForPage("about", "chart", {}),
+    getBlockPropsForPage("about", "news", {}),
   ]);
 
   return (

@@ -10,10 +10,9 @@ function getQueryFromParams(params) {
   return Array.isArray(q) ? q[0] ?? "" : (q ?? "");
 }
 
-export default async function ResultsPage({ searchParams }) {
-  const resolvedParams = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
-  const resultsProps = await getBlockPropsForPage("results", "results", resolvedParams);
-  const query = getQueryFromParams(resolvedParams) || resultsProps.query || "";
+export default async function ResultsPage() {
+  const resultsProps = await getBlockPropsForPage("results", "results", {});
+  const query = resultsProps.query || "";
 
   return (
     <main>

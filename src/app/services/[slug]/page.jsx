@@ -7,6 +7,14 @@ import { getBlockPropsForPage, getWpServices, getWpServiceBySlug } from "@/lib/r
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ServiceContentDefaults } from "@/components/ServiceContent/defaults";
 
+export async function generateStaticParams() {
+  const services = await getWpServices();
+  const slugs = (services || [])
+    .map((s) => (s && s.slug ? { slug: String(s.slug).trim() } : null))
+    .filter(Boolean);
+  return slugs.length > 0 ? slugs : [{ slug: "surgery-operating-room" }];
+}
+
 function formatServiceTitle(slug) {
   if (!slug) return "Our Services";
   return slug
@@ -21,11 +29,11 @@ export async function generateMetadata({ params }) {
   return { title };
 }
 
-export default async function ServicePage({ params, searchParams }) {
+export default async function ServicePage({ params }) {
   const { slug } = await params;
   const [serviceProps, newsProps, wpServices, wpServiceBySlug] = await Promise.all([
-    getBlockPropsForPage("services", "service", searchParams ?? {}),
-    getBlockPropsForPage("services", "news", searchParams ?? {}),
+    getBlockPropsForPage("services", "service", {}),
+    getBlockPropsForPage("services", "news", {}),
     getWpServices(),
     getWpServiceBySlug(slug),
   ]);

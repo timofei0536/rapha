@@ -1,9 +1,14 @@
 import { notFound } from "next/navigation";
 import TextPage from "@/components/TextPage/TextPage";
-import { getPageBySlug } from "@/lib/wp-api";
+import { getPageBySlug, getPageSlugs } from "@/lib/wp-api";
 import { normalizeContent } from "@/lib/acf";
 
 const RESERVED_SLUGS = new Set(["not-found"]);
+
+export async function generateStaticParams() {
+  const slugs = await getPageSlugs();
+  return slugs;
+}
 
 /** Декодируем HTML-сущности в заголовке из WP (например &#038; → &). */
 function decodeTitle(str) {

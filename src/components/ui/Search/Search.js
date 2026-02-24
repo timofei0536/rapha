@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import "./Search.scss";
 import SearchIcon from "@/components/ui/icons/Search";
 
-export default function Search() {
+function SearchForm() {
   const inputRef = useRef(null);
   const searchParams = useSearchParams();
   const queryFromUrl = searchParams.get("q") ?? "";
@@ -34,5 +34,13 @@ export default function Search() {
         defaultValue={queryFromUrl}
       />
     </form>
+  );
+}
+
+export default function Search() {
+  return (
+    <Suspense fallback={<div className="search" aria-hidden />}>
+      <SearchForm />
+    </Suspense>
   );
 }

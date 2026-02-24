@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "kill -9 $(lsof -ti:3000) 2>/dev/null || true && rm -rf .next && next dev -p 3000",
     "build": "next build",
+    "build:show": "npm run build && echo '' && echo 'Итоговая сборка: .next' && (open .next 2>/dev/null || true)",
     "start": "next start",
+    "preview": "npx --yes serve out -l 3000",
     "lint": "eslint",
     "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\"",
     "schema": "node nextwp/scripts/build-schema.js",

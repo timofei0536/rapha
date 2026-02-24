@@ -6,13 +6,13 @@ import News from "../components/News/News";
 import { getBlockPropsForPage, getWpServices } from "@/lib/rapha";
 import { ServicesDefaults } from "@/components/Services/defaults";
 
-export default async function Home({ searchParams }) {
+export default async function Home() {
   const [heroProps, servicesProps, infraProps, teamProps, newsProps, wpServices] = await Promise.all([
-    getBlockPropsForPage("home", "hero", searchParams),
-    getBlockPropsForPage("home", "services", searchParams),
-    getBlockPropsForPage("home", "infra", searchParams),
-    getBlockPropsForPage("home", "team", searchParams),
-    getBlockPropsForPage("home", "news", searchParams),
+    getBlockPropsForPage("home", "hero", {}),
+    getBlockPropsForPage("home", "services", {}),
+    getBlockPropsForPage("home", "infra", {}),
+    getBlockPropsForPage("home", "team", {}),
+    getBlockPropsForPage("home", "news", {}),
     getWpServices(),
   ]);
 

@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      { source: "/services/surgery--operating-room", destination: "/services/surgery-operating-room", permanent: true },
-    ];
-  },
+  output: "export",
+  trailingSlash: true,
   sassOptions: {
-    additionalData: `@import "@/styles/variables";`
+    additionalData: `@import "@/styles/variables";`,
+    silenceDeprecations: ["import", "slash-div"],
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

@@ -5,8 +5,8 @@ export const metadata = {
   title: "Contact",
 };
 
-export default async function ContactPage({ searchParams }) {
-  const props = await getBlockPropsForPage("contact", "contact", searchParams);
+export default async function ContactPage() {
+  const props = await getBlockPropsForPage("contact", "contact", {});
 
   return (
     <main>
