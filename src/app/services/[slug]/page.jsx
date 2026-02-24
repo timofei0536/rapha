@@ -1,10 +1,8 @@
 import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
-import { getNewsItemsForBlock } from "@/components/News/defaults";
 import Service from "@/components/Service/Service";
 import ServiceContent from "@/components/ServiceContent/ServiceContent";
-import { ServiceContentDefaults } from "@/components/ServiceContent/defaults";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
 function formatServiceTitle(slug) {
@@ -57,12 +55,12 @@ export default async function ServicePage({ params, searchParams }) {
         </h1>
       </PageScreen>
       <ServiceContent
-        content={ServiceContentDefaults[slug] ?? ServiceContentDefaults.resuscitation}
+        content={serviceProps?.content ?? ""}
         services={serviceProps?.services}
         activeSlug={slug}
       />
       <Service {...serviceProps} activeSlug={slug} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
+      <News {...newsProps} items={(newsProps.items ?? []).slice(0, 3)} />
     </main>
   );
 }

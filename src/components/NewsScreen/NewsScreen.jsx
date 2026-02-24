@@ -3,12 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Decor from "@/components/ui/icons/Decor";
 
-const DEFAULT_IMAGE = { src: "/images/news-page.png", alt: "" };
-
 export default function NewsScreen({ featured, pageTitle }) {
-    const image = featured?.image && typeof featured.image === "object"
-        ? { src: featured.image.src || DEFAULT_IMAGE.src, alt: featured.image.alt ?? "" }
-        : DEFAULT_IMAGE;
+    const image = featured?.image?.src
+        ? { src: featured.image.src, alt: featured.image.alt ?? "" }
+        : null;
     const slug = featured?.slug || "";
     const href = slug ? `/news/${slug}` : "/news";
 
@@ -16,7 +14,7 @@ export default function NewsScreen({ featured, pageTitle }) {
         <section className="news-screen">
             <div className="center-wrap center-wrap--small">
             <div className="news-screen__wrap">
-                <h1 className="news-screen__title simple-title simple-title--large">{pageTitle ?? "News"}</h1>
+                <h1 className="news-screen__title simple-title simple-title--large">{pageTitle ?? ""}</h1>
                 <div className="news-screen__right">
                     <div className="news-screen__content">
                         <span className="news-screen__content-subtitle">Featured News</span>
@@ -32,13 +30,15 @@ export default function NewsScreen({ featured, pageTitle }) {
                             Read more
                         </Link>
                     </div>
-                    <Link href={href} className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }}>
-                        <Image
-                            src={image.src}
-                            alt={image.alt}
-                            fill
-                        />
-                    </Link>
+                    {image && (
+                        <Link href={href} className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }}>
+                            <Image
+                                src={image.src}
+                                alt={image.alt}
+                                fill
+                            />
+                        </Link>
+                    )}
                 </div>
             </div>
             </div>

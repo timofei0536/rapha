@@ -1,17 +1,5 @@
 /**
- * Returns news items with optional limit and featured (Pink October) first.
- * Use on non-news pages so the block shows featured first (e.g. on mobile).
- */
-export function getNewsItemsForBlock(items, { limit = 3, featuredFirst = false } = {}) {
-  const list = items || [];
-  if (!featuredFirst) return list.slice(0, limit);
-  const pink = list.find((it) => it.slug === "pink-october");
-  const rest = list.filter((it) => it.slug !== "pink-october");
-  return (pink ? [pink, ...rest] : list).slice(0, limit);
-}
-
-/**
- * News component default props. Shared by all pages that use News.
+ * News component default props. Used by getBlockPropsForPage (block shape only; strict mode uses no default data).
  */
 export const NewsDefaults = {
   title: "News",

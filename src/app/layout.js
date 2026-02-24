@@ -147,6 +147,7 @@ export default async function RootLayout({ children }) {
 // 4) tablet
 // 5) tablet
 // 6) share
+// 7) preview length
 
 // LOW P:
 

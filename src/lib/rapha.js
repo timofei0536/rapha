@@ -92,6 +92,13 @@ function ensureAbsoluteImageUrls(obj, depth = 0) {
 
 // --- News ---
 const txt = (v) => (v && (typeof v.rendered === "string" ? v.rendered : String(v)))?.trim() ?? "";
+const acfWysiwyg = (v) => {
+  if (v == null) return "";
+  if (typeof v === "string") return v.trim();
+  if (typeof v === "object" && typeof v.rendered === "string") return v.rendered.trim();
+  if (typeof v === "object" && typeof v.value === "string") return v.value.trim();
+  return "";
+};
 const img = (post) => {
   const acfImg = post.acf?.image && typeof post.acf.image === "object" ? normalizeImage(post.acf.image) : null;
   if (acfImg?.src) return { src: ensureAbsoluteImageUrl(acfImg.src), alt: acfImg.alt ?? "" };
@@ -103,8 +110,8 @@ const img = (post) => {
 function postToNewsItem(post) {
   const slug = String(post.slug ?? post.id ?? "");
   const title = (normalizeText(txt(post.title)) || txt(post.title) || "").trim();
-  const content = txt(post.acf?.content) || normalizeContent(txt(post.content)) || "";
-  const preview = txt(post.acf?.preview) || normalizeContent(txt(post.excerpt)) || (content ? content.replace(/<[^>]*>/g, " ").trim().slice(0, 300) : "") || "";
+  const content = acfWysiwyg(post.acf?.content) || normalizeContent(txt(post.content)) || "";
+  const preview = acfWysiwyg(post.acf?.preview);
   return { slug, title, image: img(post), content, preview };
 }
 function idsFromRaw(raw) {
@@ -133,6 +140,7 @@ export async function getNewsPageFeatured(pageSlug = "news") {
 }
 
 export async function getNewsListForPage() {
+  if (!WP_API_BASE) return { pageTitle: "", featured: null, items: [] };
   const strict = process.env.NEXT_PUBLIC_STRICT_WP === "true";
   const [posts, page] = await Promise.all([getPosts(), getPageBySlug("news")]);
   const allItems = (posts || []).map(postToNewsItem);
@@ -194,6 +202,7 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
   const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
 
   if (componentKey === "news") {
+    if (!WP_API_BASE) return ensureAbsoluteImageUrls(applyBlockFilter({ title: "", items: [] }, defaults, true));
     const slugsToTry = slug === "home" ? ["home", "front-page", "accueil"] : [slug];
     let raw = null;
     for (const s of slugsToTry) {

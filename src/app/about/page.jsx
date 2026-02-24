@@ -3,7 +3,6 @@ import About from "@/components/About/About";
 import Structure from "@/components/Structure/Structure";
 import Chart from "@/components/Chart/Chart";
 import News from "@/components/News/News";
-import { getNewsItemsForBlock } from "@/components/News/defaults";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
@@ -25,7 +24,7 @@ export default async function AboutPage({ searchParams }) {
       <About {...aboutProps} />
       <Structure {...structureProps} />
       <Chart {...chartProps} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
+      <News {...newsProps} items={(newsProps.items ?? []).slice(0, 3)} />
     </main>
   );
 }

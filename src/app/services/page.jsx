@@ -1,7 +1,6 @@
 import Image from "next/image";
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
-import { getNewsItemsForBlock } from "@/components/News/defaults";
 import Service from "@/components/Service/Service";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
@@ -28,7 +27,7 @@ export default async function ServicesPage({ searchParams }) {
         <h1 className="simple-title simple-title--large">Our<br /> Services</h1>
       </PageScreen>
       <Service {...serviceProps} />
-      <News {...newsProps} items={getNewsItemsForBlock(newsProps.items || [], { limit: 3 })} />
+      <News {...newsProps} items={(newsProps.items ?? []).slice(0, 3)} />
     </main>
   );
 }
