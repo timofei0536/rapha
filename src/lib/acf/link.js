@@ -1,46 +1,43 @@
 import { literalNewlines } from "./text.js";
 
-const WP_API_BASE =
+const WP_ORIGIN =
   typeof process !== "undefined"
-    ? (process.env.NEXT_PUBLIC_WP_API_URL || "").trim().replace(/\/$/, "")
+    ? (() => {
+        const base = (process.env.NEXT_PUBLIC_WP_API_URL || "").trim().replace(/\/$/, "");
+        if (!base) return "";
+        try {
+          return new URL(base).origin;
+        } catch {
+          return "";
+        }
+      })()
     : "";
-const WP_ORIGIN = WP_API_BASE
-  ? (() => {
-      try {
-        return new URL(WP_API_BASE).origin;
-      } catch {
-        return "";
-      }
-    })()
-  : "";
 
-/**
- * Convert ACF Page Link URL (WP domain) to Next.js relative path for client-side routing.
- * If href is a full URL pointing to WP origin, returns pathname+search; otherwise returns href as-is.
- *
- * @param {string} href
- * @returns {string}
- */
-function toNextPath(href) {
+/** WP full URL → path. Один сегмент /slug = пост → /news/slug. */
+const PAGES = new Set(["about", "contact", "services", "careers", "news", "results", "privacy-policy", "terms-conditions", "home"]);
+
+function toRelativePath(href) {
   if (!href || typeof href !== "string") return href;
   const s = href.trim();
   if (!s.startsWith("http://") && !s.startsWith("https://")) return s;
   if (!WP_ORIGIN) return s;
   try {
     const u = new URL(s);
-    if (u.origin === WP_ORIGIN) {
-      return u.pathname + u.search || "/";
-    }
+    if (u.origin !== WP_ORIGIN) return s;
+    const search = u.search || "";
+    let path = u.pathname || "/";
+    const seg = path.replace(/\/+$/, "").split("/").filter(Boolean);
+    if (seg.length === 1 && !PAGES.has(seg[0])) path = `/news/${seg[0]}`;
+    return path + search;
   } catch {
-    // invalid URL
+    /* invalid URL */
   }
   return s;
 }
 
 /**
  * Normalize ACF link field to { text, href, target? }.
- * ACF Page Link in REST API returns a URL string; Link field returns { url, title, target }; also support { href, text }.
- * WP full URLs are converted to relative paths for Next.js client-side routing.
+ * Universal: WP full URLs are converted to relative paths for Next.js; applies to all blocks (services, infra, etc.).
  *
  * @param {unknown} raw Raw value from ACF or similar
  * @returns {{ text: string; href: string; target?: string } | undefined}
@@ -48,13 +45,13 @@ function toNextPath(href) {
 export function normalizeLink(raw) {
   if (raw == null) return undefined;
   if (typeof raw === "string") {
-    const href = toNextPath(raw.trim());
+    const href = toRelativePath(raw.trim());
     return href ? { text: "", href } : undefined;
   }
   if (typeof raw !== "object") return undefined;
   const rawHref = raw.href ?? raw.url;
   if (!rawHref || typeof rawHref !== "string" || !rawHref.trim()) return undefined;
-  const href = toNextPath(rawHref.trim());
+  const href = toRelativePath(rawHref.trim());
   const text = raw.text ?? raw.title ?? "";
   const target = raw.target;
   return {
