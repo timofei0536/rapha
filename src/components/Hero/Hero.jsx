@@ -1,15 +1,23 @@
+"use client";
+
 import "./Hero.scss";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
 import Decor from "@/components/ui/icons/Decor";
+import { getLowResImageSrc } from "@/lib/image-utils";
+import { useState } from "react";
 
 export default function Hero(props) {
     const { title, formTitle, image, imageMobile } = props;
     const mobileSrc = imageMobile?.src ?? image?.src;
+    const [blurSrc, setBlurSrc] = useState(() => getLowResImageSrc(image?.src));
+    const onBlurError = () => {
+        if (image?.src && blurSrc !== image.src) setBlurSrc(image.src);
+    };
     return (
         <section className="hero white-header">
             <div className="hero__blur-wrap">
-                <Image src={image?.src} alt={image?.alt} fill />
+                <Image src={blurSrc} alt={image?.alt ?? ""} fill onError={onBlurError} />
             </div>
             <picture className="hero__bg">
                 <source media="(max-width: 1023px)" srcSet={mobileSrc} />
