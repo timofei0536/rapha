@@ -5,10 +5,13 @@
 
 function isFooterClipDisabled() {
   if (typeof window === 'undefined' || !window.location) return false;
-  const path = window.location.pathname;
+  const path = (window.location.pathname || '').replace(/\/$/, '') || '/';
+  // careers: без footer parallax
   if (path === '/careers') return true;
-  if (path.startsWith('/news/')) return true; // single news
-  if (path !== '/' && /^\/[^/]+$/.test(path)) return true; // text page (one segment: /about, /privacy, etc.)
+  // single news
+  if (path.startsWith('/news/')) return true;
+  // текстовые страницы (одна секция: /about, /privacy, /terms-conditions и т.д.)
+  if (path !== '/' && /^\/[^/]+$/.test(path)) return true;
   return false;
 }
 
