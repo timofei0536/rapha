@@ -5,18 +5,13 @@ import { normalizeContent } from "@/lib/acf";
 
 const RESERVED_SLUGS = new Set(["not-found", "404"]);
 
-/** Fallback slugs for unknown paths — render 404. Covers numeric URLs like /123/. */
-function getFallbackSlugs() {
-  const fallback = [];
-  for (let i = 0; i <= 999; i++) fallback.push({ slug: String(i) });
-  return [...fallback, { slug: "not-found" }, { slug: "404" }];
-}
+/** Fallback slugs for explicit 404 routes only. Numeric URLs (/123/) are not pre-rendered — host returns 404 for missing paths. */
+const FALLBACK_SLUGS = [{ slug: "not-found" }, { slug: "404" }];
 
 export async function generateStaticParams() {
   const wpSlugs = await getPageSlugs();
-  const fallback = getFallbackSlugs();
   const seen = new Set(wpSlugs.map((s) => s.slug));
-  const extra = fallback.filter((s) => !seen.has(s.slug));
+  const extra = FALLBACK_SLUGS.filter((s) => !seen.has(s.slug));
   return [...wpSlugs, ...extra];
 }
 

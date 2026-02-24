@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import './Preloader.scss';
 
 // Имя сайта для проверки referrer — не показывать прелоадер при переходе с внутренних страниц
-const SITE_REFERRER_KEY = 'rapha';
+const SITE_REFERRER_KEY = 'raph';
 
 export default function Preloader() {
   const [shouldRender, setShouldRender] = useState(true);
