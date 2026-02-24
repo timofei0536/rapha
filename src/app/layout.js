@@ -160,3 +160,9 @@ export default async function RootLayout({ children }) {
 // QUESTIONS:
 // 1) fonts решить.
 // 2) about -> content --reverse on mobile
+
+
+
+// image optimziation.
+// page-screen натянуть.
+// other services - последним.

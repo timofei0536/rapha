@@ -1,22 +1,19 @@
-import Results from "@/components/Results/Results";
+import { Suspense } from "react";
+import ResultsWithQuery from "@/components/Results/ResultsWithQuery";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "Search Results",
 };
 
-function getQueryFromParams(params) {
-  const q = params?.q ?? params?.query;
-  return Array.isArray(q) ? q[0] ?? "" : (q ?? "");
-}
-
 export default async function ResultsPage() {
   const resultsProps = await getBlockPropsForPage("results", "results", {});
-  const query = resultsProps.query || "";
 
   return (
     <main>
-      <Results {...resultsProps} query={query} />
+      <Suspense fallback={<div className="results"><div className="center-wrap"><p>Loading…</p></div></div>}>
+        <ResultsWithQuery {...resultsProps} />
+      </Suspense>
     </main>
   );
 }
