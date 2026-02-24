@@ -6,12 +6,15 @@ export default function Service(props) {
     const {
         services = [],
         activeSlug,
+        activeService,
         basePath = "/services",
         defaultImage = "/images/service-page.png",
     } = props;
     const list = Array.isArray(services) ? services : [];
-    const active = list.find((s) => s.slug === activeSlug) ?? list[0];
-    const activeImage = active.image ?? defaultImage;
+    const active = activeService ?? list.find((s) => s.slug === activeSlug) ?? list[0];
+    const activeImage = active?.image ?? defaultImage;
+    const imageSrc = typeof activeImage === "object" && activeImage?.src ? activeImage.src : activeImage;
+    const imageAlt = typeof activeImage === "object" && activeImage?.alt != null ? activeImage.alt : (active?.title ?? "");
 
     return (
         <section className="service">
@@ -37,8 +40,8 @@ export default function Service(props) {
                     </nav>
                     <div className="service__content">
                               <Image
-                                src={activeImage}
-                                alt={active?.title ?? ""}
+                                src={imageSrc}
+                                alt={imageAlt}
                                 fill
                               />
                             <h2 className="service__title simple-title">{active?.title}</h2>

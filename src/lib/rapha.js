@@ -72,6 +72,113 @@ async function getPosts() {
   }
 }
 
+/**
+ * Fetch services CPT from WP. Returns array of { slug, title, content, image? }.
+ * Used for Services block (home), Service list and ServiceContent (services pages).
+ *
+ * @returns {Promise<Array<{ slug: string, title: string, content: string, image?: { src: string, alt: string } }>>}
+ */
+export async function getWpServices() {
+  if (!WP_API_BASE) return [];
+  try {
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/services?per_page=100&orderby=menu_order&order=asc`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    const list = Array.isArray(data) ? data : [];
+    return list.map((post) => mapWpPostToService(post)).filter((s) => s.slug);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Decode HTML entities in string (e.g. &#038; → &, &amp; → &).
+ * @param {string} str
+ * @returns {string}
+ */
+function decodeHtmlEntities(str) {
+  if (typeof str !== "string" || !str) return str;
+  return str
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, code) => String.fromCharCode(parseInt(code, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'");
+}
+
+/**
+ * Map raw WP post object to service shape { slug, title, content, image? }.
+ * @param {Record<string, unknown>} post
+ * @returns {{ slug: string, title: string, content: string, image?: { src: string, alt: string } }}
+ */
+function mapWpPostToService(post) {
+  const contentFromPost =
+    post.content?.rendered ??
+    (typeof post.content === "string" ? post.content : null) ??
+    post.raw_content;
+  const contentFromAcf =
+    typeof post.acf?.content === "string"
+      ? post.acf.content
+      : post.acf?.content?.rendered ?? post.acf?.content?.value ?? null;
+  const contentRaw = contentFromPost ?? contentFromAcf ?? "";
+  const content = contentRaw != null ? String(contentRaw).trim() : "";
+  const rawTitle = (normalizeText(post.title?.rendered) ?? "").trim() || String(post.title?.rendered ?? "").trim();
+  const titleStr = decodeHtmlEntities(rawTitle);
+  const acfImg = post.acf?.image;
+  const image =
+    acfImg && (acfImg.url || acfImg.src)
+      ? { src: ensureAbsoluteImageUrl(acfImg.url || acfImg.src), alt: String(acfImg.alt ?? "").trim() }
+      : undefined;
+  return {
+    slug: String(post.slug ?? post.id ?? "").trim() || "",
+    title: titleStr,
+    content,
+    ...(image && { image }),
+  };
+}
+
+/**
+ * Fetch one service by slug from WP. Use on inner service page for content + image.
+ *
+ * @param {string} slug
+ * @returns {Promise<{ slug: string, title: string, content: string, image?: { src: string, alt: string } } | null>}
+ */
+export async function getWpServiceBySlug(slug) {
+  if (!WP_API_BASE || !slug || typeof slug !== "string") return null;
+  const slugTrim = String(slug).trim();
+  if (!slugTrim) return null;
+  try {
+    const params = new URLSearchParams({ slug: slugTrim, per_page: "1" });
+    const res = await fetch(
+      `${WP_API_BASE}/wp-json/wp/v2/services?${params}`,
+      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const post = Array.isArray(data) ? data[0] : data;
+    if (!post || typeof post !== "object") return null;
+    let service = mapWpPostToService(post);
+    if (service.slug && !service.content && post.id) {
+      const byIdRes = await fetch(
+        `${WP_API_BASE}/wp-json/wp/v2/services/${post.id}`,
+        isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      );
+      if (byIdRes.ok) {
+        const fullPost = await byIdRes.json();
+        if (fullPost && typeof fullPost === "object") service = mapWpPostToService(fullPost);
+      }
+    }
+    return service.slug ? service : null;
+  } catch {
+    return null;
+  }
+}
+
 function ensureAbsoluteImageUrl(src) {
   if (typeof src !== "string" || !src.trim()) return src;
   if (src.startsWith("http://") || src.startsWith("https://")) return src;
@@ -111,7 +218,8 @@ function postToNewsItem(post) {
   const slug = String(post.slug ?? post.id ?? "");
   const title = (normalizeText(txt(post.title)) || txt(post.title) || "").trim();
   const content = acfWysiwyg(post.acf?.content) || normalizeContent(txt(post.content)) || "";
-  const preview = acfWysiwyg(post.acf?.preview);
+  const previewRaw = acfWysiwyg(post.acf?.preview);
+  const preview = previewRaw || content;
   return { slug, title, image: img(post), content, preview };
 }
 function idsFromRaw(raw) {

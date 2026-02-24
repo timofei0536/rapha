@@ -41,7 +41,7 @@ function rapha_register_cpt_services() {
         'menu_position'       => 20,
         'menu_icon'           => 'dashicons-admin-generic',
         'supports'            => array( 'title' ),
-        'show_in_rest'        => false,
+        'show_in_rest'        => true,
     );
 
     register_post_type( 'services', $args );
