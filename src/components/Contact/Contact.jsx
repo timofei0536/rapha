@@ -13,18 +13,18 @@ export default function Contact(props) {
   return (
     <section className="contact">
       <div className="center-wrap center-wrap--small">
-        <div className="contact__map">
-          {map?.src && (
-          <iframe
-            title={map.title ?? ""}
-            src={map.src}
-            className="contact__map-iframe"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
-          )}
-        </div>
+        {map?.src?.trim() && (
+          <div className="contact__map">
+            <iframe
+              title={map.title ?? ""}
+              src={map.src}
+              className="contact__map-iframe"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+        )}
 
         <div className="contact__info">
           {(items || []).map((item, i) => {

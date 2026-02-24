@@ -35,6 +35,12 @@
         display: block;
     }
 
+    &--error .simple-title {
+        @media screen and (max-width: $large_tablet) {
+            font-size: 4rem;
+        }
+    }
+
     &--blur {
 
     &::before {
