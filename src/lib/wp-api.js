@@ -221,42 +221,5 @@ export async function getBlockProps(slug, componentKey, defaults, searchParams) 
   return getPageProps(slug, componentKey, defaults, { strictWp });
 }
 
-/**
- * @deprecated Use getBlockProps. Same signature.
- */
-export async function getPagePropsFromSearchParams(slug, componentKey, defaults, searchParams) {
-  return getBlockProps(slug, componentKey, defaults, searchParams);
-}
-
 /** Re-export from lib/acf for backward compatibility. */
 export { normalizeGallery } from "@/lib/acf";
-
-/**
- * Return value if non-empty string, else undefined (so component can use DEFAULT_*).
- * Uses normalizeText from lib/acf.
- *
- * @param {unknown} value
- * @returns {string | undefined}
- */
-export function orDefault(value) {
-  return normalizeText(value);
-}
-
-/**
- * @deprecated Use getPageProps; then derive phone/address/email from props.items in layout.
- */
-export function getContactInfo(data) {
-  if (!data || typeof data !== "object") return null;
-  const items = Array.isArray(data.items) ? data.items : [];
-  const link = (i) => {
-    const item = items[i];
-    const l = item?.link ?? item;
-    if (!l?.href) return null;
-    return { text: l.text ?? "", href: l.href };
-  };
-  return {
-    phone: link(1) ?? null,
-    address: link(0) ?? null,
-    email: link(2) ?? null,
-  };
-}

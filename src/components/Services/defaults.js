@@ -1,14 +1,16 @@
 /**
  * Services component default props.
+ * Data from WP: getBlockPropsForPage("home", "services") → component_services (title, image, services repeater).
+ * Repeater fields (ACF): title (Text), content (Wysiwyg), link (Page Link) — ссылки только из ACF.
  */
 export const ServicesDefaults = {
   title: "Our Services",
   image: { src: "/images/services.png", alt: "services-background" },
   services: [
-    { slug: "emergencies", title: "Emergencies", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { slug: "surgery-operating-room", title: "Surgery &\n Operating room", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance" },
-    { slug: "medical-imaging", title: "Medical Imaging", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { slug: "analysis-laboratory", title: "Analysis Laboratory", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
-    { slug: "gynecology-obstetrics", title: "Gynecology-Obstetrics", content: "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician." },
+    { title: "Emergencies", content: "", link: { href: "", text: "" } },
+    { title: "Surgery &\nOperating room", content: "", link: { href: "", text: "" } },
+    { title: "Medical Imaging", content: "", link: { href: "", text: "" } },
+    { title: "Analysis Laboratory", content: "", link: { href: "", text: "" } },
+    { title: "Gynecology-Obstetrics", content: "", link: { href: "", text: "" } },
   ],
 };

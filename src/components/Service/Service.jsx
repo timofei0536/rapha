@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import "./Service.scss";
 
+function slugFromLink(link) {
+  if (!link?.href || typeof link.href !== "string") return null;
+  const path = link.href.startsWith("http") ? new URL(link.href).pathname : link.href;
+  const segment = path.split("/").filter(Boolean).pop();
+  return segment || null;
+}
+
 export default function Service(props) {
     const {
         services = [],
@@ -24,11 +31,13 @@ export default function Service(props) {
                     <nav className="service__nav">
                         <ul className="service__list">
                             {list.map((item) => {
-                                const isActive = active && item.slug === active.slug;
+                                const slug = item.slug ?? slugFromLink(item.link);
+                                const href = item.link?.href ?? (slug ? `${basePath}/${slug}` : basePath);
+                                const isActive = active && (item.slug === active.slug || slug === (active.slug ?? slugFromLink(active.link)));
                                 return (
-                                    <li key={item.slug} className="service__item">
+                                    <li key={slug ?? item.title ?? Math.random()} className="service__item">
                                         <Link
-                                            href={`${basePath}/${item.slug}`}
+                                            href={href}
                                             className={`service__link ${isActive ? "service__link--active" : ""}`}
                                         >
                                             {item.title}
