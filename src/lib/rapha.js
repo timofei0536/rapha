@@ -17,6 +17,7 @@ import { StructureDefaults } from "@/components/Structure/defaults";
 import { ChartDefaults } from "@/components/Chart/defaults";
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ResultsDefaults } from "@/components/Results/defaults";
+import { PageScreenDefaults } from "@/components/PageScreen/defaults";
 import { getSearchResults } from "@/lib/search";
 
 const WP_API_BASE =
@@ -284,7 +285,7 @@ export async function getSingleNewsBySlug(slug) {
 
 /** Defaults by page slug and block key. Used by getBlockPropsForPage. */
 const blockDefaults = {
-  careers: { careers: CareersDefaults },
+  careers: { careers: CareersDefaults, pageScreen: PageScreenDefaults },
   contact: { contact: ContactDefaults },
   home: {
     hero: HeroDefaults,
@@ -300,7 +301,7 @@ const blockDefaults = {
     chart: ChartDefaults,
     news: NewsDefaults,
   },
-  services: { service: ServiceDefaults, news: NewsDefaults },
+  services: { service: ServiceDefaults, news: NewsDefaults, pageScreen: PageScreenDefaults },
   news: { news: NewsDefaults },
   results: { results: ResultsDefaults },
 };
@@ -351,9 +352,30 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
     return out;
   }
 
-  if (componentKey === "chart" && strictWp) {
-    const result = await getPageProps(slug, componentKey, defaults, { strictWp: true });
-    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, true));
+  // Chart: always 100% from defaults (no WP). Don't rewrite image URLs — defaults use local /images/ from public.
+  if (componentKey === "chart") {
+    return { ...defaults };
+  }
+
+  if (componentKey === "pageScreen") {
+    const slugsToTry = slug === "services" ? ["services", "our-services"] : [slug];
+    let page = null;
+    for (const s of slugsToTry) {
+      page = WP_API_BASE ? await getPageBySlug(s) : null;
+      if (page) break;
+    }
+    const data = page ? getComponentData(page, "pagescreen") : null;
+    const titleFromAcf = data?.title != null ? normalizeText(data.title) ?? "" : "";
+    const title = (titleFromAcf && titleFromAcf.trim()) || (strictWp ? "" : (defaults.title ?? ""));
+    const rawImage = data?.image;
+    const imageRaw = Array.isArray(rawImage) && rawImage.length > 0 ? rawImage[0] : rawImage;
+    let image = imageRaw != null ? normalizeImage(imageRaw) : undefined;
+    if (image?.src) image = { ...image, src: ensureAbsoluteImageUrl(image.src) };
+    const result = {
+      title: title.trim() || undefined,
+      image: image?.src ? image : (strictWp ? undefined : defaults.image),
+    };
+    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
     return out;
   }
 
@@ -369,12 +391,6 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
 
   const result = await getBlockProps(slug, componentKey, defaults, searchParams);
   const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
-  if (!strictWp && componentKey === "chart" && defaults.data) {
-    const data = out?.data;
-    if (!data || (typeof data === "object" && !data.name)) {
-      return { ...defaults, ...out, title: out?.title ?? defaults.title, data: defaults.data };
-    }
-  }
   return out;
 }
 

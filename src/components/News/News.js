@@ -11,20 +11,25 @@ function titleToSlug(title) {
 const DEFAULT_NEWS_IMAGE = { src: "/images/news-page.png", alt: "" };
 
 export default function News(props) {
-    const { title, items, hideTitle, hideMoreButton } = props;
+    const { title, items, hideTitle, hideMoreButton, featured } = props;
+    const isFeaturedMobile = featured && !hideMoreButton;
+    const listItems = isFeaturedMobile
+        ? [featured, ...(items || []).filter((i) => i.slug !== featured?.slug).slice(0, 2)]
+        : (items || []);
     return (
-        <section className={`news${hideMoreButton ? " news--full-list" : ""}`}>
+        <section className={`news${hideMoreButton ? " news--full-list" : ""}${isFeaturedMobile ? " news--featured-mobile" : ""}`}>
             <div className="center-wrap center-wrap--small">
             {!hideTitle && <h2 className="simple-title simple-title--center news__title">{title}</h2>}
             <div className="news__list">
-                {(items || []).map((item, i) => {
+                {listItems.map((item, i) => {
                     const slug = item.slug || titleToSlug(item.title) || `news-${i + 1}`;
                     const href = `/news/${slug}`;
                     const image = item.image && typeof item.image === "object"
                       ? { src: item.image.src || DEFAULT_NEWS_IMAGE.src, alt: item.image.alt ?? "" }
                       : DEFAULT_NEWS_IMAGE;
+                    const isFeatured = isFeaturedMobile && i === 0;
                     return (
-                    <div key={i} className="news__item">
+                    <div key={i} className={`news__item${isFeatured ? " news__item--featured" : ""}`}>
                         <Link href={href} className="img-wrap" style={{ aspectRatio: "500/400" }}>
                           <Image
                             src={image.src} alt={image.alt} className={i === 2 ? "news__item-img white-header" : "news__item-img"}

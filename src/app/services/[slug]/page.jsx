@@ -3,7 +3,7 @@ import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
 import Service from "@/components/Service/Service";
 import ServiceContent from "@/components/ServiceContent/ServiceContent";
-import { getBlockPropsForPage, getWpServices, getWpServiceBySlug } from "@/lib/rapha";
+import { getBlockPropsForPage, getWpServices, getWpServiceBySlug, getNewsPageFeatured } from "@/lib/rapha";
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ServiceContentDefaults } from "@/components/ServiceContent/defaults";
 
@@ -31,11 +31,12 @@ export async function generateMetadata({ params }) {
 
 export default async function ServicePage({ params }) {
   const { slug } = await params;
-  const [serviceProps, newsProps, wpServices, wpServiceBySlug] = await Promise.all([
+  const [serviceProps, newsProps, wpServices, wpServiceBySlug, featured] = await Promise.all([
     getBlockPropsForPage("services", "service", {}),
     getBlockPropsForPage("services", "news", {}),
     getWpServices(),
     getWpServiceBySlug(slug),
+    getNewsPageFeatured("news"),
   ]);
 
   const rawFromWp = Array.isArray(wpServices) && wpServices.length > 0 ? wpServices : null;
@@ -88,7 +89,7 @@ export default async function ServicePage({ params }) {
         activeSlug={slug}
       />
       <Service {...serviceProps} services={list} activeSlug={slug} activeService={activeService} />
-      <News {...newsProps} items={(newsProps.items ?? []).slice(0, 3)} />
+      <News {...newsProps} items={(newsProps.items ?? []).slice(0, 3)} featured={featured} />
     </main>
   );
 }

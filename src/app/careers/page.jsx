@@ -7,15 +7,15 @@ export const metadata = {
   title: "Careers",
 };
 
-const PAGE_TITLE = "Join Our Team at El-Rapha";
-const PAGE_IMAGE = { src: "/images/careers-page.png", alt: "Join Our Team at El-Rapha" };
-
 export default async function CareersPage() {
-  const props = await getBlockPropsForPage("careers", "careers", {});
+  const [props, pageScreenProps] = await Promise.all([
+    getBlockPropsForPage("careers", "careers", {}),
+    getBlockPropsForPage("careers", "pageScreen", {}),
+  ]);
 
   return (
     <main>
-      <PageScreen title={PAGE_TITLE} image={PAGE_IMAGE} />
+      <PageScreen {...pageScreenProps} />
       <Careers {...props} />
       <Apply />
     </main>

@@ -16,7 +16,8 @@
 
     &__item {
         width: calc( ( 100% - 2.2rem*2 ) /3 );
-
+        display: flex;
+        flex-direction: column;
 
         @media screen and (max-width: $large_tablet) {
             
@@ -49,6 +50,11 @@
             letter-spacing: -0.02em; /* -0.056rem при 2.8rem */
             margin-bottom: 1.7rem;
             font-family: var(--primary-f);
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
             @media screen and (max-width: $large_tablet) {
                 font-size: 2rem;
             }
@@ -61,10 +67,15 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            flex-grow: 1;
             @media screen and (max-width: $large_tablet) {
                 font-size: 1.2rem;
                 --content-fz: 1.2rem;
               }
+        }
+
+        &-link {
+            margin-top: auto;
         }
     }
 
@@ -74,6 +85,13 @@
             &:not(:first-child) {
                 display: block;
             }
+        }
+    }
+
+    // Не на странице news: на мобилке показываем только featured
+    &--featured-mobile &__item:not(&__item--featured) {
+        @media screen and (max-width: $large_tablet) {
+            display: none;
         }
     }
 
