@@ -3,11 +3,21 @@ import TextPage from "@/components/TextPage/TextPage";
 import { getPageBySlug, getPageSlugs } from "@/lib/wp-api";
 import { normalizeContent } from "@/lib/acf";
 
-const RESERVED_SLUGS = new Set(["not-found"]);
+const RESERVED_SLUGS = new Set(["not-found", "404"]);
+
+/** Fallback slugs for unknown paths — render 404. Covers numeric URLs like /123/. */
+function getFallbackSlugs() {
+  const fallback = [];
+  for (let i = 0; i <= 999; i++) fallback.push({ slug: String(i) });
+  return [...fallback, { slug: "not-found" }, { slug: "404" }];
+}
 
 export async function generateStaticParams() {
-  const slugs = await getPageSlugs();
-  return slugs;
+  const wpSlugs = await getPageSlugs();
+  const fallback = getFallbackSlugs();
+  const seen = new Set(wpSlugs.map((s) => s.slug));
+  const extra = fallback.filter((s) => !seen.has(s.slug));
+  return [...wpSlugs, ...extra];
 }
 
 /** Декодируем HTML-сущности в заголовке из WP (например &#038; → &). */

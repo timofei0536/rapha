@@ -83,6 +83,9 @@
         }
     }
 
+    &--error .decore {
+        display: none;
+    }
     .decore {
         left: 0px;
         position: absolute !important;
