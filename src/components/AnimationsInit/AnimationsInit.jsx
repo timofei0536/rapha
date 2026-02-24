@@ -19,10 +19,14 @@ export default function AnimationsInit() {
       isFirst.current = false;
       return;
     }
-    const t = requestAnimationFrame(() => {
-      requestAnimationFrame(() => refreshAnimations());
-    });
-    return () => cancelAnimationFrame(t);
+    // При возврате на главную даём странице время загрузиться (Hero — серверный компонент)
+    const delay = pathname === '/' ? 150 : 0;
+    const t = delay
+      ? setTimeout(refreshAnimations, delay)
+      : requestAnimationFrame(() => {
+          requestAnimationFrame(refreshAnimations);
+        });
+    return () => (delay ? clearTimeout(t) : cancelAnimationFrame(t));
   }, [pathname]);
 
   return null;

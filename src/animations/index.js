@@ -23,8 +23,15 @@ function addLoadEvent(func) {
 }
 
 function runScrollTriggers() {
-  if (document.querySelector('.hero')) {
+  const hero = document.querySelector('.hero');
+  if (hero) {
     heroEntrance();
+  } else {
+    // На страницах без hero (results и т.п.) — явно показываем header
+    const header = document.querySelector('.header');
+    if (header && window.gsap) {
+      window.gsap.set(header, { yPercent: 0 });
+    }
   }
   window.ScrollTrigger.refresh();
   headerWhite();
