@@ -50,12 +50,17 @@
         padding: 2rem 3.4rem;
         width: 100%;
         display: inline-block;
+        transition: 0.4s;
         @media screen and (max-width: $large_tablet) {
             padding: 1.5rem 2.4rem;
         }
         &--active {
             font-weight: 600;
             background: var(--orange);
+        }
+
+        &:hover {
+            opacity: 0.5;
         }
     }
 
