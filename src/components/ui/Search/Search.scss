@@ -24,6 +24,11 @@
         &::placeholder {
             color: var(--blue);
         }
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-decoration {
+            -webkit-appearance: none;
+            appearance: none;
+        }
     }
 
     svg {

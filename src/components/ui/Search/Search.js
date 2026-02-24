@@ -1,11 +1,14 @@
 "use client";
 
 import { useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import "./Search.scss";
 import SearchIcon from "@/components/ui/icons/Search";
 
 export default function Search() {
   const inputRef = useRef(null);
+  const searchParams = useSearchParams();
+  const queryFromUrl = searchParams.get("q") ?? "";
 
   return (
     <form
@@ -28,6 +31,7 @@ export default function Search() {
         className="search__input"
         placeholder="Search"
         aria-label="Search"
+        defaultValue={queryFromUrl}
       />
     </form>
   );

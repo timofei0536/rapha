@@ -17,6 +17,7 @@ import { StructureDefaults } from "@/components/Structure/defaults";
 import { ChartDefaults } from "@/components/Chart/defaults";
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ResultsDefaults } from "@/components/Results/defaults";
+import { getSearchResults } from "@/lib/search";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
@@ -343,6 +344,16 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
     const result = await getPageProps(slug, componentKey, defaults, { strictWp: true });
     const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, true));
     return out;
+  }
+
+  if (componentKey === "results") {
+    const result = await getBlockProps(slug, componentKey, defaults, searchParams);
+    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
+    const queryParam = params?.q ?? params?.query;
+    const searchQuery = Array.isArray(queryParam) ? queryParam[0] ?? "" : (queryParam ?? "");
+    const query = (typeof searchQuery === "string" ? searchQuery.trim() : "") || out.query || defaults.query;
+    const items = query ? await getSearchResults(query) : (out.items ?? defaults.items);
+    return { ...out, query, items };
   }
 
   const result = await getBlockProps(slug, componentKey, defaults, searchParams);
