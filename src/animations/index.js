@@ -28,12 +28,12 @@ function runScrollTriggers() {
   }
   window.ScrollTrigger.refresh();
   headerWhite();
-  parallaxAppearance();
-  sectionClipReveal(); // только footer clip-path
-  // teamClipReveal();
-  if (document.querySelector('.team__wrap')) teamGallery();
-  if (document.querySelector('.calc')) calcCards();
-  if (window.its_desktop) sectionPin();
+  if (window.its_desktop) {
+    parallaxAppearance();
+    sectionClipReveal(); // только footer clip-path
+    if (document.querySelector('.team__wrap')) teamGallery();
+    sectionPin();
+  }
   initMobileMenu();
   window.ScrollTrigger.refresh();
 }
