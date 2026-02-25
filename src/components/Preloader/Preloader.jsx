@@ -49,7 +49,7 @@ export default function Preloader() {
       aria-hidden="true"
     >
       <div className="preloader__logo">
-        <img src="/images/logo--white.png" alt="" />
+        <img src="/images/logo--white.png" alt="logo" />
       </div>
     </div>
   );

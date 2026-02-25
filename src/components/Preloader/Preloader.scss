@@ -28,6 +28,9 @@
     width: 30%;
     animation: preloaderLogoOpacity 0.45s 0.3s ease-in-out forwards;
     opacity: 0;
+    @media screen and (max-width: $large_tablet) {
+      width: 40%;
+    }
 
     @keyframes preloaderLogoOpacity {
       0% {
