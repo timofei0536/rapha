@@ -115,6 +115,7 @@
         padding-left: 3rem;
         margin-top: auto;
         margin-top: -0.3em;
+        opacity: 0;
         @media screen and (max-width: $large_tablet) {
             text-align: center;
             padding-left: 0px;
@@ -149,8 +150,19 @@
             }
 
         }
-        &-title {
+
+        .form {
             @media screen and (min-width: $large_tablet) {
+                opacity: 0;
+            }
+
+        }
+        &-title {
+            
+            
+
+            @media screen and (min-width: $large_tablet) {
+                
                 font-size: 2.4rem;
                 letter-spacing: -0.02em; /* -0.048rem при 2.4rem */
                 flex-shrink: 0;
@@ -158,6 +170,8 @@
                 background: var(--blue-l);
                 line-height: 3.54em; /* 8.5rem при font-size 2.4rem */
                 padding: 0px 10.85rem;
+
+                opacity: 0;
             }
             @media screen and (max-width: $large_tablet) {
                 text-align: center;
