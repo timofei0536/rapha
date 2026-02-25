@@ -59,7 +59,7 @@
         padding-right: 10rem;
         @media screen and (max-width: $large_tablet) {
             padding-top: 6rem;
-            max-width: calc(100% - var(--p-page)*2*0.1rem);
+            max-width: calc(100% - var(--p-page)*0.2rem);
             padding-right: 0px;
         }
     }

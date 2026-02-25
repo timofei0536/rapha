@@ -52,9 +52,10 @@ body {
 
 	max-width: calc(100% - var(--p-page)*2*0.1rem);
 
-	// @media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
-	// 	max-width: calc( $large_mobile - var(--p-page)*2*0.1rem);
-	// }
+	@media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
+		max-width: calc( $large_mobile - var(--p-page)*0.2rem);
+		
+	}
 
 	@media screen and (min-width: $large_tablet) {
 		&--small {

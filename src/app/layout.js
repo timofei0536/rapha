@@ -88,6 +88,7 @@ export default async function RootLayout({ children }) {
 // 7) add .content
 // 8) add img-wrap style.
 // 9) gsap подключить
+// 10) adaptive, change tablet vars.
 
 //////
 
@@ -96,8 +97,9 @@ export default async function RootLayout({ children }) {
 // 1) chart уточнить
 // 2) careers form.
 // 3) news - pagination.
-// 5) services -> ask about it.
+// ) services -> ask about it.
 // 5) structure  -> 2 columns.
+// 6) hero select z-index.
 // 6) hero select z-index.
 
 // 1) html to loops

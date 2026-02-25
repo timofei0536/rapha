@@ -31,10 +31,14 @@ $large_tablet: 1023px;
 $large_mobile: 480px;
 
 
+// fz -> fixed.
+// center-wrap -> fixed ( такой как в large-mobile был ). ( 368 )
+
+
 @media screen and (max-width:$large_tablet) {
   :root {
   	--wrap:768;
-    --p-page: 45;
+    --p-page: 13;
     --p-margin: 10rem;
     --header-height: calc( 7.2rem + 4.8rem );
     --radius: 2rem;
