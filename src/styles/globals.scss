@@ -41,7 +41,7 @@ body {
 	font-size: calc(100vw / ( (var(--wrap) + var(--p-page)*2) / 10 ) );
 	
 	@media screen and (max-width: $large_tablet) and (min-width: $large_mobile)  {
-		font-size: 83%;
+		font-size: 77%;
 	}
 	font-weight: 300;
 }
