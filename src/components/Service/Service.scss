@@ -11,7 +11,8 @@
         color: var(--white);
         padding: calc( var(--p-margin) / 1.5 ) 0px;
         @media screen and (max-width: $large_tablet) {
-            padding: 2rem 0px;
+            padding: calc( var(--p-page) * 0.1rem ) 0px;
+            padding-bottom: 2rem;
         }
         .center-wrap {
             display: flex;
