@@ -5,6 +5,7 @@ import { initMobileMenu } from './mobileMenu';
 import { heroEntrance, setHeroInitialState, resetHeroInitialState } from './heroEntrance';
 import { parallaxAppearance } from './parallaxAppearance';
 import { sectionClipReveal } from './sectionClipReveal';
+import { pageScreenParallax } from './pageScreenParallax';
 // import { teamClipReveal } from './sectionClipReveal';
 import { teamGallery } from './teamGallery';
 
@@ -38,9 +39,11 @@ function runScrollTriggers() {
   if (window.its_desktop) {
     parallaxAppearance();
     sectionClipReveal(); // только footer clip-path
+    pageScreenParallax();
     if (document.querySelector('.team__wrap')) teamGallery();
     sectionPin();
   }
+  
   initMobileMenu();
   window.ScrollTrigger.refresh();
 }
