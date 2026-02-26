@@ -8,6 +8,7 @@ import { sectionClipReveal } from './sectionClipReveal';
 import { pageScreenParallax } from './pageScreenParallax';
 // import { teamClipReveal } from './sectionClipReveal';
 import { teamGallery } from './teamGallery';
+import { structureColumns } from './structureColumns';
 
 export { textLinesScript } from './textLines';
 
@@ -40,10 +41,12 @@ function runScrollTriggers() {
     parallaxAppearance();
     sectionClipReveal(); // только footer clip-path
     pageScreenParallax();
+    structureColumns();
     if (document.querySelector('.team__wrap')) teamGallery();
     sectionPin();
   }
   
+
   initMobileMenu();
   window.ScrollTrigger.refresh();
 }
