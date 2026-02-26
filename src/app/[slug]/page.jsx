@@ -1,19 +1,9 @@
 import { notFound } from "next/navigation";
 import TextPage from "@/components/TextPage/TextPage";
-import { getPageBySlug, getPageSlugs } from "@/lib/wp-api";
+import { getPageBySlug } from "@/lib/wp-api";
 import { normalizeContent } from "@/lib/acf";
 
 const RESERVED_SLUGS = new Set(["not-found", "404"]);
-
-/** Fallback slugs for explicit 404 routes only. Numeric URLs (/123/) are not pre-rendered — host returns 404 for missing paths. */
-const FALLBACK_SLUGS = [{ slug: "not-found" }, { slug: "404" }];
-
-export async function generateStaticParams() {
-  const wpSlugs = await getPageSlugs();
-  const seen = new Set(wpSlugs.map((s) => s.slug));
-  const extra = FALLBACK_SLUGS.filter((s) => !seen.has(s.slug));
-  return [...wpSlugs, ...extra];
-}
 
 /** Декодируем HTML-сущности в заголовке из WP (например &#038; → &). */
 function decodeTitle(str) {
