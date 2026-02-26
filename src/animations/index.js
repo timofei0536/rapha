@@ -30,7 +30,7 @@ function runScrollTriggers() {
     // На страницах без hero (results и т.п.) — явно показываем header
     const header = document.querySelector('.header');
     if (header && window.gsap && window.its_desktop) {
-      window.gsap.set(header, { yPercent: 0 });
+      window.gsap.set(header, { y: 0 });
     }
   }
   window.ScrollTrigger.refresh();
