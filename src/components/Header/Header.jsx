@@ -12,13 +12,14 @@ import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
+  const its_desktop = typeof window !== "undefined" && window.its_desktop;
   const phone = contactInfo?.phone;
   const address = contactInfo?.address;
 
   return (
       <header
-        className={`header${isHome ? ' anim-initial' : ''}`}
-        style={isHome ? { '--anim-y': '-100%' } : undefined}
+        className={`header${isHome && its_desktop ? ' anim-initial' : ''}`}
+        style={isHome && its_desktop ? { '--anim-y': '-100%' } : undefined}
       >
         <div className="center-wrap">
           <div className="header__top">
