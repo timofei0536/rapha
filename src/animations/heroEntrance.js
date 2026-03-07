@@ -1,6 +1,6 @@
 import { textLinesScript } from './textLines';
 import { registerTimeline, registerCleanupFn } from './lib/animCleanup';
-import { setInitialData, applyInitialStateIn } from './lib/animInitial';
+import { setInitialData } from './lib/animInitial';
 
 let heroInitialStatePromise = null;
 
@@ -38,10 +38,8 @@ export async function init() {
 
   if (!hero || !titleEl) return;
 
-  if (header) setInitialData(header, { y: '-100%' });
   await setHeroInitialState();
   hero.querySelectorAll('.anim-line').forEach((line) => setInitialData(line, { opacity: '0', y: '28' }));
-  applyInitialStateIn(hero);
 
   const lines = hero.querySelectorAll('.anim-line');
   const gsap = window.gsap;

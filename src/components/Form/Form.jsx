@@ -33,12 +33,10 @@ export default function Form({
   submitText = "Submit",
   submitIcon: SubmitIcon = Send,
   roleOptions = [],
-  dataAnimOpacity,
-  dataAnimY,
+  animInitialStyle,
 }) {
-  const dataAnimProps = {
-    ...(dataAnimOpacity != null && { 'data-anim-opacity': dataAnimOpacity }),
-    ...(dataAnimY != null && { 'data-anim-y': dataAnimY }),
+  const animProps = {
+    ...(animInitialStyle && { className: 'anim-initial', style: animInitialStyle }),
   };
   const [cvLabel, setCvLabel] = useState("Upload CV");
   const [coverLabel, setCoverLabel] = useState("Upload Cover Letter");
@@ -78,7 +76,7 @@ export default function Form({
   if (variant === "apply") {
     return (
       <>
-      <form key={formKey} ref={formRef} className="form form--apply" onSubmit={handleSubmit} {...dataAnimProps}>
+      <form key={formKey} ref={formRef} className={`form form--apply${animProps.className ? ` ${animProps.className}` : ''}`} style={animProps.style} onSubmit={handleSubmit}>
         <div className="form__inputs">
           <input
             className="form__input"
@@ -170,7 +168,7 @@ export default function Form({
 
   return (
     <>
-    <form key={formKey} ref={formRef} className="form" onSubmit={handleSubmit} {...dataAnimProps}>
+    <form key={formKey} ref={formRef} className={`form${animProps.className ? ` ${animProps.className}` : ''}`} style={animProps.style} onSubmit={handleSubmit}>
       <div className="form__inputs">
         <div
           className="form__input form__input--date-wrap"

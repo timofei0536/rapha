@@ -16,7 +16,10 @@ export default function Header({ contactInfo }) {
   const address = contactInfo?.address;
 
   return (
-      <header className="header">
+      <header
+        className={`header${isHome ? ' anim-initial' : ''}`}
+        style={isHome ? { '--anim-y': '-100%' } : undefined}
+      >
         <div className="center-wrap">
           <div className="header__top">
             <div className="center-wrap center-wrap--small">
