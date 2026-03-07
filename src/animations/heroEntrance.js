@@ -1,4 +1,6 @@
 import { textLinesScript } from './textLines';
+import { registerTimeline, registerCleanupFn } from './lib/animCleanup';
+import { setInitialData, applyInitialStateIn } from './lib/animInitial';
 
 let heroInitialStatePromise = null;
 
@@ -16,9 +18,6 @@ export function setHeroInitialState() {
 
   heroInitialStatePromise = (async () => {
     await textLinesScript(titleEl, false, true);
-
-    const lines = hero.querySelectorAll('.anim-line');
-    gsap.set(lines, { opacity: 0, y: 28 });
   })();
 
   return heroInitialStatePromise;
@@ -28,9 +27,9 @@ export function resetHeroInitialState() {
   heroInitialStatePromise = null;
 }
 
-export async function heroEntrance() {
-  if (typeof window === 'undefined' || !window.gsap) return;
+export const selector = '.hero';
 
+export async function init() {
   const hero = document.querySelector('.hero');
   const header = document.querySelector('.header');
   const titleEl = hero?.querySelector('.hero__title');
@@ -39,15 +38,22 @@ export async function heroEntrance() {
 
   if (!hero || !titleEl) return;
 
+  if (header) setInitialData(header, { y: '-100%' });
   await setHeroInitialState();
+  hero.querySelectorAll('.anim-line').forEach((line) => setInitialData(line, { opacity: '0', y: '28' }));
+  applyInitialStateIn(hero);
 
   const lines = hero.querySelectorAll('.anim-line');
   const gsap = window.gsap;
 
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+  registerTimeline(tl, hero);
 
-  if (header) header.classList.add('header--white');
-  tl.set(titleEl, { opacity: 1 }, 0);
+  if (header) {
+    header.classList.add('header--white');
+    registerCleanupFn(() => header.classList.remove('header--white'));
+  }
+  tl.to(titleEl, { opacity: 1, duration: 0 }, 0);
   tl.to(lines, { opacity: 1, y: 0, duration: 1, stagger: 0.2 }, 0);
   if (window.its_desktop) tl.to(formElems, { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power2.out' }, 1);
   if (window.its_desktop) tl.to(header, { y: 0, duration: 1, ease: 'power2.out' }, 1);

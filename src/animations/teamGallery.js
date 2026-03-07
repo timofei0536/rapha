@@ -3,16 +3,19 @@
  * Trigger: .team__wrap, start: top bottom, end: center center.
  */
 
-export function teamGallery() {
-  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+import { registerScrollTrigger } from './lib/animCleanup';
 
+export const selector = '.team__wrap';
+export const desktopOnly = true;
+
+export function init() {
   const teamWrap = document.querySelector('.team__wrap');
   const galleryParts = document.querySelectorAll('.team__gallery-part');
   if (!teamWrap || !galleryParts.length) return;
 
   const gsap = window.gsap;
 
-  gsap.fromTo(
+  const tween = gsap.fromTo(
     galleryParts,
     { opacity: 0.6, scale: 0.9 },
     {
@@ -28,4 +31,5 @@ export function teamGallery() {
       },
     }
   );
+  if (tween.scrollTrigger) registerScrollTrigger(tween.scrollTrigger, teamWrap);
 }

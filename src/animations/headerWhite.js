@@ -1,4 +1,8 @@
-export function headerWhite() {
+import { registerScrollTrigger, registerCleanupFn } from './lib/animCleanup';
+
+export const selector = '.header';
+
+export function init() {
   const header = document.querySelector('.header');
   if (!header) return;
   const getSections = () => document.querySelectorAll('.white-header');
@@ -16,11 +20,13 @@ export function headerWhite() {
     });
     header.classList.toggle('header--white', inside);
   };
-  window.ScrollTrigger.create({
+  const trigger = window.ScrollTrigger.create({
     trigger: document.body,
     start: 0,
     end: 'max',
     onUpdate: updateHeaderClass,
   });
+  registerScrollTrigger(trigger, document.body);
+  registerCleanupFn(() => header.classList.remove('header--white'));
   updateHeaderClass();
 }

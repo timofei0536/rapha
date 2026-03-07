@@ -2,17 +2,19 @@
  * Mobile menu: open/close by burger (burger turns into X when open).
  * Animation: menu panel height 0 → 100% (bg first), then nav + search stagger.
  */
-let previousBurgerToggle = null;
-let previousTimeline = null;
 
-export function initMobileMenu() {
+import { registerTimeline, registerListener, registerCleanupFn } from './lib/animCleanup';
+import { setInitialData } from './lib/animInitial';
+
+export const selector = '.mobile-menu';
+
+export function init() {
   const header = document.querySelector('.header');
   const burger = document.querySelector('.header__burger');
   const menu = document.querySelector('.mobile-menu');
   if (!header || !burger || !menu) return;
 
   const gsap = window.gsap;
-  const isReinit = previousBurgerToggle !== null;
 
   if (typeof window.stopScrollMobile !== 'function') {
     window.stopScrollMobile = () => { document.body.style.overflow = 'hidden'; };
@@ -21,53 +23,10 @@ export function initMobileMenu() {
     window.startScrollMobile = () => { document.body.style.overflow = ''; };
   }
 
-  if (isReinit) {
-    if (previousTimeline) previousTimeline.kill();
-    gsap.set(['.mobile-menu', '.mobile-menu__nav-item', '.mobile-menu .search'], { clearProps: 'all' });
-    header.classList.remove('header--menu-open');
-    menu.classList.remove('mobile-menu--overflow', 'mobile-menu--active');
-    burger.classList.remove('header__burger--active');
-    burger.setAttribute('aria-label', 'Open menu');
-    if (!window.its_desktop) window.startScrollMobile?.();
-  }
-
-  if (previousBurgerToggle) {
-    burger.removeEventListener('click', previousBurgerToggle);
-  }
-  previousBurgerToggle = toggleMenu;
-  burger.addEventListener('click', previousBurgerToggle);
-
   const menuItemsSelector = '.mobile-menu__nav-item, .mobile-menu .search';
-
-  function openMenu() {
-    header.classList.add('header--menu-open');
-    menu.classList.add('mobile-menu--active');
-    burger.classList.add('header__burger--active');
-    burger.setAttribute('aria-label', 'Close menu');
-    // Set initial state only when opening (avoids hydration mismatch from GSAP inline styles on SSR markup)
-    gsap.set(menuItemsSelector, { opacity: 0, y: 40 });
-    viewMenuAnimation.play();
-    if (!window.its_desktop) window.stopScrollMobile();
-  }
-
-  window.hideMenu = function () {
-    viewMenuAnimation.reverse();
-    if (!window.its_desktop) window.startScrollMobile();
-    burger.classList.remove('header__burger--active');
-    burger.setAttribute('aria-label', 'Open menu');
-  };
-
-  function toggleMenu() {
-    if (menu.classList.contains('mobile-menu--active')) {
-      window.hideMenu();
-    } else {
-      openMenu();
-    }
-  }
 
   const viewMenuAnimation = gsap.timeline({ paused: true });
 
-  // 1) BG выезжает сверху вниз (height 0 → 100%)
   viewMenuAnimation.to('.mobile-menu', {
     duration: 0.7,
     height: '100%',
@@ -75,7 +34,6 @@ export function initMobileMenu() {
     ease: 'power2.out',
   }, 0);
 
-  // 2) Элементы по stagger после фона (from-state set in openMenu() to avoid hydration mismatch)
   viewMenuAnimation.to(
     menuItemsSelector,
     {
@@ -96,5 +54,44 @@ export function initMobileMenu() {
     menu.classList.remove('mobile-menu--active');
   });
 
-  previousTimeline = viewMenuAnimation;
+  window.hideMenu = function () {
+    viewMenuAnimation.reverse();
+    if (!window.its_desktop) window.startScrollMobile();
+    burger.classList.remove('header__burger--active');
+    burger.setAttribute('aria-label', 'Open menu');
+  };
+
+  function openMenu() {
+    header.classList.add('header--menu-open');
+    menu.classList.add('mobile-menu--active');
+    burger.classList.add('header__burger--active');
+    burger.setAttribute('aria-label', 'Close menu');
+    document.querySelectorAll(menuItemsSelector).forEach((el) => setInitialData(el, { opacity: '0', y: '40' }));
+    viewMenuAnimation.play();
+    if (!window.its_desktop) window.stopScrollMobile();
+  }
+
+  function toggleMenu() {
+    if (menu.classList.contains('mobile-menu--active')) {
+      window.hideMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  registerTimeline(viewMenuAnimation, menu);
+  registerListener(burger, 'click', toggleMenu);
+  burger.addEventListener('click', toggleMenu);
+
+  registerCleanupFn(() => {
+    header.classList.remove('header--menu-open');
+    menu.classList.remove('mobile-menu--overflow', 'mobile-menu--active');
+    burger.classList.remove('header__burger--active');
+    burger.setAttribute('aria-label', 'Open menu');
+    document.body.style.overflow = '';
+    if (window.gsap) {
+      window.gsap.set(['.mobile-menu', '.mobile-menu__nav-item', '.mobile-menu .search'], { clearProps: 'all' });
+    }
+    delete window.hideMenu;
+  });
 }

@@ -15,24 +15,22 @@ export default function Preloader() {
     const preloader = preloaderRef.current;
     if (!preloader) return;
 
+    const finish = () => {
+      window.preloaderDone = true;
+      window.dispatchEvent(new CustomEvent('preloaderEnd'));
+      setShouldRender(false);
+    };
+
     const isFromSite = typeof document !== 'undefined' && document.referrer && document.referrer.indexOf(SITE_REFERRER_KEY) !== -1;
-    // на localhost прелоадер всегда показываем (для разработки)
     const isLocalhost = typeof location !== 'undefined' && location.href.indexOf('localhost') !== -1;
 
     if (isFromSite && !isLocalhost) {
-      window.dispatchEvent(new CustomEvent('preloaderEnd'));
-      setShouldRender(false);
+      finish();
       return;
     }
 
-    const t1 = setTimeout(() => {
-      setHideClass(true);
-    }, 1500);
-
-    const t2 = setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('preloaderEnd'));
-      setShouldRender(false);
-    }, 2400);
+    const t1 = setTimeout(() => setHideClass(true), 1500);
+    const t2 = setTimeout(finish, 2400);
 
     return () => {
       clearTimeout(t1);

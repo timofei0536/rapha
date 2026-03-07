@@ -1,12 +1,13 @@
-export function pageScreenParallax() {
-  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+import { registerScrollTrigger } from './lib/animCleanup';
 
+export const selector = '.page-screen';
+export const desktopOnly = true;
+
+export function init() {
   const gsap = window.gsap;
 
   document.querySelectorAll('.page-screen').forEach((section) => {
     const h1 = section.querySelector('h1');
-    const bg = section.querySelector('.page-screen__bg');
-
     const st = {
       trigger: section,
       start: 'top top',
@@ -15,7 +16,8 @@ export function pageScreenParallax() {
     };
 
     if (h1) {
-      gsap.to(h1, { opacity: 0, scrollTrigger: st });
+      const tween = gsap.to(h1, { opacity: 0, scrollTrigger: st });
+      if (tween.scrollTrigger) registerScrollTrigger(tween.scrollTrigger, section);
     }
   });
 }

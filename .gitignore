@@ -5,3 +5,5 @@ node_modules
 next-build
 
 out/
+
+out_old/

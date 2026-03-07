@@ -1,16 +1,30 @@
 import { initGlobals } from '@/globals';
-import { headerWhite } from './headerWhite';
-import { sectionPin } from './sectionPin';
-import { initMobileMenu } from './mobileMenu';
-import { heroEntrance, setHeroInitialState, resetHeroInitialState } from './heroEntrance';
-import { parallaxAppearance } from './parallaxAppearance';
-import { sectionClipReveal } from './sectionClipReveal';
-import { pageScreenParallax } from './pageScreenParallax';
-// import { teamClipReveal } from './sectionClipReveal';
-import { teamGallery } from './teamGallery';
+import { setHeroInitialState, resetHeroInitialState } from './heroEntrance';
+import * as heroEntrance from './heroEntrance';
+import * as headerWhite from './headerWhite';
+import * as sectionPin from './sectionPin';
+import * as parallaxAppearance from './parallaxAppearance';
+import * as sectionClipReveal from './sectionClipReveal';
+import * as pageScreenParallax from './pageScreenParallax';
+import * as teamGallery from './teamGallery';
+import * as mobileMenu from './mobileMenu';
 import { structureColumns } from './structureColumns';
+import { runCleanup } from './lib/animCleanup';
+import { whenImagesReady } from './lib/whenImagesReady';
 
 export { textLinesScript } from './textLines';
+export { registerScrollTrigger, registerTimeline, registerListener, registerCleanupFn } from './lib/animCleanup';
+
+const ANIMATIONS = [
+  heroEntrance,
+  headerWhite,
+  sectionPin,
+  parallaxAppearance,
+  sectionClipReveal,
+  pageScreenParallax,
+  teamGallery,
+  mobileMenu,
+];
 
 function addLoadEvent(func) {
   const oldonload = window.onload;
@@ -24,57 +38,141 @@ function addLoadEvent(func) {
   }
 }
 
-function runScrollTriggers() {
+const ENTRY_NAMES = {
+  [heroEntrance]: 'heroEntrance',
+  [headerWhite]: 'headerWhite',
+  [sectionPin]: 'sectionPin',
+  [parallaxAppearance]: 'parallaxAppearance',
+  [sectionClipReveal]: 'sectionClipReveal',
+  [pageScreenParallax]: 'pageScreenParallax',
+  [teamGallery]: 'teamGallery',
+  [mobileMenu]: 'mobileMenu',
+};
+
+async function runScrollTriggers() {
+  console.log('[anim] runScrollTriggers() start');
   const hero = document.querySelector('.hero');
-  if (hero) {
-    heroEntrance();
-  } else {
-    // На страницах без hero (results и т.п.) — явно показываем header
+  console.log('[anim] hero:', !!hero, 'its_desktop:', window.its_desktop);
+  if (!hero) {
     const header = document.querySelector('.header');
     if (header && window.gsap && window.its_desktop) {
       window.gsap.set(header, { y: 0 });
+      console.log('[anim] header set y:0 (no hero)');
     }
+  } else {
+    console.log('[anim] heroEntrance.init()...');
+    await heroEntrance.init();
+    console.log('[anim] heroEntrance.init() done');
   }
-  window.ScrollTrigger.refresh();
-  headerWhite();
-  if (window.its_desktop) {
-    parallaxAppearance();
-    sectionClipReveal(); // только footer clip-path
-    pageScreenParallax();
-    structureColumns();
-    if (document.querySelector('.team__wrap')) teamGallery();
-    sectionPin();
-  }
-  
 
-  initMobileMenu();
-  window.ScrollTrigger.refresh();
+  ANIMATIONS.forEach((entry) => {
+    const name = ENTRY_NAMES[entry] || '?';
+    if (entry === heroEntrance) {
+      console.log('[anim] skip', name, '(already ran)');
+      return;
+    }
+    if (entry.desktopOnly && !window.its_desktop) {
+      console.log('[anim] skip', name, 'desktopOnly && !its_desktop');
+      return;
+    }
+    if (entry.selector && !document.querySelector(entry.selector)) {
+      console.log('[anim] skip', name, 'no selector', entry.selector);
+      return;
+    }
+    if (typeof entry.init !== 'function') {
+      console.log('[anim] skip', name, 'no init');
+      return;
+    }
+    console.log('[anim] init', name);
+    entry.init();
+  });
+
+  if (window.its_desktop) {
+    console.log('[anim] structureColumns()');
+    structureColumns();
+  }
+  if (window.ScrollTrigger) {
+    console.log('[anim] ScrollTrigger.refresh()');
+    window.ScrollTrigger.refresh();
+  }
+  console.log('[anim] runScrollTriggers() end');
 }
 
 export function initAnimations() {
-  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  console.log('[anim] initAnimations() called', {
+    hasWindow: typeof window !== 'undefined',
+    hasGsap: !!window.gsap,
+    hasScrollTrigger: !!window.ScrollTrigger,
+    readyState: typeof document !== 'undefined' ? document.readyState : 'n/a',
+  });
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) {
+    console.log('[anim] initAnimations() early return (no gsap/ST)');
+    return;
+  }
   window.gsap.registerPlugin(window.ScrollTrigger);
   initGlobals();
+  console.log('[anim] initGlobals done, its_desktop:', window.its_desktop);
   window.addLoadEvent = addLoadEvent;
 
-  const hasPreloader = document.querySelector('.preloader');
-
-  if (hasPreloader) {
-    if (document.querySelector('.hero')) setHeroInitialState();
-    window.addEventListener('preloaderEnd', runScrollTriggers, { once: true });
-  } else {
-    if (document.readyState === 'complete') {
+  let readyCount = 0;
+  const checkReady = (label) => {
+    if (label) console.log('[anim]', label, `(${readyCount + 1}/3)`);
+    readyCount++;
+    if (readyCount === 3) {
+      console.log('[anim] readyCount === 3 → runScrollTriggers()');
       runScrollTriggers();
-    } else {
-      addLoadEvent(runScrollTriggers);
     }
+  };
+
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    console.log('[anim] setHeroInitialState() (hero found)');
+    setHeroInitialState();
+  }
+
+  checkReady('GSAP ready');
+  if (document.readyState === 'complete') {
+    checkReady('window.load (already complete)');
+  } else {
+    addLoadEvent(() => checkReady('window.load'));
+  }
+  const hasPreloader = document.querySelector('.preloader');
+  console.log('[anim] hasPreloader:', !!hasPreloader);
+  if (hasPreloader) {
+    window.addEventListener('preloaderEnd', () => checkReady('preloader done'), { once: true });
+  } else {
+    checkReady('no preloader');
   }
 }
 
 /** Для Next.js: перезапуск анимаций после смены страницы (клиентский переход). */
 export function refreshAnimations() {
-  if (typeof window === 'undefined' || !window.ScrollTrigger) return;
-  window.ScrollTrigger.getAll().forEach((t) => t.kill());
+  console.log('[anim] refreshAnimations() called', {
+    hasWindow: typeof window !== 'undefined',
+    hasScrollTrigger: !!window.ScrollTrigger,
+  });
+  if (typeof window === 'undefined' || !window.ScrollTrigger) {
+    console.log('[anim] refreshAnimations() early return');
+    return;
+  }
+  console.log('[anim] runCleanup()');
+  runCleanup();
+  console.log('[anim] resetHeroInitialState()');
   resetHeroInitialState();
-  runScrollTriggers();
+  const container = document.querySelector('main') || document.body;
+  const images = container ? Array.from(container.querySelectorAll('img')) : [];
+  const pending = images.filter((img) => !img.complete);
+  console.log('[anim] whenImagesReady: container=', !!container, 'images=', images.length, 'pending=', pending.length);
+
+  let runScrollTriggersCalled = false;
+  const runOnce = () => {
+    if (runScrollTriggersCalled) return;
+    runScrollTriggersCalled = true;
+    console.log('[anim] runScrollTriggers() (images ready or timeout)');
+    runScrollTriggers();
+  };
+
+  whenImagesReady(container, runOnce);
+  const REFRESH_IMAGES_TIMEOUT_MS = 3000;
+  setTimeout(runOnce, REFRESH_IMAGES_TIMEOUT_MS);
 }

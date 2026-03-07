@@ -21,13 +21,13 @@ export default function Hero(props) {
             </div>
             <picture className="hero__bg">
                 <source media="(max-width: 1023px)" srcSet={mobileSrc} />
-                <img src={image?.src} alt={image?.alt ?? ""} className="hero__bg-img" />
+                <img src={image?.src} alt={image?.alt ?? ""} className="hero__bg-img" data-anim-scale="1.08" />
             </picture>
             <div className="center-wrap">
-                <h1 className="hero__title simple-title simple-title--large">{title}</h1>
+                <h1 className="hero__title simple-title simple-title--large" data-anim-opacity="0">{title}</h1>
                 <div className="hero__form">
-                    <span className="hero__form-title">{formTitle}</span>
-                    <Form />    
+                    <span className="hero__form-title" data-anim-opacity="0" data-anim-y="40">{formTitle}</span>
+                    <Form dataAnimOpacity="0" dataAnimY="40" />
                 </div>
             </div>
             <Decor className='decore' />

@@ -15,9 +15,12 @@ function isFooterClipDisabled() {
   return false;
 }
 
-export function sectionClipReveal() {
-  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+import { registerScrollTrigger, registerCleanupFn } from './lib/animCleanup';
 
+export const selector = '.footer';
+export const desktopOnly = true;
+
+export function init() {
   const gsap = window.gsap;
 
   if (isFooterClipDisabled()) {
@@ -25,12 +28,10 @@ export function sectionClipReveal() {
     return;
   }
 
-  // const sections = document.querySelectorAll('.infra, .footer');
   const sections = document.querySelectorAll('.footer');
 
   sections.forEach((section) => {
-    // const isFooter = section.classList.contains('footer');
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       section,
       { clipPath: 'inset(7rem 0px 0px 0px)' },
       {
@@ -44,6 +45,11 @@ export function sectionClipReveal() {
         },
       }
     );
+    if (tween.scrollTrigger) registerScrollTrigger(tween.scrollTrigger, section);
+  });
+
+  registerCleanupFn(() => {
+    if (window.gsap) window.gsap.set(document.querySelectorAll('.footer'), { clearProps: 'clipPath' });
   });
 }
 

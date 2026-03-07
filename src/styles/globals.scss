@@ -271,3 +271,9 @@ a {
 b, strong {
 	font-weight: 700;
 }
+
+/* Единый стандарт начального состояния анимаций: только .anim-initial + CSS-переменные (значения задаются из data-anim-* в JS) */
+.anim-initial {
+	opacity: var(--anim-opacity, 1);
+	transform: translateY(var(--anim-y, 0)) translateX(var(--anim-x, 0)) scale(var(--anim-scale, 1));
+}

@@ -1,9 +1,14 @@
+import { registerScrollTrigger } from './lib/animCleanup';
+
 const PINS = [
   { section: '.about > .center-wrap', pin: '.about__gm' },
   { section: '.new__wrap', pin: '.new__img' },
 ];
 
-export function sectionPin() {
+export const selector = null;
+export const desktopOnly = true;
+
+export function init() {
   const headerEl = document.querySelector('.header');
   const start = `top ${(headerEl ? headerEl.offsetHeight : 0) + 50}px`;
 
@@ -12,7 +17,7 @@ export function sectionPin() {
     const pinEl = document.querySelector(pin);
     if (!sectionEl || !pinEl) return;
 
-    window.ScrollTrigger.create({
+    const trigger = window.ScrollTrigger.create({
       trigger: sectionEl,
       endTrigger: sectionEl,
       start,
@@ -20,5 +25,6 @@ export function sectionPin() {
       pin: pinEl,
       invalidateOnRefresh: true,
     });
+    registerScrollTrigger(trigger, sectionEl);
   });
 }
