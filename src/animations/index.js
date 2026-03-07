@@ -38,137 +38,69 @@ function addLoadEvent(func) {
   }
 }
 
-const ENTRY_NAMES = {
-  [heroEntrance]: 'heroEntrance',
-  [headerWhite]: 'headerWhite',
-  [sectionPin]: 'sectionPin',
-  [parallaxAppearance]: 'parallaxAppearance',
-  [sectionClipReveal]: 'sectionClipReveal',
-  [pageScreenParallax]: 'pageScreenParallax',
-  [teamGallery]: 'teamGallery',
-  [mobileMenu]: 'mobileMenu',
-};
-
 async function runScrollTriggers() {
-  console.log('[anim] runScrollTriggers() start');
   const hero = document.querySelector('.hero');
-  console.log('[anim] hero:', !!hero, 'its_desktop:', window.its_desktop);
   if (!hero) {
     const header = document.querySelector('.header');
     if (header && window.gsap && window.its_desktop) {
       window.gsap.set(header, { y: 0 });
-      console.log('[anim] header set y:0 (no hero)');
     }
   } else {
-    console.log('[anim] heroEntrance.init()...');
     await heroEntrance.init();
-    console.log('[anim] heroEntrance.init() done');
   }
 
   ANIMATIONS.forEach((entry) => {
-    const name = ENTRY_NAMES[entry] || '?';
-    if (entry === heroEntrance) {
-      console.log('[anim] skip', name, '(already ran)');
-      return;
-    }
-    if (entry.desktopOnly && !window.its_desktop) {
-      console.log('[anim] skip', name, 'desktopOnly && !its_desktop');
-      return;
-    }
-    if (entry.selector && !document.querySelector(entry.selector)) {
-      console.log('[anim] skip', name, 'no selector', entry.selector);
-      return;
-    }
-    if (typeof entry.init !== 'function') {
-      console.log('[anim] skip', name, 'no init');
-      return;
-    }
-    console.log('[anim] init', name);
+    if (entry === heroEntrance) return;
+    if (entry.desktopOnly && !window.its_desktop) return;
+    if (entry.selector && !document.querySelector(entry.selector)) return;
+    if (typeof entry.init !== 'function') return;
     entry.init();
   });
 
-  if (window.its_desktop) {
-    console.log('[anim] structureColumns()');
-    structureColumns();
-  }
-  if (window.ScrollTrigger) {
-    console.log('[anim] ScrollTrigger.refresh()');
-    window.ScrollTrigger.refresh();
-  }
-  console.log('[anim] runScrollTriggers() end');
+  if (window.its_desktop) structureColumns();
+  if (window.ScrollTrigger) window.ScrollTrigger.refresh();
 }
 
 export function initAnimations() {
-  console.log('[anim] initAnimations() called', {
-    hasWindow: typeof window !== 'undefined',
-    hasGsap: !!window.gsap,
-    hasScrollTrigger: !!window.ScrollTrigger,
-    readyState: typeof document !== 'undefined' ? document.readyState : 'n/a',
-  });
-  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) {
-    console.log('[anim] initAnimations() early return (no gsap/ST)');
-    return;
-  }
+  if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
   window.gsap.registerPlugin(window.ScrollTrigger);
   initGlobals();
-  console.log('[anim] initGlobals done, its_desktop:', window.its_desktop);
   window.addLoadEvent = addLoadEvent;
 
   let readyCount = 0;
-  const checkReady = (label) => {
-    if (label) console.log('[anim]', label, `(${readyCount + 1}/3)`);
+  const checkReady = () => {
     readyCount++;
-    if (readyCount === 3) {
-      console.log('[anim] readyCount === 3 → runScrollTriggers()');
-      runScrollTriggers();
-    }
+    if (readyCount === 3) runScrollTriggers();
   };
 
   const hero = document.querySelector('.hero');
-  if (hero) {
-    console.log('[anim] setHeroInitialState() (hero found)');
-    setHeroInitialState();
-  }
+  if (hero) setHeroInitialState();
 
-  checkReady('GSAP ready');
+  checkReady();
   if (document.readyState === 'complete') {
-    checkReady('window.load (already complete)');
+    checkReady();
   } else {
-    addLoadEvent(() => checkReady('window.load'));
+    addLoadEvent(() => checkReady());
   }
   const hasPreloader = document.querySelector('.preloader');
-  console.log('[anim] hasPreloader:', !!hasPreloader);
   if (hasPreloader) {
-    window.addEventListener('preloaderEnd', () => checkReady('preloader done'), { once: true });
+    window.addEventListener('preloaderEnd', () => checkReady(), { once: true });
   } else {
-    checkReady('no preloader');
+    checkReady();
   }
 }
 
 /** Для Next.js: перезапуск анимаций после смены страницы (клиентский переход). */
 export function refreshAnimations() {
-  console.log('[anim] refreshAnimations() called', {
-    hasWindow: typeof window !== 'undefined',
-    hasScrollTrigger: !!window.ScrollTrigger,
-  });
-  if (typeof window === 'undefined' || !window.ScrollTrigger) {
-    console.log('[anim] refreshAnimations() early return');
-    return;
-  }
-  console.log('[anim] runCleanup()');
+  if (typeof window === 'undefined' || !window.ScrollTrigger) return;
   runCleanup();
-  console.log('[anim] resetHeroInitialState()');
   resetHeroInitialState();
   const container = document.querySelector('main') || document.body;
-  const images = container ? Array.from(container.querySelectorAll('img')) : [];
-  const pending = images.filter((img) => !img.complete);
-  console.log('[anim] whenImagesReady: container=', !!container, 'images=', images.length, 'pending=', pending.length);
 
   let runScrollTriggersCalled = false;
   const runOnce = () => {
     if (runScrollTriggersCalled) return;
     runScrollTriggersCalled = true;
-    console.log('[anim] runScrollTriggers() (images ready or timeout)');
     runScrollTriggers();
   };
 
