@@ -130,7 +130,7 @@ function decodeHtmlEntities(str) {
  * @param {Record<string, unknown>} post
  * @returns {{ slug: string, title: string, content: string, image?: { src: string, alt: string } }}
  */
-function mapWpPostToService(post) {
+export function mapWpPostToService(post) {
   const contentFromPost =
     post.content?.rendered ??
     (typeof post.content === "string" ? post.content : null) ??
@@ -271,15 +271,26 @@ export async function getNewsListForPage() {
   return { pageTitle, featured, items: featured ? allItems.filter((i) => i.slug !== featured.slug) : allItems };
 }
 
+/**
+ * Map raw WP post object to single-news shape { title, date, image, content }. Used by getSingleNewsBySlug and preview.
+ * @param {Record<string, unknown>} post
+ * @returns {{ title: string, date: string, image: { src: string, alt: string } | null, content: string } | null}
+ */
+export function getSingleNewsDataFromPost(post) {
+  if (!post || typeof post !== "object") return null;
+  const item = postToNewsItem(post);
+  const d = post.date || post.date_gmt;
+  const date =
+    d && !Number.isNaN(new Date(d).getTime())
+      ? new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+      : "";
+  return { title: item.title, date, image: item.image?.src ? item.image : null, content: item.content || "" };
+}
+
 export async function getSingleNewsBySlug(slug) {
   const post = await getPostBySlug(slug);
   if (!post) return null;
-  const item = postToNewsItem(post);
-  const d = post.date || post.date_gmt;
-  const date = d && !Number.isNaN(new Date(d).getTime())
-    ? new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
-    : "";
-  return { title: item.title, date, image: item.image?.src ? item.image : null, content: item.content || "" };
+  return getSingleNewsDataFromPost(post);
 }
 
 // --- Block props ---
