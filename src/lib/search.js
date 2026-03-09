@@ -6,7 +6,6 @@ const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
     ? process.env.NEXT_PUBLIC_WP_API_URL.replace(/\/$/, "")
     : "";
-const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
 
 const SEARCH_PER_TYPE = 10;
 const SEARCH_MAX_ITEMS = 20;
@@ -61,7 +60,7 @@ export async function getSearchResults(query) {
   if (!q || !WP_API_BASE) return [];
 
   const search = encodeURIComponent(q);
-  const fetchOpts = isDev ? { cache: "no-store" } : { next: { revalidate: 60 } };
+  const fetchOpts = { cache: "no-store" };
   const perPage = String(SEARCH_PER_TYPE);
 
   const [postsRes, pagesRes, servicesRes] = await Promise.all([

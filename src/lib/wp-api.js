@@ -29,14 +29,14 @@ const WP_API_BASE =
  * @param {string} slug Page slug (e.g. 'careers')
  * @returns {Promise<Record<string, unknown> | null>} Page object or null
  */
-const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
+const wpFetchOpts = { cache: "no-store" };
 
 export async function getPageBySlug(slug) {
   if (!WP_API_BASE) return null;
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_embed`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -56,7 +56,7 @@ export async function getPageSlugs() {
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/pages?per_page=100&_fields=slug`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return [];
     const data = await res.json();

@@ -24,7 +24,8 @@ const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
     ? process.env.NEXT_PUBLIC_WP_API_URL.replace(/\/$/, "")
     : "";
-const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
+
+const wpFetchOpts = { cache: "no-store" };
 
 async function getPostsByIds(ids) {
   if (!WP_API_BASE || !Array.isArray(ids) || ids.length === 0) return [];
@@ -33,7 +34,7 @@ async function getPostsByIds(ids) {
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/posts?include=${unique.join(",")}&_embed&per_page=100`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -48,7 +49,7 @@ async function getPostBySlug(slug) {
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/posts?slug=${encodeURIComponent(String(slug).trim())}&_embed`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -64,7 +65,7 @@ async function getPosts() {
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/posts?per_page=100&_embed&orderby=date&order=desc`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -96,7 +97,7 @@ export async function getWpServices() {
   try {
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/services?per_page=100&orderby=menu_order&order=asc`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -169,7 +170,7 @@ export async function getWpServiceBySlug(slug) {
     const params = new URLSearchParams({ slug: slugTrim, per_page: "1" });
     const res = await fetch(
       `${WP_API_BASE}/wp-json/wp/v2/services?${params}`,
-      isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+      wpFetchOpts
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -179,7 +180,7 @@ export async function getWpServiceBySlug(slug) {
     if (service.slug && !service.content && post.id) {
       const byIdRes = await fetch(
         `${WP_API_BASE}/wp-json/wp/v2/services/${post.id}`,
-        isDev ? { cache: "no-store" } : { next: { revalidate: 60 } }
+        wpFetchOpts
       );
       if (byIdRes.ok) {
         const fullPost = await byIdRes.json();
