@@ -5,6 +5,8 @@ import Chart from "@/components/Chart/Chart";
 import News from "@/components/News/News";
 import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "About",
 };

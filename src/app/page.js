@@ -6,6 +6,8 @@ import News from "../components/News/News";
 import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 import { ServicesDefaults } from "@/components/Services/defaults";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured] = await Promise.all([
     getBlockPropsForPage("home", "hero", {}),

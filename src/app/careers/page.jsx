@@ -3,6 +3,8 @@ import Careers from "@/components/Careers/Careers";
 import Apply from "@/components/Apply/Apply";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Careers",
 };

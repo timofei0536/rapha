@@ -2,6 +2,8 @@ import NewsScreen from "@/components/NewsScreen/NewsScreen";
 import News from "@/components/News/News";
 import { getNewsListForPage } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "News",
 };

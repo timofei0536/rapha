@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import ResultsWithQuery from "@/components/Results/ResultsWithQuery";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Search Results",
 };

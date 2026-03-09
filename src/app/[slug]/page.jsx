@@ -3,6 +3,8 @@ import TextPage from "@/components/TextPage/TextPage";
 import { getPageBySlug } from "@/lib/wp-api";
 import { normalizeContent } from "@/lib/acf";
 
+export const dynamic = "force-dynamic";
+
 const RESERVED_SLUGS = new Set(["not-found", "404"]);
 
 /** Декодируем HTML-сущности в заголовке из WP (например &#038; → &). */

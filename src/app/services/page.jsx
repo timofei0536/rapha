@@ -4,6 +4,8 @@ import Service from "@/components/Service/Service";
 import { getBlockPropsForPage, getWpServices, getNewsPageFeatured } from "@/lib/rapha";
 import { ServiceDefaults } from "@/components/Service/defaults";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Our Services",
 };

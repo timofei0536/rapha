@@ -9,6 +9,8 @@ import AnimationsInit from '@/components/AnimationsInit/AnimationsInit';
 import Footer from '@/components/Footer/Footer';
 import { getContactInfoForLayout } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -43,9 +45,6 @@ const ivyPresto = localFont({
 
 
 const SITE_NAME = "El-Rapha";
-
-/** Fetch from WP on every request (same behaviour as next dev). */
-export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: {

@@ -1,6 +1,8 @@
 import Contact from "@/components/Contact/Contact";
 import { getBlockPropsForPage } from "@/lib/rapha";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Contact",
 };
