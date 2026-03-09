@@ -44,6 +44,9 @@ const ivyPresto = localFont({
 
 const SITE_NAME = "El-Rapha";
 
+/** Fetch from WP on every request (same behaviour as next dev). */
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: {
     template: `${SITE_NAME} — %s`,

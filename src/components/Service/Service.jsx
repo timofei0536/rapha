@@ -32,7 +32,8 @@ export default function Service(props) {
                         <ul className="service__list">
                             {list.map((item) => {
                                 const slug = item.slug ?? slugFromLink(item.link);
-                                const href = item.link?.href ?? (slug ? `${basePath}/${slug}` : basePath);
+                                const linkHref = (item.link?.href && String(item.link.href).trim()) ? item.link.href : null;
+                                const href = linkHref ?? (slug ? `${basePath}/${slug}` : basePath);
                                 const isActive = active && (item.slug === active.slug || slug === (active.slug ?? slugFromLink(active.link)));
                                 return (
                                     <li key={slug ?? item.title ?? Math.random()} className="service__item">
