@@ -3,17 +3,12 @@
 import "./MobileMenu.scss";
 import Link from "next/link";
 import Search from "@/components/ui/Search/Search";
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "Polyclinic" },
-  { href: "/services", label: "Services" },
-  { href: "/news", label: "News" },
-  { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
-];
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function MobileMenu() {
+  const { navigation } = useGeneral();
+  const navItems = (navigation ?? []).map((item) => ({ href: item.href, label: item.text || "" }));
+
   return (
     <div className="mobile-menu" aria-hidden="true">
       <div className="mobile-menu__content">

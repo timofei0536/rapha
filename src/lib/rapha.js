@@ -19,6 +19,7 @@ import { ServiceDefaults } from "@/components/Service/defaults";
 import { ResultsDefaults } from "@/components/Results/defaults";
 import { PageScreenDefaults } from "@/components/PageScreen/defaults";
 import { getSearchResults } from "@/lib/search";
+import { GeneralDefaults } from "@/lib/general-defaults";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
@@ -294,6 +295,7 @@ const blockDefaults = {
     infra: InfraDefaults,
     team: TeamDefaults,
     news: NewsDefaults,
+    general: GeneralDefaults,
   },
   about: {
     aboutScreen: AboutScreenDefaults,
@@ -414,4 +416,63 @@ export async function getContactInfoForLayout() {
     address: link(0),
     email: link(2),
   };
+}
+
+const PATH_LABELS = { "/": "Home", "/about": "Polyclinic", "/services": "Services", "/news": "News", "/careers": "Careers", "/contact": "Contact" };
+const pathToLabel = (path) => PATH_LABELS[path] ?? (path.slice(1).split("/")[0] || "Home").replace(/^./, (c) => c.toUpperCase());
+
+/** Resolve navigation from API (string[] or object[]) to [{ href, text }]. Fetches page titles when only URLs given. */
+async function resolveNavigation(rawNav) {
+  if (!Array.isArray(rawNav) || rawNav.length === 0) return null;
+  const toHref = (u) => {
+    if (!u || typeof u !== "string") return u || "";
+    const s = u.trim();
+    if (!s.startsWith("http")) return s;
+    try {
+      return new URL(s).pathname.replace(/\/+$/, "") || "/";
+    } catch {
+      return s;
+    }
+  };
+  const toSlug = (href) => (href === "/" || !href ? "home" : href.replace(/^\/+|\/+$/g, "").split("/")[0] || "home");
+  const getTitle = async (slug) => {
+    let p = await getPageBySlug(slug);
+    if (!p && slug === "home") p = await getPageBySlug("front-page");
+    return p?.title?.rendered ? decodeHtmlEntities(String(p.title.rendered).trim()) : null;
+  };
+
+  const items = rawNav
+    .map((item) => {
+      if (typeof item === "string") {
+        const href = toHref(item);
+        return href ? { href, text: null } : null;
+      }
+      if (item && typeof item === "object") {
+        const href = toHref(item.href ?? item.url) || (item.href ?? item.url)?.trim?.();
+        const text = (item.text ?? item.title ?? "").trim();
+        return href ? { href, text: text || null } : null;
+      }
+      return null;
+    })
+    .filter(Boolean);
+
+  const out = await Promise.all(
+    items.map(async ({ href, text }) => ({
+      href,
+      text: text || (await getTitle(toSlug(href))) || pathToLabel(href),
+    }))
+  );
+  return out.length ? out : null;
+}
+
+/**
+ * General block for layout (labels, schedule, navigation). From home page, block "general".
+ */
+export async function getGeneralForLayout() {
+  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
+  const general = await getPageProps("home", "general", GeneralDefaults, { strictWp });
+  const page = await getPageBySlug("home");
+  const raw = page ? getComponentData(page, "general") : null;
+  const nav = (await resolveNavigation(raw?.navigation)) ?? general?.navigation ?? [];
+  return { ...GeneralDefaults, ...general, navigation: (Array.isArray(nav) && nav.length) ? nav : GeneralDefaults.navigation };
 }

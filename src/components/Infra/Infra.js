@@ -1,7 +1,10 @@
+"use client";
+
 import "./Infra.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Btn from "@/components/ui/Btn/Btn";
+import { useGeneral } from "@/context/GeneralContext";
 
 function titleToSlug(title) {
   if (!title) return "";
@@ -14,6 +17,7 @@ function titleToSlug(title) {
 
 export default function Infra(props) {
     const { title, items } = props;
+    const { learn_more } = useGeneral();
     return (
         <section className="infra">
             <div className="center-wrap center-wrap--small">
@@ -22,7 +26,8 @@ export default function Infra(props) {
                 {(items || []).map((item, i) => {
                     const slug = item.slug || titleToSlug(item.title) || `infra-${i + 1}`;
                     const href = item.link?.href || `/news/${slug}`;
-                    const linkText = item.link?.text || "Learn More";
+                    const rawText = learn_more || item.link?.text || item.title || "Learn more";
+                    const linkText = (typeof rawText === "string" ? rawText.replace(/<[^>]+>/g, "").trim() : "") || "Learn more";
                     return (
                     <div key={i} className="infra__item">
                         <Link href={href} className="infra__item-img-wrap">

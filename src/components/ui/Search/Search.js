@@ -4,11 +4,13 @@ import { Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import "./Search.scss";
 import SearchIcon from "@/components/ui/icons/Search";
+import { useGeneral } from "@/context/GeneralContext";
 
 function SearchForm() {
   const inputRef = useRef(null);
   const searchParams = useSearchParams();
   const queryFromUrl = searchParams.get("q") ?? "";
+  const { search: searchLabel } = useGeneral();
 
   return (
     <form
@@ -29,8 +31,8 @@ function SearchForm() {
         type="search"
         name="q"
         className="search__input"
-        placeholder="Search"
-        aria-label="Search"
+        placeholder={searchLabel ?? "Search"}
+        aria-label={searchLabel ?? "Search"}
         defaultValue={queryFromUrl}
       />
     </form>

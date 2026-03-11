@@ -1,9 +1,13 @@
+"use client";
+
 import "./NewsScreen.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Decor from "@/components/ui/icons/Decor";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function NewsScreen({ featured, pageTitle }) {
+    const { read_more } = useGeneral();
     const image = featured?.image?.src
         ? { src: featured.image.src, alt: featured.image.alt ?? "" }
         : null;
@@ -27,7 +31,7 @@ export default function NewsScreen({ featured, pageTitle }) {
                             <div className="news-screen__content-text content" dangerouslySetInnerHTML={{ __html: featured.preview }} />
                         )}
                         <Link href={href} className="news-screen__link link">
-                            Read more
+                            {read_more ?? "Read more"}
                         </Link>
                     </div>
                     {image && (

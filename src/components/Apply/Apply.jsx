@@ -4,13 +4,15 @@ import "./Apply.scss";
 import Form from "@/components/Form/Form";
 import Send from "@/components/ui/icons/Send";
 import { ApplyDefaults } from "./defaults";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function Apply(props) {
   const {
     content = ApplyDefaults.content,
-    submitText = ApplyDefaults.submitText,
+    submitText,
     roleOptions = ApplyDefaults.roleOptions,
   } = { ...ApplyDefaults, ...props };
+  const { submit: submitLabel } = useGeneral();
 
   return (
     <section className="apply">
@@ -24,7 +26,7 @@ export default function Apply(props) {
           </div>
           <Form
             variant="apply"
-            submitText={submitText}
+            submitText={submitText ?? submitLabel ?? ApplyDefaults.submitText}
             submitIcon={Send}
             roleOptions={roleOptions}
           />

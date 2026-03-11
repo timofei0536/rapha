@@ -92,7 +92,10 @@ export function getComponentData(page, componentKey) {
 
   const acfKey = toAcfComponentKey(componentKey);
   const nestedKey = `component_${acfKey}`;
-  const nested = acf[nestedKey];
+  let nested = acf[nestedKey];
+  if (!nested && acf[acfKey] && typeof acf[acfKey] === "object" && !Array.isArray(acf[acfKey])) {
+    nested = acf[acfKey];
+  }
   if (nested && typeof nested === "object" && !Array.isArray(nested)) {
     return nested;
   }

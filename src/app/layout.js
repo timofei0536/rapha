@@ -7,7 +7,8 @@ import Preloader from '@/components/Preloader/Preloader';
 import Header from '@/components/Header/Header';
 import AnimationsInit from '@/components/AnimationsInit/AnimationsInit';
 import Footer from '@/components/Footer/Footer';
-import { getContactInfoForLayout } from "@/lib/rapha";
+import { getContactInfoForLayout, getGeneralForLayout } from "@/lib/rapha";
+import { GeneralProvider } from "@/context/GeneralContext";
 
 export const dynamic = "force-dynamic";
 
@@ -57,24 +58,29 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const contactInfo = await getContactInfoForLayout();
+  const [contactInfo, general] = await Promise.all([
+    getContactInfoForLayout(),
+    getGeneralForLayout(),
+  ]);
 
   return (
     <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
-        <Preloader />
-        <Script 
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
-          strategy="beforeInteractive" 
-        />
-        <Script 
-          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
-          strategy="beforeInteractive" 
-        />
-        <Header contactInfo={contactInfo} />
-        <AnimationsInit />
-        {children}
-        <Footer contactInfo={contactInfo} />
+        <GeneralProvider value={general}>
+          <Preloader />
+          <Script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
+            strategy="beforeInteractive" 
+          />
+          <Script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
+            strategy="beforeInteractive" 
+          />
+          <Header contactInfo={contactInfo} />
+          <AnimationsInit />
+          {children}
+          <Footer contactInfo={contactInfo} />
+        </GeneralProvider>
       </body>
     </html>
   );

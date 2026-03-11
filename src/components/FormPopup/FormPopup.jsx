@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import "./FormPopup.scss";
 import Plus from "@/components/ui/icons/Plus";
+import { useGeneral } from "@/context/GeneralContext";
 
 const MESSAGES = {
   apply: {
@@ -16,6 +17,7 @@ const MESSAGES = {
 };
 
 export default function FormPopup({ open, onClose, name = "", variant = "appointment" }) {
+  const { submit_success } = useGeneral();
   useEffect(() => {
     if (!open) return;
     const handleEscape = (e) => {
@@ -27,7 +29,8 @@ export default function FormPopup({ open, onClose, name = "", variant = "appoint
 
   if (!open) return null;
 
-  const msg = MESSAGES[variant] ?? MESSAGES.appointment;
+  const baseMsg = MESSAGES[variant] ?? MESSAGES.appointment;
+  const msg = { ...baseMsg, first: submit_success ?? baseMsg.first };
   const displayName = name.trim() || "name";
 
   return (

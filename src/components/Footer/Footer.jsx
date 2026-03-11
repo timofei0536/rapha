@@ -8,12 +8,14 @@ import PhoneIcon from "@/components/ui/icons/Phone";
 import LocationIcon from "@/components/ui/icons/Location";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import Decor from "@/components/ui/icons/Decor";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function Footer({ contactInfo }) {
     const isHome = usePathname() === "/";
     const phone = contactInfo?.phone;
     const address = contactInfo?.address;
     const email = contactInfo?.email;
+    const { schedule, navigation } = useGeneral();
 
     return (
         <footer className="footer white-header">
@@ -35,13 +37,10 @@ export default function Footer({ contactInfo }) {
 
                         
                         <nav className="footer__nav">
-                            <span className="footer__title">Pages</span>
-                            <Link href="/" className="footer__link link-hover">Home</Link>
-                            <Link href="/about" className="footer__link link-hover">Polyclinic</Link>
-                            <Link href="/services" className="footer__link link-hover">Services</Link>
-                            <Link href="/news" className="footer__link link-hover">News</Link>
-                            <Link href="/careers" className="footer__link link-hover">Careers</Link>
-                            <Link href="/contact" className="footer__link link-hover">Contact</Link>
+                            <span className="footer__title">Menu:</span>
+                            {(navigation ?? []).map((item) => (
+                              <Link key={item.href} href={item.href} className="footer__link link-hover">{item.text || ""}</Link>
+                            ))}
                         </nav>
 
                     <div className="footer__col footer__col--contact">
@@ -66,7 +65,7 @@ export default function Footer({ contactInfo }) {
                         )}
                         <div className="footer__contact-item">
                             <CalendarIcon className="footer__contact-icon" />
-                            <span className="footer__contact-text">7 days a week, 24/7</span>
+                            <span className="footer__contact-text">{schedule ?? "7 days a week, 24/7"}</span>
                         </div>
                     </div>
 

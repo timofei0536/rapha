@@ -9,12 +9,14 @@ import CalendarIcon from "@/components/ui/icons/Calendar";
 import LocationIcon from "@/components/ui/icons/Location";
 import Search from "@/components/ui/Search/Search";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
   const its_desktop = typeof window !== "undefined" && window.its_desktop;
   const phone = contactInfo?.phone;
   const address = contactInfo?.address;
+  const { schedule, navigation } = useGeneral();
 
   return (
       <header
@@ -32,7 +34,7 @@ export default function Header({ contactInfo }) {
                 )}
                 <div className="header__item">
                   <CalendarIcon />
-                  <span>7 days a week, 24/7</span>
+                  <span>{schedule ?? "7 days a week, 24/7"}</span>
                 </div>
                 {address?.href && (
                 <div className="header__item">
@@ -60,12 +62,11 @@ export default function Header({ contactInfo }) {
             </Link>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <li className="header__nav-item"><Link href="/" className="header__nav-link link-hover">Home</Link></li>
-                <li className="header__nav-item"><Link href="/about" className="header__nav-link link-hover">Polyclinic</Link></li>
-                <li className="header__nav-item"><Link href="/services" className="header__nav-link link-hover">Services</Link></li>
-                <li className="header__nav-item"><Link href="/news" className="header__nav-link link-hover">News</Link></li>
-                <li className="header__nav-item"><Link href="/careers" className="header__nav-link link-hover">Careers</Link></li>
-                <li className="header__nav-item"><Link href="/contact" className="header__nav-link link-hover">Contact</Link></li>
+                {(navigation ?? []).map((item) => (
+                  <li key={item.href} className="header__nav-item">
+                    <Link href={item.href} className="header__nav-link link-hover">{item.text || ""}</Link>
+                  </li>
+                ))}
               </ul>
             </nav>
             <Search />

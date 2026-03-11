@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import "./Results.scss";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function Results(props) {
   const { subtitle, query, items } = props;
+  const { read_more } = useGeneral();
   const list = items || [];
   const hasQuery = typeof query === "string" && query.trim().length > 0;
   const isEmpty = list.length === 0;
@@ -42,7 +46,7 @@ export default function Results(props) {
                   rel={item.link?.target === "_blank" ? "noopener noreferrer" : undefined}
                   className="results__item-link link"
                 >
-                  Read more
+                  {read_more ?? "Read more"}
                 </Link>
               </li>
             ))}

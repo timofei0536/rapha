@@ -8,6 +8,7 @@ import Select from "@/components/ui/Select/Select";
 import FormPopup from "@/components/FormPopup/FormPopup";
 import Btn from "@/components/ui/Btn/Btn";
 import { ServiceDefaults } from "@/components/Service/defaults";
+import { useGeneral } from "@/context/GeneralContext";
 
 const SERVICE_OPTIONS = [
   ...(ServiceDefaults.services || []).map((s) => ({ value: s.slug, label: s.title })),
@@ -30,11 +31,13 @@ const INSURANCE_OPTIONS = [
 
 export default function Form({
   variant = "appointment",
-  submitText = "Submit",
+  submitText,
   submitIcon: SubmitIcon = Send,
   roleOptions = [],
   animInitialStyle,
 }) {
+  const { submit: submitLabel } = useGeneral();
+  const submitButtonText = submitText ?? submitLabel ?? "Submit";
   const animProps = {
     ...(animInitialStyle && { className: 'anim-initial', style: animInitialStyle }),
   };
@@ -152,7 +155,7 @@ export default function Form({
           </label>
         </div>
         <button type="submit" className="btn btn--blue-l">
-          <span className="btn__text">{submitText}</span>
+          <span className="btn__text">{submitButtonText}</span>
           {/* <SubmitIcon className="btn__icon" /> */}
         </button>
       </form>
@@ -230,7 +233,7 @@ export default function Form({
           required
         />
       </div>
-      <Btn type="submit" className="btn--blue-l" text={submitText} icon={SubmitIcon} />
+      <Btn type="submit" className="btn--blue-l" text={submitButtonText} icon={SubmitIcon} />
     </form>
     <FormPopup
       open={showPopup}

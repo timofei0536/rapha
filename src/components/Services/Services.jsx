@@ -1,3 +1,5 @@
+"use client";
+
 import "./Services.scss";
 import Image from "next/image";
 import Icon1 from "@/components/ui/icons/services/Icon1";
@@ -7,12 +9,14 @@ import Icon4 from "@/components/ui/icons/services/Icon4";
 import Icon5 from "@/components/ui/icons/services/Icon5";
 import Btn from "@/components/ui/Btn/Btn";
 import Send from "@/components/ui/icons/Download";
+import { useGeneral } from "@/context/GeneralContext";
 
 const SERVICE_ICONS = [Icon1, Icon2, Icon3, Icon4, Icon5];
 
 
 export default function Services(props) {
     const { title, image, services } = props;
+    const { learn_more } = useGeneral();
     return (
         <section className="services">
             <div className="center-wrap">
@@ -34,7 +38,7 @@ export default function Services(props) {
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>
                                 <div className="services__item-text content" dangerouslySetInnerHTML={{ __html: item.content ?? "" }} />
-                                {href && <Btn text="Learn more" className="btn--transparent btn--small" href={href} />}
+                                {href && <Btn text={learn_more ?? "Learn more"} className="btn--transparent btn--small" href={href} />}
                             </div>
                         );
                     })}

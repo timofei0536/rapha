@@ -1,7 +1,10 @@
+"use client";
+
 import "./News.scss";
 import Image from "next/image";
 import Link from 'next/link';
 import Btn from "@/components/ui/Btn/Btn";
+import { useGeneral } from "@/context/GeneralContext";
 
 function titleToSlug(title) {
   if (!title) return "";
@@ -12,6 +15,7 @@ const DEFAULT_NEWS_IMAGE = { src: "/images/news-page.png", alt: "" };
 
 export default function News(props) {
     const { title, items, hideTitle, hideMoreButton, featured } = props;
+    const { read_more } = useGeneral();
     const isFeaturedMobile = featured && !hideMoreButton;
     const listItems = isFeaturedMobile
         ? [featured, ...(items || []).filter((i) => i.slug !== featured?.slug).slice(0, 2)]
@@ -38,7 +42,7 @@ export default function News(props) {
                         </Link>
                         <h3 className="news__item-title">{item.title}</h3>
                         <div className="news__item-text content" dangerouslySetInnerHTML={{ __html: item.preview ?? item.content ?? "" }} />
-                        <Link href={href} className='news__item-link link link-hover'>Read more</Link>
+                        <Link href={href} className='news__item-link link link-hover'>{read_more ?? "Read more"}</Link>
                     </div>
                     );
                 })}
