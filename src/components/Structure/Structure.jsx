@@ -1,3 +1,5 @@
+"use client";
+
 import "./Structure.scss";
 import "@/components/ui/Toogles/Toogles.scss";
 import Btn from "@/components/ui/Btn/Btn";

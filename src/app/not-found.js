@@ -1,3 +1,5 @@
+"use client";
+
 import PageScreen from "@/components/PageScreen/PageScreen";
 import Btn from "@/components/ui/Btn/Btn";
 import { ArrowLeft } from "@/components/ui/icons";

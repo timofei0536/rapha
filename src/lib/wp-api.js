@@ -226,10 +226,6 @@ export async function getPageProps(slug, componentKey, defaults, options = {}) {
 export async function getBlockProps(slug, componentKey, defaults, searchParams) {
   const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
   const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
-  if (componentKey === "chart") {
-    if (strictWp) return getPageProps(slug, componentKey, defaults, { strictWp: true });
-    return { ...defaults };
-  }
   return getPageProps(slug, componentKey, defaults, { strictWp });
 }
 

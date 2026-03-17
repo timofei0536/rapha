@@ -212,6 +212,40 @@ function ensureAbsoluteImageUrls(obj, depth = 0) {
   return out;
 }
 
+function normalizeChartNode(node, depth = 0) {
+  if (!node || typeof node !== "object" || depth > 20) return undefined;
+  const out = { ...node };
+  if ("image" in out) {
+    const image = normalizeImage(out.image);
+    if (image?.src) {
+      out.image = ensureAbsoluteImageUrl(image.src) ? { ...image, src: ensureAbsoluteImageUrl(image.src) } : image;
+    } else if (out.image == null) {
+      out.image = undefined;
+    }
+  }
+  const rawChildren = Array.isArray(out.children) ? out.children : [];
+  out.children = rawChildren
+    .map((child) => normalizeChartNode(child, depth + 1))
+    .filter(Boolean);
+  return out;
+}
+
+function normalizeChartProps(props, strictWp, defaults) {
+  const source = props && typeof props === "object" ? props : {};
+  const normalizedData = normalizeChartNode(source.data);
+  const title =
+    source.title != null && String(source.title).trim()
+      ? String(source.title).trim()
+      : strictWp
+        ? ""
+        : defaults?.title;
+  return {
+    ...source,
+    title,
+    data: normalizedData ?? (strictWp ? undefined : defaults?.data),
+  };
+}
+
 // --- News ---
 const txt = (v) => (v && (typeof v.rendered === "string" ? v.rendered : String(v)))?.trim() ?? "";
 const acfWysiwyg = (v) => {
@@ -355,9 +389,12 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
     return out;
   }
 
-  // Chart: always 100% from defaults (no WP). Don't rewrite image URLs — defaults use local /images/ from public.
+  // Chart: fetch from WP/admin with fallback to defaults.
+  // Keep local `/images/...` defaults untouched (don't force WP host prefix here).
   if (componentKey === "chart") {
-    return { ...defaults };
+    const result = await getBlockProps(slug, componentKey, defaults, searchParams);
+    const filtered = applyBlockFilter(result, defaults, strictWp);
+    return normalizeChartProps(filtered, strictWp, defaults);
   }
 
   if (componentKey === "pageScreen") {
