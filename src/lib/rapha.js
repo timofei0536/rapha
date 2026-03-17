@@ -502,6 +502,19 @@ async function resolveNavigation(rawNav) {
   return out.length ? out : null;
 }
 
+function normalizeLinkItem(item) {
+  if (!item) return null;
+  if (typeof item === "string") {
+    const href = item.trim();
+    return href ? { href, text: href } : null;
+  }
+  if (typeof item !== "object") return null;
+  const link = item.link && typeof item.link === "object" ? item.link : item;
+  const href = String(link.href ?? link.url ?? "").trim();
+  const text = String(link.text ?? link.title ?? "").trim();
+  return href ? { href, text: text || href } : null;
+}
+
 /**
  * General block for layout (labels, schedule, navigation). From home page, block "general".
  */
@@ -511,5 +524,17 @@ export async function getGeneralForLayout() {
   const page = await getPageBySlug("home");
   const raw = page ? getComponentData(page, "general") : null;
   const nav = (await resolveNavigation(raw?.navigation)) ?? general?.navigation ?? [];
-  return { ...GeneralDefaults, ...general, navigation: (Array.isArray(nav) && nav.length) ? nav : GeneralDefaults.navigation };
+  const nav2 = (await resolveNavigation(raw?.navigation2)) ?? general?.navigation2 ?? [];
+  const emails =
+    (Array.isArray(raw?.emails_list) ? raw.emails_list : Array.isArray(general?.emails_list) ? general.emails_list : [])
+      .map(normalizeLinkItem)
+      .filter(Boolean);
+
+  return {
+    ...GeneralDefaults,
+    ...general,
+    navigation: Array.isArray(nav) && nav.length ? nav : GeneralDefaults.navigation,
+    navigation2: Array.isArray(nav2) && nav2.length ? nav2 : GeneralDefaults.navigation2,
+    emails_list: Array.isArray(emails) && emails.length ? emails : GeneralDefaults.emails_list,
+  };
 }

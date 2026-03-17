@@ -18,4 +18,12 @@ export const GeneralDefaults = {
     { href: "/careers", text: "Careers" },
     { href: "/contact", text: "Contact" },
   ],
+  navigation2: [
+    { href: "/terms-conditions", text: "Terms & Conditions" },
+    { href: "/privacy-policy", text: "Privacy Policy" },
+  ],
+  emails_list: [
+    { href: "mailto:info@el-raphaga.com", text: "info@el-raphaga.com" },
+    { href: "mailto:recrutement@el-raphaga.com", text: "recrutement@el-raphaga.com" },
+  ],
 };

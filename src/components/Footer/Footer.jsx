@@ -14,8 +14,7 @@ export default function Footer({ contactInfo }) {
     const isHome = usePathname() === "/";
     const phone = contactInfo?.phone;
     const address = contactInfo?.address;
-    const email = contactInfo?.email;
-    const { schedule, navigation } = useGeneral();
+    const { schedule, navigation, navigation2, emails_list } = useGeneral();
 
     return (
         <footer className="footer white-header">
@@ -70,11 +69,20 @@ export default function Footer({ contactInfo }) {
                     </div>
 
                     <div className="footer__col footer__col--emails">
-                        {email?.href && <a href={email.href} className="footer__email link-hover">{email.text || ""}</a>}
-                        <a href="mailto:recrutement@el-raphaga.com" className="footer__email link-hover">recrutement@el-raphaga.com</a>
+                        {(emails_list ?? []).map((item) => (
+                            <a key={`${item.href}-${item.text || ""}`} href={item.href} className="footer__email link-hover">
+                                {item.text || ""}
+                            </a>
+                        ))}
+                    </div>
+
+                    <div className="footer__col footer__col--legals">
                         <nav className="footer__nav footer__nav--legal">
-                            <Link href="/terms-conditions" className="footer__link link-hover">Terms & Conditions</Link>
-                            <Link href="/privacy-policy" className="footer__link link-hover">Privacy Policy</Link>
+                            {(navigation2 ?? []).map((item) => (
+                                <Link key={`${item.href}-${item.text || ""}`} href={item.href} className="footer__link link-hover">
+                                    {item.text || ""}
+                                </Link>
+                            ))}
                         </nav>
                     </div>
                 </div>

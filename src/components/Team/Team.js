@@ -27,8 +27,8 @@ export default function Team(props) {
                                         src={item.image.src}
                                         alt={item.image.alt}
                                         className="team__gallery-img"
-                                        width={item.width ?? 434}
-                                        height={item.height ?? 412}
+                                        width={0}
+                                        height={0}
                                     />
                                 ))}
                             </div>
@@ -39,8 +39,8 @@ export default function Team(props) {
                                         src={item.image.src}
                                         alt={item.image.alt}
                                         className="team__gallery-img"
-                                        width={item.width ?? 434}
-                                        height={item.height ?? 224}
+                                        width={0}
+                                        height={0}
                                     />
                                 ))}
                             </div>
