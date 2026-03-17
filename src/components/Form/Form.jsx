@@ -15,29 +15,38 @@ const SERVICE_OPTIONS = [
   { value: "other", label: "Other" },
 ];
 
-const PRACTITIONER_OPTIONS = [
-  { value: "any", label: "Any available" },
-  { value: "dr-mbenda", label: "Dr. Mbenda" },
-  { value: "dr-okou", label: "Dr. Okou" },
-  { value: "dr-ngoma", label: "Dr. Ngoma" },
-];
-
-const INSURANCE_OPTIONS = [
-  { value: "none", label: "No insurance" },
-  { value: "assurance-sante", label: "Assurance Santé" },
-  { value: "axa", label: "AXA" },
-  { value: "saham", label: "Saham" },
-];
+const normalizeRepeaterToOptions = (items) => {
+  if (!Array.isArray(items)) return [];
+  return items
+    .map((entry) => {
+      const label = String(entry?.item ?? "").trim();
+      if (!label) return null;
+      const value = label
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+      return { value: value || "doctor", label };
+    })
+    .filter(Boolean);
+};
 
 export default function Form({
   variant = "appointment",
   submitText,
   submitIcon: SubmitIcon = Send,
   roleOptions = [],
+  doctors = [],
+  insurances = [],
   animInitialStyle,
 }) {
   const { submit: submitLabel } = useGeneral();
   const submitButtonText = submitText ?? submitLabel ?? "Submit";
+  const doctorsFromCms = normalizeRepeaterToOptions(doctors);
+  const insurancesFromCms = normalizeRepeaterToOptions(insurances);
+  const practitionerOptions =
+    doctorsFromCms.length > 0 ? doctorsFromCms : [{ value: "any", label: "Any available" }];
+  const insuranceOptions =
+    insurancesFromCms.length > 0 ? insurancesFromCms : [{ value: "none", label: "No insurance" }];
   const animProps = {
     ...(animInitialStyle && { className: 'anim-initial', style: animInitialStyle }),
   };
@@ -198,14 +207,14 @@ export default function Form({
           name="practitioner"
           placeholder="Practitioner"
           className="form__input form__input--select"
-          options={PRACTITIONER_OPTIONS}
+          options={practitionerOptions}
           required
         />
         <Select
           name="insurance"
           placeholder="Insurance"
           className="form__input form__input--select"
-          options={INSURANCE_OPTIONS}
+          options={insuranceOptions}
           required
         />
         <input

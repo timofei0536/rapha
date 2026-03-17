@@ -32,4 +32,12 @@ export const ContactDefaults = {
       },
     },
   ],
+  form: {
+    title: "Book an appointment",
+    doctors: [
+      { item: "Dr. Mbenda" },
+      { item: "Dr. Okou" },
+      { item: "Dr. Ngoma" },
+    ],
+  },
 };

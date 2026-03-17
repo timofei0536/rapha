@@ -8,7 +8,7 @@ import { getLowResImageSrc } from "@/lib/image-utils";
 import { useState } from "react";
 
 export default function Hero(props) {
-    const { title, formTitle, image, imageMobile } = props;
+    const { title, formTitle, image, imageMobile, doctors, insurances } = props;
     const mobileSrc = imageMobile?.src ?? image?.src;
     const [blurSrc, setBlurSrc] = useState(() => getLowResImageSrc(image?.src));
     const onBlurError = () => {
@@ -27,7 +27,11 @@ export default function Hero(props) {
                 <h1 className="hero__title simple-title simple-title--large anim-initial" style={{ '--anim-opacity': 0 }}>{title}</h1>
                 <div className="hero__form">
                     <span className="hero__form-title anim-initial" style={{ '--anim-opacity': 0, '--anim-y': '40px' }}>{formTitle}</span>
-                    <Form animInitialStyle={{ '--anim-opacity': 0, '--anim-y': '40px' }} />
+                    <Form
+                        doctors={doctors}
+                        insurances={insurances}
+                        animInitialStyle={{ '--anim-opacity': 0, '--anim-y': '40px' }}
+                    />
                 </div>
             </div>
             <Decor className='decore' />
