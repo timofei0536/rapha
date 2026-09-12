@@ -27,8 +27,9 @@ export default function Team(props) {
                                         src={item.image.src}
                                         alt={item.image.alt || ""}
                                         className="team__gallery-img"
-                                        width={0}
-                                        height={0}
+                                        width={435}
+                                        height={320}
+                                        sizes="(max-width: 1023px) 45vw, 43.5rem"
                                         quality={95}
                                     />
                                 ))}
@@ -40,8 +41,9 @@ export default function Team(props) {
                                         src={item.image.src}
                                         alt={item.image.alt || ""}
                                         className="team__gallery-img"
-                                        width={0}
-                                        height={0}
+                                        width={435}
+                                        height={320}
+                                        sizes="(max-width: 1023px) 45vw, 43.5rem"
                                         quality={95}
                                     />
                                 ))}

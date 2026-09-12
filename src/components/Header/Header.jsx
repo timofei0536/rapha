@@ -62,7 +62,7 @@ export default function Header({ contactInfo }) {
               className="header__logo-link"
               onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
             >
-              <Image src="/images/logo.png" alt="El-Rapha — Home" className="header__logo" width={177} height={70} quality={95} />
+              <Image src="/images/logo.png" alt="El-Rapha — Home" className="header__logo" width={177} height={70} quality={95} priority />
             </Link>
             <nav className="header__nav">
               <ul className="header__nav-list">

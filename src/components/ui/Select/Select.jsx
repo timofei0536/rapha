@@ -18,7 +18,10 @@ export default function Select({
   const valueRef = useRef(null);
   const listboxId = `${name || "select"}-listbox-${useId().replace(/:/g, "")}`;
 
-  const selectedOption = options.find((opt) => opt.value === value);
+  const optionList = options.filter(
+    (option, i, list) => option.value !== "" && list.findIndex((o) => o.value === option.value) === i
+  );
+  const selectedOption = optionList.find((opt) => opt.value === value);
   const displayText = selectedOption ? selectedOption.label : placeholder;
 
   useEffect(() => {
@@ -74,7 +77,7 @@ export default function Select({
         aria-label={placeholder || name || "Select"}
       >
         <option value="">{placeholder}</option>
-        {options.map((option) => (
+        {optionList.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
@@ -106,7 +109,7 @@ export default function Select({
         aria-label={placeholder || name || "Options"}
         hidden={!isOpen}
       >
-        {options.map((option) => (
+        {optionList.map((option) => (
           <div
             key={option.value}
             className={`select__variant ${option.value === value ? "select__variant--active" : ""}`}

@@ -218,14 +218,5 @@ add_filter( 'rest_services_query', 'rapha_rest_services_query_menu_order', 10, 2
 
 
 
-add_filter('post_link', function($url) {
-    return str_replace('https://rapha.tim-work.com', 'http://rapha.artydevs.com', $url);
-});
-
-add_filter('page_link', function($url) {
-    return str_replace('https://rapha.tim-work.com', 'http://rapha.artydevs.com', $url);
-});
-
-
 require_once get_template_directory() . '/preview-rest.php';
 add_action( 'rest_api_init', 'el_rapha_register_preview_route' );

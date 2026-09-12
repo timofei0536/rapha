@@ -7,7 +7,6 @@ export const ApplyDefaults = {
 <p>However, we recommend considering geographical proximity when choosing a location. Candidates are encouraged to submit their application electronically with an uploaded resume.</p>`,
   submitText: "Submit",
   roleOptions: [
-    { value: "", label: "Role" },
     { value: "nurse", label: "Nurse" },
     { value: "doctor", label: "Doctor" },
     { value: "technician", label: "Technician" },
