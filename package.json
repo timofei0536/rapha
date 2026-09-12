@@ -2,6 +2,13 @@
   "name": "next-template",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "> 1%",
+    "last 4 versions",
+    "Safari >= 14",
+    "iOS >= 14",
+    "not dead"
+  ],
   "scripts": {
     "dev": "bash dev.sh",
     "theme:watch": "node scripts/sync/watch-theme-sync.mjs",
