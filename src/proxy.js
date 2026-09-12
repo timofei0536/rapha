@@ -11,29 +11,44 @@ function isDocumentRequest(request) {
   return accept.includes("text/html");
 }
 
+/** Same process via loopback — public HTTPS URL is unreachable from Hostinger Node. */
+function loopbackUrl(request) {
+  const dest = request.nextUrl.clone();
+  dest.protocol = "http:";
+  dest.hostname = "127.0.0.1";
+  dest.port = process.env.PORT || "3000";
+  return dest;
+}
+
 export async function proxy(request) {
   if (request.headers.get(SKIP) === "1" || !isDocumentRequest(request)) {
     return NextResponse.next();
   }
 
-  const headers = new Headers(request.headers);
-  headers.set(SKIP, "1");
+  try {
+    const headers = new Headers(request.headers);
+    headers.set(SKIP, "1");
+    const host = request.headers.get("host");
+    if (host) headers.set("host", host);
 
-  const res = await fetch(request.nextUrl, {
-    headers,
-    redirect: "manual",
-  });
+    const res = await fetch(loopbackUrl(request), {
+      headers,
+      redirect: "manual",
+    });
 
-  const type = res.headers.get("content-type") || "";
-  if (!type.includes("text/html")) {
-    return new NextResponse(res.body, { status: res.status, headers: res.headers });
+    const type = res.headers.get("content-type") || "";
+    if (!type.includes("text/html")) {
+      return new NextResponse(res.body, { status: res.status, headers: res.headers });
+    }
+
+    const html = stripVoidTrailingSlashes(await res.text());
+    const out = new Headers(res.headers);
+    out.delete("content-encoding");
+    out.delete("content-length");
+    return new NextResponse(html, { status: res.status, headers: out });
+  } catch {
+    return NextResponse.next();
   }
-
-  const html = stripVoidTrailingSlashes(await res.text());
-  const out = new Headers(res.headers);
-  out.delete("content-encoding");
-  out.delete("content-length");
-  return new NextResponse(html, { status: res.status, headers: out });
 }
 
 export const config = {
