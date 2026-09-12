@@ -5,7 +5,7 @@ export const selector = '.header';
 export function init() {
   const header = document.querySelector('.header');
   if (!header) return;
-  const getSections = () => document.querySelectorAll('.white-header');
+  const getSections = () => document.querySelectorAll('section.bg-gradient');
   const updateHeaderClass = () => {
     const sections = getSections();
     if (!sections.length) return;

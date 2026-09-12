@@ -74,16 +74,15 @@ export default function Footer({ contactInfo }) {
                                 {item.text || ""}
                             </a>
                         ))}
-                    </div>
-
-                    <div className="footer__col footer__col--legals">
-                        <nav className="footer__nav footer__nav--legal">
-                            {(navigation2 ?? []).map((item) => (
-                                <Link key={`${item.href}-${item.text || ""}`} href={item.href} className="footer__link link-hover">
-                                    {item.text || ""}
-                                </Link>
-                            ))}
-                        </nav>
+                        <div className="footer__col footer__col--legals">
+                            <nav className="footer__nav footer__nav--legal">
+                                {(navigation2 ?? []).map((item) => (
+                                    <Link key={`${item.href}-${item.text || ""}`} href={item.href} className="footer__link link-hover">
+                                        {item.text || ""}
+                                    </Link>
+                                ))}
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
