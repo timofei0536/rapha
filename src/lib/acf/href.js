@@ -5,5 +5,10 @@
  */
 export function normalizeHref(raw) {
   const s = raw != null ? String(raw).trim() : "";
-  return s || undefined;
+  if (!s) return undefined;
+  if (s.toLowerCase().startsWith("tel:")) {
+    const rest = s.slice(4).replace(/[^\d+*#]/g, "");
+    return rest ? `tel:${rest}` : undefined;
+  }
+  return s;
 }

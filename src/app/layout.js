@@ -62,7 +62,7 @@ export default async function RootLayout({ children }) {
   ]);
 
   return (
-    <html lang="en" className={`${inter.variable} ${ivyPresto.variable}`}>
+    <html lang="fr" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
         <GeneralProvider value={general}>
           <Preloader />

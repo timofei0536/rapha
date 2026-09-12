@@ -2,7 +2,7 @@
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
 import { getPageBySlug, getComponentData, getPageProps, getBlockProps } from "@/lib/wp-api";
-import { normalizeText, normalizeContent, normalizeImage } from "@/lib/acf";
+import { normalizeText, normalizeContent, normalizeImage, normalizeHref } from "@/lib/acf";
 import { applyBlockFilter } from "@/lib/block-filter";
 import { ContactDefaults } from "@/components/Contact/defaults";
 import { CareersDefaults } from "@/components/Careers/defaults";
@@ -447,7 +447,7 @@ export async function getContactInfoForLayout() {
   const items = Array.isArray(contactProps?.items) ? contactProps.items : [];
   const link = (i) => {
     const l = items[i]?.link;
-    return l?.href ? { text: l.text ?? "", href: l.href } : null;
+    return l?.href ? { text: l.text ?? "", href: normalizeHref(l.href) || l.href } : null;
   };
   return {
     phone: link(1),

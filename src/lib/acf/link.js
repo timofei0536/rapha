@@ -1,4 +1,5 @@
 import { literalNewlines } from "./text.js";
+import { normalizeHref } from "./href.js";
 
 const WP_ORIGIN =
   typeof process !== "undefined"
@@ -45,13 +46,13 @@ function toRelativePath(href) {
 export function normalizeLink(raw) {
   if (raw == null) return undefined;
   if (typeof raw === "string") {
-    const href = toRelativePath(raw.trim());
+    const href = toRelativePath(normalizeHref(raw) || "");
     return href ? { text: "", href } : undefined;
   }
   if (typeof raw !== "object") return undefined;
   const rawHref = raw.href ?? raw.url;
   if (!rawHref || typeof rawHref !== "string" || !rawHref.trim()) return undefined;
-  const href = toRelativePath(rawHref.trim());
+  const href = toRelativePath(normalizeHref(rawHref) || "");
   const text = raw.text ?? raw.title ?? "";
   const target = raw.target;
   return {

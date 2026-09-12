@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import "./Select.scss";
 
 export default function Select({
@@ -15,6 +15,8 @@ export default function Select({
   const [isOpen, setIsOpen] = useState(false);
   const wrapRef = useRef(null);
   const nativeSelectRef = useRef(null);
+  const valueRef = useRef(null);
+  const listboxId = `${name || "select"}-listbox-${useId().replace(/:/g, "")}`;
 
   const selectedOption = options.find((opt) => opt.value === value);
   const displayText = selectedOption ? selectedOption.label : placeholder;
@@ -58,18 +60,13 @@ export default function Select({
       ref={wrapRef}
       className={`select ${isOpen ? "select--active" : ""} ${className}`.trim()}
       onClick={handleWrapperClick}
-      role="button"
-      tabIndex={0}
-      aria-haspopup="listbox"
-      aria-expanded={isOpen}
-      aria-required={required}
     >
       <select
         ref={nativeSelectRef}
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onFocus={() => wrapRef.current?.focus()}
+        onFocus={() => valueRef.current?.focus()}
         required={required}
         className="select__native"
         tabIndex={-1}
@@ -82,10 +79,25 @@ export default function Select({
           </option>
         ))}
       </select>
-      <div className="select__value">
+      <div
+        ref={valueRef}
+        className="select__value"
+        role="combobox"
+        tabIndex={0}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls={listboxId}
+        aria-required={required || undefined}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setIsOpen((open) => !open);
+          }
+        }}
+      >
         <span className="select__value-text">{displayText}</span>
       </div>
-      <div className="select__variants">
+      <div className="select__variants" role="listbox" id={listboxId}>
         {options.map((option) => (
           <div
             key={option.value}
