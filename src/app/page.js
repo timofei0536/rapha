@@ -3,9 +3,8 @@ import Services from "../components/Services/Services";
 import Team from "../components/Team/Team";
 import Infra from "../components/Infra/Infra";
 import News from "../components/News/News";
-import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
-import { getBlockProps } from "@/lib/wp-api";
-import { ServicesDefaults } from "@/components/Services/defaults";
+import { getBlockPropsForPage, getNewsPageFeatured, getWpServices } from "@/lib/rapha";
+import { getPageProps } from "@/lib/wp-api";
 
 export const metadata = {
   description:
@@ -13,26 +12,23 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured, formProps] = await Promise.all([
-    getBlockPropsForPage("home", "hero", {}),
-    getBlockPropsForPage("home", "services", {}),
-    getBlockPropsForPage("home", "infra", {}),
-    getBlockPropsForPage("home", "team", {}),
-    getBlockPropsForPage("home", "news", {}),
+  const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured, formProps, wpServices] = await Promise.all([
+    getBlockPropsForPage("home", "hero"),
+    getBlockPropsForPage("home", "services"),
+    getBlockPropsForPage("home", "infra"),
+    getBlockPropsForPage("home", "team"),
+    getBlockPropsForPage("home", "news"),
     getNewsPageFeatured("news"),
-    getBlockProps("contact", "form", {
-      title: "Book an appointment",
-      doctors: [],
-      insurance: [],
-    }),
+    getPageProps("contact", "form"),
+    getWpServices(),
   ]);
 
-  const servicesList = servicesProps?.services ?? ServicesDefaults.services ?? [];
+  const servicesList = Array.isArray(servicesProps?.services) ? servicesProps.services : [];
   const doctors = Array.isArray(formProps?.doctors) ? formProps.doctors : [];
   const insurances = Array.isArray(formProps?.insurance) ? formProps.insurance : [];
   return (
     <main>
-      <Hero {...heroProps} doctors={doctors} insurances={insurances} />
+      <Hero {...heroProps} doctors={doctors} insurances={insurances} services={wpServices} />
       <Services {...servicesProps} services={servicesList} />
       <Infra {...infraProps} />
       <Team {...teamProps} />

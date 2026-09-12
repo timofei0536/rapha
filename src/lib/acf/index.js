@@ -11,3 +11,4 @@ export { normalizeGallery } from "./gallery.js";
 export { normalizeLink } from "./link.js";
 export { normalizeRepeater } from "./repeater.js";
 export { normalizeGroup } from "./group.js";
+export { normalizeAcfValue, normalizeAcfTree } from "./tree.js";

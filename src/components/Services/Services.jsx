@@ -2,17 +2,9 @@
 
 import "./Services.scss";
 import Image from "next/image";
-import Icon1 from "@/components/ui/icons/services/Icon1";
-import Icon2 from "@/components/ui/icons/services/Icon2";
-import Icon3 from "@/components/ui/icons/services/Icon3";
-import Icon4 from "@/components/ui/icons/services/Icon4";
-import Icon5 from "@/components/ui/icons/services/Icon5";
 import Btn from "@/components/ui/Btn/Btn";
 import Send from "@/components/ui/icons/Download";
 import { useGeneral } from "@/context/GeneralContext";
-
-const SERVICE_ICONS = [Icon1, Icon2, Icon3, Icon4, Icon5];
-
 
 export default function Services(props) {
     const { title, image, services } = props;
@@ -28,14 +20,24 @@ export default function Services(props) {
                         ) : null}
                     </div>
                     {(services || []).map((item, i) => {
-                        const Icon = SERVICE_ICONS[i];
                         const titleLines = (item.title ?? "").split("\n");
-                        const href = item.link?.href ?? null;
+                        const href = typeof item.link === "string" ? item.link : item.link?.href;
+                        const iconSrc = item.icon?.src;
+                        const iconAlt = item.icon?.alt || item.title || "";
+                        const iconIsSvg = typeof iconSrc === "string" && iconSrc.endsWith(".svg");
                         return (
                             <div key={i} className="services__item">
-                                <div className="services__item-icon">
-                                    {Icon && <Icon />}
-                                </div>
+                                {iconSrc ? (
+                                    <div className="services__item-icon">
+                                        <Image
+                                            src={iconSrc}
+                                            alt={iconAlt}
+                                            width={58}
+                                            height={58}
+                                            unoptimized={iconIsSvg}
+                                        />
+                                    </div>
+                                ) : null}
                                 <h3 className="services__item-title simple-title">
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>

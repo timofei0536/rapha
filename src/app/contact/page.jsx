@@ -1,6 +1,6 @@
 import Contact from "@/components/Contact/Contact";
-import { getBlockPropsForPage } from "@/lib/rapha";
-import { getBlockProps } from "@/lib/wp-api";
+import { getBlockPropsForPage, getWpServices } from "@/lib/rapha";
+import { getPageProps } from "@/lib/wp-api";
 
 export const metadata = {
   title: "Contact",
@@ -9,18 +9,15 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const [props, formProps] = await Promise.all([
-    getBlockPropsForPage("contact", "contact", {}),
-    getBlockProps("contact", "form", {
-      title: "Book an appointment",
-      doctors: [],
-      insurance: [],
-    }),
+  const [props, formProps, wpServices] = await Promise.all([
+    getBlockPropsForPage("contact", "contact"),
+    getPageProps("contact", "form"),
+    getWpServices(),
   ]);
 
   return (
     <main>
-      <Contact map={props.map} items={props.items} form={formProps} />
+      <Contact map={props.map} items={props.items} form={formProps} services={wpServices} />
     </main>
   );
 }

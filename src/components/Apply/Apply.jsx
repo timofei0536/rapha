@@ -3,16 +3,34 @@
 import "./Apply.scss";
 import Form from "@/components/Form/Form";
 import Send from "@/components/ui/icons/Send";
-import { ApplyDefaults } from "./defaults";
 import { useGeneral } from "@/context/GeneralContext";
 
-export default function Apply(props) {
-  const {
-    content = ApplyDefaults.content,
-    submitText,
-    roleOptions = ApplyDefaults.roleOptions,
-  } = { ...ApplyDefaults, ...props };
+function toRoleOptions(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((entry) => {
+      if (!entry) return null;
+      if (typeof entry === "string") {
+        const label = entry.trim();
+        if (!label) return null;
+        const value = label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        return { value: value || "role", label };
+      }
+      if (entry.value && entry.label) return { value: String(entry.value), label: String(entry.label) };
+      const label = String(entry.item ?? entry.title ?? entry.label ?? entry.text ?? "").trim();
+      if (!label) return null;
+      const value = String(entry.value ?? label)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+      return { value: value || "role", label };
+    })
+    .filter(Boolean);
+}
+
+export default function Apply({ content, submitText, roleOptions, roles, items } = {}) {
   const { submit: submitLabel } = useGeneral();
+  const roleList = toRoleOptions(roleOptions ?? roles ?? items);
 
   return (
     <section className="apply">
@@ -26,9 +44,9 @@ export default function Apply(props) {
           </div>
           <Form
             variant="apply"
-            submitText={submitText ?? submitLabel ?? ApplyDefaults.submitText}
+            submitText={submitText ?? submitLabel}
             submitIcon={Send}
-            roleOptions={roleOptions}
+            roleOptions={roleList}
           />
         </div>
       </div>

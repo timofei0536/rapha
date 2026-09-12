@@ -17,6 +17,33 @@ add_filter(
   fn($mimes) => array_merge($mimes, ['svg' => 'image/svg+xml'])
 );
 
+add_filter('acf/settings/save_json', fn() => get_template_directory() . '/acf-json');
+add_filter('acf/settings/load_json', function ($paths) {
+    $paths[] = get_template_directory() . '/acf-json';
+    return $paths;
+});
+
+/**
+ * Icon on home Services repeater (same key as nextwp schema / acf-json).
+ */
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field')) {
+        return;
+    }
+    acf_add_local_field(array(
+        'key'            => 'field_15024db435ecca92b21980b7d7c18c38',
+        'label'          => 'Icon',
+        'name'           => 'icon',
+        'type'           => 'image',
+        'parent'         => 'field_0efea0caf927696ec0f0d423225dcd29',
+        'return_format'  => 'array',
+        'preview_size'   => 'thumbnail',
+        'library'        => 'all',
+        'mime_types'     => 'svg,png,jpg,jpeg,webp',
+        'instructions'   => 'SVG or PNG for the home services card.',
+    ));
+});
+
 
 function get_page_id($key) {
     $pages = [

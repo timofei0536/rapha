@@ -14,7 +14,7 @@ export default async function NewsPage() {
   return (
     <main>
       <NewsScreen featured={featured} pageTitle={pageTitle} />
-      <News title="News" items={items} hideTitle hideMoreButton />
+      <News title={pageTitle} items={items} hideTitle hideMoreButton />
     </main>
   );
 }

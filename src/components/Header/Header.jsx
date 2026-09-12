@@ -38,7 +38,7 @@ export default function Header({ contactInfo }) {
                 )}
                 <div className="header__item">
                   <CalendarIcon />
-                  <span>{schedule ?? "7 days a week, 24/7"}</span>
+                  {schedule ? <span>{schedule}</span> : null}
                 </div>
                 {address?.href && (
                 <div className="header__item">

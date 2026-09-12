@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function ResultsPage() {
-  const resultsProps = await getBlockPropsForPage("results", "results", {});
+  const resultsProps = await getBlockPropsForPage("results", "results");
 
   return (
     <main>

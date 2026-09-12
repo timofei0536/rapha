@@ -1,25 +1,9 @@
 /**
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
-import { getPageBySlug, getComponentData, getPageProps, getBlockProps } from "@/lib/wp-api";
+import { getPageBySlug, getComponentData, getPageProps } from "@/lib/wp-api";
 import { normalizeText, normalizeContent, normalizeImage, normalizeHref } from "@/lib/acf";
-import { applyBlockFilter } from "@/lib/block-filter";
-import { ContactDefaults } from "@/components/Contact/defaults";
-import { CareersDefaults } from "@/components/Careers/defaults";
-import { InfraDefaults } from "@/components/Infra/defaults";
-import { ServicesDefaults } from "@/components/Services/defaults";
-import { HeroDefaults } from "@/components/Hero/defaults";
-import { TeamDefaults } from "@/components/Team/defaults";
-import { NewsDefaults } from "@/components/News/defaults";
-import { AboutScreenDefaults } from "@/components/AboutScreen/defaults";
-import { AboutDefaults } from "@/components/About/defaults";
-import { StructureDefaults } from "@/components/Structure/defaults";
-import { ChartDefaults } from "@/components/Chart/defaults";
-import { ServiceDefaults } from "@/components/Service/defaults";
-import { ResultsDefaults } from "@/components/Results/defaults";
-import { PageScreenDefaults } from "@/components/PageScreen/defaults";
 import { getSearchResults } from "@/lib/search";
-import { GeneralDefaults } from "@/lib/general-defaults";
 import { wpPublicFetchCacheOptions } from "../../wp-cms.config.mjs";
 
 const WP_API_BASE =
@@ -231,19 +215,17 @@ function normalizeChartNode(node, depth = 0) {
   return out;
 }
 
-function normalizeChartProps(props, strictWp, defaults) {
+function normalizeChartProps(props) {
   const source = props && typeof props === "object" ? props : {};
   const normalizedData = normalizeChartNode(source.data);
   const title =
     source.title != null && String(source.title).trim()
       ? String(source.title).trim()
-      : strictWp
-        ? ""
-        : defaults?.title;
+      : "";
   return {
     ...source,
     title,
-    data: normalizedData ?? (strictWp ? undefined : defaults?.data),
+    data: normalizedData,
   };
 }
 
@@ -299,11 +281,10 @@ export async function getNewsPageFeatured(pageSlug = "news") {
 
 export async function getNewsListForPage() {
   if (!WP_API_BASE) return { pageTitle: "", featured: null, items: [] };
-  const strict = process.env.NEXT_PUBLIC_STRICT_WP === "true";
   const [posts, page] = await Promise.all([getPosts(), getPageBySlug("news")]);
   const allItems = (posts || []).map(postToNewsItem);
   const featured = page ? await resolveFeaturedFromPage(page) : null;
-  const pageTitle = !page ? (strict ? "" : "News") : (txt(page.title) || (strict ? "" : "News"));
+  const pageTitle = page ? txt(page.title) : "";
   return { pageTitle, featured, items: featured ? allItems.filter((i) => i.slug !== featured.slug) : allItems };
 }
 
@@ -320,33 +301,9 @@ export async function getSingleNewsBySlug(slug) {
 
 // --- Block props ---
 
-/** Defaults by page slug and block key. Used by getBlockPropsForPage. */
-const blockDefaults = {
-  careers: { careers: CareersDefaults, pageScreen: PageScreenDefaults },
-  contact: { contact: ContactDefaults },
-  home: {
-    hero: HeroDefaults,
-    services: ServicesDefaults,
-    infra: InfraDefaults,
-    team: TeamDefaults,
-    news: NewsDefaults,
-    general: GeneralDefaults,
-  },
-  about: {
-    aboutScreen: AboutScreenDefaults,
-    about: AboutDefaults,
-    structure: StructureDefaults,
-    chart: ChartDefaults,
-    news: NewsDefaults,
-  },
-  services: { service: ServiceDefaults, news: NewsDefaults, pageScreen: PageScreenDefaults },
-  news: { news: NewsDefaults },
-  results: { results: ResultsDefaults },
-};
-
 /**
- * Get block props from WP; defaults are resolved internally (no need to import them on the page).
- * News block: resolved in rapha only (ACF relationship items → posts from WP), no default fallback.
+ * Get block props from WP only.
+ * News block: resolved in rapha (ACF relationship items → posts from WP).
  *
  * @param {string} slug Page slug (e.g. 'home', 'careers', 'contact')
  * @param {string} componentKey Block key (e.g. 'infra', 'careers', 'contact', 'news')
@@ -354,14 +311,10 @@ const blockDefaults = {
  * @returns {Promise<Record<string, unknown>>}
  */
 export async function getBlockPropsForPage(slug, componentKey, searchParams) {
-  const defaults = blockDefaults[slug]?.[componentKey];
-  if (!defaults) throw new Error(`No defaults registered for slug="${slug}" componentKey="${componentKey}"`);
-
   const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
-  const strictWp = params?.wp === "1" || process.env.NEXT_PUBLIC_STRICT_WP === "true";
 
   if (componentKey === "news") {
-    if (!WP_API_BASE) return ensureAbsoluteImageUrls(applyBlockFilter({ title: "", items: [] }, defaults, true));
+    if (!WP_API_BASE) return { title: "", items: [] };
     const slugsToTry = slug === "home" ? ["home", "front-page", "accueil"] : [slug];
     let raw = null;
     for (const s of slugsToTry) {
@@ -383,19 +336,13 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
     }
     let items = [];
     if (raw?.items != null) items = await resolveNewsItemsFromIds(raw.items);
-    const title = (raw?.title != null && String(raw.title).trim())
-      ? String(raw.title).trim()
-      : (strictWp ? "" : (defaults.title ?? "News"));
-    const out = ensureAbsoluteImageUrls(applyBlockFilter({ title, items }, defaults, strictWp));
-    return out;
+    const title = raw?.title != null && String(raw.title).trim() ? String(raw.title).trim() : "";
+    return ensureAbsoluteImageUrls({ title, items });
   }
 
-  // Chart: fetch from WP/admin with fallback to defaults.
-  // Keep local `/images/...` defaults untouched (don't force WP host prefix here).
   if (componentKey === "chart") {
-    const result = await getBlockProps(slug, componentKey, defaults, searchParams);
-    const filtered = applyBlockFilter(result, defaults, strictWp);
-    return normalizeChartProps(filtered, strictWp, defaults);
+    const result = await getPageProps(slug, componentKey);
+    return normalizeChartProps(result);
   }
 
   if (componentKey === "pageScreen") {
@@ -407,32 +354,28 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
     }
     const data = page ? getComponentData(page, "pagescreen") : null;
     const titleFromAcf = data?.title != null ? normalizeText(data.title) ?? "" : "";
-    const title = (titleFromAcf && titleFromAcf.trim()) || (strictWp ? "" : (defaults.title ?? ""));
     const rawImage = data?.image;
     const imageRaw = Array.isArray(rawImage) && rawImage.length > 0 ? rawImage[0] : rawImage;
     let image = imageRaw != null ? normalizeImage(imageRaw) : undefined;
     if (image?.src) image = { ...image, src: ensureAbsoluteImageUrl(image.src) };
-    const result = {
-      title: title.trim() || undefined,
-      image: image?.src ? image : (strictWp ? undefined : defaults.image),
-    };
-    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
-    return out;
+    return ensureAbsoluteImageUrls({
+      ...(titleFromAcf ? { title: titleFromAcf } : {}),
+      ...(image?.src ? { image } : {}),
+    });
   }
 
   if (componentKey === "results") {
-    const result = await getBlockProps(slug, componentKey, defaults, searchParams);
-    const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
+    const result = await getPageProps(slug, componentKey);
+    const out = ensureAbsoluteImageUrls(result);
     const queryParam = params?.q ?? params?.query;
     const searchQuery = Array.isArray(queryParam) ? queryParam[0] ?? "" : (queryParam ?? "");
-    const query = (typeof searchQuery === "string" ? searchQuery.trim() : "") || out.query || defaults.query;
-    const items = query ? await getSearchResults(query) : (out.items ?? defaults.items);
+    const query = (typeof searchQuery === "string" ? searchQuery.trim() : "") || out.query || "";
+    const items = query ? await getSearchResults(query) : (Array.isArray(out.items) ? out.items : []);
     return { ...out, query, items };
   }
 
-  const result = await getBlockProps(slug, componentKey, defaults, searchParams);
-  const out = ensureAbsoluteImageUrls(applyBlockFilter(result, defaults, strictWp));
-  return out;
+  const result = await getPageProps(slug, componentKey);
+  return ensureAbsoluteImageUrls(result);
 }
 
 /**
@@ -440,10 +383,7 @@ export async function getBlockPropsForPage(slug, componentKey, searchParams) {
  * @returns {Promise<{ phone: { text: string; href: string } | null; address: { text: string; href: string } | null; email: { text: string; href: string } | null }>}
  */
 export async function getContactInfoForLayout() {
-  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
-  const contactProps = await getPageProps("contact", "contact", ContactDefaults, {
-    strictWp,
-  });
+  const contactProps = await getPageProps("contact", "contact");
   const items = Array.isArray(contactProps?.items) ? contactProps.items : [];
   const link = (i) => {
     const l = items[i]?.link;
@@ -456,58 +396,49 @@ export async function getContactInfoForLayout() {
   };
 }
 
-const PATH_LABELS = { "/": "Home", "/about": "Polyclinic", "/services": "Services", "/news": "News", "/careers": "Careers", "/contact": "Contact" };
-const pathToLabel = (path) => PATH_LABELS[path] ?? (path.slice(1).split("/")[0] || "Home").replace(/^./, (c) => c.toUpperCase());
+function navHrefFromUrl(u) {
+  if (!u || typeof u !== "string") return "";
+  const s = u.trim();
+  if (!s.startsWith("http")) return s.replace(/\/+$/, "") || "/";
+  try {
+    return new URL(s).pathname.replace(/\/+$/, "") || "/";
+  } catch {
+    return s;
+  }
+}
 
-/** Resolve navigation from API (string[] or object[]) to [{ href, text }]. Fetches page titles when only URLs given. */
-async function resolveNavigation(rawNav) {
-  if (!Array.isArray(rawNav) || rawNav.length === 0) return null;
-  const toHref = (u) => {
-    if (!u || typeof u !== "string") return u || "";
-    const s = u.trim();
-    if (!s.startsWith("http")) return s;
-    try {
-      return new URL(s).pathname.replace(/\/+$/, "") || "/";
-    } catch {
-      return s;
-    }
-  };
-  const toSlug = (href) => (href === "/" || !href ? "home" : href.replace(/^\/+|\/+$/g, "").split("/")[0] || "home");
-  const getTitle = async (slug) => {
-    let p = await getPageBySlug(slug);
-    if (!p && slug === "home") p = await getPageBySlug("front-page");
-    return p?.title?.rendered ? decodeHtmlEntities(String(p.title.rendered).trim()) : null;
-  };
-
-  const items = rawNav
-    .map((item) => {
-      if (typeof item === "string") {
-        const href = toHref(item);
-        return href ? { href, text: null } : null;
-      }
-      if (item && typeof item === "object") {
-        const href = toHref(item.href ?? item.url) || (item.href ?? item.url)?.trim?.();
-        const text = (item.text ?? item.title ?? "").trim();
-        return href ? { href, text: text || null } : null;
-      }
-      return null;
-    })
-    .filter(Boolean);
-
-  const out = await Promise.all(
-    items.map(async ({ href, text }) => ({
-      href,
-      text: text || (await getTitle(toSlug(href))) || pathToLabel(href),
-    }))
+/** ACF post_object → { href, text } from the page itself. */
+function navItemFromPage(item) {
+  if (item == null) return null;
+  if (typeof item === "string") {
+    const href = navHrefFromUrl(item);
+    return href ? { href, text: "" } : null;
+  }
+  if (typeof item !== "object") return null;
+  const slug = String(item.post_name ?? item.slug ?? "").trim();
+  const href = slug === "home" || slug === "front-page"
+    ? "/"
+    : slug
+      ? `/${slug}`
+      : navHrefFromUrl(item.link ?? item.url ?? item.href ?? "");
+  const text = decodeHtmlEntities(
+    String(item.post_title ?? item.title?.rendered ?? item.title ?? item.text ?? "").trim()
   );
+  return href ? { href, text } : null;
+}
+
+function resolveNavigation(rawNav) {
+  if (!Array.isArray(rawNav) || rawNav.length === 0) return null;
   const seen = new Set();
-  const unique = out.filter((item) => {
+  const out = [];
+  for (const raw of rawNav) {
+    const item = navItemFromPage(raw);
     const href = String(item?.href ?? "");
-    if (seen.has(href)) return false;
+    if (!item || seen.has(href)) continue;
     seen.add(href);
-    return true;
-  });
-  return unique.length ? unique : null;
+    out.push(item);
+  }
+  return out.length ? out : null;
 }
 
 function normalizeLinkItem(item) {
@@ -527,22 +458,19 @@ function normalizeLinkItem(item) {
  * General block for layout (labels, schedule, navigation). From home page, block "general".
  */
 export async function getGeneralForLayout() {
-  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
-  const general = await getPageProps("home", "general", GeneralDefaults, { strictWp });
+  const general = await getPageProps("home", "general");
   const page = await getPageBySlug("home");
   const raw = page ? getComponentData(page, "general") : null;
-  const nav = (await resolveNavigation(raw?.navigation)) ?? general?.navigation ?? [];
-  const nav2 = (await resolveNavigation(raw?.navigation2)) ?? general?.navigation2 ?? [];
-  const emails =
-    (Array.isArray(raw?.emails_list) ? raw.emails_list : Array.isArray(general?.emails_list) ? general.emails_list : [])
-      .map(normalizeLinkItem)
-      .filter(Boolean);
+  const nav = resolveNavigation(raw?.navigation) ?? [];
+  const nav2 = resolveNavigation(raw?.navigation2) ?? [];
+  const emails = (Array.isArray(raw?.emails_list) ? raw.emails_list : [])
+    .map(normalizeLinkItem)
+    .filter(Boolean);
 
   return {
-    ...GeneralDefaults,
     ...general,
-    navigation: Array.isArray(nav) && nav.length ? nav : GeneralDefaults.navigation,
-    navigation2: Array.isArray(nav2) && nav2.length ? nav2 : GeneralDefaults.navigation2,
-    emails_list: Array.isArray(emails) && emails.length ? emails : GeneralDefaults.emails_list,
+    navigation: Array.isArray(nav) ? nav : [],
+    navigation2: Array.isArray(nav2) ? nav2 : [],
+    emails_list: emails,
   };
 }

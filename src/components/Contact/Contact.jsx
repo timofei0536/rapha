@@ -9,7 +9,7 @@ import Booking from "@/components/Booking/Booking";
 const CONTACT_ICONS = [Location, Phone, Mail];
 
 export default function Contact(props) {
-  const { map, items, form } = props;
+  const { map, items, form, services } = props;
   return (
     <section className="contact">
       <div className="center-wrap center-wrap--small">
@@ -58,6 +58,7 @@ export default function Contact(props) {
           title={form?.title}
           doctors={form?.doctors}
           insurances={form?.insurance}
+          services={services}
         />
       </div>
     </section>

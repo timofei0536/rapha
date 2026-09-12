@@ -2,6 +2,7 @@ import PageScreen from "@/components/PageScreen/PageScreen";
 import Careers from "@/components/Careers/Careers";
 import Apply from "@/components/Apply/Apply";
 import { getBlockPropsForPage } from "@/lib/rapha";
+import { getPageProps } from "@/lib/wp-api";
 
 export const metadata = {
   title: "Careers",
@@ -10,16 +11,17 @@ export const metadata = {
 };
 
 export default async function CareersPage() {
-  const [props, pageScreenProps] = await Promise.all([
-    getBlockPropsForPage("careers", "careers", {}),
-    getBlockPropsForPage("careers", "pageScreen", {}),
+  const [props, pageScreenProps, applyProps] = await Promise.all([
+    getBlockPropsForPage("careers", "careers"),
+    getBlockPropsForPage("careers", "pageScreen"),
+    getPageProps("careers", "apply"),
   ]);
 
   return (
     <main>
       <PageScreen {...pageScreenProps} />
       <Careers {...props} />
-      <Apply />
+      <Apply {...applyProps} />
     </main>
   );
 }

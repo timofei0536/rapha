@@ -1,5 +1,4 @@
 import New from "@/components/New/New";
-import { NewDefaults } from "@/components/New/defaults";
 import { getSingleNewsBySlug, getPostSlugs } from "@/lib/rapha";
 
 export async function generateStaticParams() {
@@ -7,21 +6,10 @@ export async function generateStaticParams() {
   return slugs;
 }
 
-function slugToTitle(slug) {
-  if (!slug) return "";
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
-    .replace(/\b24 7\b/i, "24/7");
-}
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const article = await getSingleNewsBySlug(slug);
-  const title = article?.title ?? slugToTitle(slug);
-  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
-  const pageTitle = (typeof title === "string" ? title.replace(/\n/g, " ") : title) || (strictWp ? "" : "News");
+  const pageTitle = typeof article?.title === "string" ? article.title.replace(/\n/g, " ") : article?.title || "";
   const description = String(article?.content || article?.preview || "")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
@@ -35,12 +23,11 @@ export async function generateMetadata({ params }) {
 
 export default async function SingleNewsPage({ params }) {
   const { slug } = await params;
-  const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
   const article = await getSingleNewsBySlug(slug);
-  const pageTitle = article?.title ?? (strictWp ? "" : slugToTitle(slug));
-  const date = article?.date ?? (strictWp ? "" : NewDefaults.date);
-  const image = article?.image ?? (strictWp ? null : NewDefaults.image);
-  const content = article?.content ?? (strictWp ? "" : NewDefaults.content);
+  const pageTitle = article?.title ?? "";
+  const date = article?.date ?? "";
+  const image = article?.image ?? null;
+  const content = article?.content ?? "";
 
   const baseUrl =
     typeof process !== "undefined" && process.env.NEXT_PUBLIC_SITE_URL

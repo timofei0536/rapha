@@ -1,18 +1,28 @@
 import { literalNewlines } from "./text.js";
 import { normalizeHref } from "./href.js";
 
-const WP_ORIGIN =
-  typeof process !== "undefined"
-    ? (() => {
-        const base = (process.env.NEXT_PUBLIC_WP_API_URL || "").trim().replace(/\/$/, "");
-        if (!base) return "";
-        try {
-          return new URL(base).origin;
-        } catch {
-          return "";
-        }
-      })()
-    : "";
+function originFromEnv(name) {
+  const base = (typeof process !== "undefined" && process.env[name] ? process.env[name] : "").trim().replace(/\/$/, "");
+  if (!base) return "";
+  try {
+    return new URL(base).origin;
+  } catch {
+    return "";
+  }
+}
+
+const INTERNAL_HOSTS = new Set(
+  [originFromEnv("NEXT_PUBLIC_WP_API_URL"), originFromEnv("NEXT_PUBLIC_SITE_URL")]
+    .filter(Boolean)
+    .map((origin) => {
+      try {
+        return new URL(origin).hostname;
+      } catch {
+        return "";
+      }
+    })
+    .filter(Boolean)
+);
 
 /** WP full URL → path. Один сегмент /slug = пост → /news/slug. */
 const PAGES = new Set(["about", "contact", "services", "careers", "news", "results", "privacy-policy", "terms-conditions", "home"]);
@@ -21,10 +31,10 @@ function toRelativePath(href) {
   if (!href || typeof href !== "string") return href;
   const s = href.trim();
   if (!s.startsWith("http://") && !s.startsWith("https://")) return s;
-  if (!WP_ORIGIN) return s;
+  if (!INTERNAL_HOSTS.size) return s;
   try {
     const u = new URL(s);
-    if (u.origin !== WP_ORIGIN) return s;
+    if (!INTERNAL_HOSTS.has(u.hostname)) return s;
     const search = u.search || "";
     let path = u.pathname || "/";
     const seg = path.replace(/\/+$/, "").split("/").filter(Boolean);

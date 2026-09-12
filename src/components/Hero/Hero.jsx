@@ -8,7 +8,7 @@ import { getLowResImageSrc, IMAGE_QUALITY } from "@/lib/image-utils";
 import { useState } from "react";
 
 export default function Hero(props) {
-    const { title, formTitle, image, imageMobile, doctors, insurances } = props;
+    const { title, formTitle, image, imageMobile, doctors, insurances, services } = props;
     const desktopSrc = image?.src;
     const mobileSrc = imageMobile?.src;
     const hasSeparateMobile = Boolean(mobileSrc && mobileSrc !== desktopSrc);
@@ -59,6 +59,7 @@ export default function Hero(props) {
                     <Form
                         doctors={doctors}
                         insurances={insurances}
+                        services={services}
                         animInitialStyle={{ '--anim-opacity': 0, '--anim-y': '40px' }}
                     />
                 </div>

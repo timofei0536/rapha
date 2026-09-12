@@ -7,7 +7,7 @@
             "label": "Navigation",
             "name": "navigation",
             "aria-label": "",
-            "type": "page_link",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -19,17 +19,21 @@
             "post_type": [
                 "page"
             ],
+            "post_status": "",
             "taxonomy": "",
+            "return_format": "object",
+            "multiple": 1,
             "allow_null": 0,
-            "allow_archives": 1,
-            "multiple": 1
+            "bidirectional": 0,
+            "bidirectional_target": [],
+            "ui": 1
         },
         {
             "key": "field_69b964f734170",
             "label": "Privacy navigation",
             "name": "navigation2",
             "aria-label": "",
-            "type": "page_link",
+            "type": "post_object",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -41,10 +45,14 @@
             "post_type": [
                 "page"
             ],
+            "post_status": "",
             "taxonomy": "",
+            "return_format": "object",
+            "multiple": 1,
             "allow_null": 0,
-            "allow_archives": 1,
-            "multiple": 1
+            "bidirectional": 0,
+            "bidirectional_target": [],
+            "ui": 1
         },
         {
             "key": "field_69b966cd9e509",
@@ -208,5 +216,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1789239000
+    "modified": 1789242752
 }

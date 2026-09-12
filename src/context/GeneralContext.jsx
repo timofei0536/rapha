@@ -1,12 +1,13 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { GeneralDefaults } from "@/lib/general-defaults";
 
-const GeneralContext = createContext(GeneralDefaults);
+const EMPTY_GENERAL = {};
+
+const GeneralContext = createContext(EMPTY_GENERAL);
 
 export function GeneralProvider({ value, children }) {
-  const resolved = value ?? GeneralDefaults;
+  const resolved = value ?? EMPTY_GENERAL;
   return (
     <GeneralContext.Provider value={resolved}>
       {children}

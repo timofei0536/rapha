@@ -57,7 +57,8 @@
             align-items: center;
             background-color: var(--white);
             border-radius: 2rem;  
-            svg {
+            svg,
+            img {
                 width: 5.8rem;
                 height: auto;
                 @media screen and (max-width: $large_tablet) {

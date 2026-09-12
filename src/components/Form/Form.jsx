@@ -7,13 +7,19 @@ import Upload from "@/components/ui/icons/Upload";
 import Select from "@/components/ui/Select/Select";
 import FormPopup from "@/components/FormPopup/FormPopup";
 import Btn from "@/components/ui/Btn/Btn";
-import { ServiceDefaults } from "@/components/Service/defaults";
 import { useGeneral } from "@/context/GeneralContext";
 
-const SERVICE_OPTIONS = [
-  ...(ServiceDefaults.services || []).map((s) => ({ value: s.slug, label: s.title })),
-  { value: "other", label: "Other" },
-];
+function servicesToOptions(services) {
+  if (!Array.isArray(services)) return [];
+  return services
+    .map((s) => {
+      const label = String(s?.title ?? s?.label ?? "").trim();
+      const value = String(s?.slug ?? s?.value ?? "").trim();
+      if (!label || !value) return null;
+      return { value, label };
+    })
+    .filter(Boolean);
+}
 
 const normalizeRepeaterToOptions = (items) => {
   if (!Array.isArray(items)) return [];
@@ -37,16 +43,14 @@ export default function Form({
   roleOptions = [],
   doctors = [],
   insurances = [],
+  services = [],
   animInitialStyle,
 }) {
   const { submit: submitLabel } = useGeneral();
-  const submitButtonText = submitText ?? submitLabel ?? "Submit";
-  const doctorsFromCms = normalizeRepeaterToOptions(doctors);
-  const insurancesFromCms = normalizeRepeaterToOptions(insurances);
-  const practitionerOptions =
-    doctorsFromCms.length > 0 ? doctorsFromCms : [{ value: "any", label: "Any available" }];
-  const insuranceOptions =
-    insurancesFromCms.length > 0 ? insurancesFromCms : [{ value: "none", label: "No insurance" }];
+  const submitButtonText = submitText ?? submitLabel ?? "";
+  const serviceOptions = servicesToOptions(services);
+  const practitionerOptions = normalizeRepeaterToOptions(doctors);
+  const insuranceOptions = normalizeRepeaterToOptions(insurances);
   const animProps = {
     ...(animInitialStyle && { className: 'anim-initial', style: animInitialStyle }),
   };
@@ -200,7 +204,7 @@ export default function Form({
           name="service"
           placeholder="Service"
           className="form__input form__input--select"
-          options={SERVICE_OPTIONS}
+          options={serviceOptions}
           required
         />
         <Select

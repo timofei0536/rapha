@@ -19,8 +19,7 @@
     "start": "next start",
     "preview": "npx --yes serve out -l 3000",
     "lint": "eslint",
-    "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\"",
-    "defaults": "node scripts/check-defaults.js"
+    "icons": "svgr public/images/svg -d src/components/icons --icon --replace-attr-values \"#fff=currentColor,#000=currentColor,white=currentColor,black=currentColor\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
