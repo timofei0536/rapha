@@ -25,6 +25,7 @@ function ChartNode({ node, siblingIndex }) {
                           src={node.image.src}
                           alt={node.image.alt ?? node.name ?? ""}
                           fill
+                          quality={95}
                         />
                       ) : null}
                     </div>

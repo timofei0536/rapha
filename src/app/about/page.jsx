@@ -7,6 +7,8 @@ import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 
 export const metadata = {
   title: "About",
+  description:
+    "Learn about El-Rapha polyclinic: our mission, structure, medical team, and how we care for patients.",
 };
 
 export default async function AboutPage() {

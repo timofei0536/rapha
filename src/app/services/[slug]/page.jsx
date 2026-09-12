@@ -25,7 +25,10 @@ function formatServiceTitle(slug) {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const title = formatServiceTitle(slug);
-  return { title };
+  return {
+    title,
+    description: `${title} at El-Rapha polyclinic: how the service works and how to book care.`,
+  };
 }
 
 export default async function ServicePage({ params }) {

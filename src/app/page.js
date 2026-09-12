@@ -7,6 +7,11 @@ import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 import { getBlockProps } from "@/lib/wp-api";
 import { ServicesDefaults } from "@/components/Services/defaults";
 
+export const metadata = {
+  description:
+    "Welcome to El-Rapha polyclinic: book an appointment, explore our medical services, team, infrastructure, and latest news.",
+};
+
 export default async function Home() {
   const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured, formProps] = await Promise.all([
     getBlockPropsForPage("home", "hero", {}),

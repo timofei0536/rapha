@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import "./Header.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,15 +14,18 @@ import { useGeneral } from "@/context/GeneralContext";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
-  const its_desktop = typeof window !== "undefined" && window.its_desktop;
+  const [itsDesktop, setItsDesktop] = useState(false);
+  useEffect(() => {
+    setItsDesktop(Boolean(window.its_desktop));
+  }, []);
   const phone = contactInfo?.phone;
   const address = contactInfo?.address;
   const { schedule, navigation } = useGeneral();
 
   return (
       <header
-        className={`header${isHome && its_desktop ? ' anim-initial' : ''}`}
-        style={isHome && its_desktop ? { '--anim-y': '-100%' } : undefined}
+        className={`header${isHome && itsDesktop ? ' anim-initial' : ''}`}
+        style={isHome && itsDesktop ? { '--anim-y': '-100%' } : undefined}
       >
         <div className="center-wrap">
           <div className="header__top">
@@ -58,19 +62,25 @@ export default function Header({ contactInfo }) {
               className="header__logo-link"
               onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
             >
-              <Image src="/images/logo.png" alt="Logo" className="header__logo" width={177} height={70} />
+              <Image src="/images/logo.png" alt="El-Rapha — Home" className="header__logo" width={177} height={70} quality={95} />
             </Link>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                {(navigation ?? []).map((item) => (
-                  <li key={item.href} className="header__nav-item">
+                {(navigation ?? []).map((item, index) => (
+                  <li key={`${item.href || ""}-${item.text || ""}-${index}`} className="header__nav-item">
                     <Link href={item.href} className="header__nav-link link-hover">{item.text || ""}</Link>
                   </li>
                 ))}
               </ul>
             </nav>
             <Search />
-            <button type="button" className="header__burger desktop--hide" aria-label="Open menu">
+            <button
+              type="button"
+              className="header__burger desktop--hide"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+            >
               <span className="header__burger-line" />
               <span className="header__burger-line" />
               <span className="header__burger-line" />

@@ -10,13 +10,13 @@ export default function MobileMenu() {
   const navItems = (navigation ?? []).map((item) => ({ href: item.href, label: item.text || "" }));
 
   return (
-    <div className="mobile-menu" aria-hidden="true">
+    <div id="mobile-menu" className="mobile-menu" aria-hidden="true" inert>
       <div className="mobile-menu__content">
         <div className="center-wrap">
           <nav className="mobile-menu__nav">
             <ul className="mobile-menu__nav-list">
-              {navItems.map(({ href, label }) => (
-                <li key={href} className="mobile-menu__nav-item">
+              {navItems.map(({ href, label }, index) => (
+                <li key={`${href || ""}-${label}-${index}`} className="mobile-menu__nav-item">
                   <Link
                     href={href}
                     className="mobile-menu__nav-link"

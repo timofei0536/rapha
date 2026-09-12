@@ -37,7 +37,7 @@ export default function New({ title, date, image, content = "", shareUrl }) {
                     </div>
                     {image && (
                         <div className="new__img img-wrap" style={{ aspectRatio: "1/1" }}>
-                            <Image src={image.src} alt={image.alt ?? title} fill />
+                            <Image src={image.src} alt={image.alt ?? title} fill quality={95} />
                         </div>
                     )}
                     <Decor className='decore decore--blue-l' />

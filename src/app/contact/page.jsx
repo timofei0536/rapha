@@ -4,6 +4,8 @@ import { getBlockProps } from "@/lib/wp-api";
 
 export const metadata = {
   title: "Contact",
+  description:
+    "Contact El-Rapha polyclinic: phone, address, opening hours, and book an appointment online.",
 };
 
 export default async function ContactPage() {

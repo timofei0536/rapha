@@ -12,14 +12,15 @@ export default function Careers(props) {
           <div className="careers__content content" dangerouslySetInnerHTML={{ __html: typeof props.content === "string" ? props.content : "" }} />
         </div>
         <div className="careers__gallery white-header">
-          {(props.gallery || []).map((item, i) => (
+          {(props.gallery || []).filter((item) => item?.image?.src).map((item, i) => (
             <Image
               key={i}
               src={item.image.src}
-              alt={item.image.alt}
+              alt={item.image.alt || ""}
               className="careers__gallery-img"
               width={434}
               height={320}
+              quality={95}
             />
           ))}
         </div>

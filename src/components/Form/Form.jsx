@@ -223,6 +223,7 @@ export default function Form({
           name="name"
           placeholder="Name"
           autoComplete="name"
+          aria-label="Name"
           required
         />
         <input
@@ -231,6 +232,7 @@ export default function Form({
           name="email"
           placeholder="Email"
           autoComplete="email"
+          aria-label="Email"
           required
         />
         <input
@@ -239,6 +241,7 @@ export default function Form({
           name="number"
           placeholder="Number"
           autoComplete="tel"
+          aria-label="Number"
           required
         />
       </div>

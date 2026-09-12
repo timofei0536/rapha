@@ -4,6 +4,8 @@ import { getNewsListForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "News",
+  description:
+    "News and updates from El-Rapha polyclinic: health campaigns, services, and clinic announcements.",
 };
 
 export default async function NewsPage() {

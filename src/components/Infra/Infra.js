@@ -28,18 +28,22 @@ export default function Infra(props) {
                     const href = item.link?.href || `/news/${slug}`;
                     const rawText = learn_more || item.link?.text || item.title || "Learn more";
                     const linkText = (typeof rawText === "string" ? rawText.replace(/<[^>]+>/g, "").trim() : "") || "Learn more";
+                    const moreLabel = item.title ? `${linkText}: ${item.title}` : linkText;
                     return (
                     <div key={i} className="infra__item">
-                        <Link href={href} className="infra__item-img-wrap">
+                        <Link href={href} className="infra__item-img-wrap" aria-label={moreLabel}>
+                            {item.image?.src ? (
                             <Image 
-                                src={item.image?.src} 
-                                alt={item.image?.alt ?? ""} 
+                                src={item.image.src} 
+                                alt={item.image?.alt || item.title || ""} 
                                 className="infra__item-img white-header"
                                 fill
+                                quality={95}
                             />
+                            ) : null}
                         </Link>
                         <h3 className="simple-title infra__item-title">{item.title}</h3>
-                        <Btn text={linkText} href={href} className='btn--white btn--small' />
+                        <Btn text={linkText} href={href} className='btn--white btn--small' aria-label={moreLabel} />
                     </div>
                 );
                 })}

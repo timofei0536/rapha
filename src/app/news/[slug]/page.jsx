@@ -21,7 +21,16 @@ export async function generateMetadata({ params }) {
   const article = await getSingleNewsBySlug(slug);
   const title = article?.title ?? slugToTitle(slug);
   const strictWp = process.env.NEXT_PUBLIC_STRICT_WP === "true";
-  return { title: (typeof title === "string" ? title.replace(/\n/g, " ") : title) || (strictWp ? "" : "News") };
+  const pageTitle = (typeof title === "string" ? title.replace(/\n/g, " ") : title) || (strictWp ? "" : "News");
+  const description = String(article?.content || article?.preview || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 155);
+  return {
+    title: pageTitle,
+    description: description || `${pageTitle} — news from El-Rapha polyclinic.`,
+  };
 }
 
 export default async function SingleNewsPage({ params }) {

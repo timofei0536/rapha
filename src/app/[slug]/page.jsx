@@ -32,7 +32,16 @@ export async function generateMetadata({ params }) {
   if (RESERVED_SLUGS.has(slug)) return { title: "Not found" };
   const page = await getPageBySlug(slug);
   const title = getTitle(page) || slug;
-  return { title };
+  const rawContent = getContent(page);
+  const description = String(rawContent || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 155);
+  return {
+    title,
+    description: description || `${title} — El-Rapha polyclinic.`,
+  };
 }
 
 export default async function DynamicPage({ params }) {

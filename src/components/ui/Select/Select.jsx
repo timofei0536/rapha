@@ -71,6 +71,7 @@ export default function Select({
         className="select__native"
         tabIndex={-1}
         aria-hidden="true"
+        aria-label={placeholder || name || "Select"}
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
@@ -84,6 +85,7 @@ export default function Select({
         className="select__value"
         role="combobox"
         tabIndex={0}
+        aria-label={placeholder || name || "Select"}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={listboxId}
@@ -97,7 +99,13 @@ export default function Select({
       >
         <span className="select__value-text">{displayText}</span>
       </div>
-      <div className="select__variants" role="listbox" id={listboxId}>
+      <div
+        className="select__variants"
+        role="listbox"
+        id={listboxId}
+        aria-label={placeholder || name || "Options"}
+        hidden={!isOpen}
+      >
         {options.map((option) => (
           <div
             key={option.value}

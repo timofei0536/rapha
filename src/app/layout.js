@@ -50,6 +50,8 @@ export const metadata = {
     template: `${SITE_NAME} — %s`,
     default: SITE_NAME,
   },
+  description:
+    "El-Rapha is a polyclinic offering emergency care, surgery, medical imaging, laboratory analysis, and specialist consultations 24/7.",
   icons: {
     icon: "/images/svg/favicon.png",
   },

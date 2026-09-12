@@ -4,25 +4,54 @@ import "./Hero.scss";
 import Image from "next/image";
 import Form from "@/components/Form/Form";
 import Decor from "@/components/ui/icons/Decor";
-import { getLowResImageSrc } from "@/lib/image-utils";
+import { getLowResImageSrc, IMAGE_QUALITY } from "@/lib/image-utils";
 import { useState } from "react";
 
 export default function Hero(props) {
     const { title, formTitle, image, imageMobile, doctors, insurances } = props;
-    const mobileSrc = imageMobile?.src ?? image?.src;
-    const [blurSrc, setBlurSrc] = useState(() => getLowResImageSrc(image?.src));
+    const desktopSrc = image?.src;
+    const mobileSrc = imageMobile?.src;
+    const hasSeparateMobile = Boolean(mobileSrc && mobileSrc !== desktopSrc);
+    const [blurSrc, setBlurSrc] = useState(() => getLowResImageSrc(desktopSrc));
     const onBlurError = () => {
-        if (image?.src && blurSrc !== image.src) setBlurSrc(image.src);
+        if (desktopSrc && blurSrc !== desktopSrc) setBlurSrc(desktopSrc);
     };
     return (
         <section className="hero white-header">
             <div className="hero__blur-wrap">
-                <Image src={blurSrc} alt={image?.alt ?? ""} fill onError={onBlurError} />
+                {blurSrc ? (
+                    <Image src={blurSrc} alt="" fill quality={IMAGE_QUALITY} sizes="89rem" onError={onBlurError} />
+                ) : null}
             </div>
-            <picture className="hero__bg">
-                <source media="(max-width: 1023px)" srcSet={mobileSrc} />
-                <img src={image?.src} alt={image?.alt ?? ""} className="hero__bg-img anim-initial" style={{ '--anim-scale': 1.08 }} />
-            </picture>
+            <div className="hero__bg">
+                {desktopSrc ? (
+                    <Image
+                        src={desktopSrc}
+                        alt={image?.alt ?? ""}
+                        fill
+                        priority
+                        fetchPriority="high"
+                        quality={IMAGE_QUALITY}
+                        sizes={hasSeparateMobile ? "(max-width: 1023px) 0px, calc(100vw - 89rem)" : "(max-width: 1023px) 100vw, calc(100vw - 89rem)"}
+                        className={`hero__bg-img anim-initial${hasSeparateMobile ? " hero__bg-img--desktop" : ""}`}
+                        style={{ "--anim-scale": 1.08 }}
+                    />
+                ) : null}
+                {hasSeparateMobile ? (
+                    <Image
+                        src={mobileSrc}
+                        alt={imageMobile?.alt ?? image?.alt ?? ""}
+                        fill
+                        priority
+                        fetchPriority="high"
+                        quality={IMAGE_QUALITY}
+                        unoptimized={typeof mobileSrc === "string" && mobileSrc.endsWith(".svg")}
+                        sizes="100vw"
+                        className="hero__bg-img hero__bg-img--mobile anim-initial"
+                        style={{ "--anim-scale": 1.08 }}
+                    />
+                ) : null}
+            </div>
             <div className="center-wrap">
                 <h1 className="hero__title simple-title simple-title--large anim-initial" style={{ '--anim-opacity': 0 }}>{title}</h1>
                 <div className="hero__form">

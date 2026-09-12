@@ -45,6 +45,7 @@ export default function Results(props) {
                   target={item.link?.target}
                   rel={item.link?.target === "_blank" ? "noopener noreferrer" : undefined}
                   className="results__item-link link"
+                  aria-label={`${read_more ?? "Read more"}${item.title ? `: ${item.title}` : ""}`}
                 >
                   {read_more ?? "Read more"}
                 </Link>

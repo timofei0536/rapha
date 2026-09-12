@@ -1,3 +1,6 @@
+/** Качество next/image (должно быть в images.qualities в next.config). */
+export const IMAGE_QUALITY = 95;
+
 /**
  * Возвращает URL изображения в низком разрешении для подложки с blur.
  * Для WordPress подставляет путь к миниатюре (-150x150), которую WP создаёт при загрузке.
@@ -7,7 +10,7 @@
  * @returns {string} URL для загрузки в плохом качестве
  */
 export function getLowResImageSrc(src) {
-  if (!src || typeof src !== "string") return src ?? "";
+  if (!src || typeof src !== "string") return null;
   try {
     const u = new URL(src, "https://dummy.example");
     const isWp =

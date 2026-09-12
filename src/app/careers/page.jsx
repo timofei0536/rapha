@@ -5,6 +5,8 @@ import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "Careers",
+  description:
+    "Join the El-Rapha team: view open roles and apply to work at our polyclinic.",
 };
 
 export default async function CareersPage() {

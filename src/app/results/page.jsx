@@ -4,6 +4,7 @@ import { getBlockPropsForPage } from "@/lib/rapha";
 
 export const metadata = {
   title: "Search Results",
+  description: "Search pages, news, and services on the El-Rapha polyclinic website.",
 };
 
 export default async function ResultsPage() {

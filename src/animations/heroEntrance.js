@@ -33,7 +33,7 @@ export async function init() {
   const hero = document.querySelector('.hero');
   const header = document.querySelector('.header');
   const titleEl = hero?.querySelector('.hero__title');
-  const bgEl = hero?.querySelector('.hero__bg img');
+  const bgEl = hero?.querySelectorAll('.hero__bg img');
   const formElems = hero?.querySelectorAll('.hero__form-title , .hero .form');
 
   if (!hero || !titleEl) return;

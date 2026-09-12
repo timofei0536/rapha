@@ -3,6 +3,8 @@ import { PrivacyDefaults } from "@/components/TextPage/defaults";
 
 export const metadata = {
   title: "Privacy",
+  description:
+    "Privacy policy of El-Rapha polyclinic: how we collect, use, and protect your personal information.",
 };
 
 export default function PrivacyPage() {

@@ -59,6 +59,9 @@ export function init() {
     if (!window.its_desktop) window.startScrollMobile();
     burger.classList.remove('header__burger--active');
     burger.setAttribute('aria-label', 'Open menu');
+    burger.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');
   };
 
   function openMenu() {
@@ -66,6 +69,9 @@ export function init() {
     menu.classList.add('mobile-menu--active');
     burger.classList.add('header__burger--active');
     burger.setAttribute('aria-label', 'Close menu');
+    burger.setAttribute('aria-expanded', 'true');
+    menu.setAttribute('aria-hidden', 'false');
+    menu.removeAttribute('inert');
     document.querySelectorAll(menuItemsSelector).forEach((el) => setInitialData(el, { opacity: '0', y: '40' }));
     viewMenuAnimation.play();
     if (!window.its_desktop) window.stopScrollMobile();
@@ -88,6 +94,9 @@ export function init() {
     menu.classList.remove('mobile-menu--overflow', 'mobile-menu--active');
     burger.classList.remove('header__burger--active');
     burger.setAttribute('aria-label', 'Open menu');
+    burger.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    menu.setAttribute('inert', '');
     document.body.style.overflow = '';
     if (window.gsap) {
       window.gsap.set(['.mobile-menu', '.mobile-menu__nav-item', '.mobile-menu .search'], { clearProps: 'all' });

@@ -1,0 +1,4 @@
+# Nu Html Checker / vnu — hide React/Next.js void-tag slashes (Info only).
+# Usage: vnu --filterfile scripts/w3c-message-filters.txt FILE.html
+# Web UI: Message Filtering → hide “Trailing slash on void elements…”
+.*Trailing slash on void elements has no effect.*

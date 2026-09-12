@@ -31,14 +31,15 @@ export default function Footer({ contactInfo }) {
                                     alt="Polyclinique El Rapha Logo" 
                                     width={300} 
                                     height={116}
+                                    quality={95}
                                 />
                             </Link>
 
                         
                         <nav className="footer__nav">
                             <span className="footer__title">Menu:</span>
-                            {(navigation ?? []).map((item) => (
-                              <Link key={item.href} href={item.href} className="footer__link link-hover">{item.text || ""}</Link>
+                            {(navigation ?? []).map((item, index) => (
+                              <Link key={`${item.href || ""}-${item.text || ""}-${index}`} href={item.href} className="footer__link link-hover">{item.text || ""}</Link>
                             ))}
                         </nav>
 

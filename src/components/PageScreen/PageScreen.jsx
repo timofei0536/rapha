@@ -28,6 +28,7 @@ export default function PageScreen({ className = "", title, image, actions }) {
                             className="page-screen__bg"
                             width={1920}
                             height={1070}
+                            quality={95}
                         />
                         <h1 className="simple-title simple-title--large">{titleWithBreaks(title)}</h1>
                         {actions}

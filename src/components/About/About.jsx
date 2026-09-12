@@ -14,11 +14,14 @@ export default function About(props) {
 
             <div className="about__gm">
                 <div className="img-wrap about__gm-img" style={{ aspectRatio: "1/1" }}>
+                  {gm?.image?.src ? (
                   <Image
-                    src={gm?.image?.src}
-                    alt={gm?.image?.alt}
+                    src={gm.image.src}
+                    alt={gm?.image?.alt ?? ""}
                     fill
+                    quality={95}
                   />
+                  ) : null}
                 </div>
                 <div className="about__gm-title">{gm?.title}</div>
                 <div className="about__gm-position">{gm?.position}</div>
@@ -32,27 +35,33 @@ export default function About(props) {
                         <div key={i} className={`about__item${i === 1 ? " about__item--hor" : ""}`}>
                             {item.layout === "image-content" ? (
                                 <>
+                                    {item.image?.src ? (
                                     <Image
                                         src={item.image.src}
-                                        alt={item.image.alt}
+                                        alt={item.image.alt || ""}
                                         width={0}
                                         height={0}
                                         sizes="50vw"
+                                        quality={95}
                                         className="img-auto"
                                     />
+                                    ) : null}
                                     <div className="about__item-content content" dangerouslySetInnerHTML={{ __html: item.content }} />
                                 </>
                             ) : (
                                 <>
                                     <div className="about__item-content content" dangerouslySetInnerHTML={{ __html: item.content }} />
+                                    {item.image?.src ? (
                                     <Image
                                         src={item.image.src}
-                                        alt={item.image.alt}
+                                        alt={item.image.alt || ""}
                                         width={0}
                                         height={0}
                                         sizes="50vw"
+                                        quality={95}
                                         className="img-auto"
                                     />
+                                    ) : null}
                                 </>
                             )}
                         </div>

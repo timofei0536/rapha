@@ -6,6 +6,8 @@ import { ServiceDefaults } from "@/components/Service/defaults";
 
 export const metadata = {
   title: "Our Services",
+  description:
+    "Explore El-Rapha medical services: emergencies, surgery, imaging, laboratory analysis, gynecology, and more.",
 };
 
 const SERVICES_PAGE_SCREEN_FALLBACK = {

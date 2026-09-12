@@ -11,7 +11,8 @@ const nextConfig = {
     silenceDeprecations: ["import", "slash-div"],
   },
   images: {
-    unoptimized: true,
+    formats: ["image/webp"],
+    qualities: [95],
     remotePatterns: [
       {
         protocol: "https",

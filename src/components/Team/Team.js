@@ -21,26 +21,28 @@ export default function Team(props) {
                         </div>
                         <div className="team__gallery">
                             <div className="team__gallery-part team__gallery-part--left">
-                                {(gallery?.left ?? []).map((item, i) => (
+                                {(gallery?.left ?? []).filter((item) => item?.image?.src).map((item, i) => (
                                     <Image
                                         key={i}
                                         src={item.image.src}
-                                        alt={item.image.alt}
+                                        alt={item.image.alt || ""}
                                         className="team__gallery-img"
                                         width={0}
                                         height={0}
+                                        quality={95}
                                     />
                                 ))}
                             </div>
                             <div className="team__gallery-part team__gallery-part--right">
-                                {(gallery?.right ?? []).map((item, i) => (
+                                {(gallery?.right ?? []).filter((item) => item?.image?.src).map((item, i) => (
                                     <Image
                                         key={i}
                                         src={item.image.src}
-                                        alt={item.image.alt}
+                                        alt={item.image.alt || ""}
                                         className="team__gallery-img"
                                         width={0}
                                         height={0}
+                                        quality={95}
                                     />
                                 ))}
                             </div>

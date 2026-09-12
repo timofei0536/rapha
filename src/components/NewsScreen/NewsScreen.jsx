@@ -13,6 +13,7 @@ export default function NewsScreen({ featured, pageTitle }) {
         : null;
     const slug = featured?.slug || "";
     const href = slug ? `/news/${slug}` : "/news";
+    const moreLabel = `${read_more ?? "Read more"}${featured?.title ? `: ${featured.title}` : ""}`;
 
     return (
         <section className="news-screen">
@@ -30,16 +31,17 @@ export default function NewsScreen({ featured, pageTitle }) {
                         {featured?.preview && (
                             <div className="news-screen__content-text content" dangerouslySetInnerHTML={{ __html: featured.preview }} />
                         )}
-                        <Link href={href} className="news-screen__link link">
+                        <Link href={href} className="news-screen__link link" aria-label={moreLabel}>
                             {read_more ?? "Read more"}
                         </Link>
                     </div>
                     {image && (
-                        <Link href={href} className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }}>
+                        <Link href={href} className="news-screen__img img-wrap" style={{ aspectRatio: "1/1" }} aria-label={moreLabel}>
                             <Image
                                 src={image.src}
-                                alt={image.alt}
+                                alt={image.alt || featured?.title || ""}
                                 fill
+                                quality={95}
                             />
                         </Link>
                     )}

@@ -500,7 +500,14 @@ async function resolveNavigation(rawNav) {
       text: text || (await getTitle(toSlug(href))) || pathToLabel(href),
     }))
   );
-  return out.length ? out : null;
+  const seen = new Set();
+  const unique = out.filter((item) => {
+    const href = String(item?.href ?? "");
+    if (seen.has(href)) return false;
+    seen.add(href);
+    return true;
+  });
+  return unique.length ? unique : null;
 }
 
 function normalizeLinkItem(item) {

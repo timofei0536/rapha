@@ -29,20 +29,22 @@ export default function News(props) {
                     const slug = item.slug || titleToSlug(item.title) || `news-${i + 1}`;
                     const href = `/news/${slug}`;
                     const image = item.image && typeof item.image === "object"
-                      ? { src: item.image.src || DEFAULT_NEWS_IMAGE.src, alt: item.image.alt ?? "" }
+                      ? { src: item.image.src || DEFAULT_NEWS_IMAGE.src, alt: item.image.alt || item.title || "" }
                       : DEFAULT_NEWS_IMAGE;
+                    const moreLabel = `${read_more ?? "Read more"}${item.title ? `: ${item.title}` : ""}`;
                     const isFeatured = isFeaturedMobile && i === 0;
                     return (
                     <div key={i} className={`news__item${isFeatured ? " news__item--featured" : ""}`}>
-                        <Link href={href} className="img-wrap" style={{ aspectRatio: "500/400" }}>
+                        <Link href={href} className="img-wrap" style={{ aspectRatio: "500/400" }} aria-label={moreLabel}>
                           <Image
                             src={image.src} alt={image.alt} className={i === 2 ? "news__item-img white-header" : "news__item-img"}
                             fill
+                            quality={95}
                           />
                         </Link>
                         <h3 className="news__item-title">{item.title}</h3>
                         <div className="news__item-text content" dangerouslySetInnerHTML={{ __html: item.preview ?? item.content ?? "" }} />
-                        <Link href={href} className='news__item-link link link-hover'>{read_more ?? "Read more"}</Link>
+                        <Link href={href} className='news__item-link link link-hover' aria-label={moreLabel}>{read_more ?? "Read more"}</Link>
                     </div>
                     );
                 })}

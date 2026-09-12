@@ -13,11 +13,14 @@ export default function AboutScreen(props) {
                 </div>
 
                 <div className="about-screen__image img-wrap">
+                  {image?.src ? (
                   <Image
-                    src={image?.src}
-                    alt={image?.alt}
+                    src={image.src}
+                    alt={image?.alt ?? ""}
                     fill
+                    quality={95}
                   />
+                  ) : null}
                   <Decor className='decore decore--white desktop--hide' />
                 </div>
                 <Decor className='decore decore--white mobile--hide' />

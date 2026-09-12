@@ -53,6 +53,7 @@ export default function Service(props) {
                                 src={imageSrc}
                                 alt={imageAlt}
                                 fill
+                                quality={95}
                               />
                             <h2 className="service__title simple-title">{active?.title}</h2>
                     </div>
