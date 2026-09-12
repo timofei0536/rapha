@@ -1,18 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-/** Watch the whole theme (including nextwp) so PHP + schema rsync together. */
+/** Watch the whole theme so PHP rsyncs together. */
 export function watchThemeDir(themeDir, onChange) {
   fs.watch(themeDir, { recursive: true }, onChange);
-}
-
-export function watchZephirosExceptNextwp(themeDir, onChange) {
-  for (const ent of fs.readdirSync(themeDir, { withFileTypes: true })) {
-    if (ent.name === 'nextwp') continue;
-    const p = path.join(themeDir, ent.name);
-    if (ent.isDirectory()) fs.watch(p, { recursive: true }, onChange);
-    else if (ent.isFile()) fs.watch(p, onChange);
-  }
 }
 
 export function watchRepoBundleDirs(repoRoot, onChange) {

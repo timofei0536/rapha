@@ -1,6 +1,6 @@
 # Canonical defaults rules
 
-Единый источник правил формы для объектов в `**/defaults.js` и при генерации schema/ACF. Синхронизировать с `scripts/check-defaults.js` и Cursor rule.
+Единый источник правил формы для объектов в `**/defaults.js`. Синхронизировать с `scripts/check-defaults.js` и Cursor rule.
 
 ## Правила
 

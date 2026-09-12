@@ -92,16 +92,8 @@ function get_svg_content($file_path) {
 // });
 
 
-// require_once get_template_directory() . '/nextwp/nextwp.php';
-// add_action( 'init', 'nextwp_run', 11 );
-
-
-
 /**
  * Custom Post Type: Services
- *
- * Include in theme functions.php:
- *   require_once get_template_directory() . '/nextwp/cpt-services.php';
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

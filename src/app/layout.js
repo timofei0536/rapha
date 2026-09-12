@@ -120,13 +120,6 @@ export default async function RootLayout({ children }) {
 // Включить ошибки в function.php
 // Включить RestAPi
 // По умолчанию включить ACF, а то скрыто.
-// в fucntion.js добавить nextwp по умолчанию если он существует.
-
-
-// NEXTWP:
-
-// 1) надо page update  прежде чем acf сохранятся.
-// 2) ссылки не натянулись.
 
 // Contact
 // 1) 3я items ограничить.

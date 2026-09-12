@@ -1,5 +1,5 @@
 /**
- * ACF field normalizers. Types align with NextWP (nextwp/field-types.php).
+ * ACF field normalizers.
  * Each normalizer(raw) returns normalized value or undefined when empty/invalid.
  */
 

@@ -1,6 +1,6 @@
 /**
  * Fetch WordPress page by slug (headless). ACF fields are expected in response.acf.
- * NextWP stores clone fields as component_<name>_<field> (e.g. component_careers_title).
+ * Clone fields are stored as component_<name>_<field> (e.g. component_careers_title).
  *
  * Set NEXT_PUBLIC_WP_API_URL to your WP site URL (e.g. https://rapha.tim-work.com).
  * If unset, no fetch is performed and components use their default props.
@@ -72,7 +72,7 @@ export async function getPageSlugs() {
 }
 
 /**
- * Convert component key to ACF key format (matches NextWP nextwp_name_to_acf_key).
+ * Convert component key to ACF key format.
  * "AboutScreen" → "aboutscreen", "pageScreen" → "pagescreen"
  */
 function toAcfComponentKey(name) {
@@ -126,10 +126,10 @@ export async function getPageComponentData(slug, componentKey) {
 
 /**
  * Build a normalizer from default value shape. Universal for all components: no per-component branches.
- * Mirrors default → schema → ACF: same structure, only converts ACF format (url, alt_text) to app format (src, alt).
+ * Mirrors defaults shape: same structure, only converts ACF format (url, alt_text) to app format (src, alt).
  *
  * @param {string} key Field name (used for "content" vs text).
- * @param {unknown} defaultVal Shape from defaults (same as schema).
+ * @param {unknown} defaultVal Shape from defaults.
  * @returns {(raw: unknown) => unknown}
  */
 function getNormalizerForKey(key, defaultVal) {
