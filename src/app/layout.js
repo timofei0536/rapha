@@ -10,8 +10,6 @@ import Footer from '@/components/Footer/Footer';
 import { getContactInfoForLayout, getGeneralForLayout } from "@/lib/rapha";
 import { GeneralProvider } from "@/context/GeneralContext";
 
-export const dynamic = "force-dynamic";
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

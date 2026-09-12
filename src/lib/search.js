@@ -1,6 +1,7 @@
 /**
  * WordPress search: posts, pages, services. Used by the Results block.
  */
+import { wpPublicFetchCacheOptions } from "../../wp-cms.config.mjs";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
@@ -60,7 +61,7 @@ export async function getSearchResults(query) {
   if (!q || !WP_API_BASE) return [];
 
   const search = encodeURIComponent(q);
-  const fetchOpts = { cache: "no-store" };
+  const fetchOpts = wpPublicFetchCacheOptions();
   const perPage = String(SEARCH_PER_TYPE);
 
   const [postsRes, pagesRes, servicesRes] = await Promise.all([

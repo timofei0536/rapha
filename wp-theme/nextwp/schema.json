@@ -113,6 +113,60 @@
       }
     }
   ],
+  "Apply": [
+    {
+      "name": "content",
+      "type": "content",
+      "default": "<h2>Interested in applying<br> to El-Rapha?</h2>\n<p>You can complete the online application form below or send your application (resume and cover letter) directly by email to: <strong><a href=\"mailto:recrutement@el-raphaga.com\">recrutement@el-raphaga.com</a></strong></p>\n<p>However, we recommend considering geographical proximity when choosing a location. Candidates are encouraged to submit their application electronically with an uploaded resume.</p>"
+    },
+    {
+      "name": "submitText",
+      "type": "text",
+      "default": "Submit"
+    },
+    {
+      "name": "roleOptions",
+      "type": "repeater",
+      "default": [
+        {
+          "value": "",
+          "label": "Role"
+        },
+        {
+          "value": "nurse",
+          "label": "Nurse"
+        },
+        {
+          "value": "doctor",
+          "label": "Doctor"
+        },
+        {
+          "value": "technician",
+          "label": "Technician"
+        },
+        {
+          "value": "admin",
+          "label": "Administration"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ],
+      "sub_fields": [
+        {
+          "name": "value",
+          "type": "text",
+          "default": ""
+        },
+        {
+          "name": "label",
+          "type": "text",
+          "default": "Role"
+        }
+      ]
+    }
+  ],
   "Careers": [
     {
       "name": "title",
@@ -538,6 +592,53 @@
           }
         }
       ]
+    },
+    {
+      "name": "form",
+      "type": "group",
+      "default": {
+        "title": "Book an appointment",
+        "doctors": [
+          {
+            "item": "Dr. Mbenda"
+          },
+          {
+            "item": "Dr. Okou"
+          },
+          {
+            "item": "Dr. Ngoma"
+          }
+        ]
+      },
+      "sub_fields": [
+        {
+          "name": "title",
+          "type": "text",
+          "default": "Book an appointment"
+        },
+        {
+          "name": "doctors",
+          "type": "repeater",
+          "default": [
+            {
+              "item": "Dr. Mbenda"
+            },
+            {
+              "item": "Dr. Okou"
+            },
+            {
+              "item": "Dr. Ngoma"
+            }
+          ],
+          "sub_fields": [
+            {
+              "name": "item",
+              "type": "text",
+              "default": "Dr. Mbenda"
+            }
+          ]
+        }
+      ]
     }
   ],
   "Hero": [
@@ -558,6 +659,14 @@
         "src": "/images/hero-image.png",
         "alt": "rapha-polyclinique"
       }
+    },
+    {
+      "name": "imageMobile",
+      "type": "image",
+      "default": {
+        "src": "/images/hero-image--mobile.svg",
+        "alt": "rapha-polyclinique"
+      }
     }
   ],
   "Infra": [
@@ -571,28 +680,51 @@
       "type": "repeater",
       "default": [
         {
+          "slug": "24-7-ambulance",
           "image": {
             "src": "/images/infra1.png",
             "alt": "24/7 Ambulance"
           },
-          "title": "24/7 Ambulance"
+          "title": "24/7 Ambulance",
+          "content": "Our ambulance service is available around the clock to ensure prompt emergency response and safe patient transport whenever needed.",
+          "link": {
+            "href": "/news/24-7-ambulance",
+            "text": "Learn More"
+          }
         },
         {
+          "slug": "food-and-dietetics",
           "image": {
             "src": "/images/infra2.png",
             "alt": "Food and Dietetics"
           },
-          "title": "Food and Dietetics"
+          "title": "Food and Dietetics",
+          "content": "Professional dietetic support and tailored nutrition plans for patients, supporting recovery and overall wellbeing during their stay.",
+          "link": {
+            "href": "/news/food-and-dietetics",
+            "text": "Learn More"
+          }
         },
         {
+          "slug": "special-nurses",
           "image": {
             "src": "/images/infra3.png",
             "alt": "Special Nurses"
           },
-          "title": "Special Nurses"
+          "title": "Special Nurses",
+          "content": "Dedicated nursing care with specialized training to meet the diverse needs of our patients and maintain the highest standards of care.",
+          "link": {
+            "href": "/news/special-nurses",
+            "text": "Learn More"
+          }
         }
       ],
       "sub_fields": [
+        {
+          "name": "slug",
+          "type": "text",
+          "default": "24-7-ambulance"
+        },
         {
           "name": "image",
           "type": "image",
@@ -605,6 +737,19 @@
           "name": "title",
           "type": "text",
           "default": "24/7 Ambulance"
+        },
+        {
+          "name": "content",
+          "type": "content",
+          "default": "Our ambulance service is available around the clock to ensure prompt emergency response and safe patient transport whenever needed."
+        },
+        {
+          "name": "link",
+          "type": "link",
+          "default": {
+            "href": "/news/24-7-ambulance",
+            "text": "Learn More"
+          }
         }
       ]
     }
@@ -613,12 +758,12 @@
     {
       "name": "title",
       "type": "text",
-      "default": "Pink October at El-Rapha"
+      "default": "Pink October\nat El-Rapha"
     },
     {
       "name": "date",
       "type": "text",
-      "default": "31st October 2025"
+      "default": "17th February 2026"
     },
     {
       "name": "image",
@@ -631,7 +776,7 @@
     {
       "name": "content",
       "type": "content",
-      "default": "\n    <p><b>Welcome to the El-Rapha Polyclinic. This October, Breast Cancer Awareness Month, let's join forces in the fight against breast and cervical cancer.</b></p>\n    <p style=\"color: var(--blue-l)\">We're offering free services to promote early detection, including:</p>\n    <ul>\n        <li>Gynecological exam</li>\n        <li>Cervical smear</li>\n        <li>Breast Exam</li>\n    </ul>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque bibendum diam vitae risus molestie, eu pellentesque arcu varius. Duis sollicitudin, ligula pretium ornare mattis, tortor lectus finibus neque, ut imperdiet risus orci et urna. Vestibulum lacinia volutpat feugiat. Nunc ornare eu augue sit amet rutrum. Duis egestas mi ac tortor eleifend vestibulum. Aliquam nec tellus iaculis, rhoncus massa nec, lobortis erat. Sed tincidunt magna vel ante tempor iaculis.</p>\n    <p>Ut quam quam, convallis nec neque et, aliquam aliquam purus. Curabitur pretium eu metus in aliquam. Nullam ornare mi massa. Donec quis nulla ac nisl facilisis ornare sed eget tortor. Morbi id bibendum velit.</p>\n    <p>Morbi tellus urna, pharetra in velit id, varius rutrum ante. Donec lectus nisi, interdum elementum arcu quis, suscipit dignissim eros. Integer auctor euismod dui eu scelerisque. Donec suscipit tincidunt commodo. Ut ut vestibulum nulla. Cras eu ipsum consectetur, placerat felis sed, accumsan est. Curabitur ante justo, gravida id elit nec, auctor blandit lectus.</p>\n    <p>Quisque et erat nec eros iaculis pretium. Integer euismod quam a gravida aliquam. Donec congue augue tellus, vitae cursus diam convallis sit amet. Fusce ullamcorper cursus pretium. Duis nec arcu porta, scelerisque est a, pharetra justo.</p>\n  "
+      "default": "\n    <p><b>Welcome to the El-Rapha Polyclinic. This October, Breast Cancer Awareness Month, let's join forces in the fight against breast and cervical cancer.</b></p>\n    <p style=\"color: var(--blue-l)\"><b>We're offering free services to promote early detection, including:</b></p>\n    <ul>\n        <li>Gynecological exam</li>\n        <li>Cervical smear</li>\n        <li>Breast Exam</li>\n    </ul>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque bibendum diam vitae risus molestie, eu pellentesque arcu varius. Duis sollicitudin, ligula pretium ornare mattis, tortor lectus finibus neque, ut imperdiet risus orci et urna. Vestibulum lacinia volutpat feugiat. Nunc ornare eu augue sit amet rutrum. Duis egestas mi ac tortor eleifend vestibulum. Aliquam nec tellus iaculis, rhoncus massa nec, lobortis erat. Sed tincidunt magna vel ante tempor iaculis.</p>\n    <p>Ut quam quam, convallis nec neque et, aliquam aliquam purus. Curabitur pretium eu metus in aliquam. Nullam ornare mi massa. Donec quis nulla ac nisl facilisis ornare sed eget tortor. Morbi id bibendum velit.</p>\n    <p>Morbi tellus urna, pharetra in velit id, varius rutrum ante. Donec lectus nisi, interdum elementum arcu quis, suscipit dignissim eros. Integer auctor euismod dui eu scelerisque. Donec suscipit tincidunt commodo. Ut ut vestibulum nulla. Cras eu ipsum consectetur, placerat felis sed, accumsan est. Curabitur ante justo, gravida id elit nec, auctor blandit lectus.</p>\n    <p>Quisque et erat nec eros iaculis pretium. Integer euismod quam a gravida aliquam. Donec congue augue tellus, vitae cursus diam convallis sit amet. Fusce ullamcorper cursus pretium. Duis nec arcu porta, scelerisque est a, pharetra justo.</p>\n  "
     }
   ],
   "News": [
@@ -645,50 +790,91 @@
       "type": "repeater",
       "default": [
         {
+          "slug": "pink-october",
+          "image": {
+            "src": "/images/news-page.png",
+            "alt": "Pink October at El-Rapha"
+          },
+          "title": "Pink October\nat El-Rapha",
+          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ",
+          "preview": ""
+        },
+        {
+          "slug": "lorem-ipsum-dolor",
           "image": {
             "src": "/images/news1.png",
             "alt": "news-image"
           },
           "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ",
+          "preview": ""
         },
         {
+          "slug": "lorem-ipsum-dolorr",
           "image": {
             "src": "/images/news2.png",
             "alt": "news-image"
           },
-          "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "title": "Lorem ipsum dolorr",
+          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ",
+          "preview": ""
         },
         {
+          "slug": "lorem-ipsum-dolorrr",
           "image": {
             "src": "/images/news3.png",
             "alt": "news-image"
           },
-          "title": "Lorem ipsum dolor",
-          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+          "title": "Lorem ipsum dolorrr",
+          "content": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ",
+          "preview": ""
         }
       ],
       "sub_fields": [
         {
+          "name": "slug",
+          "type": "text",
+          "default": "pink-october"
+        },
+        {
           "name": "image",
           "type": "image",
           "default": {
-            "src": "/images/news1.png",
-            "alt": "news-image"
+            "src": "/images/news-page.png",
+            "alt": "Pink October at El-Rapha"
           }
         },
         {
           "name": "title",
           "type": "text",
-          "default": "Lorem ipsum dolor"
+          "default": "Pink October\nat El-Rapha"
         },
         {
           "name": "content",
           "type": "content",
           "default": "Norem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, "
+        },
+        {
+          "name": "preview",
+          "type": "text",
+          "default": ""
         }
       ]
+    }
+  ],
+  "PageScreen": [
+    {
+      "name": "title",
+      "type": "text",
+      "default": ""
+    },
+    {
+      "name": "image",
+      "type": "image",
+      "default": {
+        "src": "",
+        "alt": ""
+      }
     }
   ],
   "Results": [
@@ -784,39 +970,75 @@
       "default": [
         {
           "slug": "resuscitation",
-          "title": "Resuscitation"
+          "title": "Resuscitation",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "surgery-operating-room",
-          "title": "Surgery & Operating Room"
+          "title": "Surgery & Operating Room",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "emergencies",
-          "title": "Emergencies"
+          "title": "Emergencies",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "internal-medicine-dialysis",
-          "title": "Internal Medicine Dialysis"
+          "title": "Internal Medicine Dialysis",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "analysis-laboratory",
-          "title": "Analysis Laboratory"
+          "title": "Analysis Laboratory",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "other-specialties",
-          "title": "Other Specialties"
+          "title": "Other Specialties",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "hospitality-catering",
-          "title": "Hospitality & Catering"
+          "title": "Hospitality & Catering",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "medical-imaging",
-          "title": "Medical Imaging"
+          "title": "Medical Imaging",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "slug": "gynecology-obstetrics",
-          "title": "Gynecology-Obstetrics"
+          "title": "Gynecology-Obstetrics",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         }
       ],
       "sub_fields": [
@@ -829,8 +1051,23 @@
           "name": "title",
           "type": "text",
           "default": "Resuscitation"
+        },
+        {
+          "name": "link",
+          "type": "link",
+          "default": {
+            "href": "",
+            "text": ""
+          }
         }
       ]
+    }
+  ],
+  "ServiceContent": [
+    {
+      "name": "resuscitation",
+      "type": "text",
+      "default": "\n    <p><strong>It welcomes all medical or surgical patients in life-threatening situations, both outpatients and inpatients.</strong></p>\n    <p>Medical coverage is provided 24/7. The paramedical team is led by a senior officer. In the event of a surgical emergency, it can be immediately provided thanks to the operating room which remains operational day and night.</p>\n    <p>The department provides all modern resuscitation techniques: artificial ventilation, hemodialysis, hemodynamic support and complete monitoring of vital functions.</p>\n    <p>It receives patients for post-operative monitoring. It handles complex medical resuscitations. The intensive care unit works in close collaboration with all other departments of the facility.</p>\n    <p style=\"color: var(--blue-l)\"><b>The service includes the activities of:</b></p>\n    <ul>\n      <li>CT scan without injection</li>\n      <li>CT scan with injection</li>\n      <li>Cardiac Scanner</li>\n      <li>CoroScanner</li>\n      <li>Perfusion Scanner (Body and Brain)</li>\n      <li>Cardiac Scanner</li>\n      <li>Digital Radio</li>\n      <li>Ultrasound / Mammography</li>\n      <li>3D scanner</li>\n      <li>3D Radio</li>\n    </ul>\n  "
     }
   ],
   "Services": [
@@ -853,23 +1090,43 @@
       "default": [
         {
           "title": "Emergencies",
-          "content": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician."
+          "content": "",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
-          "title": "Surgery &\n Operating room",
-          "content": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance"
+          "title": "Surgery &\nOperating room",
+          "content": "",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "title": "Medical Imaging",
-          "content": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician."
+          "content": "",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "title": "Analysis Laboratory",
-          "content": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician."
+          "content": "",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         },
         {
           "title": "Gynecology-Obstetrics",
-          "content": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician."
+          "content": "",
+          "link": {
+            "href": "",
+            "text": ""
+          }
         }
       ],
       "sub_fields": [
@@ -881,7 +1138,15 @@
         {
           "name": "content",
           "type": "content",
-          "default": "Serving patients and the establishment's medical and care teams 24/7, the medical biology analysis laboratory is also open to any external patient for the performance of analyses prescribed by their attending physician."
+          "default": ""
+        },
+        {
+          "name": "link",
+          "type": "link",
+          "default": {
+            "href": "",
+            "text": ""
+          }
         }
       ]
     }

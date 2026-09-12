@@ -3,8 +3,8 @@
  * NextWP — build schema.json from component defaults only.
  * One source: src/components/<Name>/defaults.js. One pass, explicit type rules.
  *
- * Usage: node nextwp/scripts/build-schema.js
- * Output: nextwp/schema.json (component name -> array of { name, type, default?, sub_fields? })
+ * Usage: node wp-theme/nextwp/scripts/build-schema.js
+ * Output: wp-theme/nextwp/schema.json (component name -> array of { name, type, default?, sub_fields? })
  *
  * Requires: @babel/parser (devDependency)
  */
@@ -20,7 +20,7 @@ try {
   process.exit(1);
 }
 
-const ROOT = path.resolve(__dirname, '../..');
+const ROOT = path.resolve(__dirname, '../../..');
 const COMPONENTS_DIR = path.join(ROOT, 'src', 'components');
 const SCHEMA_PATH = path.join(__dirname, '..', 'schema.json');
 const IGNORE = ['ui', 'header', 'footer', 'form'].map((s) => s.toLowerCase());

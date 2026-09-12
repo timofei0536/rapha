@@ -1,0 +1,14 @@
+/*
+Theme Name: Rapha
+Version: 1.0
+Author: BGN
+Author URI:  https://bgn.agency
+*/
+
+img[src=''] {
+	background: #ccc url('assets/images/png/placeholder.jpg') center / cover;
+}
+
+.menu__nav-link--active {
+	pointer-events: none !important;
+}

@@ -6,8 +6,6 @@ import { getBlockPropsForPage, getWpServices, getWpServiceBySlug, getNewsPageFea
 import { ServiceDefaults } from "@/components/Service/defaults";
 import { ServiceContentDefaults } from "@/components/ServiceContent/defaults";
 
-export const dynamic = "force-dynamic";
-
 export async function generateStaticParams() {
   const services = await getWpServices();
   const slugs = (services || [])

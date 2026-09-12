@@ -2,8 +2,6 @@ import New from "@/components/New/New";
 import { NewDefaults } from "@/components/New/defaults";
 import { getSingleNewsBySlug, getPostSlugs } from "@/lib/rapha";
 
-export const dynamic = "force-dynamic";
-
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();
   return slugs;

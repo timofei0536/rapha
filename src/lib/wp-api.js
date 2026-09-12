@@ -16,6 +16,7 @@ import {
   normalizeLink,
   normalizeRepeater,
 } from "@/lib/acf";
+import { wpPublicFetchCacheOptions } from "../../wp-cms.config.mjs";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
@@ -29,7 +30,7 @@ const WP_API_BASE =
  * @param {string} slug Page slug (e.g. 'careers')
  * @returns {Promise<Record<string, unknown> | null>} Page object or null
  */
-const wpFetchOpts = { cache: "no-store" };
+const wpFetchOpts = wpPublicFetchCacheOptions();
 
 export async function getPageBySlug(slug) {
   if (!WP_API_BASE) return null;

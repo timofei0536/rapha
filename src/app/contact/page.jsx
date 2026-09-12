@@ -2,8 +2,6 @@ import Contact from "@/components/Contact/Contact";
 import { getBlockPropsForPage } from "@/lib/rapha";
 import { getBlockProps } from "@/lib/wp-api";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = {
   title: "Contact",
 };

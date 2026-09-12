@@ -7,8 +7,6 @@ import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 import { getBlockProps } from "@/lib/wp-api";
 import { ServicesDefaults } from "@/components/Services/defaults";
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
   const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured, formProps] = await Promise.all([
     getBlockPropsForPage("home", "hero", {}),

@@ -20,13 +20,14 @@ import { ResultsDefaults } from "@/components/Results/defaults";
 import { PageScreenDefaults } from "@/components/PageScreen/defaults";
 import { getSearchResults } from "@/lib/search";
 import { GeneralDefaults } from "@/lib/general-defaults";
+import { wpPublicFetchCacheOptions } from "../../wp-cms.config.mjs";
 
 const WP_API_BASE =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_WP_API_URL
     ? process.env.NEXT_PUBLIC_WP_API_URL.replace(/\/$/, "")
     : "";
 
-const wpFetchOpts = { cache: "no-store" };
+const wpFetchOpts = wpPublicFetchCacheOptions();
 
 async function getPostsByIds(ids) {
   if (!WP_API_BASE || !Array.isArray(ids) || ids.length === 0) return [];
