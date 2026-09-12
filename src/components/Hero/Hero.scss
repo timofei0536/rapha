@@ -153,10 +153,20 @@
                 opacity: 0;
             }
 
+            &.anim-initial {
+                @media screen and (max-width: $large_tablet) {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
         }
         &-title {
-            
-            
+            &.anim-initial {
+                @media screen and (max-width: $large_tablet) {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
 
             @media screen and (min-width: $large_tablet) {
                 
