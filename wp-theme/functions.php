@@ -17,14 +17,8 @@ add_filter(
   fn($mimes) => array_merge($mimes, ['svg' => 'image/svg+xml'])
 );
 
-add_filter('acf/settings/save_json', fn() => get_template_directory() . '/acf-json');
-add_filter('acf/settings/load_json', function ($paths) {
-    $paths[] = get_template_directory() . '/acf-json';
-    return $paths;
-});
-
 /**
- * Icon on home Services repeater (same key as nextwp schema / acf-json).
+ * Extra fields on home Services (icon / catalog / all services).
  */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field')) {

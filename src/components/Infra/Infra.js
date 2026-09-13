@@ -6,15 +6,6 @@ import Link from "next/link";
 import Btn from "@/components/ui/Btn/Btn";
 import { useGeneral } from "@/context/GeneralContext";
 
-function titleToSlug(title) {
-  if (!title) return "";
-  return String(title)
-    .toLowerCase()
-    .replace(/\s*\/\s*/g, "-")
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-}
-
 export default function Infra(props) {
     const { title, items } = props;
     const { learn_more } = useGeneral();
@@ -24,14 +15,12 @@ export default function Infra(props) {
             <h2 className="infra__title simple-title simple-title--center">{title}</h2>
             <div className="infra__list">
                 {(items || []).map((item, i) => {
-                    const slug = item.slug || titleToSlug(item.title) || `infra-${i + 1}`;
-                    const href = item.link?.href || `/news/${slug}`;
-                    const rawText = learn_more || item.link?.text || item.title || "Learn more";
-                    const linkText = (typeof rawText === "string" ? rawText.replace(/<[^>]+>/g, "").trim() : "") || "Learn more";
-                    const moreLabel = item.title ? `${linkText}: ${item.title}` : linkText;
+                    const href = item.link?.href;
+                    const linkText = item.link?.text || learn_more;
                     return (
                     <div key={i} className="infra__item">
-                        <Link href={href} className="infra__item-img-wrap" aria-label={moreLabel}>
+                        {href ? (
+                        <Link href={href} className="infra__item-img-wrap" aria-label={item.title} target={item.link?.target}>
                             {item.image?.src ? (
                             <Image 
                                 src={item.image.src} 
@@ -42,8 +31,23 @@ export default function Infra(props) {
                             />
                             ) : null}
                         </Link>
+                        ) : (
+                        <div className="infra__item-img-wrap">
+                            {item.image?.src ? (
+                            <Image 
+                                src={item.image.src} 
+                                alt={item.image?.alt || item.title || ""} 
+                                className="infra__item-img white-header"
+                                fill
+                                quality={95}
+                            />
+                            ) : null}
+                        </div>
+                        )}
                         <h3 className="simple-title infra__item-title">{item.title}</h3>
-                        <Btn text={linkText} href={href} className='btn--white btn--small' aria-label={moreLabel} />
+                        {href ? (
+                            <Btn text={linkText} href={href} className="btn--white btn--small" target={item.link?.target} />
+                        ) : null}
                     </div>
                 );
                 })}

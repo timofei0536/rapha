@@ -2,16 +2,12 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 export default function Toogles() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Ждем GSAP из CDN
-    if (typeof window === 'undefined' || !window.gsap) return;
-
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger; 
     let busy = false;
     const D = 0.5, E = 'power2.out';
 

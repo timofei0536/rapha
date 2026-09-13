@@ -1,27 +1,19 @@
 import { literalNewlines } from "./text.js";
 import { normalizeHref } from "./href.js";
 
-function originFromEnv(name) {
-  const base = (typeof process !== "undefined" && process.env[name] ? process.env[name] : "").trim().replace(/\/$/, "");
+function hostFromEnv(name) {
+  const base =
+    typeof process !== "undefined" && process.env[name] ? String(process.env[name]).trim().replace(/\/$/, "") : "";
   if (!base) return "";
   try {
-    return new URL(base).origin;
+    return new URL(base).hostname;
   } catch {
     return "";
   }
 }
 
 const INTERNAL_HOSTS = new Set(
-  [originFromEnv("NEXT_PUBLIC_WP_API_URL"), originFromEnv("NEXT_PUBLIC_SITE_URL")]
-    .filter(Boolean)
-    .map((origin) => {
-      try {
-        return new URL(origin).hostname;
-      } catch {
-        return "";
-      }
-    })
-    .filter(Boolean)
+  [hostFromEnv("NEXT_PUBLIC_WP_API_URL"), hostFromEnv("NEXT_PUBLIC_SITE_URL")].filter(Boolean)
 );
 
 /** WP full URL → path. Один сегмент /slug = пост → /news/slug. */

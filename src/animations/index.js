@@ -1,3 +1,4 @@
+import '@/lib/gsap';
 import { initGlobals } from '@/globals';
 import { setHeroInitialState, resetHeroInitialState } from './heroEntrance';
 import * as heroEntrance from './heroEntrance';
@@ -95,16 +96,12 @@ export function refreshAnimations() {
   if (typeof window === 'undefined' || !window.ScrollTrigger) return;
   runCleanup();
   resetHeroInitialState();
-  const container = document.querySelector('main') || document.body;
 
-  let runScrollTriggersCalled = false;
-  const runOnce = () => {
-    if (runScrollTriggersCalled) return;
-    runScrollTriggersCalled = true;
+  requestAnimationFrame(() => {
     runScrollTriggers();
-  };
-
-  whenImagesReady(container, runOnce);
-  const REFRESH_IMAGES_TIMEOUT_MS = 3000;
-  setTimeout(runOnce, REFRESH_IMAGES_TIMEOUT_MS);
+    const container = document.querySelector('main') || document.body;
+    whenImagesReady(container, () => {
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    });
+  });
 }

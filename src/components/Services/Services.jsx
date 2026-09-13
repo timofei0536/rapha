@@ -7,8 +7,8 @@ import Send from "@/components/ui/icons/Download";
 import { useGeneral } from "@/context/GeneralContext";
 
 export default function Services(props) {
-    const { title, image, services } = props;
-    const { learn_more } = useGeneral();
+    const { title, image, services, catalog, all_services } = props;
+    const { learn_more: learnMore } = useGeneral();
     return (
         <section className="services">
             <div className="center-wrap">
@@ -21,7 +21,8 @@ export default function Services(props) {
                     </div>
                     {(services || []).map((item, i) => {
                         const titleLines = (item.title ?? "").split("\n");
-                        const href = typeof item.link === "string" ? item.link : item.link?.href;
+                        const href = item.link?.href;
+                        const linkText = item.link?.text;
                         const iconSrc = item.icon?.src;
                         const iconAlt = item.icon?.alt || item.title || "";
                         const iconIsSvg = typeof iconSrc === "string" && iconSrc.endsWith(".svg");
@@ -42,21 +43,34 @@ export default function Services(props) {
                                     {titleLines.length > 1 ? titleLines.map((line, j) => <span key={j}>{line}{j < titleLines.length - 1 && <br />}</span>) : item.title}
                                 </h3>
                                 <div className="services__item-text content" dangerouslySetInnerHTML={{ __html: item.content ?? "" }} />
-                                {href && <Btn text={learn_more ?? "Learn more"} className="btn--transparent btn--small" href={href} />}
+                                {href ? (
+                                    <Btn
+                                        text={linkText || learnMore}
+                                        className="btn--transparent btn--small"
+                                        href={href}
+                                        target={item.link?.target}
+                                    />
+                                ) : null}
                             </div>
                         );
                     })}
                 </div>
-                <div className="services__btns">
-                    <Btn
-                        text="Catalog"
-                        icon={Send}
-                        className="btn--blue"
-                        href="/cataloge.pdf"
-                        download="cataloge.pdf"
-                    />
-                    <Btn text="All Services" className="btn--blue-l" href="/services" />
-                </div>
+                {(catalog?.file?.src || all_services?.href) ? (
+                    <div className="services__btns">
+                        {catalog?.file?.src ? (
+                            <Btn
+                                text={catalog.text}
+                                icon={Send}
+                                className="btn--blue"
+                                href={catalog.file.src}
+                                download
+                            />
+                        ) : null}
+                        {all_services?.href ? (
+                            <Btn text={all_services.text} className="btn--blue-l" href={all_services.href} />
+                        ) : null}
+                    </div>
+                ) : null}
             </div>
         </section>    
     );

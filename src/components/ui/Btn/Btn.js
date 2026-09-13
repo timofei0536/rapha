@@ -4,7 +4,7 @@ import "./Btn.scss";
 import Arrow from "@/components/ui/icons/Arrow";
 import { useGeneral } from "@/context/GeneralContext";
 
-export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", className = "", href, download, type, "aria-label": ariaLabel }) {
+export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", className = "", href, target, download, type, "aria-label": ariaLabel }) {
     const { learn_more } = useGeneral();
     const label = text ?? learn_more ?? "Learn more";
     const isIconLeft = iconPosition === "left";
@@ -18,7 +18,7 @@ export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", 
     );
     if (href) {
         return (
-            <a href={href} className={classNames} download={download} aria-label={ariaLabel}>
+            <a href={href} className={classNames} download={download} aria-label={ariaLabel} target={target || undefined} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
                 {content}
             </a>
         );

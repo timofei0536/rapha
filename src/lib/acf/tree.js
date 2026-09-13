@@ -21,6 +21,7 @@ function isLinkKey(key) {
   return (
     key === "link" ||
     key === "href" ||
+    key === "all_services" ||
     (typeof key === "string" && (key.startsWith("link_") || key.endsWith("_link")))
   );
 }
@@ -83,6 +84,11 @@ export function normalizeAcfValue(key, raw) {
 
   if (!isPlainObject(raw)) return undefined;
 
+  if (isLinkKey(key)) return normalizeLink(raw);
+  if (key === "file") {
+    const src = normalizeHref(raw.url ?? raw.src);
+    return src ? { title: normalizeText(raw.title) ?? "", src } : undefined;
+  }
   if (isImageLike(raw)) return normalizeImage(raw);
   if (isLinkLike(raw)) return normalizeLink(raw);
   if (isFileLike(raw)) {

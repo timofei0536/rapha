@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import { ScrollTrigger } from '@/lib/gsap';
 
 export default function HeaderWhiteTrigger() {
   useEffect(() => {
-    if (!window.ScrollTrigger) return;
 
     const header = document.querySelector('.header');
     const getSections = () => document.querySelectorAll('.white-header');
@@ -27,7 +27,7 @@ export default function HeaderWhiteTrigger() {
       header.classList.toggle('header--white', inside);
     };
 
-    const trigger = window.ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: document.body,
       start: 0,
       end: 'max',

@@ -155,6 +155,80 @@
                     "parent_repeater": "field_0efea0caf927696ec0f0d423225dcd29"
                 }
             ]
+        },
+        {
+            "key": "field_b3bc8e24cca3c7db8e163eb3adf377d3",
+            "label": "Catalog",
+            "name": "catalog",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "Download button: label + file.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_388de96db5a6dba3f52f86039c729b35",
+                    "label": "Text",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Catalog",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_7795ad31075774d0ae41f94397764c49",
+                    "label": "File",
+                    "name": "file",
+                    "aria-label": "",
+                    "type": "file",
+                    "instructions": "PDF for download.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_size": 0,
+                    "max_size": 0,
+                    "mime_types": "pdf"
+                }
+            ]
+        },
+        {
+            "key": "field_e3fff82f6cb10f1e36c6133bcbc22c39",
+            "label": "All Services",
+            "name": "all_services",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
         }
     ],
     "location": [
@@ -175,5 +249,5 @@
     "active": true,
     "description": "Component",
     "show_in_rest": 0,
-    "modified": 1789242000
+    "modified": 1789328400
 }

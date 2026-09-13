@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useId } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./Select.scss";
 
 export default function Select({
   name,
+  id,
   options = [],
   placeholder = "",
   defaultValue = "",
@@ -16,7 +17,7 @@ export default function Select({
   const wrapRef = useRef(null);
   const nativeSelectRef = useRef(null);
   const valueRef = useRef(null);
-  const listboxId = `${name || "select"}-listbox-${useId().replace(/:/g, "")}`;
+  const listboxId = `${id || name || "select"}-listbox`;
 
   const optionList = options.filter(
     (option, i, list) => option.value !== "" && list.findIndex((o) => o.value === option.value) === i

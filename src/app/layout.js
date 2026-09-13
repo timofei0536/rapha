@@ -1,4 +1,3 @@
-import Script from 'next/script'; // 1. Импортируем компонент
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import 'normalize.css';
@@ -68,14 +67,6 @@ export default async function RootLayout({ children }) {
       <body>
         <GeneralProvider value={general}>
           <Preloader />
-          <Script 
-            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" 
-            strategy="beforeInteractive" 
-          />
-          <Script 
-            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js" 
-            strategy="beforeInteractive" 
-          />
           <Header contactInfo={contactInfo} />
           <AnimationsInit />
           {children}

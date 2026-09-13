@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import '@/lib/gsap';
 import { initAnimations, refreshAnimations } from '@/animations';
 
 export default function AnimationsInit() {

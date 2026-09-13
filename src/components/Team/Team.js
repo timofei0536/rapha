@@ -6,7 +6,7 @@ import Btn from "@/components/ui/Btn/Btn";
 import { useGeneral } from "@/context/GeneralContext";
 
 export default function Team(props) {
-    const { subtitle, title, content, gallery } = props;
+    const { subtitle, title, content, gallery, link } = props;
     const { read_more } = useGeneral();
     return (
         <section className="team">
@@ -17,7 +17,9 @@ export default function Team(props) {
                             <h2 className="team__small-title simple-title">{subtitle}</h2>
                             <span className="team__title">{title}</span>
                             <div className="team__text content" dangerouslySetInnerHTML={{ __html: content }} />
-                            <Btn text={read_more ?? "Read more"} className="btn--orange mobile--hide" href="/about" />
+                            {link?.href ? (
+                                <Btn text={link.text || read_more} className="btn--orange mobile--hide" href={link.href} target={link.target} />
+                            ) : null}
                         </div>
                         <div className="team__gallery">
                             <div className="team__gallery-part team__gallery-part--left">
@@ -49,7 +51,9 @@ export default function Team(props) {
                                 ))}
                             </div>
                         </div>
-                        <Btn text={read_more ?? "Read more"} className="btn--orange desktop--hide" href="/about" />
+                        {link?.href ? (
+                            <Btn text={link.text || read_more} className="btn--orange desktop--hide" href={link.href} target={link.target} />
+                        ) : null}
                 </div>
             </div>
         </section>    

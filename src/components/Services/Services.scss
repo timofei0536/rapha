@@ -60,9 +60,11 @@
             svg,
             img {
                 width: 5.8rem;
-                height: auto;
+                height: 5.8rem;
+                object-fit: contain;
                 @media screen and (max-width: $large_tablet) {
                     width: 3.8rem;
+                    height: 3.8rem;
                 }
             } 
             margin-bottom: 3rem;
