@@ -1,6 +1,5 @@
 import Contact from "@/components/Contact/Contact";
-import { getBlockPropsForPage, getWpServices } from "@/lib/rapha";
-import { getPageProps } from "@/lib/wp-api";
+import { getBlocksPropsForPage, getWpServices } from "@/lib/rapha";
 
 export const metadata = {
   title: "Contact",
@@ -9,11 +8,12 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const [props, formProps, wpServices] = await Promise.all([
-    getBlockPropsForPage("contact", "contact"),
-    getPageProps("contact", "form"),
+  const [contact, wpServices] = await Promise.all([
+    getBlocksPropsForPage("contact", ["contact", "form"]),
     getWpServices(),
   ]);
+  const props = contact.contact;
+  const formProps = contact.form;
 
   return (
     <main>

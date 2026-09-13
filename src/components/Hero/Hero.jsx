@@ -20,7 +20,7 @@ export default function Hero(props) {
         <section className="hero white-header">
             <div className="hero__blur-wrap">
                 {blurSrc ? (
-                    <Image src={blurSrc} alt="" fill quality={IMAGE_QUALITY} sizes="89rem" onError={onBlurError} />
+                    <Image src={blurSrc} alt="" fill quality={IMAGE_QUALITY} sizes="(max-width: 1023px) 0px, 89rem" onError={onBlurError} />
                 ) : null}
             </div>
             <div className="hero__bg">
@@ -46,7 +46,7 @@ export default function Hero(props) {
                         fetchPriority="high"
                         quality={IMAGE_QUALITY}
                         unoptimized={typeof mobileSrc === "string" && mobileSrc.endsWith(".svg")}
-                        sizes="100vw"
+                        sizes="(max-width: 1023px) 100vw, 0px"
                         className="hero__bg-img hero__bg-img--mobile anim-initial"
                         style={{ "--anim-scale": 1.08 }}
                     />

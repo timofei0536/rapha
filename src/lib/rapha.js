@@ -1,7 +1,7 @@
 /**
  * Project-specific helpers for El-Rapha. Use for rapha-only logic, not generic wp-api/acf.
  */
-import { getPageBySlug, getComponentData, getPageProps } from "@/lib/wp-api";
+import { getPageBySlug, getComponentData, getPageProps, getPagePropsFromPage } from "@/lib/wp-api";
 import { normalizeText, normalizeContent, normalizeImage, normalizeHref } from "@/lib/acf";
 import { getSearchResults } from "@/lib/search";
 import { wpPublicFetchCacheOptions } from "../../wp-cms.config.mjs";
@@ -82,7 +82,7 @@ export async function getWpServices() {
   if (!WP_API_BASE) return [];
   try {
     const res = await fetch(
-      `${WP_API_BASE}/wp-json/wp/v2/services?per_page=100&orderby=menu_order&order=asc`,
+      `${WP_API_BASE}/wp-json/wp/v2/services?per_page=100&orderby=menu_order&order=asc&_fields=id,slug,title,content,acf`,
       wpFetchOpts
     );
     if (!res.ok) return [];
@@ -301,6 +301,95 @@ export async function getSingleNewsBySlug(slug) {
 
 // --- Block props ---
 
+function pickNewsRaw(page, fallbackPage) {
+  const fromPage = page ? getComponentData(page, "news") : null;
+  if (fromPage?.items != null && idsFromRaw(fromPage.items).length > 0) return fromPage;
+  const fromFallback = fallbackPage ? getComponentData(fallbackPage, "news") : null;
+  if (fromFallback?.items != null && idsFromRaw(fromFallback.items).length > 0) return fromFallback;
+  return fromPage;
+}
+
+async function newsPropsFromPages(page, fallbackPage) {
+  if (!WP_API_BASE) return { title: "", items: [] };
+  const raw = pickNewsRaw(page, fallbackPage);
+  const items = raw?.items != null ? await resolveNewsItemsFromIds(raw.items) : [];
+  const title = raw?.title != null && String(raw.title).trim() ? String(raw.title).trim() : "";
+  return ensureAbsoluteImageUrls({ title, items });
+}
+
+function pageScreenPropsFromPage(page) {
+  const data = page ? getComponentData(page, "pagescreen") : null;
+  const titleFromAcf = data?.title != null ? normalizeText(data.title) ?? "" : "";
+  const rawImage = data?.image;
+  const imageRaw = Array.isArray(rawImage) && rawImage.length > 0 ? rawImage[0] : rawImage;
+  let image = imageRaw != null ? normalizeImage(imageRaw) : undefined;
+  if (image?.src) image = { ...image, src: ensureAbsoluteImageUrl(image.src) };
+  return ensureAbsoluteImageUrls({
+    ...(titleFromAcf ? { title: titleFromAcf } : {}),
+    ...(image?.src ? { image } : {}),
+  });
+}
+
+async function getBlockPropsFromPage(page, componentKey, searchParams, fallbackNewsPage) {
+  const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
+
+  if (componentKey === "news") {
+    return newsPropsFromPages(page, fallbackNewsPage);
+  }
+
+  if (componentKey === "chart") {
+    return normalizeChartProps(getPagePropsFromPage(page, componentKey));
+  }
+
+  if (componentKey === "pageScreen") {
+    return pageScreenPropsFromPage(page);
+  }
+
+  if (componentKey === "results") {
+    const out = ensureAbsoluteImageUrls(getPagePropsFromPage(page, componentKey));
+    const queryParam = params?.q ?? params?.query;
+    const searchQuery = Array.isArray(queryParam) ? queryParam[0] ?? "" : (queryParam ?? "");
+    const query = (typeof searchQuery === "string" ? searchQuery.trim() : "") || out.query || "";
+    const items = query ? await getSearchResults(query) : (Array.isArray(out.items) ? out.items : []);
+    return { ...out, query, items };
+  }
+
+  return ensureAbsoluteImageUrls(getPagePropsFromPage(page, componentKey));
+}
+
+/**
+ * One page fetch, then local props for each block (Zeph-style getBlocksPropsForSlug).
+ * News IDs fall back to the news page in parallel, not via sequential slug guesses.
+ *
+ * @param {string} slug
+ * @param {string[]} componentKeys
+ * @param {Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>} [searchParams]
+ * @returns {Promise<Record<string, Record<string, unknown>>>}
+ */
+export async function getBlocksPropsForPage(slug, componentKeys, searchParams) {
+  const keys = Array.isArray(componentKeys) ? componentKeys : [];
+  const empty = Object.fromEntries(keys.map((key) => [key, {}]));
+  if (!WP_API_BASE || !keys.length) return empty;
+
+  const needsNewsFallback = keys.includes("news") && slug !== "news";
+  const needsServicesAlt = keys.includes("pageScreen") && slug === "services";
+  const [page, newsPage, servicesAltPage] = await Promise.all([
+    getPageBySlug(slug),
+    needsNewsFallback ? getPageBySlug("news") : Promise.resolve(null),
+    needsServicesAlt ? getPageBySlug("our-services") : Promise.resolve(null),
+  ]);
+
+  const sourceFor = (key) => {
+    if (key === "pageScreen" && !page) return servicesAltPage;
+    return page;
+  };
+
+  const entries = await Promise.all(
+    keys.map(async (key) => [key, await getBlockPropsFromPage(sourceFor(key), key, searchParams, newsPage)])
+  );
+  return Object.fromEntries(entries);
+}
+
 /**
  * Get block props from WP only.
  * News block: resolved in rapha (ACF relationship items → posts from WP).
@@ -311,71 +400,8 @@ export async function getSingleNewsBySlug(slug) {
  * @returns {Promise<Record<string, unknown>>}
  */
 export async function getBlockPropsForPage(slug, componentKey, searchParams) {
-  const params = typeof searchParams?.then === "function" ? await searchParams : searchParams ?? {};
-
-  if (componentKey === "news") {
-    if (!WP_API_BASE) return { title: "", items: [] };
-    const slugsToTry = slug === "home" ? ["home", "front-page", "accueil"] : [slug];
-    let raw = null;
-    for (const s of slugsToTry) {
-      const page = await getPageBySlug(s);
-      if (!page) continue;
-      const r = getComponentData(page, componentKey);
-      if (r?.items != null && idsFromRaw(r.items).length > 0) {
-        raw = r;
-        break;
-      }
-      if (!raw) raw = r;
-    }
-    if (!raw || idsFromRaw(raw.items).length === 0) {
-      const newsPage = await getPageBySlug("news");
-      if (newsPage) {
-        const newsRaw = getComponentData(newsPage, componentKey);
-        if (newsRaw?.items != null && idsFromRaw(newsRaw.items).length > 0) raw = newsRaw;
-      }
-    }
-    let items = [];
-    if (raw?.items != null) items = await resolveNewsItemsFromIds(raw.items);
-    const title = raw?.title != null && String(raw.title).trim() ? String(raw.title).trim() : "";
-    return ensureAbsoluteImageUrls({ title, items });
-  }
-
-  if (componentKey === "chart") {
-    const result = await getPageProps(slug, componentKey);
-    return normalizeChartProps(result);
-  }
-
-  if (componentKey === "pageScreen") {
-    const slugsToTry = slug === "services" ? ["services", "our-services"] : [slug];
-    let page = null;
-    for (const s of slugsToTry) {
-      page = WP_API_BASE ? await getPageBySlug(s) : null;
-      if (page) break;
-    }
-    const data = page ? getComponentData(page, "pagescreen") : null;
-    const titleFromAcf = data?.title != null ? normalizeText(data.title) ?? "" : "";
-    const rawImage = data?.image;
-    const imageRaw = Array.isArray(rawImage) && rawImage.length > 0 ? rawImage[0] : rawImage;
-    let image = imageRaw != null ? normalizeImage(imageRaw) : undefined;
-    if (image?.src) image = { ...image, src: ensureAbsoluteImageUrl(image.src) };
-    return ensureAbsoluteImageUrls({
-      ...(titleFromAcf ? { title: titleFromAcf } : {}),
-      ...(image?.src ? { image } : {}),
-    });
-  }
-
-  if (componentKey === "results") {
-    const result = await getPageProps(slug, componentKey);
-    const out = ensureAbsoluteImageUrls(result);
-    const queryParam = params?.q ?? params?.query;
-    const searchQuery = Array.isArray(queryParam) ? queryParam[0] ?? "" : (queryParam ?? "");
-    const query = (typeof searchQuery === "string" ? searchQuery.trim() : "") || out.query || "";
-    const items = query ? await getSearchResults(query) : (Array.isArray(out.items) ? out.items : []);
-    return { ...out, query, items };
-  }
-
-  const result = await getPageProps(slug, componentKey);
-  return ensureAbsoluteImageUrls(result);
+  const blocks = await getBlocksPropsForPage(slug, [componentKey], searchParams);
+  return blocks[componentKey] ?? {};
 }
 
 /**
@@ -458,8 +484,8 @@ function normalizeLinkItem(item) {
  * General block for layout (labels, schedule, navigation). From home page, block "general".
  */
 export async function getGeneralForLayout() {
-  const general = await getPageProps("home", "general");
   const page = await getPageBySlug("home");
+  const general = getPagePropsFromPage(page, "general");
   const raw = page ? getComponentData(page, "general") : null;
   const nav = resolveNavigation(raw?.navigation) ?? [];
   const nav2 = resolveNavigation(raw?.navigation2) ?? [];

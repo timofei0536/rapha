@@ -39,6 +39,7 @@ export default function News(props) {
                           <Image
                             src={image.src} alt={image.alt} className={i === 2 ? "news__item-img white-header" : "news__item-img"}
                             fill
+                            sizes="(max-width: 1023px) 100vw, 33vw"
                             quality={95}
                           />
                         </Link>

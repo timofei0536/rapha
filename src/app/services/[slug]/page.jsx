@@ -2,7 +2,7 @@ import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
 import Service from "@/components/Service/Service";
 import ServiceContent from "@/components/ServiceContent/ServiceContent";
-import { getBlockPropsForPage, getWpServices, getWpServiceBySlug, getNewsPageFeatured } from "@/lib/rapha";
+import { getBlocksPropsForPage, getWpServices, getWpServiceBySlug, getNewsPageFeatured } from "@/lib/rapha";
 
 export async function generateStaticParams() {
   const services = await getWpServices();
@@ -31,13 +31,13 @@ export async function generateMetadata({ params }) {
 
 export default async function ServicePage({ params }) {
   const { slug } = await params;
-  const [serviceProps, newsProps, wpServices, wpServiceBySlug, featured] = await Promise.all([
-    getBlockPropsForPage("services", "service"),
-    getBlockPropsForPage("services", "news"),
+  const [servicesPage, wpServices, wpServiceBySlug, featured] = await Promise.all([
+    getBlocksPropsForPage("services", ["service", "news"]),
     getWpServices(),
     getWpServiceBySlug(slug),
     getNewsPageFeatured("news"),
   ]);
+  const { service: serviceProps, news: newsProps } = servicesPage;
 
   const rawFromWp = Array.isArray(wpServices) && wpServices.length > 0 ? wpServices : null;
   const rawFromBlock = Array.isArray(serviceProps?.services) && serviceProps.services.length > 0 ? serviceProps.services : null;

@@ -27,6 +27,7 @@ export default function Infra(props) {
                                 alt={item.image?.alt || item.title || ""} 
                                 className="infra__item-img white-header"
                                 fill
+                                sizes="(max-width: 1023px) 100vw, 33vw"
                                 quality={95}
                             />
                             ) : null}
@@ -39,6 +40,7 @@ export default function Infra(props) {
                                 alt={item.image?.alt || item.title || ""} 
                                 className="infra__item-img white-header"
                                 fill
+                                sizes="(max-width: 1023px) 100vw, 33vw"
                                 quality={95}
                             />
                             ) : null}

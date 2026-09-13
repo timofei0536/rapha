@@ -27,7 +27,11 @@ export const metadata = {
 };
 
 export default async function PrivacyPage() {
-  const page = (await getPageBySlug("privacy-policy")) || (await getPageBySlug("privacy"));
+  const [privacyPolicy, privacy] = await Promise.all([
+    getPageBySlug("privacy-policy"),
+    getPageBySlug("privacy"),
+  ]);
+  const page = privacyPolicy || privacy;
   return (
     <main className="page page--bg-gray">
       <TextPage title={getTitle(page)} content={getContent(page)} />

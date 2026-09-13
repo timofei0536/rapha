@@ -3,7 +3,7 @@ import About from "@/components/About/About";
 import Structure from "@/components/Structure/Structure";
 import Chart from "@/components/Chart/Chart";
 import News from "@/components/News/News";
-import { getBlockPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
+import { getBlocksPropsForPage, getNewsPageFeatured } from "@/lib/rapha";
 
 export const metadata = {
   title: "About",
@@ -12,14 +12,17 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
-  const [aboutScreenProps, aboutProps, structureProps, chartProps, newsProps, featured] = await Promise.all([
-    getBlockPropsForPage("about", "aboutScreen"),
-    getBlockPropsForPage("about", "about"),
-    getBlockPropsForPage("about", "structure"),
-    getBlockPropsForPage("about", "chart"),
-    getBlockPropsForPage("about", "news"),
+  const [about, featured] = await Promise.all([
+    getBlocksPropsForPage("about", ["aboutScreen", "about", "structure", "chart", "news"]),
     getNewsPageFeatured("news"),
   ]);
+  const {
+    aboutScreen: aboutScreenProps,
+    about: aboutProps,
+    structure: structureProps,
+    chart: chartProps,
+    news: newsProps,
+  } = about;
 
   return (
     <main>

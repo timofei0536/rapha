@@ -1,7 +1,7 @@
 import PageScreen from "@/components/PageScreen/PageScreen";
 import News from "@/components/News/News";
 import Service from "@/components/Service/Service";
-import { getBlockPropsForPage, getWpServices, getNewsPageFeatured } from "@/lib/rapha";
+import { getBlocksPropsForPage, getWpServices, getNewsPageFeatured } from "@/lib/rapha";
 
 export const metadata = {
   title: "Our Services",
@@ -10,13 +10,12 @@ export const metadata = {
 };
 
 export default async function ServicesPage() {
-  const [serviceProps, newsProps, pageScreenProps, wpServices, featured] = await Promise.all([
-    getBlockPropsForPage("services", "service"),
-    getBlockPropsForPage("services", "news"),
-    getBlockPropsForPage("services", "pageScreen"),
+  const [servicesPage, wpServices, featured] = await Promise.all([
+    getBlocksPropsForPage("services", ["service", "news", "pageScreen"]),
     getWpServices(),
     getNewsPageFeatured("news"),
   ]);
+  const { service: serviceProps, news: newsProps, pageScreen: pageScreenProps } = servicesPage;
 
   const rawFromWp = Array.isArray(wpServices) && wpServices.length > 0 ? wpServices : null;
   const rawFromBlock = Array.isArray(serviceProps?.services) && serviceProps.services.length > 0 ? serviceProps.services : null;

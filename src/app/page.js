@@ -3,7 +3,7 @@ import Services from "../components/Services/Services";
 import Team from "../components/Team/Team";
 import Infra from "../components/Infra/Infra";
 import News from "../components/News/News";
-import { getBlockPropsForPage, getNewsPageFeatured, getWpServices } from "@/lib/rapha";
+import { getBlocksPropsForPage, getNewsPageFeatured, getWpServices } from "@/lib/rapha";
 import { getPageProps } from "@/lib/wp-api";
 
 export const metadata = {
@@ -12,16 +12,13 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const [heroProps, servicesProps, infraProps, teamProps, newsProps, featured, formProps, wpServices] = await Promise.all([
-    getBlockPropsForPage("home", "hero"),
-    getBlockPropsForPage("home", "services"),
-    getBlockPropsForPage("home", "infra"),
-    getBlockPropsForPage("home", "team"),
-    getBlockPropsForPage("home", "news"),
+  const [home, featured, formProps, wpServices] = await Promise.all([
+    getBlocksPropsForPage("home", ["hero", "services", "infra", "team", "news"]),
     getNewsPageFeatured("news"),
     getPageProps("contact", "form"),
     getWpServices(),
   ]);
+  const { hero: heroProps, services: servicesProps, infra: infraProps, team: teamProps, news: newsProps } = home;
 
   const servicesList = Array.isArray(servicesProps?.services) ? servicesProps.services : [];
   const doctors = Array.isArray(formProps?.doctors) ? formProps.doctors : [];

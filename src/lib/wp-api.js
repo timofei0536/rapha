@@ -26,8 +26,12 @@ const wpFetchOpts = wpPublicFetchCacheOptions();
 export async function getPageBySlug(slug) {
   if (!WP_API_BASE) return null;
   try {
+    const params = new URLSearchParams({
+      slug: String(slug),
+      _fields: "id,slug,title,content,acf",
+    });
     const res = await fetch(
-      `${WP_API_BASE}/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_embed`,
+      `${WP_API_BASE}/wp-json/wp/v2/pages?${params}`,
       wpFetchOpts
     );
     if (!res.ok) return null;
@@ -116,6 +120,17 @@ export async function getPageComponentData(slug, componentKey) {
 }
 
 /**
+ * Normalize one ACF block from an already-fetched page (no extra HTTP).
+ * @param {Record<string, unknown> | null} page
+ * @param {string} componentKey
+ * @returns {Record<string, unknown>}
+ */
+export function getPagePropsFromPage(page, componentKey) {
+  if (!page) return {};
+  return applyBlockFilter(normalizeAcfTree(getComponentData(page, componentKey)));
+}
+
+/**
  * Fetch WP block data and normalize ACF values. Empty when WP is unset or the block is empty.
  * @param {string} slug Page slug (e.g. 'careers')
  * @param {string} componentKey ACF clone key (e.g. 'careers')
@@ -123,8 +138,8 @@ export async function getPageComponentData(slug, componentKey) {
  */
 export async function getPageProps(slug, componentKey) {
   if (!WP_API_BASE) return {};
-  const raw = await getPageComponentData(slug, componentKey);
-  return applyBlockFilter(normalizeAcfTree(raw));
+  const page = await getPageBySlug(slug);
+  return getPagePropsFromPage(page, componentKey);
 }
 
 /**

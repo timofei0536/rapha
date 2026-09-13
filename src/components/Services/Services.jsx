@@ -16,7 +16,7 @@ export default function Services(props) {
                     <div className="services__item services__item--title">
                         <h2 className='simple-title'>{title}</h2>
                         {image?.src ? (
-                            <Image src={image.src} alt={image?.alt ?? ""} className="services__item-bg" fill quality={95} />
+                            <Image src={image.src} alt={image?.alt ?? ""} className="services__item-bg" fill sizes="(max-width: 1023px) 100vw, 33vw" quality={95} />
                         ) : null}
                     </div>
                     {(services || []).map((item, i) => {

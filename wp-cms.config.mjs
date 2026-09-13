@@ -2,10 +2,10 @@
  * TEMPORARY: Next.js Data Cache for public WP `fetch`.
  * Set to `false` when CMS edits must appear immediately.
  */
-export const WP_TEMP_FULL_DATA_CACHE = false;
+export const WP_TEMP_FULL_DATA_CACHE = true;
 
 /** Public WP fetch cache TTL in seconds when `WP_TEMP_FULL_DATA_CACHE` is enabled. */
-export const WP_TEMP_FULL_DATA_CACHE_REVALIDATE_SECONDS = 300;
+export const WP_TEMP_FULL_DATA_CACHE_REVALIDATE_SECONDS = 60;
 
 /**
  * Public WP `fetch` cache policy.
