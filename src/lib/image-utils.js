@@ -1,13 +1,13 @@
-/** Качество next/image (должно быть в images.qualities в next.config). */
+/** next/image quality (must be listed in images.qualities in next.config). */
 export const IMAGE_QUALITY = 95;
 
 /**
- * Возвращает URL изображения в низком разрешении для подложки с blur.
- * Для WordPress подставляет путь к миниатюре (-150x150), которую WP создаёт при загрузке.
- * Для локальных путей возвращает src без изменений.
+ * Returns a low-resolution image URL for a blur placeholder.
+ * For WordPress, swaps in the -150x150 thumbnail path that WP creates on upload.
+ * For local paths, returns src unchanged.
  *
- * @param {string} [src] Исходный URL изображения
- * @returns {string} URL для загрузки в плохом качестве
+ * @param {string} [src] Original image URL
+ * @returns {string} URL to load at low quality
  */
 export function getLowResImageSrc(src) {
   if (!src || typeof src !== "string") return null;
@@ -19,14 +19,14 @@ export function getLowResImageSrc(src) {
         u.pathname.includes("/wp-includes/"));
     if (!isWp) return src;
 
-    // WP создаёт миниатюры: photo.jpg → photo-150x150.jpg, photo-1024x768.jpg → photo-150x150.jpg
-    // Убираем -scaled и любой существующий -WxH, вставляем -150x150
+    // WP creates thumbnails: photo.jpg → photo-150x150.jpg, photo-1024x768.jpg → photo-150x150.jpg
+    // Strip -scaled and any existing -WxH, then insert -150x150
     const pathname = u.pathname.replace(
       /^(.+?)(-scaled)?(-\d+x\d+)?(\.[a-zA-Z0-9]+)$/i,
       "$1-150x150$4"
     );
     u.pathname = pathname;
-    u.search = ""; // убираем query, чтобы не тянуть полный размер
+    u.search = ""; // drop query so we do not fetch the full-size file
     return u.toString();
   } catch {
     // ignore

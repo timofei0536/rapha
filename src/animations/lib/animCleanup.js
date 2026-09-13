@@ -1,7 +1,7 @@
 /**
- * Единый реестр анимаций для очистки при смене страницы.
- * Модули регистрируют триггеры/таймлайны/слушатели через хелперы — дублирования нет.
- * На элементах при регистрации ставится data-anim-clean="<type>" для автоматической привязки.
+ * Shared animation registry for cleanup on page change.
+ * Modules register triggers/timelines/listeners via helpers — no duplication.
+ * On register, elements get data-anim-clean="<type>" for automatic binding.
  */
 
 const PREFIX = 'data-anim-clean';
@@ -17,7 +17,7 @@ function markElement(el, type) {
   if (el && el.setAttribute) el.setAttribute(PREFIX, type);
 }
 
-/** Зарегистрировать ScrollTrigger — при runCleanup будет убит. */
+/** Register a ScrollTrigger — killed in runCleanup. */
 export function registerScrollTrigger(trigger, element) {
   if (!trigger) return;
   registry.scrollTriggers.push(trigger);
@@ -26,27 +26,27 @@ export function registerScrollTrigger(trigger, element) {
   if (el && typeof el.setAttribute === 'function') markElement(el, 'scroll-trigger');
 }
 
-/** Зарегистрировать таймлайн — при runCleanup будет убит. */
+/** Register a timeline — killed in runCleanup. */
 export function registerTimeline(timeline, element) {
   if (!timeline) return;
   registry.timelines.push(timeline);
   if (element) markElement(element, 'timeline');
 }
 
-/** Зарегистрировать слушатель — при runCleanup будет снят. */
+/** Register a listener — removed in runCleanup. */
 export function registerListener(element, event, handler) {
   if (!element || !handler) return;
   registry.listeners.push({ element, event, handler });
   markElement(element, 'listener');
 }
 
-/** Зарегистрировать функцию сброса (классы, clearProps, delete window.x и т.д.). */
+/** Register a reset function (classes, clearProps, delete window.x, etc.). */
 export function registerCleanupFn(fn) {
   if (typeof fn === 'function') registry.cleanupFns.push(fn);
 }
 
 /**
- * Очистить всё зарегистрированное. Вызывается из refreshAnimations().
+ * Clear everything registered. Called from refreshAnimations().
  */
 export function runCleanup() {
   registry.scrollTriggers.forEach((t) => t.kill());

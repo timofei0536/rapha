@@ -72,7 +72,7 @@ body {
 	justify-content: space-between;
 	min-height: 100vh;
 	font-size: 1.6rem;
-	--content-fz: 1.6rem; // база для .content remToEm(); при переопределении fz у .content задавать и --content-fz
+	--content-fz: 1.6rem; // base for .content remToEm(); when overriding fz on .content, also set --content-fz
 	// user-select: none;
 	@media screen and (max-width: $large_tablet) {
 		font-size: 1.4rem;
@@ -115,7 +115,7 @@ h5 {
 
 	font-size: 4.8rem;
 	font-weight: 600;
-	letter-spacing: -0.02em; /* -0.096rem при 4.8rem */
+	letter-spacing: -0.02em; /* -0.096rem at 4.8rem */
 
 	@media screen and (max-width: $large_tablet) {
 		font-size: 2.8rem;
@@ -241,7 +241,7 @@ a {
 		transform-origin: left;
 	}
 
-	// Модификатор для многострочных (адрес и т.п.) — обычный text-decoration
+	// Modifier for multiline text (address, etc.) — regular text-decoration
 	&--simple {
 		&::after {
 			display: none;
@@ -297,7 +297,7 @@ b, strong {
 	font-weight: 700;
 }
 
-/* Единый стандарт начального состояния анимаций: только .anim-initial + CSS-переменные (значения задаются из data-anim-* в JS) */
+/* Shared initial animation state: .anim-initial + CSS variables only (values come from data-anim-* in JS) */
 .anim-initial {
 	opacity: var(--anim-opacity, 1);
 	transform: translateY(var(--anim-y, 0)) translateX(var(--anim-x, 0)) scale(var(--anim-scale, 1));

@@ -9,6 +9,7 @@ import NewShare from "./NewShare";
 import Decor from "@/components/ui/icons/Decor";
 
 export default function New({ title, date, image, content = "", shareUrl }) {
+    const shareTitle = typeof title === "string" ? title.replace(/\n/g, " ") : String(title ?? "");
     return (
         <section className="new center-wrap">
             <div className="center-wrap center-wrap--small">
@@ -28,7 +29,7 @@ export default function New({ title, date, image, content = "", shareUrl }) {
                         <div className="new__content">
                             <div className="new__body content" dangerouslySetInnerHTML={{ __html: content }} />
                             <div className="new__footer">
-                                <NewShare shareUrl={shareUrl} />
+                                <NewShare shareUrl={shareUrl} title={shareTitle} />
                                 <Link href="/news" className="new__back">
                                     <Btn text="Back to news" icon={ArrowLeft} iconPosition="left" />
                                 </Link>

@@ -86,14 +86,14 @@ export default async function RootLayout({ children }) {
 // 6) add select component
 // 7) add .content
 // 8) add img-wrap style.
-// 9) gsap подключить
+// 9) hook up gsap
 // 10) adaptive, change tablet vars.
 
 //////
 
 
 
-// 1) chart уточнить
+// 1) clarify chart
 // 2) careers form.
 // 3) news - pagination.
 // ) services -> ask about it.
@@ -108,20 +108,20 @@ export default async function RootLayout({ children }) {
 
 
 // THEME:
-// Включить ошибки в function.php
-// Включить RestAPi
-// По умолчанию включить ACF, а то скрыто.
+// Enable errors in function.php
+// Enable RestAPI
+// Enable ACF by default — it is hidden otherwise.
 
 // Contact
-// 1) 3я items ограничить.
-// 2) svg icons натянуть.
+// 1) limit the 3rd items.
+// 2) implement svg icons.
 
 
 
 // EDITS:
 
-// 1) PageScreen натянуть
-// 2) text page натянуть.
+// 1) implement PageScreen
+// 2) implement text page.
 
 
 // HIGH P:
@@ -129,13 +129,13 @@ export default async function RootLayout({ children }) {
 // 1) adaptive pp.
 // 2) mobile-menu
 // 3) content
-// 4) build и пенос на сервер.
+// 4) build and deploy to the server.
 // 5) presentation.
 // 6) animations
-// 7) new вылезла
+// 7) news article overflowed
 
 // MIDDLE P
-// 1) 404 натянуть и check bg
+// 1) implement 404 and check bg
 // 2) fix content ( apply .content )
 // 3) chart gradient on mobile.
 // 4) tablet
@@ -148,14 +148,14 @@ export default async function RootLayout({ children }) {
 // 1) btn -> svg.
 // 2) Career -> create br
 // 3) Contact -> book appointment title.
-// 4) chart натянуть
-// 5) изображения которые изначлаьно обрезаны в radius на мобилке остаются такими же.
+// 4) implement chart
+// 5) images that start with a radius crop stay the same on mobile.
 
 // QUESTIONS:
-// 1) fonts решить.
+// 1) decide on fonts.
 // 2) about -> content --reverse on mobile
 
 
 
-// other services - последним.
+// other services - last.
 // shared

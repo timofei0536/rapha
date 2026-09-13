@@ -4,7 +4,7 @@ import { setInitialData } from './lib/animInitial';
 
 let heroInitialStatePromise = null;
 
-/** Подготовка hero: разбивка заголовка на строки. Начальные CSS-состояния заданы в Hero.scss. */
+/** Prepare hero: split the title into lines. Initial CSS states are set in Hero.scss. */
 export function setHeroInitialState() {
   if (typeof window === 'undefined' || !window.gsap) return Promise.resolve();
   if (heroInitialStatePromise) return heroInitialStatePromise;

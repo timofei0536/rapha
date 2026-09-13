@@ -14,13 +14,13 @@ export default function Toogles() {
     const $  = (s, c=document) => c.querySelector(s);
     const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
 
-    // INIT: скрыть все неактивные при загрузке/переходе
+    // INIT: hide all inactive items on load / navigation
     $$('.toogles__item-content').forEach(c => {
       const p = c.closest('.toogles__item--active');
       c.style.display = p ? 'block' : 'none';
     });
 
-    // Анимация
+    // Animation
     const animate = (type, el, show) => {
       if (!el) return Promise.resolve();
       gsap.killTweensOf(el);
@@ -55,7 +55,7 @@ export default function Toogles() {
       if (!title || title.closest('.mobile-menu')) return;
 
       const wrap = title.closest('.toogles');
-      // Твоя проверка на десктоп (window.its_desktop заменил на ширину, верни если есть глобальная переменная)
+      // Desktop check (window.its_desktop was replaced with width; restore if the global exists)
       if (!wrap || (wrap.classList.contains('toogles--mobile') && window.innerWidth > 992) || busy) return;
       busy = true;
 
@@ -69,7 +69,7 @@ export default function Toogles() {
 
       const groupActive = items.every(it => it.classList.contains('toogles__item--active'));
 
-      // Закрыть текущую
+      // Close current
       if (groupActive) {
         title.classList.remove('toogles__title--active');
         await Promise.all(conts.map((c,i) => animate(type, c, false).then(() => items[i].classList.remove('toogles__item--active'))));
@@ -80,10 +80,10 @@ export default function Toogles() {
 
       title.classList.add('toogles__title--active');
 
-      // Закрыть соседей
+      // Close siblings
       const others = $$('.toogles__item--active', wrap).filter(it => it.getAttribute('data-toogles') !== group);
       if (others.length) {
-         // Снимаем класс active у заголовков соседей
+         // Remove the active class from sibling titles
          others.forEach(o => {
             const g = o.getAttribute('data-toogles');
             $$(`.toogles__title[data-toogles="${g}"]`, wrap).forEach(t => t.classList.remove('toogles__title--active'));
@@ -96,7 +96,7 @@ export default function Toogles() {
         if (isFade) await gsap.to({}, {duration: D});
       }
 
-      // Открыть
+      // Open
       await Promise.all(conts.map((c,i) => animate(type, c, true).then(() => items[i].classList.add('toogles__item--active'))));
       
       if (ScrollTrigger) ScrollTrigger.refresh();

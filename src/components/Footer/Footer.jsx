@@ -19,7 +19,8 @@ export default function Footer({ contactInfo }) {
 
     return (
         <footer className="footer white-header">
-            <div className="center-wrap">
+            <div className="footer__inner">
+                <div className="center-wrap">
                 <div className="footer__wrap">
                             <Link
                                 href="/"
@@ -87,8 +88,9 @@ export default function Footer({ contactInfo }) {
                         </div>
                     </div>
                 </div>
+                </div>
+                <Decor className='decore' />
             </div>
-            <Decor className='decore' />
         </footer>
     );
 }

@@ -1,4 +1,4 @@
-/* Начальные состояния — только через data-anim-* + универсальный .anim-initial в globals */
+/* Initial states — only via data-anim-* + shared .anim-initial in globals */
 
 .hero {
     position: relative;
@@ -94,12 +94,12 @@
 
         &::before {
             content: "";
-            flex-grow: 2; /* Занимает 1 часть пустоты сверху */
+            flex-grow: 2; /* Takes 2 parts of leftover space at the top */
           }
           
           &::after {
             content: "";
-            flex-grow: 1; /* Занимает 2 части пустоты снизу */
+            flex-grow: 1; /* Takes 1 part of leftover space at the bottom */
           }
 
     }
@@ -120,7 +120,7 @@
             margin: 12rem auto;
         }
 
-        /* Строки для анимации появления (textLines) */
+        /* Lines for the entrance animation (textLines) */
         .anim-line-wrap {
             display: block;
             // overflow: hidden;
@@ -171,11 +171,11 @@
             @media screen and (min-width: $large_tablet) {
                 
                 font-size: 2.4rem;
-                letter-spacing: -0.02em; /* -0.048rem при 2.4rem */
+                letter-spacing: -0.02em; /* -0.048rem at 2.4rem */
                 flex-shrink: 0;
                 border-radius: var(--radius);
                 background: var(--blue-l);
-                line-height: 3.54em; /* 8.5rem при font-size 2.4rem */
+                line-height: 3.54em; /* 8.5rem at font-size 2.4rem */
                 padding: 0px 10.85rem;
 
                 opacity: 0;

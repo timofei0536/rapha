@@ -1,6 +1,6 @@
 /**
- * Инициализация глобальных констант в window.
- * Вызывать в браузере после наличия document.body.
+ * Initialize global constants on window.
+ * Call in the browser after document.body exists.
  */
 export function initGlobals() {
   if (typeof window === 'undefined') return;

@@ -2,13 +2,23 @@ import { registerScrollTrigger, registerCleanupFn } from './lib/animCleanup';
 
 export const selector = '.header';
 
+const WHITE_SECTIONS = '.white-header';
+
 export function init() {
   const header = document.querySelector('.header');
-  if (!header) return;
-  const getSections = () => document.querySelectorAll('section.bg-gradient');
+  if (!header || !window.ScrollTrigger) return;
+
+  let sections = Array.from(document.querySelectorAll(WHITE_SECTIONS));
+
+  const collectSections = () => {
+    sections = Array.from(document.querySelectorAll(WHITE_SECTIONS));
+  };
+
   const updateHeaderClass = () => {
-    const sections = getSections();
-    if (!sections.length) return;
+    if (!sections.length) {
+      header.classList.remove('header--white');
+      return;
+    }
     const headerTop = header.querySelector('.header__top');
     const refEl = headerTop || header;
     const refRect = refEl.getBoundingClientRect();
@@ -20,6 +30,13 @@ export function init() {
     });
     header.classList.toggle('header--white', inside);
   };
+
+  const onRefreshInit = () => {
+    collectSections();
+    updateHeaderClass();
+  };
+  window.ScrollTrigger.addEventListener('refreshInit', onRefreshInit);
+
   const trigger = window.ScrollTrigger.create({
     trigger: document.body,
     start: 0,
@@ -27,6 +44,9 @@ export function init() {
     onUpdate: updateHeaderClass,
   });
   registerScrollTrigger(trigger, document.body);
-  registerCleanupFn(() => header.classList.remove('header--white'));
+  registerCleanupFn(() => {
+    window.ScrollTrigger?.removeEventListener('refreshInit', onRefreshInit);
+    header.classList.remove('header--white');
+  });
   updateHeaderClass();
 }

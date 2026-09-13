@@ -1,6 +1,6 @@
 /**
- * Разбиение текста на строки (и опционально на слова/буквы) для анимации.
- * Использование: textLinesScript(element, words = false, letter = true)
+ * Split text into lines (and optionally words/letters) for animation.
+ * Usage: textLinesScript(element, words = false, letter = true)
  */
 
 export const textLinesScript = (textElem, words = false, letter = true) => {

@@ -2,7 +2,7 @@
     display: flex;
     max-width: 23.6rem;
     width: 100%;
-    line-height: 3.67; /* 5.8752rem при font-size 1.6rem (body) — безразмерный множитель */
+    line-height: 3.67; /* 5.8752rem at font-size 1.6rem (body) — unitless multiplier */
     padding: 1.7rem 1.9rem;
     align-items: center;
     gap: 1.2rem;
@@ -13,7 +13,7 @@
     transition: max-width 0.3s ease-out;
 
     &:focus-within {
-        max-width: 28.4rem; // ~20% шире (23.6 * 1.2)
+        max-width: 28.4rem; // ~20% wider (23.6 * 1.2)
     }
 
     &__input {

@@ -6,7 +6,7 @@
 add_filter( 'show_admin_bar', '__return_false' );
 
 
-require get_template_directory() . '/inc/scripts_and_styles.php'; // подключаем скрипты и стили
+require get_template_directory() . '/inc/scripts_and_styles.php'; // enqueue scripts and styles
 require get_template_directory() . '/inc/remove_unnecessary.php'; // remove unnecessary wp
 require get_template_directory() . '/inc/remove_unnecessary_admin_panel.php'; // remove unnecessary from admin panel;
 

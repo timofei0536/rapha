@@ -1,5 +1,5 @@
 <?php
 /**
  * Template Name: Text Page
- * Для headless: шаблон нужен только для выбора в админке и для ACF Location.
+ * Headless: this template is only for the admin picker and ACF Location.
  */

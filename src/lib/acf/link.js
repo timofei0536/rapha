@@ -16,7 +16,7 @@ const INTERNAL_HOSTS = new Set(
   [hostFromEnv("NEXT_PUBLIC_WP_API_URL"), hostFromEnv("NEXT_PUBLIC_SITE_URL")].filter(Boolean)
 );
 
-/** WP full URL → path. Один сегмент /slug = пост → /news/slug. */
+/** WP full URL → path. A single /slug segment is a post → /news/slug. */
 const PAGES = new Set(["about", "contact", "services", "careers", "news", "results", "privacy-policy", "terms-conditions", "home"]);
 
 function toRelativePath(href) {

@@ -1,6 +1,6 @@
 /**
- * Ждёт загрузки уже запрошенных (не lazy) img в контейнере, затем вызывает callback.
- * Lazy-картинки ниже фолда не блокируют: у них load может не прийти, пока их не проскроллили.
+ * Waits for already requested (non-lazy) images in the container, then calls the callback.
+ * Lazy images below the fold do not block: their load may not fire until they are scrolled into view.
  */
 
 export function whenImagesReady(container, callback) {

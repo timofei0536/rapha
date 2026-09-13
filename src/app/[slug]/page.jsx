@@ -5,7 +5,7 @@ import { normalizeContent } from "@/lib/acf";
 
 const RESERVED_SLUGS = new Set(["not-found", "404"]);
 
-/** Декодируем HTML-сущности в заголовке из WP (например &#038; → &). */
+/** Decode HTML entities in the WP title (e.g. &#038; → &). */
 function decodeTitle(str) {
   if (typeof str !== "string") return "";
   return str

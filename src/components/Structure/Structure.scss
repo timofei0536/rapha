@@ -10,7 +10,7 @@
 
     &__tab.content {
         font-size: 2rem;
-        --content-fz: 2rem; // в паре с font-size, иначе remToEm пересчитывается у h2 и отступы раздуваются
+        --content-fz: 2rem; // keep paired with font-size, otherwise remToEm recalculates on h2 and spacing blows up
         padding-left: 0.2rem;
         padding-top: 0.5rem;
         column-count: 2;
@@ -18,7 +18,7 @@
         column-fill: auto;
         @media screen and (max-width: $large_tablet) {
             font-size: 1.2rem;
-            --content-fz: 1.2rem; // в паре с font-size, иначе remToEm пересчитывается у h2 и отступы раздуваются
+            --content-fz: 1.2rem; // keep paired with font-size, otherwise remToEm recalculates on h2 and spacing blows up
             column-count: 1;
         }
     }

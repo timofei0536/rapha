@@ -15,7 +15,7 @@
     "theme:pull": "node scripts/sync/theme-pull-sync.mjs",
     "theme:pull:dry": "node scripts/sync/theme-pull-sync.mjs --dry-run",
     "build": "next build",
-    "build:show": "npm run build && echo '' && echo 'Итоговая сборка: .next' && (open .next 2>/dev/null || true)",
+    "build:show": "npm run build && echo '' && echo 'Build output: .next' && (open .next 2>/dev/null || true)",
     "start": "next start",
     "preview": "npx --yes serve out -l 3000",
     "lint": "eslint",

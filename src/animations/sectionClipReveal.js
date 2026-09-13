@@ -1,34 +1,30 @@
 /**
- * Анимация обрезки секции сверху: clip-path от 5.25rem → 0.
+ * Clip the section from the top: clip-path from 5.25rem → 0.
  * ScrollTrigger: start "bottom bottom", end "center center".
  */
 
 function isFooterClipDisabled() {
   if (typeof window === 'undefined' || !window.location) return false;
   const path = (window.location.pathname || '').replace(/\/$/, '') || '/';
-  // careers: без footer parallax
-  if (path === '/careers') return true;
-  // single news
-  if (path.startsWith('/news/')) return true;
-  // текстовые страницы (одна секция: /about, /privacy, /terms-conditions и т.д.)
-  if (path !== '/' && /^\/[^/]+$/.test(path)) return true;
+  // text pages (single section: /about, /privacy, /terms-conditions, etc.)
+  if (path !== '/' && path !== '/careers' && /^\/[^/]+$/.test(path)) return true;
   return false;
 }
 
 import { registerScrollTrigger, registerCleanupFn } from './lib/animCleanup';
 
-export const selector = '.footer';
+export const selector = '.footer__inner';
 export const desktopOnly = true;
 
 export function init() {
   const gsap = window.gsap;
 
   if (isFooterClipDisabled()) {
-    gsap.set(document.querySelectorAll('.footer'), { clearProps: 'clipPath' });
+    gsap.set(document.querySelectorAll('.footer__inner'), { clearProps: 'clipPath' });
     return;
   }
 
-  const sections = document.querySelectorAll('.footer');
+  const sections = document.querySelectorAll('.footer__inner');
 
   sections.forEach((section) => {
     const tween = gsap.fromTo(
@@ -49,13 +45,13 @@ export function init() {
   });
 
   registerCleanupFn(() => {
-    if (window.gsap) window.gsap.set(document.querySelectorAll('.footer'), { clearProps: 'clipPath' });
+    if (window.gsap) window.gsap.set(document.querySelectorAll('.footer__inner'), { clearProps: 'clipPath' });
   });
 }
 
 // /**
-//  * Team: слой .team__bg (bottom: 100%, height: 7rem) при скролле
-//  * bottom bottom → bottom center клипается по высоте на 100%.
+//  * Team: .team__bg layer (bottom: 100%, height: 7rem) on scroll
+//  * bottom bottom → bottom center clips height to 100%.
 //  */
 // export function teamClipReveal() {
 //   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;

@@ -5,8 +5,8 @@ $content-figma-base: 16;
 }
 
 .content {
-	// Не 1em: наследуется как токен и в потомках (h2 и т.д.) пересчитывается → отступы раздуваются.
-	// Задаём явной длиной: по умолчанию из body, в Structure и т.д. — font-size и --content-fz в паре.
+	// Not 1em: inherited as a token and recalculated in descendants (h2, etc.) → spacing blows up.
+	// Set as an explicit length: default from body; in Structure etc. keep font-size and --content-fz paired.
 	--content-fz: inherit;
 
 	p {

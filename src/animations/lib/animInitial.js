@@ -1,6 +1,6 @@
 /**
- * Начальное состояние для GSAP: класс .anim-initial + CSS-переменные (--anim-opacity, --anim-y, …).
- * Используется из JS для динамических элементов (hero lines, parallax, mobile menu).
+ * Initial GSAP state: .anim-initial class + CSS variables (--anim-opacity, --anim-y, …).
+ * Used from JS for dynamic elements (hero lines, parallax, mobile menu).
  */
 
 function px(val) {
@@ -9,7 +9,7 @@ function px(val) {
   return /^\d+$/.test(s) ? `${s}px` : s;
 }
 
-/** Выставить элементу начальное состояние (opacity, y, x, scale) — класс .anim-initial и CSS-переменные. */
+/** Apply the initial state (opacity, y, x, scale) — .anim-initial class and CSS variables. */
 export function setInitialData(el, state) {
   if (!el || !state || typeof state !== 'object') return;
   el.classList.add('anim-initial');

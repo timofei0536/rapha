@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './Preloader.scss';
 
-// Имя сайта для проверки referrer — не показывать прелоадер при переходе с внутренних страниц
+// Site name used to check the referrer — skip the preloader on internal navigations
 const SITE_REFERRER_KEY = 'raph';
 
 export default function Preloader() {

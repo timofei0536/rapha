@@ -14,9 +14,13 @@ import * as imgParallax from './imgParallax';
 import { runCleanup } from './lib/animCleanup';
 import { initLenis } from './lib/lenis';
 import { whenImagesReady } from './lib/whenImagesReady';
+import { syncScrollTriggerLayout } from './lib/syncScrollLayout';
 
 export { textLinesScript } from './textLines';
 export { registerScrollTrigger, registerTimeline, registerListener, registerCleanupFn } from './lib/animCleanup';
+export { syncScrollTriggerLayout };
+
+let animationsBootstrapDone = false;
 
 const ANIMATIONS = [
   heroEntrance,
@@ -30,16 +34,28 @@ const ANIMATIONS = [
   mobileMenu,
 ];
 
-function addLoadEvent(func) {
-  const oldonload = window.onload;
-  if (typeof window.onload !== 'function') {
-    window.onload = func;
-  } else {
-    window.onload = function () {
-      if (oldonload) oldonload();
-      func();
-    };
+function whenWindowLoadComplete() {
+  if (document.readyState === 'complete') return Promise.resolve();
+  return new Promise((resolve) => {
+    window.addEventListener('load', resolve, { once: true });
+  });
+}
+
+function whenPreloaderFinishedIfPresent() {
+  if (!document.querySelector('.preloader') || window.preloaderDone) {
+    return Promise.resolve();
   }
+  return new Promise((resolve) => {
+    window.addEventListener('preloaderEnd', resolve, { once: true });
+  });
+}
+
+function scheduleRunScrollTriggersAfterLayout() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      void runScrollTriggers();
+    });
+  });
 }
 
 async function runScrollTriggers() {
@@ -49,65 +65,50 @@ async function runScrollTriggers() {
     if (header && window.gsap && window.its_desktop) {
       window.gsap.set(header, { y: 0 });
     }
-  } else {
-    await heroEntrance.init();
   }
 
-  ANIMATIONS.forEach((entry) => {
-    if (entry === heroEntrance) return;
-    if (entry.desktopOnly && !window.its_desktop) return;
-    if (entry.selector && !document.querySelector(entry.selector)) return;
-    if (typeof entry.init !== 'function') return;
-    entry.init();
-  });
+  for (const entry of ANIMATIONS) {
+    if (entry.desktopOnly && !window.its_desktop) continue;
+    if (entry.selector && !document.querySelector(entry.selector)) continue;
+    if (typeof entry.init !== 'function') continue;
+    await entry.init();
+  }
 
   if (window.its_desktop) structureColumns();
-  window.lenis?.resize?.();
-  if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+  syncScrollTriggerLayout();
+}
+
+function armScrollTriggersWhenReady() {
+  Promise.all([whenWindowLoadComplete(), whenPreloaderFinishedIfPresent()]).then(
+    scheduleRunScrollTriggersAfterLayout,
+  );
 }
 
 export function initAnimations() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
+  if (animationsBootstrapDone) return;
+  animationsBootstrapDone = true;
+
   window.gsap.registerPlugin(window.ScrollTrigger);
   initGlobals();
   initLenis();
-  window.addLoadEvent = addLoadEvent;
-
-  let readyCount = 0;
-  const checkReady = () => {
-    readyCount++;
-    if (readyCount === 3) runScrollTriggers();
-  };
 
   const hero = document.querySelector('.hero');
   if (hero) setHeroInitialState();
 
-  checkReady();
-  if (document.readyState === 'complete') {
-    checkReady();
-  } else {
-    addLoadEvent(() => checkReady());
-  }
-  const hasPreloader = document.querySelector('.preloader');
-  if (hasPreloader) {
-    window.addEventListener('preloaderEnd', () => checkReady(), { once: true });
-  } else {
-    checkReady();
-  }
+  armScrollTriggersWhenReady();
 }
 
-/** Для Next.js: перезапуск анимаций после смены страницы (клиентский переход). */
+/** For Next.js: restart animations after a client-side page change. */
 export function refreshAnimations() {
   if (typeof window === 'undefined' || !window.ScrollTrigger) return;
   runCleanup();
   resetHeroInitialState();
 
-  requestAnimationFrame(() => {
-    runScrollTriggers();
-    const container = document.querySelector('main') || document.body;
-    whenImagesReady(container, () => {
-      window.lenis?.resize?.();
-      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
-    });
+  scheduleRunScrollTriggersAfterLayout();
+
+  const container = document.querySelector('main') || document.body;
+  whenImagesReady(container, () => {
+    syncScrollTriggerLayout();
   });
 }

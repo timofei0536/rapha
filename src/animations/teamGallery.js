@@ -1,5 +1,5 @@
 /**
- * Анимация .team__gallery-part: opacity 0.6 → 1, scale 0.9 → 1.
+ * Animate .team__gallery-part: opacity 0.6 → 1, scale 0.9 → 1.
  * Trigger: .team__wrap, start: top bottom, end: center center.
  */
 

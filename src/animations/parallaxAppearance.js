@@ -1,5 +1,5 @@
 /**
- * Parallax-появление: trigger = сам элемент, stagger через fromY (без delay — старт при входе).
+ * Parallax reveal: trigger is the element itself, stagger via fromY (no delay — starts on enter).
  */
 
 import { registerScrollTrigger } from './lib/animCleanup';

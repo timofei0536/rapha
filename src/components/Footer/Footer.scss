@@ -1,16 +1,32 @@
 .footer {
-    background-color: var(--blue);
     color: var(--white);
     font-size: 2rem;
-    padding-top: calc( var(--p-margin) / 2);
-    padding-bottom: var(--p-margin);
-
     position: relative;
-    overflow: hidden;
 
     @media screen and (max-width: $large_tablet) {
         font-size: 1.6rem;
-        padding-bottom: 18rem;
+    }
+
+    &::before {
+        content: none;
+        position: absolute;
+        inset: 0;
+        background-color: var(--gray);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    &__inner {
+        position: relative;
+        z-index: 1;
+        background-color: var(--blue);
+        padding-top: calc( var(--p-margin) / 2);
+        padding-bottom: var(--p-margin);
+        overflow: hidden;
+
+        @media screen and (max-width: $large_tablet) {
+            padding-bottom: 18rem;
+        }
     }
 
     &__wrap {
@@ -129,4 +145,9 @@
     .decore {
         transform: none;
     }
+}
+
+body:has(.page--bg-gray) .footer::before,
+body:has(.apply) .footer::before {
+    content: "";
 }
