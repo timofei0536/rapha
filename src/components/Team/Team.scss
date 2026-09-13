@@ -31,8 +31,7 @@
         @media screen and (max-width: $large_tablet) {
             flex-direction: column;
             gap: 0px;
-            padding-bottom: 4rem;
-            padding-top: 4rem;
+            padding: 4rem 1.2rem;
         }
     }
 
@@ -95,6 +94,8 @@
             position: static;
             transform: none;
             flex-direction: column-reverse;
+            align-items: stretch;
+            width: 100%;
             gap: 1.2rem;
         }
         
@@ -121,6 +122,10 @@
             .team__gallery-img-wrap {
                 width: 100%;
                 border-radius: var(--radius);
+                @media screen and (max-width: $large_tablet) {
+                    width: auto;
+                    flex: 0 1 auto;
+                }
             }
 
             img {
@@ -131,6 +136,7 @@
                 @media screen and (max-width: $large_tablet) {
                     width: auto !important;
                     height: auto !important;
+                    max-width: 100%;
                     max-height: 16rem;
                 }
             }

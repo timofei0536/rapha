@@ -25,7 +25,7 @@ export function init() {
       ease: 'power2.out',
       scrollTrigger: {
         trigger: teamWrap,
-        start: 'center bottom',
+        start: 'top bottom',
         end: 'center center',
         scrub: 2,
       },

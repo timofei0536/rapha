@@ -1,0 +1,115 @@
+{
+    "key": "group_next_hero",
+    "title": "Hero",
+    "fields": [
+        {
+            "key": "field_448022df32c740c38a56c80884854eb0",
+            "label": "Title",
+            "name": "title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Cutting edge medicine in the heart of Africa",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_bc3e4b69af26158e514e5ac66d755d1e",
+            "label": "Form Title",
+            "name": "formTitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Book an Appointment",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_b5a4f543da0205ee0219294570614182",
+            "label": "Image (Desktop)",
+            "name": "image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Shown from 1024px and up.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "preview_size": "medium",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_c8e91a4b7d2f0e6a1b3c5d7e9f0a2b4c",
+            "label": "Image (Mobile)",
+            "name": "imageMobile",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Shown below 1024px. Use the portrait crop (hero-image--mobile).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "preview_size": "medium",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page",
+                "operator": "==",
+                "value": "0"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Component",
+    "show_in_rest": 0,
+    "modified": 1789345500
+}

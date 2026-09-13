@@ -24,6 +24,13 @@ export function init() {
   }
 
   const menuItemsSelector = '.mobile-menu__nav-item, .mobile-menu .search';
+  const menuItems = gsap.utils.toArray(menuItemsSelector);
+  const navItems = menu.querySelectorAll('.mobile-menu__nav-item');
+  const itemDuration = 0.55;
+  const itemDelay = 0.25;
+  const itemStaggerAmount = 0.45;
+  const itemStart = 0.3 + itemDelay;
+  const staggerEach = menuItems.length > 1 ? itemStaggerAmount / (menuItems.length - 1) : 0;
 
   const viewMenuAnimation = gsap.timeline({ paused: true });
 
@@ -39,13 +46,24 @@ export function init() {
     {
       opacity: 1,
       y: 0,
-      duration: 0.55,
-      delay: 0.25,
-      stagger: { amount: 0.45 },
+      duration: itemDuration,
+      delay: itemDelay,
+      stagger: { amount: itemStaggerAmount },
       ease: 'power2.out',
     },
     0.3
   );
+
+  navItems.forEach((item, i) => {
+    if (i === navItems.length - 1) return;
+    const line = { scale: 0 };
+    viewMenuAnimation.to(line, {
+      scale: 1,
+      duration: 0.35,
+      ease: 'power2.out',
+      onUpdate: () => item.style.setProperty('--line-scale', String(line.scale)),
+    }, itemStart + i * staggerEach + itemDuration);
+  });
 
   viewMenuAnimation.eventCallback('onComplete', () => menu.classList.add('mobile-menu--overflow'));
   viewMenuAnimation.eventCallback('onReverseComplete', () => {
@@ -73,6 +91,7 @@ export function init() {
     menu.setAttribute('aria-hidden', 'false');
     menu.removeAttribute('inert');
     document.querySelectorAll(menuItemsSelector).forEach((el) => setInitialData(el, { opacity: '0', y: '40' }));
+    navItems.forEach((item) => item.style.setProperty('--line-scale', '0'));
     viewMenuAnimation.play();
     if (!window.its_desktop) window.stopScrollMobile();
   }

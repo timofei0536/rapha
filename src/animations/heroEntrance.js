@@ -53,7 +53,7 @@ export async function init() {
   }
   tl.to(titleEl, { opacity: 1, duration: 0 }, 0);
   tl.to(lines, { opacity: 1, y: 0, duration: 1, stagger: 0.2 }, 0);
-  tl.to(formElems, { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power2.out' }, 1);
+  tl.to(formElems, { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: 'power2.out' }, 1);
   if (window.its_desktop) tl.to(header, { y: 0, duration: 1, ease: 'power2.out' }, 1);
   tl.to(bgEl, { scale: 1, duration: 5, ease: 'power3.out' }, 0);
 }

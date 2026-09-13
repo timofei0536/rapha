@@ -21,6 +21,15 @@ function servicesToOptions(services) {
     .filter(Boolean);
 }
 
+async function submitAppointment(form) {
+  const res = await fetch("/api/forms/cf7/", {
+    method: "POST",
+    body: new FormData(form),
+  });
+  const data = await res.json().catch(() => null);
+  return data;
+}
+
 const normalizeRepeaterToOptions = (items) => {
   if (!Array.isArray(items)) return [];
   return items
@@ -58,6 +67,8 @@ export default function Form({
   const [coverLabel, setCoverLabel] = useState("Upload Cover Letter");
   const [showPopup, setShowPopup] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const dateInputRef = useRef(null);
   const formRef = useRef(null);
@@ -70,14 +81,37 @@ export default function Form({
     dateInputRef.current?.showPicker?.();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    setSubmitError("");
     if (!form.checkValidity()) {
+      form.querySelector(":invalid")?.focus();
       form.reportValidity();
+      setSubmitError("Please fill in all required fields.");
       return;
     }
-    const name = form.elements?.name?.value?.trim() || "";
+
+    if (variant !== "apply") {
+      setSubmitting(true);
+      try {
+        const data = await submitAppointment(form);
+        if (data?.status !== "mail_sent") {
+          setSubmitError(data?.message || "Could not send. Try again.");
+          return;
+        }
+      } catch {
+        setSubmitError("Could not send. Try again.");
+        return;
+      } finally {
+        setSubmitting(false);
+      }
+    }
+
+    const name =
+      form.elements?.fullname?.value?.trim() ||
+      form.elements?.name?.value?.trim() ||
+      "";
     setSubmittedName(name);
     setShowPopup(true);
   };
@@ -212,19 +246,17 @@ export default function Form({
           placeholder="Practitioner"
           className="form__input form__input--select"
           options={practitionerOptions}
-          required
         />
         <Select
           name="insurance"
           placeholder="Insurance"
           className="form__input form__input--select"
           options={insuranceOptions}
-          required
         />
         <input
           className="form__input"
           type="text"
-          name="name"
+          name="fullname"
           placeholder="Name"
           autoComplete="name"
           aria-label="Name"
@@ -249,7 +281,8 @@ export default function Form({
           required
         />
       </div>
-      <Btn type="submit" className="btn--blue-l" text={submitButtonText} icon={SubmitIcon} />
+      {submitError ? <p className="form__error">{submitError}</p> : null}
+      <Btn type="submit" className="btn--blue-l" text={submitting ? "Sending…" : submitButtonText} icon={SubmitIcon} disabled={submitting} />
     </form>
     <FormPopup
       open={showPopup}

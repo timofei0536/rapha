@@ -28,16 +28,33 @@
         padding: 1.4rem 0px;
     }
 
+    &__nav-item {
+        --line-scale: 0;
+    }
+
     &__nav-link {
         display: block;
+        position: relative;
         font-size: 2rem;
         padding: 2.8rem 0;
         font-weight: 400;
         letter-spacing: -0.02em;
-        border-bottom: 0.0625rem solid var(--gray);
         text-align: center;
-        .mobile-menu__nav-item:last-child & {
-            border-bottom: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0.0625rem;
+            background: var(--gray);
+            transform: scaleX(var(--line-scale, 0));
+            transform-origin: center;
+        }
+
+        .mobile-menu__nav-item:last-child &::after {
+            display: none;
         }
     }
 

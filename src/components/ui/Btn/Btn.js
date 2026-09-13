@@ -4,7 +4,7 @@ import "./Btn.scss";
 import Arrow from "@/components/ui/icons/Arrow";
 import { useGeneral } from "@/context/GeneralContext";
 
-export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", className = "", href, target, download, type, "aria-label": ariaLabel }) {
+export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", className = "", href, target, download, type, disabled, "aria-label": ariaLabel }) {
     const { learn_more } = useGeneral();
     const label = text ?? learn_more ?? "Learn more";
     const isIconLeft = iconPosition === "left";
@@ -25,7 +25,7 @@ export default function Btn({ text, icon: Icon = Arrow, iconPosition = "right", 
     }
     if (type === "submit") {
         return (
-            <button type="submit" className={classNames}>
+            <button type="submit" className={classNames} disabled={disabled}>
                 {content}
             </button>
         );
