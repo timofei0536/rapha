@@ -22,6 +22,8 @@ export default function Infra(props) {
                         {href ? (
                         <Link href={href} className="infra__item-img-wrap" aria-label={item.title} target={item.link?.target}>
                             {item.image?.src ? (
+                            <div className="img-parallax img-parallax--fill">
+                                <div className="img-parallax__wrap">
                             <Image 
                                 src={item.image.src} 
                                 alt={item.image?.alt || item.title || ""} 
@@ -30,11 +32,15 @@ export default function Infra(props) {
                                 sizes="(max-width: 1023px) 100vw, 33vw"
                                 quality={95}
                             />
+                                </div>
+                            </div>
                             ) : null}
                         </Link>
                         ) : (
                         <div className="infra__item-img-wrap">
                             {item.image?.src ? (
+                            <div className="img-parallax img-parallax--fill">
+                                <div className="img-parallax__wrap">
                             <Image 
                                 src={item.image.src} 
                                 alt={item.image?.alt || item.title || ""} 
@@ -43,6 +49,8 @@ export default function Infra(props) {
                                 sizes="(max-width: 1023px) 100vw, 33vw"
                                 quality={95}
                             />
+                                </div>
+                            </div>
                             ) : null}
                         </div>
                         )}

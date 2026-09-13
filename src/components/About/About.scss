@@ -107,6 +107,10 @@
             border-radius: var(--radius);
         }
 
+        .about__item-img {
+            border-radius: var(--radius);
+        }
+
         @media screen and (min-width: $large_tablet) {
 
         &--hor {
@@ -114,9 +118,13 @@
             gap: 1rem;
             align-items: center;
 
-            img {
+            .about__item-img {
                 width: calc( 50% - 1rem );
                 flex-shrink: 0;
+            }
+
+            img {
+                width: 100%;
             }
         }
     }

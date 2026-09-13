@@ -36,15 +36,19 @@ export default function About(props) {
                             {item.layout === "image-content" ? (
                                 <>
                                     {item.image?.src ? (
-                                    <Image
-                                        src={item.image.src}
-                                        alt={item.image.alt || ""}
-                                        width={0}
-                                        height={0}
-                                        sizes="50vw"
-                                        quality={95}
-                                        className="img-auto"
-                                    />
+                                    <div className="img-parallax about__item-img">
+                                        <div className="img-parallax__wrap">
+                                            <Image
+                                                src={item.image.src}
+                                                alt={item.image.alt || ""}
+                                                width={0}
+                                                height={0}
+                                                sizes="50vw"
+                                                quality={95}
+                                                className="img-auto"
+                                            />
+                                        </div>
+                                    </div>
                                     ) : null}
                                     <div className="about__item-content content" dangerouslySetInnerHTML={{ __html: item.content }} />
                                 </>
@@ -52,15 +56,19 @@ export default function About(props) {
                                 <>
                                     <div className="about__item-content content" dangerouslySetInnerHTML={{ __html: item.content }} />
                                     {item.image?.src ? (
-                                    <Image
-                                        src={item.image.src}
-                                        alt={item.image.alt || ""}
-                                        width={0}
-                                        height={0}
-                                        sizes="50vw"
-                                        quality={95}
-                                        className="img-auto"
-                                    />
+                                    <div className="img-parallax about__item-img">
+                                        <div className="img-parallax__wrap">
+                                            <Image
+                                                src={item.image.src}
+                                                alt={item.image.alt || ""}
+                                                width={0}
+                                                height={0}
+                                                sizes="50vw"
+                                                quality={95}
+                                                className="img-auto"
+                                            />
+                                        </div>
+                                    </div>
                                     ) : null}
                                 </>
                             )}

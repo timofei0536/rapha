@@ -10,7 +10,9 @@ import * as pageScreenParallax from './pageScreenParallax';
 import * as teamGallery from './teamGallery';
 import * as mobileMenu from './mobileMenu';
 import { structureColumns } from './structureColumns';
+import * as imgParallax from './imgParallax';
 import { runCleanup } from './lib/animCleanup';
+import { initLenis } from './lib/lenis';
 import { whenImagesReady } from './lib/whenImagesReady';
 
 export { textLinesScript } from './textLines';
@@ -24,6 +26,7 @@ const ANIMATIONS = [
   sectionClipReveal,
   pageScreenParallax,
   teamGallery,
+  imgParallax,
   mobileMenu,
 ];
 
@@ -59,6 +62,7 @@ async function runScrollTriggers() {
   });
 
   if (window.its_desktop) structureColumns();
+  window.lenis?.resize?.();
   if (window.ScrollTrigger) window.ScrollTrigger.refresh();
 }
 
@@ -66,6 +70,7 @@ export function initAnimations() {
   if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) return;
   window.gsap.registerPlugin(window.ScrollTrigger);
   initGlobals();
+  initLenis();
   window.addLoadEvent = addLoadEvent;
 
   let readyCount = 0;
@@ -101,6 +106,7 @@ export function refreshAnimations() {
     runScrollTriggers();
     const container = document.querySelector('main') || document.body;
     whenImagesReady(container, () => {
+      window.lenis?.resize?.();
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     });
   });

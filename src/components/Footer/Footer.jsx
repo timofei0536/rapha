@@ -9,6 +9,7 @@ import LocationIcon from "@/components/ui/icons/Location";
 import CalendarIcon from "@/components/ui/icons/Calendar";
 import Decor from "@/components/ui/icons/Decor";
 import { useGeneral } from "@/context/GeneralContext";
+import { scrollToTop } from "@/animations/lib/lenis";
 
 export default function Footer({ contactInfo }) {
     const isHome = usePathname() === "/";
@@ -23,7 +24,7 @@ export default function Footer({ contactInfo }) {
                             <Link
                                 href="/"
                                 className="footer__logo-link"
-                                onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+                                onClick={isHome ? scrollToTop : undefined}
                             >
                                 <Image 
                                     className="footer__logo"

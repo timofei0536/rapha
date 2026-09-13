@@ -1,5 +1,5 @@
 /**
- * Анимация обрезки секции сверху: clip-path от 5rem → 0.
+ * Анимация обрезки секции сверху: clip-path от 5.25rem → 0.
  * ScrollTrigger: start "bottom bottom", end "center center".
  */
 
@@ -33,7 +33,7 @@ export function init() {
   sections.forEach((section) => {
     const tween = gsap.fromTo(
       section,
-      { clipPath: 'inset(7rem 0px 0px 0px)' },
+      { clipPath: 'inset(5.25rem 0px 0px 0px)' },
       {
         clipPath: 'inset(0px 0px 0px 0px)',
         ease: 'none',

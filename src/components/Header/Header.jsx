@@ -11,6 +11,7 @@ import LocationIcon from "@/components/ui/icons/Location";
 import Search from "@/components/ui/Search/Search";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import { useGeneral } from "@/context/GeneralContext";
+import { scrollToTop } from "@/animations/lib/lenis";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
@@ -60,7 +61,7 @@ export default function Header({ contactInfo }) {
             <Link
               href="/"
               className="header__logo-link"
-              onClick={isHome ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+              onClick={isHome ? scrollToTop : undefined}
             >
               <Image src="/images/logo.png" alt="El-Rapha — Home" className="header__logo" width={177} height={70} quality={95} priority />
             </Link>

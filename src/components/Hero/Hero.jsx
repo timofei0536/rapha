@@ -24,6 +24,8 @@ export default function Hero(props) {
                 ) : null}
             </div>
             <div className="hero__bg">
+                <div className="img-parallax img-parallax--fill">
+                    <div className="img-parallax__wrap">
                 {desktopSrc ? (
                     <Image
                         src={desktopSrc}
@@ -51,6 +53,8 @@ export default function Hero(props) {
                         style={{ "--anim-scale": 1.08 }}
                     />
                 ) : null}
+                    </div>
+                </div>
             </div>
             <div className="center-wrap">
                 <h1 className="hero__title simple-title simple-title--large anim-initial" style={{ '--anim-opacity': 0 }}>{title}</h1>

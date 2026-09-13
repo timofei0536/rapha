@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import 'lenis/dist/lenis.css';
 import '@/lib/gsap';
 import { initAnimations, refreshAnimations } from '@/animations';
 

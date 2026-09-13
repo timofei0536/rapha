@@ -24,30 +24,36 @@ export default function Team(props) {
                         <div className="team__gallery">
                             <div className="team__gallery-part team__gallery-part--left">
                                 {(gallery?.left ?? []).filter((item) => item?.image?.src).map((item, i) => (
-                                    <Image
-                                        key={i}
-                                        src={item.image.src}
-                                        alt={item.image.alt || ""}
-                                        className="team__gallery-img"
-                                        width={435}
-                                        height={320}
-                                        sizes="(max-width: 1023px) 45vw, 43.5rem"
-                                        quality={95}
-                                    />
+                                    <div key={i} className="img-parallax team__gallery-img-wrap">
+                                        <div className="img-parallax__wrap">
+                                            <Image
+                                                src={item.image.src}
+                                                alt={item.image.alt || ""}
+                                                className="team__gallery-img"
+                                                width={435}
+                                                height={320}
+                                                sizes="(max-width: 1023px) 45vw, 43.5rem"
+                                                quality={95}
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                             <div className="team__gallery-part team__gallery-part--right">
                                 {(gallery?.right ?? []).filter((item) => item?.image?.src).map((item, i) => (
-                                    <Image
-                                        key={i}
-                                        src={item.image.src}
-                                        alt={item.image.alt || ""}
-                                        className="team__gallery-img"
-                                        width={435}
-                                        height={320}
-                                        sizes="(max-width: 1023px) 45vw, 43.5rem"
-                                        quality={95}
-                                    />
+                                    <div key={i} className="img-parallax team__gallery-img-wrap">
+                                        <div className="img-parallax__wrap">
+                                            <Image
+                                                src={item.image.src}
+                                                alt={item.image.alt || ""}
+                                                className="team__gallery-img"
+                                                width={435}
+                                                height={320}
+                                                sizes="(max-width: 1023px) 45vw, 43.5rem"
+                                                quality={95}
+                                            />
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>

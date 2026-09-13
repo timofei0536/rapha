@@ -20,6 +20,15 @@
             width: 100%;
             height: auto;
             overflow: visible;
+
+            .img-parallax,
+            .img-parallax--fill,
+            .img-parallax__wrap {
+                position: static;
+                height: auto;
+                inset: auto;
+            }
+
             img {
                 position: static !important;
                 height: auto !important;
