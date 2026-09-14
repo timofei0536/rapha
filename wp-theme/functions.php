@@ -161,11 +161,24 @@ function rapha_register_cpt_services() {
 add_action( 'init', 'rapha_register_cpt_services', 10 );
 
 
+function rapha_acf_fields_for_rest($post_id) {
+  $fields = get_fields($post_id) ?: array();
+  // Seamless clones added after the page group was created are formatted by key
+  // but omitted from get_fields() grouping (component_apply).
+  if (empty($fields['component_apply'])) {
+    $apply = get_field('field_e1a7c5b4f8d2635a0c9e4b7f2d5a6c8e', $post_id);
+    if (is_array($apply)) {
+      $fields['component_apply'] = $apply;
+    }
+  }
+  return $fields;
+}
+
 add_action('rest_api_init', function () {
 
   register_rest_field('page', 'acf', [
     'get_callback' => function ($post) {
-      return get_fields($post['id']);
+      return rapha_acf_fields_for_rest($post['id']);
     },
     'schema' => null,
   ]);

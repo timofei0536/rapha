@@ -12,6 +12,7 @@
 
     .simple-title {
         width: 80rem;
+        flex-shrink: 1;
         @media screen and (max-width: $large_tablet) {
             width: auto;
             font-size: 2.1rem;
@@ -19,6 +20,8 @@
     }
 
     &__content {
+        flex: 1;
+        min-width: 0;
         font-size: 2rem;
         --content-fz: 2rem;
         line-height: 140%;

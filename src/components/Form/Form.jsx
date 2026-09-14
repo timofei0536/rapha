@@ -21,13 +21,14 @@ function servicesToOptions(services) {
     .filter(Boolean);
 }
 
-async function submitAppointment(form) {
+async function submitCf7(form, variant) {
+  const fd = new FormData(form);
+  fd.set("_form", variant);
   const res = await fetch("/api/forms/cf7/", {
     method: "POST",
-    body: new FormData(form),
+    body: fd,
   });
-  const data = await res.json().catch(() => null);
-  return data;
+  return res.json().catch(() => null);
 }
 
 const normalizeRepeaterToOptions = (items) => {
@@ -92,20 +93,18 @@ export default function Form({
       return;
     }
 
-    if (variant !== "apply") {
-      setSubmitting(true);
-      try {
-        const data = await submitAppointment(form);
-        if (data?.status !== "mail_sent") {
-          setSubmitError(data?.message || "Could not send. Try again.");
-          return;
-        }
-      } catch {
-        setSubmitError("Could not send. Try again.");
+    setSubmitting(true);
+    try {
+      const data = await submitCf7(form, variant);
+      if (data?.status !== "mail_sent") {
+        setSubmitError(data?.message || "Could not send. Try again.");
         return;
-      } finally {
-        setSubmitting(false);
       }
+    } catch {
+      setSubmitError("Could not send. Try again.");
+      return;
+    } finally {
+      setSubmitting(false);
     }
 
     const name =
@@ -118,6 +117,7 @@ export default function Form({
 
   const closePopup = () => {
     setShowPopup(false);
+    setSubmitError("");
     setFormKey((k) => k + 1);
     setCvLabel("Upload CV");
     setCoverLabel("Upload Cover Letter");
@@ -131,7 +131,7 @@ export default function Form({
           <input
             className="form__input"
             type="text"
-            name="name"
+            name="fullname"
             placeholder="Name"
             autoComplete="name"
             aria-label="Name"
@@ -201,10 +201,12 @@ export default function Form({
             />
           </label>
         </div>
-        <button type="submit" className="btn btn--blue-l">
-          <span className="btn__text">{submitButtonText}</span>
-          {/* <SubmitIcon className="btn__icon" /> */}
-        </button>
+        <div className="form__submit">
+          {submitError ? <p className="form__error">{submitError}</p> : null}
+          <button type="submit" className="btn btn--blue-l" disabled={submitting}>
+            <span className="btn__text">{submitting ? "Sending…" : submitButtonText}</span>
+          </button>
+        </div>
       </form>
       <FormPopup
         open={showPopup}
@@ -281,8 +283,10 @@ export default function Form({
           required
         />
       </div>
-      {submitError ? <p className="form__error">{submitError}</p> : null}
-      <Btn type="submit" className="btn--blue-l" text={submitting ? "Sending…" : submitButtonText} icon={SubmitIcon} disabled={submitting} />
+      <div className="form__submit">
+        {submitError ? <p className="form__error">{submitError}</p> : null}
+        <Btn type="submit" className="btn--blue-l" text={submitting ? "Sending…" : submitButtonText} icon={SubmitIcon} disabled={submitting} />
+      </div>
     </form>
     <FormPopup
       open={showPopup}
