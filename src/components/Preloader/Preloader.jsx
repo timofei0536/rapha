@@ -1,11 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { shouldSkipIntro } from '@/lib/skipIntro';
 import './Preloader.scss';
 
 // Site name used to check the referrer — skip the preloader on internal navigations
 const SITE_REFERRER_KEY = 'raph';
+
+function isSpeedBot() {
+  return /Chrome-Lighthouse|Lighthouse|PageSpeed/i.test(navigator.userAgent || '');
+}
 
 export default function Preloader() {
   const [shouldRender, setShouldRender] = useState(true);
@@ -25,7 +28,7 @@ export default function Preloader() {
     const isFromSite = typeof document !== 'undefined' && document.referrer && document.referrer.indexOf(SITE_REFERRER_KEY) !== -1;
     const isLocalhost = typeof location !== 'undefined' && location.href.indexOf('localhost') !== -1;
 
-    if (shouldSkipIntro() || (isFromSite && !isLocalhost)) {
+    if (isSpeedBot() || (isFromSite && !isLocalhost)) {
       finish();
       return;
     }

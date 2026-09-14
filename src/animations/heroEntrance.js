@@ -1,7 +1,6 @@
 import { textLinesScript } from './textLines';
 import { registerTimeline, registerCleanupFn } from './lib/animCleanup';
 import { setInitialData } from './lib/animInitial';
-import { shouldSkipIntro } from '@/lib/skipIntro';
 
 let heroInitialStatePromise = null;
 
@@ -38,17 +37,6 @@ export async function init() {
   const formElems = hero?.querySelectorAll('.hero__form-title , .hero .form');
 
   if (!hero || !titleEl) return;
-
-  if (shouldSkipIntro()) {
-    if (header) {
-      header.classList.add('header--white');
-      header.classList.remove('anim-initial');
-      header.style.removeProperty('--anim-y');
-      if (window.gsap) window.gsap.set(header, { clearProps: 'y,transform' });
-      registerCleanupFn(() => header.classList.remove('header--white'));
-    }
-    return;
-  }
 
   await setHeroInitialState();
   hero.querySelectorAll('.anim-line').forEach((line) => setInitialData(line, { opacity: '0', y: '28' }));

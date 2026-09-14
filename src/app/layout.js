@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import Script from "next/script";
 import 'normalize.css';
 import "@/styles/globals.scss";
 import Preloader from '@/components/Preloader/Preloader';
@@ -9,7 +8,6 @@ import AnimationsInit from '@/components/AnimationsInit/AnimationsInit';
 import Footer from '@/components/Footer/Footer';
 import { getContactInfoForLayout, getGeneralForLayout } from "@/lib/rapha";
 import { GeneralProvider } from "@/context/GeneralContext";
-import { SKIP_INTRO_BOOTSTRAP } from "@/lib/skipIntro";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,11 +65,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="fr" className={`${inter.variable} ${ivyPresto.variable}`}>
       <body>
-        <Script
-          id="skip-intro"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: SKIP_INTRO_BOOTSTRAP }}
-        />
         <GeneralProvider value={general}>
           <Preloader />
           <Header contactInfo={contactInfo} />
