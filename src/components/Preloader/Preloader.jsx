@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { shouldSkipIntro } from '@/lib/skipIntro';
 import './Preloader.scss';
 
 // Site name used to check the referrer — skip the preloader on internal navigations
@@ -24,13 +25,13 @@ export default function Preloader() {
     const isFromSite = typeof document !== 'undefined' && document.referrer && document.referrer.indexOf(SITE_REFERRER_KEY) !== -1;
     const isLocalhost = typeof location !== 'undefined' && location.href.indexOf('localhost') !== -1;
 
-    if (isFromSite && !isLocalhost) {
+    if (shouldSkipIntro() || (isFromSite && !isLocalhost)) {
       finish();
       return;
     }
 
-    const t1 = setTimeout(() => setHideClass(true), 3100);
-    const t2 = setTimeout(finish, 4000);
+    const t1 = setTimeout(() => setHideClass(true), 1500);
+    const t2 = setTimeout(finish, 2400);
 
     return () => {
       clearTimeout(t1);

@@ -12,12 +12,15 @@ import Search from "@/components/ui/Search/Search";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import { useGeneral } from "@/context/GeneralContext";
 import { scrollToTop } from "@/animations/lib/lenis";
+import { shouldSkipIntro } from "@/lib/skipIntro";
 
 export default function Header({ contactInfo }) {
   const isHome = usePathname() === "/";
   const [itsDesktop, setItsDesktop] = useState(false);
+  const [skipIntro, setSkipIntro] = useState(false);
   useEffect(() => {
     setItsDesktop(Boolean(window.its_desktop));
+    setSkipIntro(shouldSkipIntro());
   }, []);
   const phone = contactInfo?.phone;
   const address = contactInfo?.address;
@@ -25,8 +28,8 @@ export default function Header({ contactInfo }) {
 
   return (
       <header
-        className={`header${isHome && itsDesktop ? ' anim-initial' : ''}`}
-        style={isHome && itsDesktop ? { '--anim-y': '-100%' } : undefined}
+        className={`header${isHome && itsDesktop && !skipIntro ? ' anim-initial' : ''}`}
+        style={isHome && itsDesktop && !skipIntro ? { '--anim-y': '-100%' } : undefined}
       >
         <div className="center-wrap">
           <div className="header__top">

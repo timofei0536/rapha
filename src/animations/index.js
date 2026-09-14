@@ -15,6 +15,7 @@ import { runCleanup } from './lib/animCleanup';
 import { initLenis } from './lib/lenis';
 import { whenImagesReady } from './lib/whenImagesReady';
 import { syncScrollTriggerLayout } from './lib/syncScrollLayout';
+import { shouldSkipIntro } from '@/lib/skipIntro';
 
 export { textLinesScript } from './textLines';
 export { registerScrollTrigger, registerTimeline, registerListener, registerCleanupFn } from './lib/animCleanup';
@@ -42,7 +43,7 @@ function whenWindowLoadComplete() {
 }
 
 function whenPreloaderFinishedIfPresent() {
-  if (!document.querySelector('.preloader') || window.preloaderDone) {
+  if (shouldSkipIntro() || !document.querySelector('.preloader') || window.preloaderDone) {
     return Promise.resolve();
   }
   return new Promise((resolve) => {
@@ -94,7 +95,7 @@ export function initAnimations() {
   initLenis();
 
   const hero = document.querySelector('.hero');
-  if (hero) setHeroInitialState();
+  if (hero && !shouldSkipIntro()) setHeroInitialState();
 
   armScrollTriggersWhenReady();
 }
