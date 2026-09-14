@@ -1,8 +1,9 @@
 import Lenis from 'lenis';
 
 /**
- * Lenis from sites/template (`scrollbarFix.js`), aligned with zeph.
- * v1.3 uses `syncTouch` instead of `smoothTouch`.
+ * Lenis from sites/template (`scrollbarFix.js`), aligned with zeph/sda:
+ * scrollerProxy + GSAP ticker, no per-scroll ScrollTrigger.update()
+ * (native html scroll + proxy keep ST in sync; extra update() was doubling work).
  */
 const LENIS_OPTIONS = {
   duration: 1,
@@ -35,26 +36,42 @@ export function initLenis() {
   if (!window.its_desktop) return null;
 
   const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
   const lenis = new Lenis(LENIS_OPTIONS);
+
+  if (ScrollTrigger && !window.__raphaLenisScrollerProxy) {
+    window.__raphaLenisScrollerProxy = true;
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        const current = window.lenis;
+        if (!current) return window.scrollY || 0;
+        if (arguments.length) {
+          current.scrollTo(value, { immediate: true });
+        }
+        return current.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+    ScrollTrigger.defaults({ scroller: document.documentElement });
+    ScrollTrigger.addEventListener('refresh', () => {
+      window.lenis?.resize();
+    });
+  }
 
   if (gsap && !window.__raphaLenisGsapTicker) {
     window.__raphaLenisGsapTicker = true;
     gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
+      window.lenis?.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
   }
-
-  let scrollTriggerUpdateQueued = false;
-  lenis.on('scroll', () => {
-    if (!window.ScrollTrigger) return;
-    if (scrollTriggerUpdateQueued) return;
-    scrollTriggerUpdateQueued = true;
-    requestAnimationFrame(() => {
-      scrollTriggerUpdateQueued = false;
-      window.ScrollTrigger?.update?.();
-    });
-  });
 
   window.lenis = lenis;
   window.smoothbar = createSmoothbarCompat(lenis);

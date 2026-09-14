@@ -14,11 +14,11 @@ import * as imgParallax from './imgParallax';
 import { runCleanup } from './lib/animCleanup';
 import { initLenis } from './lib/lenis';
 import { whenImagesReady } from './lib/whenImagesReady';
-import { syncScrollTriggerLayout } from './lib/syncScrollLayout';
+import { syncScrollTriggerLayout, syncScrollTriggerLayoutForce } from './lib/syncScrollLayout';
 
 export { textLinesScript } from './textLines';
 export { registerScrollTrigger, registerTimeline, registerListener, registerCleanupFn } from './lib/animCleanup';
-export { syncScrollTriggerLayout };
+export { syncScrollTriggerLayout, syncScrollTriggerLayoutForce };
 
 let animationsBootstrapDone = false;
 
@@ -109,6 +109,6 @@ export function refreshAnimations() {
 
   const container = document.querySelector('main') || document.body;
   whenImagesReady(container, () => {
-    syncScrollTriggerLayout();
+    syncScrollTriggerLayoutForce();
   });
 }

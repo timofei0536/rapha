@@ -179,7 +179,6 @@ img {
 	&__wrap {
 		width: 100%;
 		transform-origin: center center;
-		will-change: transform;
 		@media screen and (min-width: $large_tablet) {
 			transform: scale(1.15);
 		}
