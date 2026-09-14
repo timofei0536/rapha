@@ -29,8 +29,8 @@ export default function Preloader() {
       return;
     }
 
-    const t1 = setTimeout(() => setHideClass(true), 1500);
-    const t2 = setTimeout(finish, 2400);
+    const t1 = setTimeout(() => setHideClass(true), 3100);
+    const t2 = setTimeout(finish, 4000);
 
     return () => {
       clearTimeout(t1);
